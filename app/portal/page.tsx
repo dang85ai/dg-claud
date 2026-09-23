@@ -1,14 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   CalendarDays,
+  Camera,
   Car,
   ClipboardCheck,
   CreditCard,
   Heart,
   Megaphone,
+  ShieldCheck,
   Shirt,
   UserRound
 } from "lucide-react";
@@ -81,9 +84,14 @@ export default function PortalPage() {
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Team Portal" />
       <main className="container py-8">
-        <div className="mb-8">
-          <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Welcome</div>
-          <h1 className="mt-2 text-4xl font-black uppercase tracking-tight">{displayName}</h1>
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Welcome</div>
+            <h1 className="mt-2 text-4xl font-black uppercase tracking-tight">{displayName}</h1>
+          </div>
+          <Link href="/portal/tools" className="btn btn-primary">
+            Open Parent Tools
+          </Link>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -116,10 +124,17 @@ export default function PortalPage() {
         {(data.roles.includes("admin") || data.roles.includes("manager")) ? (
           <div className="mt-6 rounded-3xl bg-black p-6 text-white">
             <div className="text-xs font-black uppercase tracking-[.16em] text-red-500">Manager Access</div>
-            <div className="mt-2 text-2xl font-black uppercase">Command Centre available</div>
-            <button onClick={() => router.push("/admin")} className="btn btn-primary mt-5">
-              Open Command Centre
-            </button>
+            <div className="mt-2 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <div className="text-2xl font-black uppercase">Command Centre available</div>
+                <div className="mt-2 flex items-center gap-2 text-sm text-white/60">
+                  <ShieldCheck size={16} /> Protected by MFA
+                </div>
+              </div>
+              <button onClick={() => router.push("/admin")} className="btn btn-primary">
+                Open Command Centre
+              </button>
+            </div>
           </div>
         ) : null}
 
@@ -145,13 +160,14 @@ export default function PortalPage() {
             {[
               { Icon: CreditCard, title: "Payments", text: "View team kit payment status." },
               { Icon: Car, title: "Carpool", text: "Offer or request rides by neighbourhood." },
-              { Icon: Heart, title: "Sisterhood", text: "Coach-moderated teammate recognition." }
+              { Icon: Heart, title: "Sisterhood", text: "Coach-moderated teammate recognition." },
+              { Icon: Camera, title: "Profile Photo", text: "Upload a consent-safe photo for manager review." }
             ].map(({ Icon, title, text }) => (
-              <div className="card p-5" key={title}>
+              <Link href="/portal/tools" className="card p-5 hover:border-red-500" key={title}>
                 <Icon className="text-red-600" />
                 <h3 className="mt-3 font-black uppercase">{title}</h3>
                 <p className="mt-2 text-sm text-neutral-600">{text}</p>
-              </div>
+              </Link>
             ))}
           </aside>
         </div>
