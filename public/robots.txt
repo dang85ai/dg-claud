@@ -6,5 +6,6 @@ Disallow: /admin
 Disallow: /admin/
 Disallow: /login
 Disallow: /mfa
+Disallow: /activate
 
 Sitemap: https://caledon-u9-girls-2026.netlify.app/sitemap.xml
