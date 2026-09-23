@@ -3,7 +3,7 @@ import Link from "next/link";
 export function Footer() {
   return (
     <footer className="mt-auto bg-black py-12 text-white">
-      <div className="container grid gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
+      <div className="container grid gap-10 md:grid-cols-2 xl:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
           <div className="text-2xl font-black uppercase">Caledon U9 Girls</div>
           <p className="mt-3 max-w-md text-sm text-white/65">
@@ -16,6 +16,17 @@ export function Footer() {
           <div className="font-black uppercase tracking-wide">Contact</div>
           <p className="mt-3 text-sm">girlsoccer@r5play.net</p>
           <p className="mt-1 text-sm">1-(855) 592-6444</p>
+        </div>
+
+        <div>
+          <div className="font-black uppercase tracking-wide">Parent Resources</div>
+          <div className="mt-3 grid gap-2 text-sm text-white/70">
+            <Link href="/game-day">Game Day</Link>
+            <Link href="/development">Player Development</Link>
+            <Link href="/faq">FAQ</Link>
+            <Link href="/conduct">Code of Conduct</Link>
+            <Link href="/end-of-season">End of Season</Link>
+          </div>
         </div>
 
         <div>
