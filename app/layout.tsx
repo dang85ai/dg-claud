@@ -99,7 +99,6 @@ export const metadata: Metadata = {
   publisher: "Caledon Soccer Club",
   applicationName: "Caledon U9 Girls 2026",
   manifest: "/manifest.webmanifest",
-  alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,
