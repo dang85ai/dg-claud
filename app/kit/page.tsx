@@ -136,7 +136,7 @@ export default function KitPage() {
             <strong>Pricing note:</strong> The visuals below are the approved package reference boards matched to the listed SKUs. Sale pricing, stock, sizing and team discounts can change and should be re-verified before the final order.
           </div>
 
-          <nav className="mt-6 flex gap-2 overflow-x-auto pb-2" aria-label="Kit sections">
+          <nav className="mt-6 flex flex-wrap gap-2" aria-label="Kit sections">
             {groups.map((group) => (
               <a
                 key={group.id}
@@ -178,8 +178,8 @@ export default function KitPage() {
                       <Image
                         src={image}
                         alt={imageAlt}
-                        width={880}
-                        height={662}
+                        width={1122}
+                        height={1402}
                         priority={index === 0}
                         unoptimized
                         className="h-auto w-full object-contain"
@@ -191,31 +191,58 @@ export default function KitPage() {
                     </p>
                   </div>
 
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full text-left text-sm">
-                      <thead className="bg-neutral-100">
-                        <tr>
-                          <th className="px-4 py-3 font-black uppercase">SKU</th>
-                          <th className="px-4 py-3 font-black uppercase">Product</th>
-                          <th className="px-4 py-3 font-black uppercase">Colour / Use</th>
-                          <th className="px-4 py-3 font-black uppercase">Package</th>
-                          <th className="px-4 py-3 font-black uppercase">Best Ref.</th>
-                          <th className="px-4 py-3 font-black uppercase">Retailer</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {items.map((item) => (
-                          <tr key={`${id}-${item.sku}-${item.colour}`} className="border-t border-neutral-200">
-                            <td className="whitespace-nowrap px-4 py-4 font-black">{item.sku}</td>
-                            <td className="min-w-[240px] px-4 py-4">{item.product}</td>
-                            <td className="whitespace-nowrap px-4 py-4 text-neutral-600">{item.colour}</td>
-                            <td className="whitespace-nowrap px-4 py-4">{money(item.regular)}</td>
-                            <td className="whitespace-nowrap px-4 py-4 font-black text-red-600">{money(item.best)}</td>
-                            <td className="min-w-[170px] px-4 py-4 text-neutral-600">{item.retailer}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <div className="p-4 sm:p-6">
+                    <div className="mb-4 hidden grid-cols-[120px_minmax(0,1fr)] gap-4 border-b border-neutral-200 pb-3 text-xs font-black uppercase tracking-wide text-neutral-500 md:grid">
+                      <div>SKU</div>
+                      <div>Product Details</div>
+                    </div>
+
+                    <div className="grid gap-4">
+                      {items.map((item) => (
+                        <article
+                          key={`${id}-${item.sku}-${item.colour}`}
+                          className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm"
+                        >
+                          <div className="grid gap-3 md:grid-cols-[120px_minmax(0,1fr)] md:gap-4">
+                            <div>
+                              <div className="text-[11px] font-black uppercase tracking-wide text-neutral-400 md:hidden">SKU</div>
+                              <div className="mt-1 inline-flex rounded-lg bg-black px-3 py-2 text-sm font-black text-white md:mt-0">
+                                {item.sku}
+                              </div>
+                            </div>
+
+                            <div className="min-w-0">
+                              <div className="text-[11px] font-black uppercase tracking-wide text-neutral-400 md:hidden">Product</div>
+                              <h3 className="mt-1 break-words text-base font-black leading-snug text-neutral-950 md:mt-0 md:text-lg">
+                                {item.product}
+                              </h3>
+
+                              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                                <div className="rounded-xl bg-neutral-50 p-3">
+                                  <div className="text-[10px] font-black uppercase tracking-wide text-neutral-400">Colour / Use</div>
+                                  <div className="mt-1 text-sm font-bold text-neutral-700">{item.colour}</div>
+                                </div>
+
+                                <div className="rounded-xl bg-neutral-50 p-3">
+                                  <div className="text-[10px] font-black uppercase tracking-wide text-neutral-400">Retailer</div>
+                                  <div className="mt-1 break-words text-sm font-bold text-neutral-700">{item.retailer}</div>
+                                </div>
+
+                                <div className="rounded-xl bg-neutral-50 p-3">
+                                  <div className="text-[10px] font-black uppercase tracking-wide text-neutral-400">Package Price</div>
+                                  <div className="mt-1 text-lg font-black">{money(item.regular)}</div>
+                                </div>
+
+                                <div className="rounded-xl bg-red-50 p-3">
+                                  <div className="text-[10px] font-black uppercase tracking-wide text-red-500">Best Reference</div>
+                                  <div className="mt-1 text-lg font-black text-red-600">{money(item.best)}</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </section>
