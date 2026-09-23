@@ -10,7 +10,8 @@ export const endpoints = {
   adminActions: `${SUPABASE_URL}/functions/v1/admin-actions`,
   mediaUpload: `${SUPABASE_URL}/functions/v1/media-upload`,
   formPdf: `${SUPABASE_URL}/functions/v1/form-pdf`,
-  handoverExport: `${SUPABASE_URL}/functions/v1/handover-export`
+  handoverExport: `${SUPABASE_URL}/functions/v1/handover-export`,
+  spondImport: `${SUPABASE_URL}/functions/v1/spond-import`
 };
 
 export async function publicFetch<T>(url: string, init?: RequestInit): Promise<T> {
