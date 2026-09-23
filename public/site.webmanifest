@@ -1,0 +1,28 @@
+{
+  "name": "Caledon SC U9 Girls 2026 Team Hub",
+  "short_name": "Caledon U9G 2026",
+  "description": "Official team hub for Caledon SC U9 Girls 2026 — schedules, kit, roster, and parent info.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#E30613",
+  "lang": "en-CA",
+  "icons": [
+    {
+      "src": "/assets/brand/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/brand/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/brand/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
