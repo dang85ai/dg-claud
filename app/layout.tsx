@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 const siteUrl = "https://caledon-u9-girls-2026.netlify.app";
+const socialImage = `${siteUrl}/assets/brand/caledon-u9-girls-2026-primary.png`;
 
 const sportsTeamSchema = {
   "@context": "https://schema.org",
@@ -10,10 +11,10 @@ const sportsTeamSchema = {
   alternateName: "Caledon U9 Girls 2026",
   sport: "Soccer",
   url: siteUrl,
-  logo: `${siteUrl}/assets/brand/caledon-u9-girls-2026-primary.png`,
-  image: `${siteUrl}/assets/brand/caledon-u9-girls-2026-primary.png`,
+  logo: socialImage,
+  image: socialImage,
   description:
-    "Official team hub for Caledon SC U9 Girls 2026 — schedules, team kit, roster, parent information and player-development resources.",
+    "Official team hub for Caledon SC U9 Girls 2026 — schedules, team kit, roster, and parent information.",
   memberOf: {
     "@type": "SportsOrganization",
     name: "Caledon Soccer Club",
@@ -27,7 +28,8 @@ const sportsTeamSchema = {
       postalCode: "L7C 1G8",
       addressCountry: "CA"
     },
-    telephone: "+1-905-584-4033",\n    email: "info@caledonsoccer.com"
+    telephone: "+1-905-584-4033",
+    email: "info@caledonsoccer.com"
   },
   location: {
     "@type": "Place",
@@ -56,7 +58,8 @@ const websiteSchema = {
   publisher: {
     "@type": "Organization",
     name: "Caledon Soccer Club",
-    url: "https://caledonsoccer.com"
+    url: "https://caledonsoccer.com",
+    logo: socialImage
   }
 };
 
@@ -117,7 +120,7 @@ export const metadata: Metadata = {
     siteName: "Caledon SC U9 Girls 2026",
     title: "Caledon U9 Girls 2026 Soccer Team Hub | Caledon SC",
     description:
-      "Schedules, team kit, roster and parent information for the Caledon SC U9 Girls 2026 season.",
+      "Schedules, kit, roster, and parent info for the Caledon SC U9 Girls 2026 season.",
     images: [
       {
         url: "/assets/brand/caledon-u9-girls-2026-primary.png",
@@ -130,7 +133,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Caledon U9 Girls 2026 Soccer Team Hub",
-    description: "Schedules, team kit, roster and parent information for the 2026 season.",
+    description: "Schedules, kit, roster, and parent info for the 2026 season.",
     images: ["/assets/brand/caledon-u9-girls-2026-primary.png"]
   },
   icons: {
@@ -156,7 +159,9 @@ export const metadata: Metadata = {
     "geo.region": "CA-ON",
     "geo.placename": "Caledon East, Ontario",
     "geo.position": "43.8576;-79.8699",
-    ICBM: "43.8576, -79.8699",\n    "msapplication-TileColor": "#E30613",\n    "msapplication-config": "/browserconfig.xml"
+    ICBM: "43.8576, -79.8699",
+    "msapplication-TileColor": "#E30613",
+    "msapplication-config": "/browserconfig.xml"
   }
 };
 
