@@ -1,5 +1,15 @@
 import Link from "next/link";
-import { CalendarDays, ChevronRight, HeartHandshake, ShieldCheck, Shirt, Users } from "lucide-react";
+import {
+  Bell,
+  CalendarDays,
+  ChevronRight,
+  ClipboardCheck,
+  HeartHandshake,
+  Mail,
+  ShieldCheck,
+  Shirt,
+  Users
+} from "lucide-react";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { NextMatchCard } from "@/components/NextMatchCard";
 import { PublicShell } from "@/components/PublicShell";
@@ -21,15 +31,15 @@ export default function HomePage() {
               <span>2026</span>
             </h1>
             <p className="max-w-xl text-base text-white/70 md:text-lg">
-              One place for games, practices, team kit, parent information,
-              player development, photos and the season ahead.
+              Welcome to the Caledon U9 Girls 2026 team hub — one place for game-day logistics,
+              player development resources, team kit, parent information, photos and the season ahead.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/schedule" className="btn btn-primary">
-                View Schedule <ChevronRight size={18} />
+                View This Week&apos;s Schedule <ChevronRight size={18} />
               </Link>
               <Link href="/login" className="btn border border-white/30 bg-white/10 text-white">
-                Parent Portal
+                Join the Parent Portal
               </Link>
             </div>
           </div>
@@ -53,18 +63,51 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="border-b border-neutral-200 bg-white">
+        <div className="container py-5">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <Link href="/schedule" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
+              <CalendarDays className="shrink-0 text-red-600" size={20} />
+              <span className="font-black">View Schedule</span>
+            </Link>
+            <Link href="/login" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
+              <ClipboardCheck className="shrink-0 text-red-600" size={20} />
+              <span className="font-black">Report an Absence</span>
+            </Link>
+            <Link href="/contact" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
+              <Mail className="shrink-0 text-red-600" size={20} />
+              <span className="font-black">Contact Team Manager</span>
+            </Link>
+            <Link href="/login" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
+              <ShieldCheck className="shrink-0 text-red-600" size={20} />
+              <span className="font-black">Parent Portal</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-red-600 text-white">
+        <div className="container flex flex-wrap items-center gap-4 py-4">
+          <Bell size={20} className="shrink-0" />
+          <div>
+            <div className="text-xs font-black uppercase tracking-[.14em] text-white/70">Season Status</div>
+            <div className="font-black">Official 2026 practice and game dates will appear here as soon as the team schedule is confirmed.</div>
+          </div>
+        </div>
+      </section>
+
       <section className="section">
         <div className="container grid gap-8 lg:grid-cols-[1.1fr_.9fr]">
           <div>
             <SectionHeader
               eyebrow="Team Hub"
               title="Everything parents need at the field"
-              copy="The goal is simple: fewer scattered messages, less uncertainty, and a clear mobile home for the team."
+              copy="Bookmark this page and check back often. The goal is fewer scattered messages, less uncertainty, and a clear mobile home for the team."
             />
             <div className="grid gap-4 sm:grid-cols-2">
               {[
                 { icon: CalendarDays, title: "Schedule", text: "Games, practices, arrival times, locations and weather alerts." },
-                { icon: Shirt, title: "Team Kit", text: "Home, away, tracksuit, jacket and backpack information." },
+                { icon: Shirt, title: "Team Kit", text: "Home, away, tracksuit, jacket, backpack, sizing and game-day kit guidance." },
                 { icon: Users, title: "Roster", text: "Consent-controlled player profiles with first names only in public." },
                 { icon: ShieldCheck, title: "Private Portal", text: "Forms, payments, carpool, attendance and parent-only information." }
               ].map(({ icon: Icon, title, text }) => (
