@@ -181,6 +181,7 @@ export default function KitPage() {
                         width={880}
                         height={662}
                         priority={index === 0}
+                        unoptimized
                         className="h-auto w-full object-contain"
                         sizes="(max-width: 1279px) 100vw, 48vw"
                       />
