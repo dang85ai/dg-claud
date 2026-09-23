@@ -36,6 +36,12 @@ type Dashboard = {
   form_submissions: Array<{ id: string; player_id: string; signed_at: string }>;
   carpool: unknown[];
   sisterhood: unknown[];
+  team_links: Array<{
+    link_key: string;
+    label: string;
+    url: string;
+    description: string | null;
+  }>;
 };
 
 export default function PortalPage() {
@@ -79,6 +85,7 @@ export default function PortalPage() {
 
   const nextEvent = data.events[0];
   const displayName = data.profile?.display_name || data.profile?.full_name || data.user.email || "Parent";
+  const spondLink = data.team_links?.find((link) => link.link_key === "spond_group");
 
   return (
     <div className="min-h-screen bg-neutral-100">
@@ -120,6 +127,21 @@ export default function PortalPage() {
             <div className="mt-1 text-3xl font-black">{data.form_submissions.length}</div>
           </div>
         </div>
+
+        {spondLink ? (
+          <a
+            href={spondLink.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 block rounded-3xl bg-red-600 p-6 text-white transition hover:bg-red-700"
+          >
+            <div className="text-xs font-black uppercase tracking-[.16em] text-white/75">Team Operations</div>
+            <div className="mt-2 text-2xl font-black uppercase">Open Team in Spond →</div>
+            <p className="mt-2 max-w-2xl text-sm text-white/80">
+              RSVP to games and practices, receive team updates, and use the private Spond group.
+            </p>
+          </a>
+        ) : null}
 
         {(data.roles.includes("admin") || data.roles.includes("manager")) ? (
           <div className="mt-6 rounded-3xl bg-black p-6 text-white">
