@@ -143,6 +143,14 @@ export const metadata: Metadata = {
       { url: "/assets/brand/caledon-u9-girls-2026-icon-180.png", sizes: "180x180", type: "image/png" }
     ]
   },
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : {}),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
+      : {})
+  },
   other: {
     "geo.region": "CA-ON",
     "geo.placename": "Caledon East, Ontario",
