@@ -165,6 +165,7 @@ export default function HomePage() {
             <div className="mt-3 font-black">2 McKee Drive South</div>
             <div className="mt-1 text-sm text-neutral-600">Caledon East, ON L7C 1G8</div>
             <a href="tel:+19055844033" className="mt-4 block font-black hover:text-red-600">905-584-4033</a>
+            <a href="mailto:info@caledonsoccer.com" className="mt-2 block text-sm font-bold hover:text-red-600">info@caledonsoccer.com</a>
             <a href="https://caledonsoccer.com" target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-bold text-red-600">
               Visit Caledon Soccer Club →
             </a>
