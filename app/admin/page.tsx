@@ -33,6 +33,21 @@ type AdminData = {
   upcoming_events: Array<{ id: string; title: string; opponent: string | null; starts_at: string; status: string }>;
   new_contact_submissions: Array<{ id: string; name: string; email: string; subject: string | null; created_at: string }>;
   pending_media_items: Array<{ id: string; media_type: string; caption: string | null; created_at: string }>;
+  integrations: Array<{
+    integration_key: string;
+    provider: string;
+    enabled: boolean;
+    mode: string;
+    last_sync_at: string | null;
+    last_error: string | null;
+  }>;
+  team_links: Array<{
+    link_key: string;
+    label: string;
+    url: string;
+    description: string | null;
+    enabled: boolean;
+  }>;
 };
 
 export default function AdminPage() {
@@ -87,6 +102,9 @@ export default function AdminPage() {
     { label: "Sisterhood Review", value: data.metrics.pending_sisterhood_posts, Icon: MessageSquareWarning }
   ];
 
+  const spondIntegration = data.integrations?.find((item) => item.provider === "spond");
+  const spondLink = data.team_links?.find((item) => item.link_key === "spond_group");
+
   const modules = [
     { label: "Players", href: "/admin/manage#players" },
     { label: "Schedule", href: "/admin/manage#schedule" },
@@ -129,6 +147,38 @@ export default function AdminPage() {
             </div>
           ))}
         </div>
+
+        {spondIntegration ? (
+          <section className="mt-8 rounded-3xl bg-black p-6 text-white">
+            <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <div className="text-xs font-black uppercase tracking-[.16em] text-red-500">Spond Integration</div>
+                <div className="mt-2 text-2xl font-black uppercase">Team Operations Connected</div>
+                <div className="mt-2 flex flex-wrap gap-2 text-xs font-black uppercase">
+                  <span className="rounded-full bg-white/10 px-3 py-2">
+                    {spondIntegration.enabled ? "Enabled" : "Disabled"}
+                  </span>
+                  <span className="rounded-full bg-white/10 px-3 py-2">
+                    {spondIntegration.mode}
+                  </span>
+                </div>
+                <p className="mt-3 max-w-2xl text-sm text-white/65">
+                  Spond is being used for private team operations and communication. Direct API sync is not enabled; roster and attendance imports will use controlled files.
+                </p>
+              </div>
+              {spondLink ? (
+                <a
+                  href={spondLink.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary"
+                >
+                  Open Spond
+                </a>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
           <section className="card p-6">
