@@ -487,6 +487,47 @@ export default function SponsorsPage() {
         </div>
       </section>
 
+      <section className="section bg-neutral-50">
+        <div className="container">
+          <div className="grid gap-6 lg:grid-cols-3">
+            <article className="card p-6">
+              <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Team Sponsors</div>
+              <h2 className="mt-2 text-2xl font-black uppercase">Thank You to Our Sponsors</h2>
+              <p className="mt-3 text-sm text-neutral-600">
+                Approved sponsor logos, business names and website links will appear here once sponsorships are confirmed.
+              </p>
+              <div className="mt-5 rounded-2xl border border-dashed border-neutral-300 p-5 text-center text-sm font-bold text-neutral-500">
+                No sponsors published yet.
+              </div>
+            </article>
+
+            <article className="card p-6">
+              <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Fundraising</div>
+              <h2 className="mt-2 text-2xl font-black uppercase">Community Initiatives</h2>
+              <p className="mt-3 text-sm text-neutral-600">
+                Potential fundraising ideas can include a bottle drive, car wash, restaurant night or raffle. Only approved events will be published as scheduled team activities.
+              </p>
+            </article>
+
+            <article className="card p-6">
+              <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Budget Transparency</div>
+              <h2 className="mt-2 text-2xl font-black uppercase">Where Team Funds Go</h2>
+              <div className="mt-4 grid gap-2 text-sm">
+                {["League fees", "Referee fees", "Tournament fees", "Equipment", "End-of-season event"].map((item) => (
+                  <div key={item} className="flex items-center justify-between gap-3 border-b border-neutral-200 py-2">
+                    <span>{item}</span>
+                    <span className="font-black text-neutral-400">To be published</span>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-xs text-neutral-500">
+                Actual budget figures will only be shown after they are approved and ready for team communication.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section className="section bg-black text-white">
         <div className="container">
           <div className="grid gap-6 lg:grid-cols-[1.1fr_.9fr]">
