@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import type { EmailOtpType } from "@supabase/supabase-js";
 import { KeyRound, ShieldCheck } from "lucide-react";
 import { AuthShell } from "@/components/AuthShell";
 import { supabase } from "@/lib/supabase";
@@ -10,13 +11,35 @@ export default function ActivatePage() {
   const router = useRouter();
   const [ready, setReady] = useState(false);
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("Checking your invitation…");
+  const [status, setStatus] = useState("Checking your activation link…");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     let mounted = true;
 
     async function resolveSession() {
+      const url = new URL(window.location.href);
+      const tokenHash = url.searchParams.get("token_hash") || url.searchParams.get("token");
+      const type = url.searchParams.get("type") as EmailOtpType | null;
+
+      if (tokenHash && type) {
+        const verify = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type
+        });
+
+        if (!mounted) return;
+
+        if (verify.error) {
+          setStatus(verify.error.message);
+          setReady(false);
+          return;
+        }
+
+        // Remove the one-time token from browser history after it has been exchanged.
+        window.history.replaceState({}, document.title, "/activate");
+      }
+
       const { data, error } = await supabase.auth.getSession();
       if (!mounted) return;
 
@@ -32,7 +55,7 @@ export default function ActivatePage() {
         setStatus("");
       } else {
         setReady(false);
-        setStatus("Open this page from the invitation link sent to your admin email.");
+        setStatus("Open this page from the secure activation link sent to your admin email.");
       }
     }
 
@@ -92,7 +115,7 @@ export default function ActivatePage() {
           Secure admin setup
         </div>
         <p className="mt-3 text-sm text-neutral-600">
-          Your administrator invitation signs you in temporarily. Create your private password here, then set up MFA before entering the Command Centre.
+          Your one-time activation link signs you in securely. Create your private password here, then set up MFA before entering the Command Centre.
         </p>
         {email ? (
           <div className="mt-4 text-sm">
