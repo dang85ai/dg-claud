@@ -5,13 +5,13 @@ import { CheckCircle2, Send } from "lucide-react";
 import { endpoints, publicFetch } from "@/lib/api";
 
 const tiers = [
-  "Community Supporter",
-  "Friend of the Team",
-  "Team Supporter",
-  "Digital Sponsor",
-  "Team Sponsor",
-  "Main Jersey Sponsor"
-];
+  ["community_supporter", "Community Supporter"],
+  ["friend_of_team", "Friend of the Team"],
+  ["team_supporter", "Team Supporter"],
+  ["digital_sponsor", "Digital Sponsor"],
+  ["team_sponsor", "Team Sponsor"],
+  ["main_jersey_sponsor", "Main Jersey Sponsor"]
+] as const;
 
 export function SponsorshipInquiryForm() {
   const [status, setStatus] = useState("");
@@ -27,6 +27,8 @@ export function SponsorshipInquiryForm() {
     const business = String(form.get("business") ?? "").trim();
     const amount = String(form.get("amount") ?? "").trim();
     const notes = String(form.get("notes") ?? "").trim();
+    const anonymous = form.get("anonymous") === "on";
+    const tierLabel = tiers.find(([key]) => key === tier)?.[1] ?? "";
 
     try {
       await publicFetch<{ ok: boolean; message?: string }>(endpoints.contact, {
@@ -37,13 +39,21 @@ export function SponsorshipInquiryForm() {
           email: String(form.get("email") ?? ""),
           phone: String(form.get("phone") ?? ""),
           website: String(form.get("website") ?? ""),
-          subject: `Sponsorship Inquiry — ${tier || "General"}`,
+          subject: `Sponsorship Inquiry — ${tierLabel || "General"}`,
           message: [
             business ? `Business / organization: ${business}` : "",
-            tier ? `Tier of interest: ${tier}` : "",
-            amount ? `Amount under consideration: C$${amount}` : "",
+            tierLabel ? `Tier of interest: ${tierLabel}` : "",
+            amount ? `Amount under consideration: C${amount}` : "",
+            anonymous ? "Public recognition preference: Anonymous" : "",
             notes ? `Message: ${notes}` : "Please contact me about sponsorship opportunities."
-          ].filter(Boolean).join("\n")
+          ].filter(Boolean).join("\n"),
+          sponsorship: {
+            business_name: business || null,
+            tier_key: tier || null,
+            amount_cad: amount || null,
+            notes: notes || null,
+            anonymous
+          }
         })
       });
 
@@ -87,7 +97,7 @@ export function SponsorshipInquiryForm() {
           <label className="field-label" htmlFor="sponsor_tier">Sponsorship level</label>
           <select className="field" id="sponsor_tier" name="tier" defaultValue="">
             <option value="">I’d like help choosing</option>
-            {tiers.map((tier) => <option key={tier} value={tier}>{tier}</option>)}
+            {tiers.map(([key, label]) => <option key={key} value={key}>{label}</option>)}
           </select>
         </div>
         <div className="field-group !mb-0">
@@ -95,6 +105,11 @@ export function SponsorshipInquiryForm() {
           <input className="field" id="sponsor_amount" name="amount" type="number" min="1" step="1" />
         </div>
       </div>
+
+      <label className="flex min-h-12 items-center gap-3 rounded-xl border border-neutral-200 px-4 py-3 text-sm font-bold">
+        <input type="checkbox" name="anonymous" />
+        I prefer my sponsorship to remain anonymous in public recognition.
+      </label>
 
       <div className="field-group !mb-0">
         <label className="field-label" htmlFor="sponsor_notes">Message</label>
