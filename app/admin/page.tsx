@@ -115,7 +115,7 @@ export default function AdminPage() {
     { label: "Payments", href: "/admin/manage" },
     { label: "Kit Orders", href: "/admin/manage" },
     { label: "Media", href: "/admin/manage" },
-    { label: "Sponsors", href: "/admin/manage" },
+    { label: "Sponsors", href: "/admin/sponsors" },
     { label: "Sisterhood", href: "/admin/manage" },
     { label: "Equipment", href: "/admin/manage" },
     { label: "Referees", href: "/admin/manage" },
