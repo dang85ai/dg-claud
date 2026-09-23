@@ -1,4 +1,4 @@
-name: Generate Admin Activation Link
+name: Send Admin Activation Email
 
 on:
   push:
@@ -10,8 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Generate one-time admin activation link
+      - name: Send admin password activation email
         run: |
           set -euo pipefail
           curl --fail-with-body --silent --show-error \
-            "https://sgoxywyhaketjmdmkzhm.supabase.co/functions/v1/generate-admin-activation-link"
+            -X POST \
+            "https://sgoxywyhaketjmdmkzhm.supabase.co/auth/v1/recover?redirect_to=https%3A%2F%2Fcaledon-u9-girls-2026.netlify.app%2Factivate" \
+            -H "apikey: sb_publishable_CxLW1DX-RFPSAr8T1iSbtQ_XTIye7Yy" \
+            -H "Content-Type: application/json" \
+            -d '{"email":"daniel.f.guerra@gmail.com"}'
