@@ -32,11 +32,16 @@ export default function LoginPage() {
     const email = String(form.get("email") ?? "").trim().toLowerCase();
     const password = String(form.get("password") ?? "");
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setStatus(error.message);
       setLoading(false);
+      return;
+    }
+
+    if (data.user?.user_metadata?.must_change_password === true) {
+      router.replace("/activate");
       return;
     }
 
