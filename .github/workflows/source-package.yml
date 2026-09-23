@@ -1,0 +1,21 @@
+name: Source Package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Archive tracked source
+        run: git archive --format=zip --output=caledon-source.zip HEAD
+      - name: Upload source package
+        uses: actions/upload-artifact@v4
+        with:
+          name: caledon-source
+          path: caledon-source.zip
+          retention-days: 1
