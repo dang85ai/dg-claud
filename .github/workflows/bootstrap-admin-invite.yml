@@ -1,0 +1,17 @@
+name: Bootstrap Admin Invite
+
+on:
+  push:
+    paths:
+      - ".github/workflows/bootstrap-admin-invite.yml"
+
+jobs:
+  invite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Send one-time admin invitation
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --silent --show-error \
+            "https://sgoxywyhaketjmdmkzhm.supabase.co/functions/v1/bootstrap-admin-invite"
