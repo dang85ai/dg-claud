@@ -1,0 +1,73 @@
+name: Generate SEO Brand Assets
+
+on:
+  push:
+    paths:
+      - ".github/workflows/generate-seo-assets.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install image tooling
+        run: pip install cairosvg pillow
+      - name: Generate favicon and social assets
+        run: |
+          python - <<'PY'
+          import os
+          import cairosvg
+          from PIL import Image, ImageDraw, ImageFont
+
+          src="public/assets/brand/favicon.svg"
+          outputs={
+            16:"public/assets/brand/favicon-16.png",
+            32:"public/assets/brand/favicon-32.png",
+            48:"public/assets/brand/favicon-48.png",
+            96:"public/assets/brand/favicon-96.png",
+            150:"public/assets/brand/mstile-150.png",
+            180:"public/assets/brand/apple-touch-icon.png",
+            192:"public/assets/brand/favicon-192.png",
+            512:"public/assets/brand/favicon-512.png",
+          }
+          for size,path in outputs.items():
+            cairosvg.svg2png(url=src,write_to=path,output_width=size,output_height=size)
+
+          imgs=[Image.open(outputs[s]).convert("RGBA") for s in (16,32,48)]
+          imgs[0].save("public/favicon.ico",format="ICO",sizes=[(16,16),(32,32),(48,48)],append_images=imgs[1:])
+
+          W,H=1200,630
+          img=Image.new("RGB",(W,H),"white")
+          d=ImageDraw.Draw(img)
+          red="#E30613"; black="#111111"
+          d.rectangle([0,0,W,18],fill=red)
+          d.rectangle([0,H-18,W,H],fill=black)
+          icon=Image.open(outputs[512]).convert("RGBA").resize((260,260))
+          img.paste(icon,(75,175),icon)
+
+          bold="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+          reg="/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+          f1=ImageFont.truetype(bold,60)
+          f2=ImageFont.truetype(bold,78)
+          f3=ImageFont.truetype(reg,34)
+          d.text((390,145),"CALEDON SOCCER CLUB",font=f1,fill=black)
+          d.text((390,230),"U9 GIRLS 2026",font=f2,fill=red)
+          d.text((390,335),"SOCCER TEAM HUB",font=f1,fill=black)
+          d.text((390,430),"Schedule • Team Kit • Roster • Parent Information",font=f3,fill="#444444")
+          img.save("public/assets/brand/caledon-u9-girls-2026-primary.png",quality=95)
+          PY
+      - name: Commit generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/favicon.ico public/assets/brand/favicon-*.png public/assets/brand/apple-touch-icon.png public/assets/brand/mstile-150.png public/assets/brand/caledon-u9-girls-2026-primary.png
+          git diff --cached --quiet && exit 0
+          git commit -m "Generate complete SEO favicon and social image package"
+          git push
