@@ -146,6 +146,13 @@ export default function ActivatePage() {
       return;
     }
 
+    const refreshed = await supabase.auth.refreshSession();
+    if (refreshed.error || !refreshed.data.session) {
+      setStatus("Your password was saved, but the secure session needs to be renewed. Sign in with your new password, then MFA setup will continue.");
+      setBusy(false);
+      return;
+    }
+
     router.replace("/mfa");
   }
 
