@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prebuild": "node scripts/materialize-sponsor-assets.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.95.0",
