@@ -1,4 +1,4 @@
-name: Bootstrap Admin Invite
+name: Generate Admin Activation Link
 
 on:
   push:
@@ -6,12 +6,12 @@ on:
       - ".github/workflows/bootstrap-admin-invite.yml"
 
 jobs:
-  invite:
+  activate:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Send one-time admin invitation
+      - name: Generate one-time admin activation link
         run: |
           set -euo pipefail
           curl --fail-with-body --silent --show-error \
-            "https://sgoxywyhaketjmdmkzhm.supabase.co/functions/v1/bootstrap-admin-invite"
+            "https://sgoxywyhaketjmdmkzhm.supabase.co/functions/v1/generate-admin-activation-link"
