@@ -27,12 +27,13 @@ export default function HomePage() {
           <div>
             <div className="kicker">Caledon Soccer Club</div>
             <h1 className="display">
-              U9 Girls
-              <span>2026</span>
+              Caledon U9 Girls 2026
+              <span>Soccer Team Hub</span>
             </h1>
             <p className="max-w-xl text-base text-white/70 md:text-lg">
-              Welcome to the Caledon U9 Girls 2026 team hub — one place for game-day logistics,
-              player development resources, team kit, parent information, photos and the season ahead.
+              Welcome to the official team hub for the <strong className="text-white">Caledon SC U9 Girls 2026</strong> season.
+              Everything parents need at the field — schedules, team kit, roster, parent information and player-development resources —
+              in one mobile-friendly place for youth soccer in Caledon, Ontario.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/schedule" className="btn btn-primary">
@@ -100,9 +101,9 @@ export default function HomePage() {
         <div className="container grid gap-8 lg:grid-cols-[1.1fr_.9fr]">
           <div>
             <SectionHeader
-              eyebrow="Team Hub"
+              eyebrow="Caledon Soccer Team Hub"
               title="Everything parents need at the field"
-              copy="Bookmark this page and check back often. The goal is fewer scattered messages, less uncertainty, and a clear mobile home for the team."
+              copy="Bookmark this Caledon U9 Girls 2026 team hub and check back often. The goal is fewer scattered messages, less uncertainty, and a clear mobile home for the team."
             />
             <div className="grid gap-4 sm:grid-cols-2">
               {[
@@ -119,7 +120,12 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <NextMatchCard />
+          <section aria-labelledby="next-game-heading">
+            <h2 id="next-game-heading" className="mb-4 text-2xl font-black uppercase tracking-tight">
+              Next Game — Caledon U9 Girls 2026
+            </h2>
+            <NextMatchCard />
+          </section>
         </div>
       </section>
 
@@ -127,7 +133,7 @@ export default function HomePage() {
         <div className="container">
           <SectionHeader
             eyebrow="2026 Focus"
-            title="Better players. Better teammates."
+            title="2026 Focus: Better players. Better teammates."
             copy="Development is measured against each player's own progress, not public rankings."
           />
           <div className="grid gap-px overflow-hidden rounded-3xl bg-white/20 sm:grid-cols-2 lg:grid-cols-3">
@@ -137,6 +143,32 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="section bg-neutral-50">
+        <div className="container grid gap-6 lg:grid-cols-[1fr_380px]">
+          <div>
+            <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Caledon East · Ontario</div>
+            <h2 className="mt-3 text-3xl font-black uppercase tracking-tight">Contact the Caledon U9 Girls 2026 Team</h2>
+            <p className="mt-4 max-w-2xl text-neutral-600">
+              Questions about the season, team kit, schedule or parent portal? Contact the team manager through the team contact page.
+              Caledon Soccer Club&apos;s public office is at 2 McKee Drive South, Caledon East, Ontario.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link href="/contact" className="btn btn-primary">Contact Team Manager</Link>
+              <a href="tel:+19055844033" className="btn btn-light">Club Office: 905-584-4033</a>
+            </div>
+          </div>
+          <address className="card not-italic p-6">
+            <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Caledon Soccer Club</div>
+            <div className="mt-3 font-black">2 McKee Drive South</div>
+            <div className="mt-1 text-sm text-neutral-600">Caledon East, ON L7C 1G8</div>
+            <a href="tel:+19055844033" className="mt-4 block font-black hover:text-red-600">905-584-4033</a>
+            <a href="https://caledonsoccer.com" target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-bold text-red-600">
+              Visit Caledon Soccer Club →
+            </a>
+          </address>
         </div>
       </section>
 
