@@ -86,7 +86,7 @@ export const metadata: Metadata = {
     template: "%s | Caledon U9 Girls 2026"
   },
   description:
-    "Official team hub for Caledon SC U9 Girls 2026. Find schedules, team kit, roster, parent information and player-development resources.",
+    "Official team hub for Caledon SC U9 Girls 2026. Find schedules, team kit, roster, and parent information. Development · Confidence · Teamwork.",
   keywords: [
     "Caledon U9 Girls 2026 soccer",
     "Caledon SC youth soccer",
@@ -120,10 +120,10 @@ export const metadata: Metadata = {
       "Schedules, team kit, roster and parent information for the Caledon SC U9 Girls 2026 season.",
     images: [
       {
-        url: "/kit/home-team-kit.webp",
-        width: 1122,
-        height: 1402,
-        alt: "Caledon SC U9 Girls 2026 home match kit and team branding"
+        url: "/assets/brand/caledon-u9-girls-2026-primary.png",
+        width: 1200,
+        height: 630,
+        alt: "Caledon SC U9 Girls 2026 team crest and team hub branding"
       }
     ]
   },
