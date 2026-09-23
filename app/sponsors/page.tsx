@@ -309,23 +309,40 @@ export default function SponsorsPage() {
             <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Brand Visibility</div>
             <h2 className="section-title mt-3 !mb-0">Where your brand can appear</h2>
             <p className="mt-4 text-neutral-600">
-              Final placement depends on sponsorship level, available kit space, club approval and the final decoration layout.
+              The examples below use the approved 2026 sponsorship mockups for each team package. Final placement depends on sponsorship level, available space, club approval and the final decoration layout.
             </p>
           </div>
 
-          <div className="mt-8 grid gap-6 xl:grid-cols-2">
+          <article className="card mt-8 overflow-hidden">
+            <div className="bg-black p-5 text-white md:p-6">
+              <div className="text-xs font-black uppercase tracking-wide text-red-500">Complete Overview</div>
+              <h3 className="mt-1 text-2xl font-black uppercase md:text-3xl">All Sponsorship Placement Options</h3>
+            </div>
+            <Image
+              src="/sponsors/sponsor-all-options.webp"
+              alt="Overview of Caledon U9 Girls 2026 sponsorship placement options across the home kit, away kit, tracksuit, backpack and outdoor jacket."
+              width={1536}
+              height={1024}
+              unoptimized
+              className="h-auto w-full"
+              sizes="100vw"
+            />
+          </article>
+
+          <div className="mt-6 grid gap-6 lg:grid-cols-2">
             <article className="card overflow-hidden">
               <div className="bg-black p-5 text-white">
-                <div className="text-xs font-black uppercase tracking-wide text-red-500">Option A</div>
-                <h3 className="mt-1 text-2xl font-black uppercase">Home Kit Sponsorship</h3>
+                <div className="text-xs font-black uppercase tracking-wide text-red-500">Match Kit</div>
+                <h3 className="mt-1 text-2xl font-black uppercase">Home Match Kit Sponsorship</h3>
               </div>
               <Image
-                src="/kit/home-team-kit.webp"
-                alt="Black Caledon U9 Girls home kit used as the branding-placement reference."
-                width={880}
-                height={662}
+                src="/sponsors/sponsor-home-match-kit.webp"
+                alt="Caledon U9 Girls 2026 black home match kit showing main sponsor, secondary sponsor and sleeve sponsor placement examples."
+                width={1122}
+                height={1402}
                 unoptimized
                 className="h-auto w-full"
+                sizes="(max-width: 1023px) 100vw, 50vw"
               />
               <div className="p-6">
                 <ul className="grid gap-3 text-sm">
@@ -338,16 +355,17 @@ export default function SponsorsPage() {
 
             <article className="card overflow-hidden">
               <div className="bg-black p-5 text-white">
-                <div className="text-xs font-black uppercase tracking-wide text-red-500">Option B</div>
-                <h3 className="mt-1 text-2xl font-black uppercase">Away Kit Sponsorship</h3>
+                <div className="text-xs font-black uppercase tracking-wide text-red-500">Match Kit</div>
+                <h3 className="mt-1 text-2xl font-black uppercase">Away Match Kit Sponsorship</h3>
               </div>
               <Image
-                src="/kit/away-team-kit.webp"
-                alt="White Caledon U9 Girls away kit used as the branding-placement reference."
-                width={880}
-                height={662}
+                src="/sponsors/sponsor-away-match-kit.webp"
+                alt="Caledon U9 Girls 2026 white away match kit showing main sponsor, secondary sponsor and sleeve sponsor placement examples."
+                width={1122}
+                height={1402}
                 unoptimized
                 className="h-auto w-full"
+                sizes="(max-width: 1023px) 100vw, 50vw"
               />
               <div className="p-6">
                 <ul className="grid gap-3 text-sm">
@@ -355,6 +373,65 @@ export default function SponsorsPage() {
                   <li><strong>Secondary Jersey Logo:</strong> right-chest area · C$500–C$2,000.</li>
                   <li><strong>Sleeve Logo:</strong> upper arm · C$300–C$700.</li>
                 </ul>
+              </div>
+            </article>
+
+            <article className="card overflow-hidden">
+              <div className="bg-black p-5 text-white">
+                <div className="text-xs font-black uppercase tracking-wide text-red-500">Travel / Warm-up</div>
+                <h3 className="mt-1 text-2xl font-black uppercase">Track Suit Sponsorship</h3>
+              </div>
+              <Image
+                src="/sponsors/sponsor-track-suit.webp"
+                alt="Caledon U9 Girls 2026 black tracksuit sponsorship mockup showing sponsor placement on the upper back with player personalization."
+                width={1122}
+                height={1402}
+                unoptimized
+                className="h-auto w-full"
+                sizes="(max-width: 1023px) 100vw, 50vw"
+              />
+              <div className="p-6 text-sm text-neutral-700">
+                Sponsor branding can be coordinated on the approved tracksuit placement while preserving the club crest, adidas branding and player personalization.
+              </div>
+            </article>
+
+            <article className="card overflow-hidden">
+              <div className="bg-black p-5 text-white">
+                <div className="text-xs font-black uppercase tracking-wide text-red-500">Cold Weather / Sideline</div>
+                <h3 className="mt-1 text-2xl font-black uppercase">Outdoor Jacket Sponsorship</h3>
+              </div>
+              <Image
+                src="/sponsors/sponsor-jacket.webp"
+                alt="Caledon U9 Girls 2026 outdoor jacket sponsorship mockup showing a large sponsor logo placement on the back."
+                width={1122}
+                height={1402}
+                unoptimized
+                className="h-auto w-full"
+                sizes="(max-width: 1023px) 100vw, 50vw"
+              />
+              <div className="p-6 text-sm text-neutral-700">
+                The outdoor jacket offers a high-visibility back placement for an approved sponsor while retaining the club crest and player name.
+              </div>
+            </article>
+
+            <article className="card overflow-hidden lg:col-span-2">
+              <div className="bg-black p-5 text-white">
+                <div className="text-xs font-black uppercase tracking-wide text-red-500">Travel / Storage</div>
+                <h3 className="mt-1 text-2xl font-black uppercase">Backpack Sponsorship</h3>
+              </div>
+              <div className="mx-auto max-w-4xl">
+                <Image
+                  src="/sponsors/sponsor-backpack.webp"
+                  alt="Caledon U9 Girls 2026 backpack sponsorship mockup showing sponsor logo placement on the front pocket below the club crest."
+                  width={1122}
+                  height={1402}
+                  unoptimized
+                  className="h-auto w-full"
+                  sizes="(max-width: 1023px) 100vw, 900px"
+                />
+              </div>
+              <div className="border-t border-neutral-200 p-6 text-sm text-neutral-700">
+                The backpack provides a prominent front-pocket sponsor placement that travels with the team throughout the season.
               </div>
             </article>
 
@@ -381,7 +458,6 @@ export default function SponsorsPage() {
           </div>
         </div>
       </section>
-
       <section className="section">
         <div className="container">
           <div className="text-center">
