@@ -324,6 +324,7 @@ export default function SponsorsPage() {
                 alt="Black Caledon U9 Girls home kit used as the branding-placement reference."
                 width={880}
                 height={662}
+                unoptimized
                 className="h-auto w-full"
               />
               <div className="p-6">
@@ -345,6 +346,7 @@ export default function SponsorsPage() {
                 alt="White Caledon U9 Girls away kit used as the branding-placement reference."
                 width={880}
                 height={662}
+                unoptimized
                 className="h-auto w-full"
               />
               <div className="p-6">
