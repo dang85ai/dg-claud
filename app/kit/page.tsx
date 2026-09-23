@@ -249,6 +249,92 @@ export default function KitPage() {
             ))}
           </div>
 
+          <section className="mt-10">
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="card p-6">
+                <div className="text-sm font-black uppercase tracking-[.14em] text-red-600">Sizing Guide</div>
+                <h2 className="mt-2 text-3xl font-black uppercase">Fit before you order</h2>
+                <div className="mt-5 grid gap-3">
+                  {[
+                    ["Jersey", "YXS–YXL", "Youth sizing — size up if between sizes."],
+                    ["Shorts", "YXS–YXL", "Elastic waist."],
+                    ["Socks", "YS–YL", "Shin-guard compatible."],
+                    ["Tracksuit / Jacket", "Youth sizing", "Confirm fit using supplier size chart before ordering."]
+                  ].map(([item, sizes, notes]) => (
+                    <div key={item} className="grid gap-2 rounded-2xl bg-neutral-50 p-4 sm:grid-cols-[120px_110px_1fr]">
+                      <div className="font-black">{item}</div>
+                      <div className="text-sm font-bold text-red-600">{sizes}</div>
+                      <div className="text-sm text-neutral-600">{notes}</div>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-4 text-xs text-neutral-500">
+                  Sizing is a planning guide only. Final supplier charts and player try-on samples should be used before the team order is placed.
+                </p>
+              </div>
+
+              <div className="card p-6">
+                <div className="text-sm font-black uppercase tracking-[.14em] text-red-600">Ordering</div>
+                <h2 className="mt-2 text-3xl font-black uppercase">Where to buy</h2>
+                <div className="mt-5 grid gap-4 text-sm text-neutral-600">
+                  <p>
+                    Product-card retailer references above show where current pricing was sourced. A final team-order link or supplier process will be posted once the bulk quote is approved.
+                  </p>
+                  <div className="rounded-2xl bg-neutral-50 p-4">
+                    <div className="text-xs font-black uppercase text-neutral-500">Order Deadline</div>
+                    <div className="mt-1 font-black">To be confirmed</div>
+                    <p className="mt-2 text-xs text-neutral-500">Allow time for sizing, stock, decoration and delivery before the first game.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1fr]">
+              <div className="card p-6">
+                <div className="text-sm font-black uppercase tracking-[.14em] text-red-600">Game Day</div>
+                <h2 className="mt-2 text-3xl font-black uppercase">What to bring</h2>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {[
+                    "Jersey — home or away as instructed",
+                    "Black shorts",
+                    "Team socks",
+                    "Shin guards — mandatory",
+                    "Cleats — no metal studs",
+                    "Water bottle",
+                    "Hair tie, if needed",
+                    "No jewelry"
+                  ].map((item, index) => (
+                    <div key={item} className="flex gap-3 rounded-xl bg-neutral-50 p-3 text-sm font-bold">
+                      <span className={index === 7 ? "text-red-600" : "text-green-700"}>{index === 7 ? "✕" : "✓"}</span>
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-4">
+                <div className="card p-6">
+                  <h3 className="text-xl font-black uppercase">Kit Care</h3>
+                  <p className="mt-3 text-sm text-neutral-600">
+                    Wash jerseys inside-out in cold water and avoid tumble drying. Name labels are recommended to reduce lost-item mix-ups.
+                  </p>
+                </div>
+                <div className="card p-6">
+                  <h3 className="text-xl font-black uppercase">Jersey Numbers</h3>
+                  <p className="mt-3 text-sm text-neutral-600">
+                    Numbers are assigned by the team for the season. Requests may be considered, but final assignments are not guaranteed until the roster is confirmed.
+                  </p>
+                </div>
+                <div className="card p-6">
+                  <h3 className="text-xl font-black uppercase">Lost & Found</h3>
+                  <p className="mt-3 text-sm text-neutral-600">
+                    Unclaimed team items can be posted through the Parent Portal so families can identify and recover them.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <section className="mt-10 rounded-3xl bg-black p-7 text-white md:p-10">
             <div className="flex items-center gap-3">
               <Tags className="text-red-500" />
