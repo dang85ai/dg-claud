@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --red: #ff0000;
+  --red: #E30613;
   --black: #000000;
   --ink: #111111;
   --white: #ffffff;
@@ -18,7 +18,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
   line-height: 1.5;
 }
 
@@ -90,7 +90,7 @@ button, .tap-target {
   font-size: clamp(3.2rem, 13vw, 8.4rem);
   line-height: .82;
   letter-spacing: -.06em;
-  font-weight: 950;
+  font-weight: 900;
   text-transform: uppercase;
   margin: 18px 0;
 }
@@ -110,7 +110,7 @@ button, .tap-target {
   line-height: .95;
   letter-spacing: -.04em;
   text-transform: uppercase;
-  font-weight: 950;
+  font-weight: 900;
 }
 
 .card {
@@ -192,7 +192,7 @@ textarea.field {
 
 .stat-number {
   font-size: clamp(2rem, 8vw, 4rem);
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: -.05em;
   line-height: 1;
 }
