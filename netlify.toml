@@ -67,3 +67,8 @@
   for = "/manifest.webmanifest"
   [headers.values]
     Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/activate"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
