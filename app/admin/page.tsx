@@ -108,6 +108,7 @@ export default function AdminPage() {
   const modules = [
     { label: "Players", href: "/admin/manage#players" },
     { label: "Schedule", href: "/admin/manage#schedule" },
+    { label: "Spond Import", href: "/admin/spond" },
     { label: "Attendance", href: "/admin/manage#schedule" },
     { label: "Game Duties", href: "/admin/manage#schedule" },
     { label: "Forms", href: "/admin/manage" },
@@ -166,16 +167,21 @@ export default function AdminPage() {
                   Spond is being used for private team operations and communication. Direct API sync is not enabled; roster and attendance imports will use controlled files.
                 </p>
               </div>
-              {spondLink ? (
-                <a
-                  href={spondLink.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-primary"
-                >
-                  Open Spond
-                </a>
-              ) : null}
+              <div className="flex flex-wrap gap-3">
+                {spondLink ? (
+                  <a
+                    href={spondLink.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary"
+                  >
+                    Open Spond
+                  </a>
+                ) : null}
+                <Link href="/admin/spond" className="btn border border-white/20 bg-white/10 text-white">
+                  Import Spond Data
+                </Link>
+              </div>
             </div>
           </section>
         ) : null}
