@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -86,6 +87,25 @@ export default function AdminPage() {
     { label: "Sisterhood Review", value: data.metrics.pending_sisterhood_posts, Icon: MessageSquareWarning }
   ];
 
+  const modules = [
+    { label: "Players", href: "/admin/manage#players" },
+    { label: "Schedule", href: "/admin/manage#schedule" },
+    { label: "Attendance", href: "/admin/manage#schedule" },
+    { label: "Game Duties", href: "/admin/manage#schedule" },
+    { label: "Forms", href: "/admin/manage" },
+    { label: "Payments", href: "/admin/manage" },
+    { label: "Kit Orders", href: "/admin/manage" },
+    { label: "Media", href: "/admin/manage" },
+    { label: "Sponsors", href: "/admin/manage" },
+    { label: "Sisterhood", href: "/admin/manage" },
+    { label: "Equipment", href: "/admin/manage" },
+    { label: "Referees", href: "/admin/manage" },
+    { label: "Announcements", href: "/admin/manage#announcements" },
+    { label: "Invites", href: "/admin/manage#invites" },
+    { label: "Data Export", href: "/admin/manage#export" },
+    { label: "Settings", href: "/admin/manage" }
+  ];
+
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Command Centre" isAdmin />
@@ -143,17 +163,15 @@ export default function AdminPage() {
         </div>
 
         <section className="mt-8">
-          <h2 className="section-title !text-3xl">Management Modules</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              "Players", "Schedule", "Attendance", "Game Duties",
-              "Forms", "Payments", "Kit Orders", "Media",
-              "Sponsors", "Sisterhood", "Equipment", "Referees",
-              "Announcements", "Reports", "Data Export", "Settings"
-            ].map((item) => (
-              <button key={item} className="card min-h-24 p-5 text-left text-lg font-black uppercase hover:border-red-500">
-                {item}
-              </button>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 className="section-title !mb-0 !text-3xl">Management Modules</h2>
+            <Link href="/admin/manage" className="btn btn-primary">Open Management Tools</Link>
+          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {modules.map((item) => (
+              <Link key={item.label} href={item.href} className="card min-h-24 p-5 text-left text-lg font-black uppercase hover:border-red-500">
+                {item.label}
+              </Link>
             ))}
           </div>
         </section>
