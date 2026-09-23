@@ -7,7 +7,6 @@ on:
 
 jobs:
   deploy:
-    if: ${{ secrets.NETLIFY_AUTH_TOKEN != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
