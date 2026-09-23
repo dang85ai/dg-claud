@@ -10,6 +10,7 @@ const nav = [
   ["Kit", "/kit"],
   ["Media", "/media"],
   ["Sponsors", "/sponsors"],
+  ["Parents", "/parents"],
   ["About", "/about"],
   ["Contact", "/contact"]
 ];
