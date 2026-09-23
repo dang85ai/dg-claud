@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
+
+export const metadata: Metadata = {
+  title: "Parent FAQ | Caledon U9 Girls 2026",
+  description: "Answers to common parent questions for the Caledon SC U9 Girls 2026 season.",
+  alternates: { canonical: "/faq" }
+};
 
 const faqs = [
   {
@@ -37,9 +44,23 @@ const faqs = [
   }
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a
+    }
+  }))
+};
+
 export default function FaqPage() {
   return (
     <PublicShell>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <DevelopmentBanner />
       <PublicPageHero
         eyebrow="Parent FAQ"
