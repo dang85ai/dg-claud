@@ -107,9 +107,20 @@ export default function ContactPage() {
               <div className="card p-6">
                 <Building2 className="text-red-600" />
                 <h2 className="mt-3 text-xl font-black uppercase">Caledon Soccer Club</h2>
-                <p className="mt-2 text-sm text-neutral-600">
-                  Verified club address, office hours and general club contact information will be added before public launch.
-                </p>
+                <address className="mt-3 not-italic text-sm leading-6 text-neutral-700">
+                  2 McKee Drive South<br />
+                  Caledon East, ON L7C 1G8<br />
+                  <a href="tel:+19055844033" className="font-bold hover:text-red-600">905-584-4033</a><br />
+                  <a href="mailto:info@caledonsoccer.com" className="font-bold hover:text-red-600">info@caledonsoccer.com</a>
+                </address>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Caledon%20Soccer%20Club%2C%202%20McKee%20Drive%20South%2C%20Caledon%20East%2C%20ON%20L7C%201G8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-block text-sm font-black text-red-600"
+                >
+                  View on Google Maps →
+                </a>
               </div>
             </aside>
           </div>
