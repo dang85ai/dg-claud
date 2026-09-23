@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
@@ -10,6 +11,12 @@ import {
   Trophy,
   Users
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Schedule & Events | Caledon U9 Girls 2026",
+  description: "Games, practices, events, arrival guidance and field information for Caledon SC U9 Girls 2026.",
+  alternates: { canonical: "/schedule" }
+};
 
 const calendarUrl = "https://sgoxywyhaketjmdmkzhm.supabase.co/functions/v1/team-calendar";
 
