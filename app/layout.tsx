@@ -10,8 +10,8 @@ const sportsTeamSchema = {
   alternateName: "Caledon U9 Girls 2026",
   sport: "Soccer",
   url: siteUrl,
-  logo: `${siteUrl}/assets/brand/caledon-u9-girls-2026-icon-192.png`,
-  image: `${siteUrl}/kit/home-team-kit.webp`,
+  logo: `${siteUrl}/assets/brand/caledon-u9-girls-2026-primary.png`,
+  image: `${siteUrl}/assets/brand/caledon-u9-girls-2026-primary.png`,
   description:
     "Official team hub for Caledon SC U9 Girls 2026 — schedules, team kit, roster, parent information and player-development resources.",
   memberOf: {
@@ -27,7 +27,7 @@ const sportsTeamSchema = {
       postalCode: "L7C 1G8",
       addressCountry: "CA"
     },
-    telephone: "+1-905-584-4033"
+    telephone: "+1-905-584-4033",\n    email: "info@caledonsoccer.com"
   },
   location: {
     "@type": "Place",
@@ -98,7 +98,7 @@ export const metadata: Metadata = {
   creator: "Caledon Soccer Club",
   publisher: "Caledon Soccer Club",
   applicationName: "Caledon U9 Girls 2026",
-  manifest: "/manifest.webmanifest",
+  manifest: "/site.webmanifest",
   robots: {
     index: true,
     follow: true,
@@ -131,16 +131,17 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Caledon U9 Girls 2026 Soccer Team Hub",
     description: "Schedules, team kit, roster and parent information for the 2026 season.",
-    images: ["/kit/home-team-kit.webp"]
+    images: ["/assets/brand/caledon-u9-girls-2026-primary.png"]
   },
   icons: {
     icon: [
-      { url: "/assets/brand/caledon-u9-girls-2026-icon.svg", type: "image/svg+xml" },
-      { url: "/assets/brand/caledon-u9-girls-2026-icon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/assets/brand/caledon-u9-girls-2026-icon-192.png", sizes: "192x192", type: "image/png" }
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/assets/brand/favicon.svg", type: "image/svg+xml" },
+      { url: "/assets/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/assets/brand/favicon-16.png", sizes: "16x16", type: "image/png" }
     ],
     apple: [
-      { url: "/assets/brand/caledon-u9-girls-2026-icon-180.png", sizes: "180x180", type: "image/png" }
+      { url: "/assets/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
     ]
   },
   verification: {
@@ -155,12 +156,12 @@ export const metadata: Metadata = {
     "geo.region": "CA-ON",
     "geo.placename": "Caledon East, Ontario",
     "geo.position": "43.8576;-79.8699",
-    ICBM: "43.8576, -79.8699"
+    ICBM: "43.8576, -79.8699",\n    "msapplication-TileColor": "#E30613",\n    "msapplication-config": "/browserconfig.xml"
   }
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: "#E30613",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5
@@ -170,6 +171,18 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en-CA">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap"
+        />
+        <link rel="mask-icon" href="/assets/brand/safari-pinned-tab.svg" color="#E30613" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsTeamSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
