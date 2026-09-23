@@ -146,7 +146,9 @@ export const metadata: Metadata = {
   },
   other: {
     "geo.region": "CA-ON",
-    "geo.placename": "Caledon East, Ontario"
+    "geo.placename": "Caledon East, Ontario",
+    "geo.position": "43.8576;-79.8699",
+    ICBM: "43.8576, -79.8699"
   }
 };
 
