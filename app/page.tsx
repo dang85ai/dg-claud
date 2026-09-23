@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Bell,
@@ -15,6 +16,12 @@ import { NextMatchCard } from "@/components/NextMatchCard";
 import { PublicShell } from "@/components/PublicShell";
 import { SectionHeader } from "@/components/SectionHeader";
 import { PwaRegister } from "@/components/PwaRegister";
+
+export const metadata: Metadata = {
+  title: "Caledon U9 Girls 2026 Soccer Team Hub | Caledon SC",
+  description: "Official team hub for Caledon SC U9 Girls 2026. Find schedules, team kit, roster, parent information and player-development resources.",
+  alternates: { canonical: "/" }
+};
 
 export default function HomePage() {
   return (
@@ -166,6 +173,14 @@ export default function HomePage() {
             <div className="mt-1 text-sm text-neutral-600">Caledon East, ON L7C 1G8</div>
             <a href="tel:+19055844033" className="mt-4 block font-black hover:text-red-600">905-584-4033</a>
             <a href="mailto:info@caledonsoccer.com" className="mt-2 block text-sm font-bold hover:text-red-600">info@caledonsoccer.com</a>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Caledon%20Soccer%20Club%2C%202%20McKee%20Drive%20South%2C%20Caledon%20East%2C%20ON%20L7C%201G8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 block text-sm font-bold text-red-600"
+            >
+              View Caledon Soccer Club on Google Maps →
+            </a>
             <a href="https://caledonsoccer.com" target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-bold text-red-600">
               Visit Caledon Soccer Club →
             </a>
