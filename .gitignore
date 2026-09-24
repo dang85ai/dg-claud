@@ -5,3 +5,6 @@ node_modules
 .env.*.local
 .DS_Store
 coverage
+.open-next
+.wrangler
+cloudflare-env.d.ts
