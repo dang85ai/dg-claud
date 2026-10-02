@@ -1,0 +1,20 @@
+name: Verify Admin Recovery Endpoint
+
+on:
+  push:
+    paths:
+      - ".github/workflows/verify-admin-recovery.yml"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Call live password setup endpoint
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --silent --show-error \
+            -X POST \
+            "https://caledon-u9-girls-2026.netlify.app/api/admin/send-password-setup" \
+            -H "Content-Type: application/json" \
+            -d '{"email":"daniel.f.guerra@gmail.com"}'
