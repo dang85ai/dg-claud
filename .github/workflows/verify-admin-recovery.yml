@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Call live Netlify recovery function
+      - name: Call live admin recovery endpoint
         run: |
           set -euo pipefail
           curl --fail-with-body --silent --show-error \
             -X POST \
-            "https://caledon-u9-girls-2026.netlify.app/.netlify/functions/send-admin-recovery" \
+            "https://caledon-u9-girls-2026.netlify.app/api/admin/send-password-setup" \
             -H "Content-Type: application/json" \
             -d '{"email":"daniel.f.guerra@gmail.com"}'
