@@ -256,6 +256,8 @@ textarea.field {
 .development-stage { background-image: radial-gradient(ellipse at top right,#e306132e,transparent 65%),repeating-linear-gradient(120deg,transparent 0 80px,#ffffff05 81px 82px); }
 .club-footer { border-top: 3px solid var(--red); background-image: radial-gradient(ellipse at bottom left,#e3061320,transparent 60%); }
 .public-page-hero { padding-bottom:48px; }
+.container .grid > * { min-width:0; }
+.site-shell h4 { overflow-wrap:anywhere; }
 .portal-sidebar { display:none; }
 .portal-nav-link { display:block; padding:11px 12px; margin-block:3px; border-radius:10px; font-size:14px; font-weight:600; color:#333; }
 .portal-nav-link:hover { background:#f1f1f1; }
