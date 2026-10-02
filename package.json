@@ -28,6 +28,7 @@
     "tailwindcss": "^4.1.0",
     "typescript": "^5.7.0",
     "@opennextjs/cloudflare": "latest",
-    "wrangler": "latest"
+    "wrangler": "latest",
+    "@netlify/functions": "latest"
   }
 }
