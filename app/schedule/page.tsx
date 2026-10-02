@@ -50,11 +50,11 @@ export default function SchedulePage() {
           </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_340px]">
-            <div className="card p-6">
+            <div className="card min-w-0 p-4 sm:p-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 items-center gap-3">
                   <CalendarDays className="text-red-600" />
-                  <h2 className="text-2xl font-black uppercase">2026–27 Training Calendar</h2>
+                  <h2 className="text-xl font-black uppercase sm:text-2xl">2026–27 Training Calendar</h2>
                 </div>
                 <a className="btn btn-primary" href={calendarUrl}>
                   <Download size={17} /> Add to Calendar
