@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
+import { teamSquad } from "@/lib/team-squad";
+import { errorMessage, resolveSquadPlayer } from "@/lib/management-access";
 import { supabase } from "@/lib/supabase";
 
 type Account = { id: string; full_name: string | null; display_name: string | null };
@@ -52,7 +54,7 @@ export function FamilyLinks({ refreshKey = 0 }: { refreshKey?: number }) {
       setRequests(results[4].data as RequestRow[] ?? []);
     } catch (err) {
       setAccounts([]); setPlayers([]); setGuardians([]); setLinks([]); setRequests([]);
-      setError(err instanceof Error ? err.message : "Unable to load family records. Please retry.");
+      setError(errorMessage(err, "Unable to load family records. Please retry."));
     } finally {
       setLoading(false);
     }
@@ -65,14 +67,15 @@ export function FamilyLinks({ refreshKey = 0 }: { refreshKey?: number }) {
     const element = event.currentTarget;
     const form = new FormData(element);
     const userId = String(form.get("user_id") ?? "");
-    const playerId = String(form.get("player_id") ?? "");
+    const playerChoice = String(form.get("player_id") ?? "");
     const name = String(form.get("guardian_name") ?? "").trim();
     const relationship = String(form.get("relationship") ?? "").trim();
     setError(""); setMessage(""); setBusy(true);
     try {
-      if (!accounts.some((account) => account.id === userId) || !players.some((player) => player.id === playerId) || !name) {
+      if (!accounts.some((account) => account.id === userId) || !(players.some((player) => player.id === playerChoice) || teamSquad.some((member) => "squad:" + member.name === playerChoice)) || !name) {
         throw new Error("Choose an account and player, and enter the guardian's name.");
       }
+      const playerId = await resolveSquadPlayer(playerChoice);
       // Database policies enforce manager/admin access and AAL2 for every write.
       let guardian = guardians.find((row) => row.user_id === userId);
       if (!guardian) {
@@ -111,6 +114,7 @@ export function FamilyLinks({ refreshKey = 0 }: { refreshKey?: number }) {
       <h2 className="text-2xl font-black uppercase">Link a Child to a Parent</h2>
       <p className="mt-3 text-sm text-neutral-600">
         Adding a player to the roster does not connect them to a family. Verify the guardian, then link the existing child to their existing account here.
+        Squad members missing a private record can be selected below; a record is created with the confirmed first name and jersey number when you link them. Unconfirmed surnames remain blank.
         This enables private forms and family tools. Use the account ID shown in the parent's portal to distinguish accounts with the same name.
       </p>
       {message ? <p role="status" className="notice mt-4">{message}</p> : null}
@@ -120,7 +124,7 @@ export function FamilyLinks({ refreshKey = 0 }: { refreshKey?: number }) {
       </button>
       {!loading && !error ? (
         <>
-          {!accounts.length || !players.length ? <p className="notice mt-4">A parent needs an activated account and a child needs a roster entry before you can create a family link.</p> : null}
+          {!accounts.length ? <p className="notice mt-4">A parent needs an activated account before you can create a family link. An invite record alone is not an activated account.</p> : null}
           <form className="mt-6 grid gap-4 md:grid-cols-2" onSubmit={submit}>
             <div>
               <label htmlFor="family_account" className="field-label">Parent account</label>
@@ -132,9 +136,12 @@ export function FamilyLinks({ refreshKey = 0 }: { refreshKey?: number }) {
               </select>
             </div>
             <div>
-              <label htmlFor="family_player" className="field-label">Child on roster</label>
+              <label htmlFor="family_player" className="field-label">Child / squad player</label>
               <select id="family_player" name="player_id" className="field" required disabled={busy}>
                 <option value="">Select child</option>
+                {teamSquad.filter((member) => !players.some((player) => player.first_name.toLowerCase() === member.name.toLowerCase())).map((member) => (
+                  <option key={member.name} value={"squad:" + member.name}>{member.name} · add squad record and link</option>
+                ))}
                 {players.map((player) => <option key={player.id} value={player.id}>
                   {player.first_name} {player.last_name}{player.jersey_number !== null ? " #" + player.jersey_number : ""}
                 </option>)}
@@ -154,7 +161,7 @@ export function FamilyLinks({ refreshKey = 0 }: { refreshKey?: number }) {
               <input type="checkbox" required disabled={busy} />
               I verified that this account belongs to this child's parent or guardian.
             </label>
-            <button className="btn btn-primary justify-self-start" disabled={busy || !accounts.length || !players.length}>
+            <button className="btn btn-primary justify-self-start" disabled={busy || !accounts.length}>
               {busy ? "Linking…" : "Link Child to Parent"}
             </button>
           </form>

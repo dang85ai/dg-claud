@@ -10,6 +10,8 @@ import {
   UserPlus,
   UsersRound
 } from "lucide-react";
+import Link from "next/link";
+import { managementModules } from "@/lib/management-modules";
 import { FamilyLinks } from "@/components/FamilyLinks";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
@@ -167,6 +169,8 @@ export default function AdminManagePage() {
           </div>
         </div>
 
+        <nav className="mt-6 flex flex-wrap gap-3" aria-label="Management modules">{managementModules.map((item) => <Link href={item.href} key={item.label} className="rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm font-bold">{item.label}</Link>)}</nav>
+
         {status ? <div className="notice mt-6 text-sm">{status}</div> : null}
 
         <div className="mt-8 grid gap-6 xl:grid-cols-2">
@@ -284,7 +288,7 @@ export default function AdminManagePage() {
               <h2 className="text-2xl font-black uppercase">Create Invite</h2>
             </div>
             <p className="mt-3 text-sm text-neutral-600">
-              This creates an invite record only. No invitation email is sent by this development build.
+              This records an invitation for review. It does not create a login or send an email. Family Links requires an already activated parent account.
             </p>
             <form className="mt-6" onSubmit={submitInvite}>
               <div className="field-group">

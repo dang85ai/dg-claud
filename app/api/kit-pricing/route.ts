@@ -89,7 +89,7 @@ export async function GET(request: NextRequest) {
     if (!response.ok) return NextResponse.json({ error: "Team member access is required." }, { status: response.status === 401 ? 401 : 403, headers });
     const dashboard = await response.json();
     const roles = Array.isArray(dashboard.roles) ? dashboard.roles : [];
-    if (!roles.some((role: string) => ["parent", "manager", "admin", "coach"].includes(role))) return NextResponse.json({ error: "Team member access is required." }, { status: 403, headers });
+    if (!roles.some((role: string) => ["parent_player", "manager", "admin"].includes(role))) return NextResponse.json({ error: "Team member access is required." }, { status: 403, headers });
     return NextResponse.json({ groups: groups.map(({ id, title, regular, best, perPlayer, items }) => ({ id, title, regular, best, perPlayer, items })), packageRegular: 510, packageBest: 465.96 }, { headers });
   } catch {
     return NextResponse.json({ error: "Unable to verify team access. Please try again." }, { status: 503, headers });

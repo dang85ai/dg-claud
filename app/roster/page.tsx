@@ -1,3 +1,4 @@
+import { teamSquad } from "@/lib/team-squad";
 import { PlayerKitCard } from "@/components/PlayerKitCard";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
@@ -8,7 +9,7 @@ import {
   UsersRound
 } from "lucide-react";
 
-const players: [string, number | null][] = [["Seva",6],["Savi",12],["Gianna-Rose",null],["Natalia",null],["Milena",null],["Valentina",null],["Julia",null],["Georgia",null],["Milania",null]];
+const players: [string, number | null][] = teamSquad.map(({ name, number }) => [name, number]);
 
 const staff = [["Technical Director","Gabriel Borges"],["Coach","Davinder Budwal"],["Coach","Courtney Quinn"],["Team Manager","Karam Budwal"],["Team Manager","Melissa Catalano"],["Team Manager","Daniel Guerra"],["Team Manager","Natalie Guerra"],["Team Manager","Giuseppe (Joe) Tomaselli"]];
 

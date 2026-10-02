@@ -1,0 +1,43 @@
+export type Field = { key: string; label: string; type?: "text" | "number" | "checkbox"; required?: boolean; options?: string[]; source?: string };
+export type Section = { title: string; table: string; columns: string; order: string; fields?: Field[]; action?: string; createLabel?: string; secondary?: boolean };
+export type ModuleConfig = { title: string; description: string; sections: Section[] };
+const player = { key: "player_id", label: "Player", source: "players", required: true };
+const event = { key: "event_id", label: "Event", source: "events", required: true };
+export const moduleConfigs: Record<string, ModuleConfig> = {
+  attendance: { title: "Attendance", description: "Review responses and record attendance for a player and event.", sections: [
+    { title: "Attendance Records", table: "attendance", columns: "event_id,player_id,status,note,updated_at", order: "updated_at", action: "attendance.set", createLabel: "Save Attendance", fields: [event, player, { key: "status", label: "Attendance", options: ["unknown","attending","not_attending","maybe"], required: true }, { key: "note", label: "Note" }] }
+  ] },
+  duties: { title: "Game Duties", description: "Create event duties and review family claims.", sections: [
+    { title: "Event Duties", table: "event_duties", columns: "id,event_id,duty_type,instructions,is_claimed,created_at", order: "created_at", createLabel: "Add Duty", fields: [event, { key:"duty_type",label:"Duty",required:true }, { key:"instructions",label:"Instructions" }] },
+    { title: "Claimed Duties", table: "duty_claims", columns:"id,duty_id,guardian_id,claimed_at",order:"claimed_at",secondary:true }
+  ] },
+  forms: { title: "Forms", description: "Review signed forms and download their PDFs. Final form wording must be approved by the club before launch.", sections: [
+    { title:"Signed Forms",table:"form_submissions",columns:"id,form_template_id,player_id,guardian_id,signature_name,signed_at",order:"signed_at" },
+    { title:"Form Templates",table:"form_templates",columns:"id,title,form_key,version,active,description",order:"created_at",secondary:true }
+  ] },
+  payments: { title: "Payments", description: "Review recorded payments and update kit order payment status after checking the payment. These controls do not charge, refund or transfer money.", sections: [
+    { title:"Kit Payment Status",table:"kit_orders",columns:"id,player_id,guardian_id,total_cad,payment_status,ordered_at",order:"ordered_at" },
+    { title:"Payment Records",table:"payments",columns:"id,order_id,provider,amount_cad,status,paid_at,created_at",order:"created_at",secondary:true }
+  ] },
+  orders: { title:"Kit Orders",description:"Review submitted kit orders, sizes and payment status. Ordering and payment-provider checkout are not enabled in this preview.",sections:[
+    { title:"Orders",table:"kit_orders",columns:"id,player_id,guardian_id,total_cad,payment_status,ordered_at",order:"ordered_at" },
+    { title:"Order Items",table:"kit_order_items",columns:"id,order_id,item_name,size,quantity",order:"id",secondary:true }
+  ]},
+  media:{title:"Media Review",description:"View private uploaded images before reviewing them. Approval here keeps images inside the private team portal.",sections:[
+    {title:"Media",table:"media_items",columns:"id,media_type,caption,status,visibility,processed_private_path,processed_public_path,thumbnail_path,exif_stripped,consent_reviewed,created_at",order:"created_at"}
+  ]},
+  sisterhood:{title:"Sisterhood",description:"Review teammate recognition before it appears in the private portal.",sections:[
+    {title:"Recognition Posts",table:"sisterhood_posts",columns:"id,player_id,category,body,status,created_at",order:"created_at"}
+  ]},
+  equipment:{title:"Equipment",description:"Track team equipment, issue items and record returns.",sections:[
+    {title:"Inventory",table:"equipment",columns:"id,item_name,asset_tag,description,status,created_at",order:"created_at",action:"equipment.create",createLabel:"Add Equipment",fields:[{key:"item_name",label:"Item",required:true},{key:"asset_tag",label:"Asset tag"},{key:"description",label:"Description"}]},
+    {title:"Assignments",table:"equipment_assignments",columns:"id,equipment_id,player_id,assigned_to_text,issued_at,returned_at,note",order:"issued_at",action:"equipment.assign",createLabel:"Issue Equipment",fields:[{key:"equipment_id",label:"Available equipment",source:"availableEquipment",required:true},{...player,required:false},{key:"assigned_to_text",label:"Recipient name"},{key:"note",label:"Note"}]}
+  ]},
+  referees:{title:"Referees",description:"Assign a referee to an event and track confirmation.",sections:[
+    {title:"Referee Assignments",table:"referee_assignments",columns:"id,event_id,guardian_id,display_label,role_label,confirmed,created_at",order:"created_at",action:"referee.assign",createLabel:"Assign Referee",fields:[event,{key:"display_label",label:"Referee name",required:true},{key:"role_label",label:"Role",required:true},{key:"confirmed",label:"Confirmed",type:"checkbox"}]}
+  ]},
+  settings:{title:"Settings",description:"Review team settings and manage optional recognition features. Site publishing is controlled separately.",sections:[
+    {title:"Team Settings",table:"site_settings",columns:"key,value,updated_at",order:"key"},
+    {title:"Team Links",table:"team_links",columns:"id,label,description,enabled",order:"sort_order",secondary:true}
+  ]}
+};

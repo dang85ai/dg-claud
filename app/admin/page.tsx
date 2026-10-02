@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
+import { managementModules } from "@/lib/management-modules";
 import { supabase } from "@/lib/supabase";
 
 type AdminData = {
@@ -105,25 +106,7 @@ export default function AdminPage() {
   const spondIntegration = data.integrations?.find((item) => item.provider === "spond");
   const spondLink = data.team_links?.find((item) => item.link_key === "spond_group");
 
-  const modules = [
-    { label: "Players", href: "/admin/manage#players" },
-    { label: "Schedule", href: "/admin/manage#schedule" },
-    { label: "Spond Import", href: "/admin/spond" },
-    { label: "Attendance", href: "/admin/manage#schedule" },
-    { label: "Game Duties", href: "/admin/manage#schedule" },
-    { label: "Forms", href: "/admin/manage" },
-    { label: "Payments", href: "/admin/manage" },
-    { label: "Kit Orders", href: "/admin/manage" },
-    { label: "Media", href: "/admin/manage" },
-    { label: "Sponsors", href: "/admin/sponsors" },
-    { label: "Sisterhood", href: "/admin/manage" },
-    { label: "Equipment", href: "/admin/manage" },
-    { label: "Referees", href: "/admin/manage" },
-    { label: "Announcements", href: "/admin/manage#announcements" },
-    { label: "Invites", href: "/admin/manage#invites" },
-    { label: "Data Export", href: "/admin/manage#export" },
-    { label: "Settings", href: "/admin/manage" }
-  ];
+  const modules = managementModules;
 
   return (
     <div className="min-h-screen bg-neutral-100">
