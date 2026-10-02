@@ -1,0 +1,1 @@
+create policy duties_team_read on public.event_duties for select to authenticated using (app_private.is_team_member());
