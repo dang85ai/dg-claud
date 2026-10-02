@@ -5,7 +5,6 @@ import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PortalHeader } from "@/components/PortalHeader";
 import { moduleConfigs, Field, Section } from "@/lib/management-config";
-import { managementModules } from "@/lib/management-modules";
 import { errorMessage, requireManager } from "@/lib/management-access";
 import { openProcessedImage } from "@/lib/private-media";
 import { authedFetch, endpoints } from "@/lib/api";
@@ -22,6 +21,9 @@ export default function ManagementModulePage() {
   const name = params.module;
   const config = moduleConfigs[name];
   const router = useRouter();
+  const [search,setSearch]=useState("");
+  const [filter,setFilter]=useState("all");
+  const [pages,setPages]=useState<Record<string,number>>({});
   const [records, setRecords] = useState<Record<string, Row[]>>({});
   const [choices, setChoices] = useState<Record<string, Choice[]>>({});
   const [loading, setLoading] = useState(true);
@@ -133,7 +135,7 @@ export default function ManagementModulePage() {
   }
 
   function fieldControl(field:Field){
-    const id="create-"+field.key;
+    const id="create-"+name+"-"+field.key;
     if(field.type==="checkbox") return <label className="flex items-center gap-3" key={field.key}><input id={id} name={field.key} type="checkbox" disabled={busy}/>{field.label}</label>;
     return <div key={field.key}><label htmlFor={id} className="field-label">{field.label}</label>
       {field.source || field.options ? <select id={id} name={field.key} className="field" required={field.required} disabled={busy}>
@@ -189,23 +191,28 @@ export default function ManagementModulePage() {
   if(!config) return <div className="container py-12"><h1>Management module not found</h1><Link href="/admin">Return to dashboard</Link></div>;
   return <div className="min-h-screen bg-neutral-100"><PortalHeader title={config.title} isAdmin/><main id="portal-main" className="container py-8">
     <h1 className="text-4xl font-black uppercase">{config.title}</h1><p className="mt-3 max-w-3xl text-neutral-600">{config.description}</p>
-    <nav className="mt-5 flex flex-wrap gap-3" aria-label="Management modules">{managementModules.map(item=><Link href={item.href} key={item.label} className="rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm font-bold">{item.label}</Link>)}</nav>
+    <Link href="/admin" className="mt-4 inline-block text-sm font-bold text-red-700 underline">Management dashboard</Link>
+    <div className="mt-5 flex flex-wrap items-end gap-3"><div className="min-w-48 flex-1"><label className="field-label" htmlFor="record-search">Search records</label><input id="record-search" className="field" value={search} onChange={e=>{setSearch(e.target.value);setPages({});}}/></div><div><label className="field-label" htmlFor="record-status">Status</label><select id="record-status" className="field" value={filter} onChange={e=>{setFilter(e.target.value);setPages({});}}><option value="all">All statuses</option>{Array.from(new Set(Object.values(records).flat().flatMap(row=>[row.status,row.payment_status].filter(v=>typeof v==="string")))).map(v=><option key={String(v)} value={String(v)}>{label(String(v))}</option>)}</select></div></div>
     <button type="button" className="btn btn-light mt-5" disabled={busy || loading} onClick={()=>void load()}>{loading?"Loading…":"Refresh Records"}</button>
     {error?<p role="alert" className="notice mt-4">{error}</p>:null}{message?<p role="status" className="notice mt-4">{message}</p>:null}
-    {!loading ? config.sections.map(section=><section key={section.table} className="mt-8">
+    {!loading ? config.sections.map(section=>{const matches=(records[section.table]??[]).filter(row=>(filter==="all"||row.status===filter||row.payment_status===filter)&&Object.entries(row).filter(([key])=>!key.endsWith("_path")&&key!=="id"&&key!=="duty_claims").some(([key,value])=>showValue(key,value).toLowerCase().includes(search.toLowerCase())));const page=Math.min(pages[section.table]??0,Math.max(0,Math.ceil(matches.length/12)-1));return <section key={section.table} className="mt-8">
       <h2 className="text-2xl font-black uppercase">{section.title}</h2>
       {section.fields ? <form className="card mt-4 grid gap-4 p-5 md:grid-cols-2" onSubmit={e=>void create(e,section)}>
         {section.fields.map(fieldControl)}<button className="btn btn-primary justify-self-start" disabled={busy}>{busy?"Saving…":section.createLabel}</button>
       </form>:null}
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        {(records[section.table]??[]).length ? records[section.table].map((row,index)=><article className="card p-5" key={String(row.id ?? row.key ?? index)}>
+        {matches.length ? matches.slice(page*12,page*12+12).map((row,index)=><article className="card p-5" key={String(row.id ?? row.key ?? index)}>
           <h3 className="font-black">{String(row.title ?? row.item_name ?? row.caption ?? row.duty_type ?? row.key ?? section.title+" "+(index+1))}</h3>
           <dl className="mt-3 grid gap-2 text-sm">
-            {Object.entries(row).filter(([key])=>key!=="id" && !key.endsWith("_path")).map(([key,value])=><div className="grid grid-cols-[minmax(100px,1fr)_2fr] gap-3" key={key}><dt className="font-bold">{label(key)}</dt><dd className="break-words whitespace-pre-wrap">{showValue(key,value)}</dd></div>)}
+            {Object.entries(row).filter(([key])=>key!=="id" && key!=="duty_claims" && !key.endsWith("_path")).map(([key,value])=><div className="grid grid-cols-[minmax(100px,1fr)_2fr] gap-3" key={key}><dt className="font-bold">{label(key)}</dt><dd className="break-words whitespace-pre-wrap">{showValue(key,value)}</dd></div>)}
           </dl>{rowActions(section.table,row)}
-        </article>):<p className="notice">No {section.title.toLowerCase()} yet.</p>}
+        </article>):<p className="notice">No {section.title.toLowerCase()} match these filters.</p>}
       </div>
+      <p className="mt-3 text-sm text-neutral-600" role="status">{matches.length} matching records</p>
+      {matches.length>12?<nav className="mt-3 flex items-center gap-3" aria-label={section.title+" pages"}><button className="btn btn-light" disabled={page===0} onClick={()=>setPages(v=>({...v,[section.table]:page-1}))}>Previous</button><span>Page {page+1} of {Math.ceil(matches.length/12)}</span><button className="btn btn-light" disabled={(page+1)*12>=matches.length} onClick={()=>setPages(v=>({...v,[section.table]:page+1}))}>Next</button></nav>:null}
       {(records[section.table]??[]).length===200 ? <p className="mt-3 text-sm text-neutral-600">Showing the latest 200 records. Use Data Export for the full season.</p>:null}
-    </section>):null}
+    </section>;}):null}
   </main></div>;
 }
+
+

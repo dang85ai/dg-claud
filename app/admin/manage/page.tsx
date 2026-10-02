@@ -10,9 +10,8 @@ import {
   UserPlus,
   UsersRound
 } from "lucide-react";
-import Link from "next/link";
-import { managementModules } from "@/lib/management-modules";
 import { FamilyLinks } from "@/components/FamilyLinks";
+import { ParentInvitation } from "@/components/ParentInvitation";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
@@ -169,7 +168,7 @@ export default function AdminManagePage() {
           </div>
         </div>
 
-        <nav className="mt-6 flex flex-wrap gap-3" aria-label="Management modules">{managementModules.map((item) => <Link href={item.href} key={item.label} className="rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm font-bold">{item.label}</Link>)}</nav>
+
 
         {status ? <div className="notice mt-6 text-sm">{status}</div> : null}
 
@@ -283,6 +282,7 @@ export default function AdminManagePage() {
           </section>
 
           <section id="invites" className="card p-6">
+            <ParentInvitation />
             <div className="flex items-center gap-3">
               <UserPlus className="text-red-600" />
               <h2 className="text-2xl font-black uppercase">Create Invite</h2>
@@ -336,3 +336,4 @@ export default function AdminManagePage() {
     </div>
   );
 }
+

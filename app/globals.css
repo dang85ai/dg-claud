@@ -255,7 +255,21 @@ textarea.field {
 .squad-kit-card:hover, .squad-kit-card:focus-within { border-color: #e3061350; box-shadow: 0 14px 40px #e3061318; }
 .development-stage { background-image: radial-gradient(ellipse at top right,#e306132e,transparent 65%),repeating-linear-gradient(120deg,transparent 0 80px,#ffffff05 81px 82px); }
 .club-footer { border-top: 3px solid var(--red); background-image: radial-gradient(ellipse at bottom left,#e3061320,transparent 60%); }
+.public-page-hero { padding-bottom:48px; }
+.portal-sidebar { display:none; }
+.portal-nav-link { display:block; padding:11px 12px; margin-block:3px; border-radius:10px; font-size:14px; font-weight:600; color:#333; }
+.portal-nav-link:hover { background:#f1f1f1; }
+.portal-nav-link.is-active { background:#fff0f1; color:#ad0010; border-left:3px solid var(--red); }
+.portal-drawer,.public-more-menu { background:white; color:#111; border:0; padding:22px; border-radius:18px; max-height:90dvh; overflow:auto; width:min(360px,calc(100% - 24px)); margin:auto; }
+dialog::backdrop { background:#0008; }
+.private-photo-dialog { margin:auto; width:min(980px,calc(100% - 24px)); max-height:95dvh; overflow:auto; padding:20px; border:0; border-radius:18px; background:white; }
+@media(min-width:1024px){
+ .portal-menu-button { display:none; }
+ .portal-sidebar { display:block; position:fixed; left:0; top:80px; bottom:0; width:240px; padding:20px 14px; overflow-y:auto; border-right:1px solid #ddd; background:white; }
+ .portal-header~main.container,.portal-header~div.container { margin-left:268px; width:calc(100% - 296px); max-width:1400px; }
+}
 @keyframes club-glow { from { transform: translate(0,0) scale(1); } to { transform: translate(-80px,60px) scale(1.2); } }
 @keyframes club-orbit { to { transform: rotate(360deg); } }
 @media (max-width: 760px) { .pitch-lines { right: -150px; width: 620px; opacity: .065; } .pitch-glow { opacity: .7; } .pitch-orbit { opacity: .5; } }
 @media (prefers-reduced-motion: reduce) { .pitch-art * { animation: none !important; } .motion-toggle { display: none; } }
+

@@ -10,11 +10,11 @@ export function PublicPageHero({
   copy: string;
 }) {
   return (
-    <section className="hero py-14 md:py-20">
+    <section className="hero public-page-hero py-10 md:py-12">
       <PitchBackdrop />
       <div className="container">
         <div className="kicker">{eyebrow}</div>
-        <h1 className="mt-5 max-w-5xl text-5xl font-black uppercase leading-[.9] tracking-[-.05em] md:text-7xl">
+        <h1 className="mt-4 max-w-5xl text-4xl font-black uppercase leading-tight tracking-tight md:text-5xl">
           {title}
         </h1>
         <p className="mt-6 max-w-2xl text-base text-white/70 md:text-lg">{copy}</p>
@@ -22,3 +22,4 @@ export function PublicPageHero({
     </section>
   );
 }
+
