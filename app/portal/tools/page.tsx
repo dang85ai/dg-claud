@@ -72,9 +72,10 @@ export default function ParentToolsPage() {
         body:JSON.stringify({ action, input })
       });
       setStatus(`${action} completed successfully.`);
+      return true;
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to complete action.");
-      throw error;
+      return false;
     } finally {
       setBusy("");
     }
@@ -82,8 +83,9 @@ export default function ParentToolsPage() {
 
   async function submitPhotoConsent(event:FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await parentAction("form.submit", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await parentAction("form.submit", {
       form_key:"photo_consent",
       player_id:form.get("player_id"),
       signature_name:form.get("signature_name"),
@@ -97,13 +99,14 @@ export default function ParentToolsPage() {
         notes:form.get("notes")
       }
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function submitMedicalRelease(event:FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await parentAction("form.submit", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await parentAction("form.submit", {
       form_key:"medical_release",
       player_id:form.get("player_id"),
       signature_name:form.get("signature_name"),
@@ -114,13 +117,14 @@ export default function ParentToolsPage() {
         authorization:form.get("authorization") === "on"
       }
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function submitCarpool(event:FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await parentAction("carpool.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await parentAction("carpool.create", {
       kind:form.get("kind"),
       player_id:form.get("player_id"),
       event_id:form.get("event_id") || null,
@@ -128,18 +132,19 @@ export default function ParentToolsPage() {
       seats:form.get("seats") ? Number(form.get("seats")) : null,
       note:form.get("note")
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function submitSisterhood(event:FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await parentAction("sisterhood.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await parentAction("sisterhood.create", {
       player_id:form.get("player_id") || null,
       category:form.get("category"),
       body:form.get("body")
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function uploadProfilePhoto(event:FormEvent<HTMLFormElement>) {
@@ -149,7 +154,8 @@ export default function ParentToolsPage() {
       return;
     }
 
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const body = new FormData();
     body.append("file", photo);
     body.append("purpose", "profile");
@@ -177,7 +183,7 @@ export default function ParentToolsPage() {
       if (!response.ok) throw new Error(result.error || "Upload failed.");
 
       setPhoto(null);
-      event.currentTarget.reset();
+      formElement.reset();
       setStatus("Photo uploaded safely and sent for manager review.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to upload image.");

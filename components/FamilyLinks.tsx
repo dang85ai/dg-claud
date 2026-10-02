@@ -39,6 +39,9 @@ export function FamilyLinks({ refreshKey = 0 }: { refreshKey?: number }) {
       if (aal.error || aal.data.currentLevel !== "aal2") {
         throw new Error("Complete multi-factor authentication before linking families.");
       }
+      const eligible = await supabase.from("user_roles").select("user_id,role").in("role", ["parent_player", "admin", "manager"]);
+      if (eligible.error) throw eligible.error;
+      const accountIds = new Set((eligible.data ?? []).map((row) => row.user_id));
       const results = await Promise.all([
         supabase.from("profiles").select("id,full_name,display_name").order("full_name"),
         supabase.from("players").select("id,first_name,last_name,jersey_number").eq("active", true).order("first_name"),
@@ -47,7 +50,7 @@ export function FamilyLinks({ refreshKey = 0 }: { refreshKey?: number }) {
         supabase.from("contact_submissions").select("id,name,email,message,created_at").eq("subject", "Parent portal: link child").order("created_at", { ascending: false }).limit(50)
       ]);
       for (const result of results) if (result.error) throw result.error;
-      setAccounts(results[0].data as Account[] ?? []);
+      setAccounts(((results[0].data ?? []) as Account[]).filter((account) => accountIds.has(account.id)));
       setPlayers(results[1].data as Player[] ?? []);
       setGuardians(results[2].data as Guardian[] ?? []);
       setLinks(results[3].data as FamilyLink[] ?? []);
@@ -124,7 +127,7 @@ export function FamilyLinks({ refreshKey = 0 }: { refreshKey?: number }) {
       </button>
       {!loading && !error ? (
         <>
-          {!accounts.length ? <p className="notice mt-4">A parent needs an activated account before you can create a family link. An invite record alone is not an activated account.</p> : null}
+          {!accounts.length ? <p className="notice mt-4">A parent needs an activated account with parent access before you can create a family link. An invite record alone is not an activated account.</p> : null}
           <form className="mt-6 grid gap-4 md:grid-cols-2" onSubmit={submit}>
             <div>
               <label htmlFor="family_account" className="field-label">Parent account</label>
