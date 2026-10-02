@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
@@ -9,7 +10,7 @@ import {
   Upload
 } from "lucide-react";
 
-const albums = ["Games", "Practices", "Tournaments", "Team Events", "Community", "Season Highlights"];
+
 
 export default function MediaPage() {
   return (
@@ -30,19 +31,14 @@ export default function MediaPage() {
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {albums.map((album) => (
-              <div key={album} className="card overflow-hidden">
-                <div className="grid aspect-[4/3] place-items-center bg-neutral-200">
-                  <Camera className="text-neutral-400" size={42} />
-                </div>
-                <div className="p-5">
-                  <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Album</div>
-                  <h2 className="mt-1 text-xl font-black uppercase">{album}</h2>
-                  <p className="mt-2 text-sm text-neutral-500">Photos will appear here after upload, consent review and manager approval.</p>
-                </div>
-              </div>
-            ))}
+          <div className="card p-8 text-center">
+            <Camera className="mx-auto text-red-600" size={42} />
+            <h2 className="mt-4 text-2xl font-black uppercase">Team memories stay in the Parent Portal</h2>
+            <p className="mx-auto mt-3 max-w-xl text-neutral-600">There are no public photo albums available. Signed-in team members can view approved private team photos. Families can submit a player photo for manager review.</p>
+            <div className="mt-5 flex flex-wrap justify-center gap-3">
+              <Link href="/portal/activity/media" className="btn-primary">Open Team Photos</Link>
+              <Link href="/portal/tools#photo" className="btn-secondary">Submit a Player Photo</Link>
+            </div>
           </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-3">

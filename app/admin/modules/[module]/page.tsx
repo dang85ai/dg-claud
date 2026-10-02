@@ -55,7 +55,8 @@ export default function ManagementModulePage() {
       const loaded = await Promise.all(config.sections.map(async(section) => {
         const result = await supabase.from(section.table).select(section.columns).order(section.order,{ascending:false}).limit(200).returns<Row[]>();
         if (result.error) throw result.error;
-        return [section.table,result.data ?? []] as const;
+        const rows=section.table==="event_duties"?(result.data??[]).map(row=>({...row,is_claimed:Array.isArray(row.duty_claims)&&row.duty_claims.length>0})):(result.data??[]);
+        return [section.table,rows] as const;
       }));
       setRecords(Object.fromEntries(loaded));
     } catch (err) {

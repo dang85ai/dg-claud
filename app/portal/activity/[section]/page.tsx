@@ -30,10 +30,10 @@ export default function FamilyActivityPage(){
      setData(d);
      const rows:Record<string,Row[]>={};
      if(section==="duties"){
-       const duties=await supabase.from("event_duties").select("id,event_id,duty_type,instructions,is_claimed").limit(200);
+       const duties=await supabase.from("event_duties").select("id,event_id,duty_type,instructions,duty_claims(id)").limit(200);
        const claims=d.guardian?await supabase.from("duty_claims").select("id,duty_id").eq("guardian_id",d.guardian.id):{data:[],error:null};
        if(duties.error)throw duties.error;if(claims.error)throw claims.error;
-       rows.duties=duties.data??[];rows.claims=claims.data??[];
+       rows.duties=(duties.data??[]).map(duty=>({...duty,is_claimed:Array.isArray(duty.duty_claims)&&duty.duty_claims.length>0}));rows.claims=claims.data??[];
      }
      if(section==="payments"&&d.kit_orders.length){
        const items=await supabase.from("kit_order_items").select("id,order_id,item_name,size,quantity,customization").in("order_id",d.kit_orders.map(r=>r.id)).limit(200);

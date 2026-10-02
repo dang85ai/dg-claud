@@ -18,7 +18,7 @@ export const moduleConfigs: Record<string, ModuleConfig> = {
     { title: "Attendance Records", table: "attendance", columns: "event_id,player_id,status,note,updated_at", order: "updated_at", action: "attendance.set", createLabel: "Save Attendance", fields: [event, player, { key: "status", label: "Attendance", options: ["unknown","attending","not_attending","maybe"], required: true }, { key: "note", label: "Note" }] }
   ] },
   duties: { title: "Game Duties", description: "Create event duties and review family claims.", sections: [
-    { title: "Event Duties", table: "event_duties", columns: "id,event_id,duty_type,instructions,is_claimed,created_at", order: "created_at", createLabel: "Add Duty", fields: [event, { key:"duty_type",label:"Duty",required:true }, { key:"instructions",label:"Instructions" }] },
+    { title: "Event Duties", table: "event_duties", columns: "id,event_id,duty_type,instructions,is_claimed,created_at,duty_claims(id)", order: "created_at", createLabel: "Add Duty", fields: [event, { key:"duty_type",label:"Duty",required:true }, { key:"instructions",label:"Instructions" }] },
     { title: "Claimed Duties", table: "duty_claims", columns:"id,duty_id,guardian_id,claimed_at",order:"claimed_at",secondary:true }
   ] },
   forms: { title: "Forms", description: "Review signed forms and download their PDFs. Final form wording must be approved by the club before launch.", sections: [
