@@ -35,8 +35,7 @@ function KitIllustration({ away, number }: { away: boolean; number: number | nul
         <path d="M104 107 L87 129 M108 108 L91 132 M112 109 L95 135 M156 107 L173 129 M152 108 L169 132 M148 109 L165 135" />
         <path d="M83 131 L97 139 M177 131 L163 139" strokeWidth="3" />
       </g>
-      <circle cx="145" cy="130" r="9" fill="#dc001b" stroke="#fff" strokeWidth="1.5" />
-      <text x="145" y="133" textAnchor="middle" fill="white" fontSize="6" fontWeight="900">CSC</text>
+      <image href="/images/club-logo.webp" x="136" y="121" width="18" height="18" />
       <text x="115" y="132" textAnchor="middle" fill={trim} fontSize="7" fontWeight="800">U9</text>
       <rect x="113" y="148" width="35" height="22" rx="3" fill="none" stroke={trim} opacity=".65" />
       <text x="130" y="163" textAnchor="middle" fill={trim} fontSize="8" fontWeight="800">CALEDON</text>
@@ -61,7 +60,7 @@ export function PlayerKitCard({ name, number }: Player) {
   const [hovered, setHovered] = useState(false);
   const away = selectedAway || hovered;
   return (
-    <article className="card min-w-0 overflow-hidden">
+    <article className="card squad-kit-card min-w-0 overflow-hidden">
       <button
         type="button"
         aria-label={name + ": " + (away ? "away" : "home") + " kit illustration. Tap to switch kit."}

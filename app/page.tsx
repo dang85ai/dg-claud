@@ -1,3 +1,5 @@
+import { PitchBackdrop } from "@/components/PitchBackdrop";
+import { ClubLogo } from "@/components/ClubLogo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -31,9 +33,10 @@ export default function HomePage() {
       <PwaRegister />
 
       <section className="hero py-8 md:py-12">
+        <PitchBackdrop />
         <div className="container grid items-end gap-10 lg:grid-cols-[1.1fr_.9fr]">
           <div>
-            <div className="kicker">Caledon Soccer Club</div>
+            <div className="mb-6 flex items-center gap-4"><ClubLogo className="h-20 w-20 md:h-24 md:w-24" /><div><div className="kicker">Caledon Soccer Club</div><div className="mt-2 text-xs font-bold uppercase tracking-[.2em] text-white/60">Our team. Our community.</div></div></div>
             <h1 className="display !text-4xl !leading-none md:!text-6xl">
               Caledon U9 Girls 2026
               <span>Soccer Team Hub</span>
@@ -114,7 +117,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section bg-black text-white">
+      <section className="section development-stage bg-black text-white">
         <div className="container">
           <SectionHeader
             eyebrow="Player Development"

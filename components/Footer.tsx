@@ -1,11 +1,12 @@
+import { ClubLogo } from "@/components/ClubLogo";
 import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="mt-auto bg-black py-12 text-white">
+    <footer className="club-footer mt-auto bg-black py-12 text-white">
       <div className="container grid gap-10 md:grid-cols-2 xl:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <div className="text-2xl font-black uppercase">Caledon U9 Girls</div>
+          <div className="flex items-center gap-3"><ClubLogo decorative className="h-16 w-16" /><div className="text-2xl font-black uppercase">Caledon U9 Girls</div></div>
           <p className="mt-3 max-w-md text-sm text-white/65">
             A mobile-first team hub for the 2026 season, built around player safety,
             parent clarity and a strong team culture.

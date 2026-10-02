@@ -1,3 +1,5 @@
+import { PitchBackdrop } from "@/components/PitchBackdrop";
+
 export function PublicPageHero({
   eyebrow,
   title,
@@ -9,6 +11,7 @@ export function PublicPageHero({
 }) {
   return (
     <section className="hero py-14 md:py-20">
+      <PitchBackdrop />
       <div className="container">
         <div className="kicker">{eyebrow}</div>
         <h1 className="mt-5 max-w-5xl text-5xl font-black uppercase leading-[.9] tracking-[-.05em] md:text-7xl">
