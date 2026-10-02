@@ -16,6 +16,8 @@ import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
 
+import {teamTimeIso} from "@/lib/team-time";
+
 type ActionResult = {
   ok: boolean;
   action: string;
@@ -46,6 +48,7 @@ export default function AdminManagePage() {
     setBusy(action);
     setStatus("");
     try {
+      if(action.startsWith("event.")&&typeof input.starts_at==="string")input.starts_at=teamTimeIso(input.starts_at);
       await authedFetch<ActionResult>(endpoints.adminActions, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -83,7 +86,7 @@ export default function AdminManagePage() {
       event_type: form.get("event_type"),
       title: form.get("title"),
       opponent: form.get("opponent"),
-      starts_at: form.get("starts_at") ? new Date(String(form.get("starts_at"))).toISOString() : null,
+      starts_at: form.get("starts_at") ? String(form.get("starts_at")) : null,
       venue_name: form.get("venue_name"),
       venue_address: form.get("venue_address"),
       public_visible: form.get("public_visible") === "on"
@@ -219,7 +222,7 @@ export default function AdminManagePage() {
                   </select>
                 </div>
                 <div className="field-group">
-                  <label className="field-label" htmlFor="starts_at">Start</label>
+                  <label className="field-label" htmlFor="starts_at">Start (Toronto time)</label>
                   <input className="field" id="starts_at" name="starts_at" type="datetime-local" required />
                 </div>
                 <div className="field-group sm:col-span-2">

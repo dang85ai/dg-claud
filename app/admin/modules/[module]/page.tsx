@@ -10,6 +10,8 @@ import { openProcessedImage } from "@/lib/private-media";
 import { authedFetch, endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
 
+import {teamTimeIso,teamTimeInput} from "@/lib/team-time";
+
 type Row = Record<string, unknown>;
 type Choice = { id: string; label: string };
 const text = (value: unknown) => value == null ? "—" : typeof value === "boolean" ? value ? "Yes" : "No" : typeof value === "object" ? JSON.stringify(value) : String(value);
@@ -74,6 +76,7 @@ export default function ManagementModulePage() {
 
   async function act(action: string, input: Row) {
     await requireManager();
+    if(action.startsWith("event."))for(const key of ["starts_at","ends_at","arrival_at"])if(typeof input[key]==="string"&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(String(input[key])))input[key]=teamTimeIso(String(input[key]));
     await authedFetch(endpoints.adminActions, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action,input})});
   }
 
@@ -95,6 +98,7 @@ export default function ManagementModulePage() {
     }
     await perform(async()=>{
       await requireManager();
+      for(const field of section.fields??[])if(field.type==="datetime-local"&&input[field.key])input[field.key]=teamTimeIso(String(input[field.key]));
       if (section.table==="equipment_assignments" && !input.player_id && !input.assigned_to_text) throw new Error("Choose a player or enter a recipient name.");
       if (section.table==="attendance") {
         await authedFetch(endpoints.parentActions,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"attendance.set",input})});
@@ -134,10 +138,10 @@ export default function ManagementModulePage() {
     },"Private image opened. Approval is enabled after the image loads.");
   }
 
-  function fieldControl(field:Field){
-    const id="create-"+name+"-"+field.key;
-    if(field.type==="checkbox") return <label className="flex items-center gap-3" key={field.key}><input id={id} name={field.key} type="checkbox" disabled={busy}/>{field.label}</label>;
-    return <div key={field.key}><label htmlFor={id} className="field-label">{field.label}</label>
+  function fieldControl(field:Field,table:string){
+    const id="create-"+table+"-"+field.key;
+    if(field.type==="checkbox") return <label className="flex items-center gap-3" key={field.key}><input id={id} name={field.key} type="checkbox" disabled={busy}/>{field.label}{field.type==="datetime-local"?" (Toronto time)":""}</label>;
+    return <div key={field.key}><label htmlFor={id} className="field-label">{field.label}{field.type==="datetime-local"?" (Toronto time)":""}</label>
       {field.source || field.options ? <select id={id} name={field.key} className="field" required={field.required} disabled={busy}>
         <option value="">Select {field.label.toLowerCase()}</option>
         {field.options?.map((option)=><option key={option} value={option}>{label(option)}</option>)}
@@ -163,7 +167,7 @@ export default function ManagementModulePage() {
       e.preventDefault();const form=new FormData(e.currentTarget);const input:Row={id};
       for(const field of editableSection.fields??[]){const value=String(form.get(field.key)??"").trim();input[field.key]=field.type==="checkbox"?form.get(field.key)==="on":field.type==="number"?value?Number(value):null:value||null;}
       void perform(()=>act(editAction,input),"Changes saved.");
-    }}>{editableSection.fields.map(field=><div key={field.key}><label className="field-label" htmlFor={id+"-"+field.key}>{field.label}</label>{field.options?<select id={id+"-"+field.key} name={field.key} className="field" defaultValue={String(row[field.key]??"")} required={field.required} disabled={busy}>{field.options.map(v=><option key={v} value={v}>{label(v)}</option>)}</select>:field.type==="checkbox"?<input id={id+"-"+field.key} name={field.key} type="checkbox" defaultChecked={row[field.key]===true} disabled={busy}/>:<input id={id+"-"+field.key} name={field.key} className="field" type={field.type??"text"} defaultValue={String(row[field.key]??"")} required={field.required} maxLength={field.key==="body"?5000:2000} disabled={busy}/>}</div>)}<button className="btn btn-primary justify-self-start" disabled={busy}>Save Changes</button></form></details>;
+    }}>{editableSection.fields.map(field=><div key={field.key}><label className="field-label" htmlFor={id+"-"+field.key}>{field.label}{field.type==="datetime-local"?" (Toronto time)":""}</label>{field.options?<select id={id+"-"+field.key} name={field.key} className="field" defaultValue={String(row[field.key]??"")} required={field.required} disabled={busy}>{field.options.map(v=><option key={v} value={v}>{label(v)}</option>)}</select>:field.type==="checkbox"?<input id={id+"-"+field.key} name={field.key} type="checkbox" defaultChecked={row[field.key]===true} disabled={busy}/>:<input id={id+"-"+field.key} name={field.key} className="field" type={field.type??"text"} defaultValue={field.type==="datetime-local"&&row[field.key]?teamTimeInput(String(row[field.key])):String(row[field.key]??"")} required={field.required} maxLength={field.key==="body"?5000:2000} disabled={busy}/>}</div>)}<button className="btn btn-primary justify-self-start" disabled={busy}>Save Changes</button></form></details>;
     if(table==="kit_orders") return <form className="mt-4 flex flex-wrap gap-3" onSubmit={e=>{
       e.preventDefault(); const form=new FormData(e.currentTarget);
       void perform(()=>act("kit_order.status",{id,payment_status:form.get("payment_status")}),"Payment status saved.");
@@ -198,7 +202,7 @@ export default function ManagementModulePage() {
     {!loading ? config.sections.map(section=>{const matches=(records[section.table]??[]).filter(row=>(filter==="all"||row.status===filter||row.payment_status===filter)&&Object.entries(row).filter(([key])=>!key.endsWith("_path")&&key!=="id"&&key!=="duty_claims").some(([key,value])=>showValue(key,value).toLowerCase().includes(search.toLowerCase())));const page=Math.min(pages[section.table]??0,Math.max(0,Math.ceil(matches.length/12)-1));return <section key={section.table} className="mt-8">
       <h2 className="text-2xl font-black uppercase">{section.title}</h2>
       {section.fields ? <form className="card mt-4 grid gap-4 p-5 md:grid-cols-2" onSubmit={e=>void create(e,section)}>
-        {section.fields.map(fieldControl)}<button className="btn btn-primary justify-self-start" disabled={busy}>{busy?"Saving…":section.createLabel}</button>
+        {section.fields.map(field=>fieldControl(field,section.table))}<button className="btn btn-primary justify-self-start" disabled={busy}>{busy?"Saving…":section.createLabel}</button>
       </form>:null}
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         {matches.length ? matches.slice(page*12,page*12+12).map((row,index)=><article className="card p-5" key={String(row.id ?? row.key ?? index)}>

@@ -1,6 +1,11 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');const Module=require('node:module');const ts=require('typescript');
 function load(path,deps){const mod=new Module(path,module);mod.require=n=>deps?.[n]??require(n);mod._compile(ts.transpileModule(fs.readFileSync(path,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText,path);return mod.exports;}
+const {teamTimeIso,teamTimeInput}=load('lib/team-time.ts');
+assert.equal(teamTimeIso('2026-10-06T18:30'),'2026-10-06T22:30:00.000Z');
+assert.equal(teamTimeIso('2027-01-12T18:30'),'2027-01-12T23:30:00.000Z');
+assert.equal(teamTimeInput('2026-10-06T22:30:00Z'),'2026-10-06T18:30');
+assert.throws(()=>teamTimeIso('2027-03-14T02:30'),/clocks change/);
 const {parentTasks}=load('lib/parent-tasks.ts');
 const now=Date.parse('2026-10-02T16:00:00Z');const event=(id,days,status='scheduled')=>({id,starts_at:new Date(now+days*86400000).toISOString(),status});
 const tasks=parentTasks({players:[{id:'a',first_name:'A'},{id:'b',first_name:'B'}],events:[event('past',-1),event('cancelled',0.1,'cancelled'),event('next',1),event('later',8)],attendance:[{player_id:'a',event_id:'next',status:'attending'},{player_id:'b',event_id:'next',status:'unknown'}],kit_orders:[{payment_status:'paid'},{payment_status:'unpaid'},{payment_status:'partial'},{payment_status:'refunded'}]},now);
