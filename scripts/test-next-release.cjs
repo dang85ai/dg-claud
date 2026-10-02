@@ -7,7 +7,7 @@ const tasks=parentTasks({players:[{id:'a',first_name:'A'},{id:'b',first_name:'B'
 assert.equal(tasks.nextEvent.id,'next');assert.equal(tasks.attendanceReplies,1);assert.equal(tasks.ordersToReview,2);assert.equal(parentTasks({players:[],events:[event('next',1)],attendance:[],kit_orders:[]},now).attendanceReplies,0);
 function setup({role='manager',aal='aal2',existing=false,signedIn=true}={}){
  let callback;const calls=[];
- const query={eq:async()=>({data:[{role}],error:null})};
+ const query={select(){return this;},eq:async()=>({data:[{role}],error:null})};
  const client={auth:{getUser:async()=>({data:{user:signedIn?{id:'manager'}:null},error:null})},from:()=>query,rpc:async(name,input)=>{calls.push(['rpc',name,input]);return {data:'invite-id',error:null};}};
  const admin={auth:{admin:{listUsers:async()=>({data:{users:existing?[{id:'existing',email:'parent@example.com'}]:[]},error:null}),generateLink:async(input)=>{calls.push(['generate',input]);return {data:{properties:{hashed_token:'private-token'},user:{id:'new-parent'}},error:null};}}}};
  const env={SUPABASE_URL:'https://example.supabase.co',SUPABASE_PUBLISHABLE_KEYS:'{"default":"public"}',SUPABASE_SECRET_KEYS:'{"default":"secret"}'};
