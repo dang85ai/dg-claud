@@ -92,19 +92,32 @@ export default function ActivatePage() {
     setBusy(true);
     setStatus("");
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: ACTIVATION_URL
-    });
+    try {
+      const response = await fetch("/api/admin/send-password-setup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() })
+      });
 
-    if (error) {
-      setStatus(`Unable to send the setup email: ${error.message}`);
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok || !result?.ok) {
+        setStatus(
+          `Unable to send the setup email: ${result?.error ?? "The server could not complete the request."}`
+        );
+        setBusy(false);
+        return;
+      }
+
+      setSent(true);
+      setStatus("Password setup email requested successfully. Check Inbox, Spam and Promotions for the newest recovery message.");
+    } catch (error) {
+      setStatus(
+        `Unable to send the setup email: ${error instanceof Error ? error.message : "Network request failed."}`
+      );
+    } finally {
       setBusy(false);
-      return;
     }
-
-    setSent(true);
-    setStatus("Password setup email sent. Check Inbox, Spam and Promotions, then open the newest message.");
-    setBusy(false);
   }
 
   async function setPassword(event: FormEvent<HTMLFormElement>) {
