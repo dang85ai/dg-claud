@@ -237,3 +237,41 @@ textarea.field {
     transition-duration: .001ms !important;
   }
 }
+
+/* Club identity and pitch-inspired atmosphere. */
+.hero { position: relative; isolation: isolate; background: #101014; padding-bottom: 76px; }
+.hero > .container { position: relative; z-index: 1; }
+.pitch-backdrop { position: absolute; inset: 0; pointer-events: none; }
+.pitch-art { position: absolute; inset: 0; overflow: hidden; background: linear-gradient(100deg,#09090b 15%,#171019 65%,#3e0712); }
+.pitch-glow { position: absolute; width: 650px; height: 650px; right: -140px; top: -250px; border-radius: 50%; background: radial-gradient(circle, #e3061359, #e3061320 42%, transparent 70%); animation: club-glow 12s ease-in-out infinite alternate; }
+.pitch-lines { position: absolute; width: min(850px,85vw); right: -110px; top: 3%; height: 110%; color: #fff; stroke: currentColor; stroke-width: 1; opacity: .1; transform: rotate(-18deg); }
+.pitch-orbit { position: absolute; width: 480px; height: 480px; border: 1px dashed #ff5b6c50; border-radius: 50%; right: -50px; top: -60px; animation: club-orbit 80s linear infinite; }
+.pitch-grain { position: absolute; inset: 0; opacity: .09; background-image: radial-gradient(#fff 1px,transparent 1px); background-size: 7px 7px; mask-image: linear-gradient(to right,transparent,#000); }
+.motion-toggle { position: absolute; bottom: 10px; right: 16px; z-index: 2; pointer-events: auto; color: #fff; border: 1px solid #ffffff40; border-radius: 20px; background: #0008; padding: 8px 14px; font-size: 11px; font-weight: 700; cursor: pointer; }
+.pitch-backdrop[data-paused="true"] .pitch-art * { animation-play-state: paused; }
+.site-shell main > .section:not(.bg-black):not(.bg-white) { background-image: radial-gradient(ellipse at 100% 0%,#e3061308,transparent 60%), linear-gradient(135deg,transparent 48%,#e3061304 49%,transparent 50%); background-size: auto, 48px 48px; }
+.card { box-shadow: 0 12px 36px #18181b08; }
+.squad-kit-card { transition: box-shadow .25s ease, border-color .25s ease; }
+.squad-kit-card:hover, .squad-kit-card:focus-within { border-color: #e3061350; box-shadow: 0 14px 40px #e3061318; }
+.development-stage { background-image: radial-gradient(ellipse at top right,#e306132e,transparent 65%),repeating-linear-gradient(120deg,transparent 0 80px,#ffffff05 81px 82px); }
+.club-footer { border-top: 3px solid var(--red); background-image: radial-gradient(ellipse at bottom left,#e3061320,transparent 60%); }
+.public-page-hero { padding-bottom:48px; }
+.container .grid > * { min-width:0; }
+.site-shell h4 { overflow-wrap:anywhere; }
+.portal-sidebar { display:none; }
+.portal-nav-link { display:block; padding:11px 12px; margin-block:3px; border-radius:10px; font-size:14px; font-weight:600; color:#333; }
+.portal-nav-link:hover { background:#f1f1f1; }
+.portal-nav-link.is-active { background:#fff0f1; color:#ad0010; border-left:3px solid var(--red); }
+.portal-drawer,.public-more-menu { background:white; color:#111; border:0; padding:22px; border-radius:18px; max-height:90dvh; overflow:auto; width:min(360px,calc(100% - 24px)); margin:auto; }
+dialog::backdrop { background:#0008; }
+.private-photo-dialog { margin:auto; width:min(980px,calc(100% - 24px)); max-height:95dvh; overflow:auto; padding:20px; border:0; border-radius:18px; background:white; }
+@media(min-width:1024px){
+ .portal-menu-button { display:none; }
+ .portal-sidebar { display:block; position:fixed; left:0; top:80px; bottom:0; width:240px; padding:20px 14px; overflow-y:auto; border-right:1px solid #ddd; background:white; }
+ .portal-header~main.container,.portal-header~div.container { margin-left:268px; width:calc(100% - 296px); max-width:1400px; }
+}
+@keyframes club-glow { from { transform: translate(0,0) scale(1); } to { transform: translate(-80px,60px) scale(1.2); } }
+@keyframes club-orbit { to { transform: rotate(360deg); } }
+@media (max-width: 760px) { .pitch-lines { right: -150px; width: 620px; opacity: .065; } .pitch-glow { opacity: .7; } .pitch-orbit { opacity: .5; } }
+@media (prefers-reduced-motion: reduce) { .pitch-art * { animation: none !important; } .motion-toggle { display: none; } }
+

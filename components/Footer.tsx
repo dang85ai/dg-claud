@@ -1,11 +1,13 @@
+import { ClubLogo } from "@/components/ClubLogo";
+import { Instagram } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="mt-auto bg-black py-12 text-white">
+    <footer className="club-footer mt-auto bg-black py-12 text-white">
       <div className="container grid gap-10 md:grid-cols-2 xl:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <div className="text-2xl font-black uppercase">Caledon U9 Girls</div>
+          <div className="flex items-center gap-3"><ClubLogo decorative className="h-16 w-16" /><div className="text-2xl font-black uppercase">Caledon U9 Girls</div></div>
           <p className="mt-3 max-w-md text-sm text-white/65">
             A mobile-first team hub for the 2026 season, built around player safety,
             parent clarity and a strong team culture.
@@ -16,6 +18,7 @@ export function Footer() {
           <div className="font-black uppercase tracking-wide">Contact</div>
           <p className="mt-3 text-sm">girlsoccer@r5play.net</p>
           <p className="mt-1 text-sm">1-(855) 592-6444</p>
+          <a href="https://www.instagram.com/girl.soccer1/" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center gap-2 font-bold hover:text-red-400"><Instagram size={20} aria-hidden="true" /><span>Instagram · @girl.soccer1<span className="sr-only"> (opens in a new tab)</span></span></a>
         </div>
 
         <div>

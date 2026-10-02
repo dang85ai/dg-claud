@@ -1,3 +1,4 @@
+import { MemberKitPricing } from "@/components/MemberKitPricing";
 import Image from "next/image";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
@@ -12,14 +13,11 @@ const groups = [
     subtitle: "Black / White",
     image: "/kit/home-team-kit.webp",
     imageAlt: "Caledon U9 Girls 2026 home match kit visual showing the black adidas Tiro26 jersey, shorts, socks and decoration placement.",
-    regular: 1620,
-    best: 1484.85,
-    perPlayer: 108,
     items: [
-      { sku: "KB1319", product: "adidas Tiro26 League Kids Jersey", colour: "Black / White", regular: 40, best: 40, retailer: "Adidas Canada / Sport Chek" },
-      { sku: "KA8819", product: "adidas Tiro26 League Kids Shorts", colour: "Black / White", regular: 30, best: 20.99, retailer: "Sport Chek" },
-      { sku: "ADI-25 TEAM", product: "adidas Team Match Socks", colour: "Black / White", regular: 18, best: 18, retailer: "Adidas Canada" },
-      { sku: "DEC-HK", product: "Crest + Back Number + Optional Name", colour: "Customization", regular: 20, best: 20, retailer: "Team Supplier / Customizer" }
+      { sku: "KB1319", product: "adidas Tiro26 League Kids Jersey", colour: "Black / White", retailer: "Adidas Canada / Sport Chek" },
+      { sku: "KA8819", product: "adidas Tiro26 League Kids Shorts", colour: "Black / White", retailer: "Sport Chek" },
+      { sku: "ADI-25 TEAM", product: "adidas Team Match Socks", colour: "Black / White", retailer: "Adidas Canada" },
+      { sku: "DEC-HK", product: "Crest + Back Number + Optional Name", colour: "Customization", retailer: "Team Supplier / Customizer" }
     ]
   },
   {
@@ -29,14 +27,11 @@ const groups = [
     subtitle: "White / Black",
     image: "/kit/away-team-kit.webp",
     imageAlt: "Caledon U9 Girls 2026 away match kit visual showing the white adidas Tiro26 jersey, black shorts, white socks and decoration placement.",
-    regular: 1620,
-    best: 1484.85,
-    perPlayer: 108,
     items: [
-      { sku: "KB1317", product: "adidas Tiro26 League Kids Jersey", colour: "White / White / Black", regular: 40, best: 40, retailer: "Adidas Canada / Sport Chek" },
-      { sku: "KA8819", product: "adidas Tiro26 League Kids Shorts", colour: "Black / White", regular: 30, best: 20.99, retailer: "Sport Chek" },
-      { sku: "ADI-25 TEAM", product: "adidas Team Match Socks", colour: "White / Black", regular: 18, best: 18, retailer: "Adidas Canada" },
-      { sku: "DEC-AK", product: "Crest + Back Number + Optional Name", colour: "Customization", regular: 20, best: 20, retailer: "Team Supplier / Customizer" }
+      { sku: "KB1317", product: "adidas Tiro26 League Kids Jersey", colour: "White / White / Black", retailer: "Adidas Canada / Sport Chek" },
+      { sku: "KA8819", product: "adidas Tiro26 League Kids Shorts", colour: "Black / White", retailer: "Sport Chek" },
+      { sku: "ADI-25 TEAM", product: "adidas Team Match Socks", colour: "White / Black", retailer: "Adidas Canada" },
+      { sku: "DEC-AK", product: "Crest + Back Number + Optional Name", colour: "Customization", retailer: "Team Supplier / Customizer" }
     ]
   },
   {
@@ -46,13 +41,10 @@ const groups = [
     subtitle: "Travel / Warm-up",
     image: "/kit/track-suit.webp",
     imageAlt: "Caledon U9 Girls 2026 adidas tracksuit visual showing the Tiro 24 training jacket, Tiro 26 training pants and player-initial decoration placement.",
-    regular: 1500,
-    best: 1109.85,
-    perPlayer: 100,
     items: [
-      { sku: "IJ9958", product: "adidas Tiro 24 Training Jacket Kids", colour: "Black / White", regular: 20, best: 20, retailer: "Adidas Canada" },
-      { sku: "KH1770", product: "adidas Tiro 26 League Training Pants Kids", colour: "Black / White", regular: 65, best: 38.99, retailer: "Sport Chek" },
-      { sku: "DEC-TS", product: "Crest + Player Initials", colour: "Customization", regular: 15, best: 15, retailer: "Team Supplier / Customizer" }
+      { sku: "IJ9958", product: "adidas Tiro 24 Training Jacket Kids", colour: "Black / White", retailer: "Adidas Canada" },
+      { sku: "KH1770", product: "adidas Tiro 26 League Training Pants Kids", colour: "Black / White", retailer: "Sport Chek" },
+      { sku: "DEC-TS", product: "Crest + Player Initials", colour: "Customization", retailer: "Team Supplier / Customizer" }
     ]
   },
   {
@@ -62,12 +54,9 @@ const groups = [
     subtitle: "Cold Weather / Sideline",
     image: "/kit/outdoor-jacket.webp",
     imageAlt: "Caledon U9 Girls 2026 outdoor jacket visual showing the black adidas Tiro 24 winter jacket with club crest and player initials.",
-    regular: 1710,
-    best: 1710,
-    perPlayer: 114,
     items: [
-      { sku: "IP6670", product: "adidas Tiro 24 Winter Jacket Kids", colour: "Black / White", regular: 102, best: 102, retailer: "Adidas Canada" },
-      { sku: "DEC-OJ", product: "Crest + Player Initials", colour: "Customization", regular: 12, best: 12, retailer: "Team Supplier / Customizer" }
+      { sku: "IP6670", product: "adidas Tiro 24 Winter Jacket Kids", colour: "Black / White", retailer: "Adidas Canada" },
+      { sku: "DEC-OJ", product: "Crest + Player Initials", colour: "Customization", retailer: "Team Supplier / Customizer" }
     ]
   },
   {
@@ -77,22 +66,13 @@ const groups = [
     subtitle: "Travel / Storage",
     image: "/kit/backpack.webp",
     imageAlt: "Caledon U9 Girls 2026 adidas Stadium 4 backpack visual showing the club crest, player initials and storage features.",
-    regular: 1200,
-    best: 1199.85,
-    perPlayer: 80,
     items: [
-      { sku: "JJ7421", product: "adidas Stadium 4 Backpack", colour: "Black", regular: 70, best: 69.99, retailer: "Sport Chek" },
-      { sku: "DEC-BP", product: "Crest + Player Initials", colour: "Customization", regular: 10, best: 10, retailer: "Team Supplier / Customizer" }
+      { sku: "JJ7421", product: "adidas Stadium 4 Backpack", colour: "Black", retailer: "Sport Chek" },
+      { sku: "DEC-BP", product: "Crest + Player Initials", colour: "Customization", retailer: "Team Supplier / Customizer" }
     ]
   }
 ];
 
-function money(value: number) {
-  return new Intl.NumberFormat("en-CA", {
-    style: "currency",
-    currency: "CAD"
-  }).format(value);
-}
 
 export default function KitPage() {
   return (
@@ -106,35 +86,7 @@ export default function KitPage() {
 
       <section className="section">
         <div className="container">
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="card p-6">
-              <div className="text-sm font-black uppercase text-red-600">Decorated Package</div>
-              <div className="mt-2 text-5xl font-black">C$510</div>
-              <p className="mt-3 text-sm text-neutral-600">
-                Per player. The 15-player package baseline is C$7,650.
-              </p>
-            </div>
-
-            <div className="card p-6">
-              <div className="text-sm font-black uppercase text-red-600">Best-Price Reference</div>
-              <div className="mt-2 text-5xl font-black">C$465.96</div>
-              <p className="mt-3 text-sm text-neutral-600">
-                Per player using the supplied sale-price references.
-              </p>
-            </div>
-
-            <div className="card p-6">
-              <div className="text-sm font-black uppercase text-red-600">15-Player Savings</div>
-              <div className="mt-2 text-5xl font-black">C$660.60</div>
-              <p className="mt-3 text-sm text-neutral-600">
-                C$7,650 package baseline → C$6,989.40 best-price reference. Save C$44.04/player (8.6%).
-              </p>
-            </div>
-          </div>
-
-          <div className="notice mt-6">
-            <strong>Pricing note:</strong> The visuals below are the approved package reference boards matched to the listed SKUs. Sale pricing, stock, sizing and team discounts can change and should be re-verified before the final order.
-          </div>
+          <MemberKitPricing />
 
           <nav className="mt-6 flex flex-wrap gap-2" aria-label="Kit sections">
             {groups.map((group) => (
@@ -149,7 +101,7 @@ export default function KitPage() {
           </nav>
 
           <div className="mt-10 grid gap-8">
-            {groups.map(({ id, Icon, title, subtitle, image, imageAlt, regular, best, perPlayer, items }, index) => (
+            {groups.map(({ id, Icon, title, subtitle, image, imageAlt, items }, index) => (
               <section id={id} key={id} className="card scroll-mt-28 overflow-hidden">
                 <div className="flex flex-wrap items-center justify-between gap-4 bg-black p-6 text-white">
                   <div className="flex items-center gap-4">
@@ -162,14 +114,6 @@ export default function KitPage() {
                     </div>
                   </div>
 
-                  <div className="text-right">
-                    <div className="text-xs font-black uppercase text-white/50">Decorated package</div>
-                    <div className="mt-1 text-lg font-black">{money(perPlayer)} / player</div>
-                    <div className="mt-1 text-xs text-white/60">
-                      15 players: {money(regular)}
-                      {best !== regular ? <> · Best ref. <span className="text-red-400">{money(best)}</span></> : null}
-                    </div>
-                  </div>
                 </div>
 
                 <div className="grid gap-0 xl:grid-cols-[minmax(0,1fr)_minmax(520px,1.15fr)]">
@@ -228,15 +172,7 @@ export default function KitPage() {
                                   <div className="mt-1 break-words text-sm font-bold text-neutral-700">{item.retailer}</div>
                                 </div>
 
-                                <div className="rounded-xl bg-neutral-50 p-3">
-                                  <div className="text-[10px] font-black uppercase tracking-wide text-neutral-400">Package Price</div>
-                                  <div className="mt-1 text-lg font-black">{money(item.regular)}</div>
-                                </div>
 
-                                <div className="rounded-xl bg-red-50 p-3">
-                                  <div className="text-[10px] font-black uppercase tracking-wide text-red-500">Best Reference</div>
-                                  <div className="mt-1 text-lg font-black text-red-600">{money(item.best)}</div>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -278,7 +214,7 @@ export default function KitPage() {
                 <h2 className="mt-2 text-3xl font-black uppercase">Where to buy</h2>
                 <div className="mt-5 grid gap-4 text-sm text-neutral-600">
                   <p>
-                    Product-card retailer references above show where current pricing was sourced. A final team-order link or supplier process will be posted once the bulk quote is approved.
+                    Check with the team manager before ordering. Member pricing and supplier instructions are available to authorized team families.
                   </p>
                   <div className="rounded-2xl bg-neutral-50 p-4">
                     <div className="text-xs font-black uppercase text-neutral-500">Order Deadline</div>
@@ -340,9 +276,9 @@ export default function KitPage() {
               <Tags className="text-red-500" />
               <div className="text-xs font-black uppercase tracking-[.16em] text-red-500">Procurement Strategy</div>
             </div>
-            <h2 className="mt-4 text-3xl font-black uppercase md:text-4xl">Request a 15-player team quote before ordering</h2>
+            <h2 className="mt-4 text-3xl font-black uppercase md:text-4xl">Confirm the team order before buying</h2>
             <p className="mt-4 max-w-3xl text-white/70">
-              Use the exact SKUs and the decoration references above when requesting team pricing. Verify youth sizing, crest placement, numbers, initials, stock and lead times before the final order. Compare Sport Chek, Adidas Canada and a specialist team supplier for the best combined product and decoration quote.
+              Use the exact SKUs and the decoration references above when requesting team pricing. Verify youth sizing, crest placement, numbers, initials, stock and lead times before the final order. The team manager will confirm supplier arrangements and the current squad order.
             </p>
           </section>
         </div>

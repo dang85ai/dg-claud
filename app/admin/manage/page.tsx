@@ -10,9 +10,13 @@ import {
   UserPlus,
   UsersRound
 } from "lucide-react";
+import { FamilyLinks } from "@/components/FamilyLinks";
+import { ParentInvitation } from "@/components/ParentInvitation";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
+
+import {teamTimeIso} from "@/lib/team-time";
 
 type ActionResult = {
   ok: boolean;
@@ -23,7 +27,9 @@ type ActionResult = {
 export default function AdminManagePage() {
   const router = useRouter();
   const [status, setStatus] = useState("");
+  const [authorized, setAuthorized] = useState(false);
   const [busy, setBusy] = useState("");
+  const [playerVersion, setPlayerVersion] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -32,10 +38,22 @@ export default function AdminManagePage() {
         router.replace("/login");
         return;
       }
+      const roleResult = await supabase.from("user_roles").select("role").eq("user_id",session.data.session.user.id);
+      if (roleResult.error) {
+        setStatus("Unable to verify management access.");
+        return;
+      }
+      if (!roleResult.data?.some((item) => item.role === "manager" || item.role === "admin")) {
+        router.replace("/portal");
+        return;
+      }
+
       const aal = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
       if (aal.error || aal.data.currentLevel !== "aal2") {
         router.replace("/mfa");
+        return;
       }
+      setAuthorized(true);
     })();
   }, [router]);
 
@@ -43,14 +61,18 @@ export default function AdminManagePage() {
     setBusy(action);
     setStatus("");
     try {
+      if(action.startsWith("event.")&&typeof input.starts_at==="string")input.starts_at=teamTimeIso(input.starts_at);
       await authedFetch<ActionResult>(endpoints.adminActions, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action, input })
       });
       setStatus(`${action} completed successfully.`);
+      if (action === "player.create") setPlayerVersion((value) => value + 1);
+      return true;
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to complete action.");
+      return false;
     } finally {
       setBusy("");
     }
@@ -58,52 +80,56 @@ export default function AdminManagePage() {
 
   async function submitPlayer(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await adminAction("player.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await adminAction("player.create", {
       first_name: form.get("first_name"),
       last_name: form.get("last_name"),
       jersey_number: form.get("jersey_number") ? Number(form.get("jersey_number")) : null,
       position: form.get("position")
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function submitEvent(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await adminAction("event.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await adminAction("event.create", {
       event_type: form.get("event_type"),
       title: form.get("title"),
       opponent: form.get("opponent"),
-      starts_at: form.get("starts_at") ? new Date(String(form.get("starts_at"))).toISOString() : null,
+      starts_at: form.get("starts_at") ? String(form.get("starts_at")) : null,
       venue_name: form.get("venue_name"),
       venue_address: form.get("venue_address"),
       public_visible: form.get("public_visible") === "on"
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function submitAnnouncement(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await adminAction("announcement.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await adminAction("announcement.create", {
       title: form.get("title"),
       body: form.get("body"),
       visibility: form.get("visibility"),
       pinned: form.get("pinned") === "on"
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function submitInvite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await adminAction("invite.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await adminAction("invite.create", {
       email: form.get("email"),
       full_name: form.get("full_name"),
       role: form.get("role")
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function downloadExport() {
@@ -144,10 +170,12 @@ export default function AdminManagePage() {
     }
   }
 
+  if (!authorized) return <div className="container py-12"><p role="status">{status || "Checking management access…"}</p></div>;
+
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Management Tools" isAdmin />
-      <main className="container py-8">
+      <main id="portal-main" className="container py-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Operational Controls</div>
@@ -157,6 +185,8 @@ export default function AdminManagePage() {
             <ShieldCheck size={16} /> MFA Required
           </div>
         </div>
+
+
 
         {status ? <div className="notice mt-6 text-sm">{status}</div> : null}
 
@@ -207,7 +237,7 @@ export default function AdminManagePage() {
                   </select>
                 </div>
                 <div className="field-group">
-                  <label className="field-label" htmlFor="starts_at">Start</label>
+                  <label className="field-label" htmlFor="starts_at">Start (Toronto time)</label>
                   <input className="field" id="starts_at" name="starts_at" type="datetime-local" required />
                 </div>
                 <div className="field-group sm:col-span-2">
@@ -270,12 +300,13 @@ export default function AdminManagePage() {
           </section>
 
           <section id="invites" className="card p-6">
+            <ParentInvitation />
             <div className="flex items-center gap-3">
               <UserPlus className="text-red-600" />
               <h2 className="text-2xl font-black uppercase">Create Invite</h2>
             </div>
             <p className="mt-3 text-sm text-neutral-600">
-              This creates an invite record only. No invitation email is sent by this development build.
+              This records an invitation for review. It does not create a login or send an email. Family Links requires an already activated parent account.
             </p>
             <form className="mt-6" onSubmit={submitInvite}>
               <div className="field-group">
@@ -303,6 +334,8 @@ export default function AdminManagePage() {
           </section>
         </div>
 
+        <FamilyLinks refreshKey={playerVersion} />
+
         <section id="export" className="mt-6 rounded-3xl bg-black p-7 text-white">
           <div className="grid items-center gap-6 md:grid-cols-[1fr_auto]">
             <div>
@@ -321,3 +354,4 @@ export default function AdminManagePage() {
     </div>
   );
 }
+

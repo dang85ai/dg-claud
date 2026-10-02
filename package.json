@@ -29,6 +29,7 @@
     "typescript": "^5.7.0",
     "@opennextjs/cloudflare": "latest",
     "wrangler": "latest",
-    "@netlify/functions": "latest"
+    "@netlify/functions": "latest",
+    "@imagemagick/magick-wasm": "0.0.30"
   }
 }

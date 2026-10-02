@@ -5,12 +5,14 @@ export const endpoints = {
   calendar: `${SUPABASE_URL}/functions/v1/team-calendar`,
   contact: `${SUPABASE_URL}/functions/v1/contact-submit`,
   parentDashboard: `${SUPABASE_URL}/functions/v1/parent-dashboard`,
+  parentOnboarding: `${SUPABASE_URL}/functions/v1/parent-onboarding`,
   adminDashboard: `${SUPABASE_URL}/functions/v1/admin-dashboard`,
   parentActions: `${SUPABASE_URL}/functions/v1/parent-actions`,
   adminActions: `${SUPABASE_URL}/functions/v1/admin-actions`,
   mediaUpload: `${SUPABASE_URL}/functions/v1/media-upload`,
   formPdf: `${SUPABASE_URL}/functions/v1/form-pdf`,
   handoverExport: `${SUPABASE_URL}/functions/v1/handover-export`,
+  spondApi: `${SUPABASE_URL}/functions/v1/spond-api`,
   spondImport: `${SUPABASE_URL}/functions/v1/spond-import`
 };
 
@@ -64,3 +66,5 @@ export async function authedFetch<T>(url: string, init?: RequestInit): Promise<T
 
   return response.json() as Promise<T>;
 }
+
+

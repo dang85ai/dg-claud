@@ -1,5 +1,6 @@
 "use client";
 
+import { ClubLogo } from "@/components/ClubLogo";
 import Link from "next/link";
 import { Menu, Shield, X } from "lucide-react";
 import { useState } from "react";
@@ -22,12 +23,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black text-white">
       <div className="container flex min-h-18 items-center justify-between gap-4">
         <Link href="/" className="flex min-h-12 items-center gap-3 font-black uppercase tracking-tight">
-          <div
-            aria-hidden="true"
-            className="grid h-11 w-11 place-items-center rounded-full border-2 border-white bg-red-600 text-[11px] font-black"
-          >
-            CSC
-          </div>
+          <ClubLogo decorative className="h-12 w-12" />
           <div className="leading-none">
             <div className="text-sm">Caledon Soccer Club</div>
             <div className="mt-1 text-xs tracking-[.16em] text-white/65">U9 Girls · 2026–27 Training</div>

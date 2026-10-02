@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Car,
@@ -76,6 +77,7 @@ export default function LoginPage() {
         </button>
 
         {status ? <p className="notice mt-5 text-sm">{status}</p> : null}
+        <Link href="/reset-password" className="mt-5 block text-sm font-bold text-red-700 underline">Forgot your password?</Link>
 
         <div className="mt-6 rounded-2xl bg-neutral-50 p-5">
           <div className="flex items-center gap-2 font-black uppercase">
@@ -110,3 +112,4 @@ export default function LoginPage() {
     </AuthShell>
   );
 }
+

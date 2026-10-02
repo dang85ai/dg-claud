@@ -1,45 +1,20 @@
 "use client";
-
 import Link from "next/link";
-import { LogOut, ShieldCheck } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
-
-export function PortalHeader({
-  title,
-  isAdmin = false
-}: {
-  title: string;
-  isAdmin?: boolean;
-}) {
-  const router = useRouter();
-
-  async function signOut() {
-    await supabase.auth.signOut();
-    router.replace("/login");
-  }
-
-  return (
-    <header className="border-b border-neutral-200 bg-white">
-      <div className="container flex min-h-18 items-center justify-between gap-4">
-        <div>
-          <div className="text-xs font-black uppercase tracking-[.16em] text-red-600">
-            {isAdmin ? "Command Centre" : "Private Team Portal"}
-          </div>
-          <div className="mt-1 text-lg font-black uppercase">{title}</div>
-        </div>
-        <div className="flex items-center gap-2">
-          {isAdmin ? (
-            <div className="hidden items-center gap-2 rounded-full bg-black px-3 py-2 text-xs font-black uppercase text-white sm:flex">
-              <ShieldCheck size={15} /> MFA Protected
-            </div>
-          ) : null}
-          <Link href="/" className="btn btn-light !min-h-11 !px-4 text-sm">Team Site</Link>
-          <button onClick={signOut} className="btn btn-dark !min-h-11 !px-4 text-sm">
-            <LogOut size={16} /> <span className="hidden sm:inline">Sign Out</span>
-          </button>
-        </div>
-      </div>
-    </header>
-  );
+import {useEffect,useRef,useState} from "react";
+import {LogOut,Menu,ShieldCheck,X} from "lucide-react";
+import {usePathname,useRouter} from "next/navigation";
+import {supabase} from "@/lib/supabase";
+import {activePortalLink,navigationForRoles} from "@/lib/portal-navigation";
+const groups=[{title:"Team",labels:["Dashboard","Players","Schedule","Spond Import","Attendance","Game Duties","Referees","Equipment"]},{title:"Families",labels:["Family Links","Invites","Forms","Payments","Kit Orders"]},{title:"Community",labels:["Media","Sisterhood","Sponsors","Announcements"]},{title:"Administration",labels:["Data Export","Settings"]}];
+export function PortalHeader({title,isAdmin=false}:{title:string;isAdmin?:boolean}){
+ const router=useRouter(),pathname=usePathname(),drawer=useRef<HTMLDialogElement>(null);
+ const [roles,setRoles]=useState<string[]>([]),[hash,setHash]=useState(""),[error,setError]=useState("");
+ useEffect(()=>{let live=true;async function load(){const {data,error}=await supabase.auth.getUser();if(error||!data.user){if(live)setRoles([]);return;}const result=await supabase.from("user_roles").select("role").eq("user_id",data.user.id);if(live)setRoles(result.error?[]:(result.data??[]).map(r=>r.role));}void load();const {data}=supabase.auth.onAuthStateChange(()=>{void load();});const change=()=>setHash(window.location.hash);change();window.addEventListener("hashchange",change);return()=>{live=false;data.subscription.unsubscribe();window.removeEventListener("hashchange",change);};},[]);
+ useEffect(()=>{drawer.current?.close();},[pathname]);
+ const navigation=navigationForRoles(roles);
+ async function signOut(){setError("");const result=await supabase.auth.signOut();if(result.error){setError("Unable to sign out. Please retry.");return;}setRoles([]);router.replace("/login");}
+ function links(items:Array<{label:string;href:string}>){return items.map(item=><Link key={item.href} href={item.href} onClick={()=>drawer.current?.close()} aria-current={activePortalLink(item.href,pathname,hash)?"page":undefined} className={"portal-nav-link "+(activePortalLink(item.href,pathname,hash)?"is-active":"")}>{item.label}</Link>);}
+ function content(){return <>{isAdmin&&navigation.management.length?<nav aria-label="Manager portal">{groups.map(group=><section className="mb-5" key={group.title}><h2 className="px-3 pb-2 text-xs font-bold uppercase tracking-wider text-neutral-500">{group.title}</h2>{links(navigation.management.filter(item=>group.labels.includes(item.label)))}</section>)}</nav>:navigation.family.length?<nav aria-label="Family portal">{links(navigation.family)}</nav>:<p className="p-3 text-sm text-neutral-500">Sign in to see your team options.</p>}{navigation.management.length?<Link className="portal-nav-link mt-5 border-t border-neutral-200" href={isAdmin?"/portal":"/admin"} onClick={()=>drawer.current?.close()}>{isAdmin?"Switch to Family Portal":"Switch to Management"}</Link>:null}</>;}
+ return <header className="portal-header sticky top-0 z-40 border-b border-neutral-200 bg-white shadow-sm"><a href="#portal-main" className="sr-only focus:not-sr-only focus:block focus:p-3">Skip to portal content</a><div className="flex min-h-20 items-center justify-between gap-3 px-4 py-3 md:px-6"><div className="flex items-center gap-3"><button className="portal-menu-button btn btn-light !px-3" onClick={()=>drawer.current?.showModal()} aria-label="Open portal navigation"><Menu size={20}/></button><div><div className="text-xs font-bold tracking-wide text-red-600">{isAdmin?"Team Management":"Family Portal"}</div><div className="mt-1 text-lg font-bold">{title}</div></div></div><div className="flex items-center gap-2">{isAdmin?<span className="hidden items-center gap-2 text-xs font-bold text-neutral-600 sm:flex"><ShieldCheck size={16}/>MFA protected</span>:null}<Link href="/" className="btn btn-light !px-3 text-sm">Team Site</Link><button onClick={()=>void signOut()} className="btn btn-dark !px-3 text-sm" aria-label="Sign Out"><LogOut size={17}/><span className="hidden sm:inline">Sign Out</span></button></div></div><aside className="portal-sidebar">{content()}</aside><dialog ref={drawer} className="portal-drawer" aria-label="Portal navigation"><div className="mb-5 flex items-center justify-between"><h2 className="text-lg font-bold">{isAdmin?"Management":"Family navigation"}</h2><button className="btn btn-light !px-3" aria-label="Close portal navigation" onClick={()=>drawer.current?.close()}><X size={20}/></button></div>{content()}</dialog>{error?<p role="alert" className="px-4 pb-3 text-red-700">{error}</p>:null}</header>;
 }
+

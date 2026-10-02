@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ExternalLink, FileSpreadsheet, RefreshCw, ShieldCheck, Upload } from "lucide-react";
 import { PortalHeader } from "@/components/PortalHeader";
+import { SpondConnection } from "@/components/SpondConnection";
 import { endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
 
@@ -64,6 +65,7 @@ export default function SpondImportPage() {
   const [result, setResult] = useState<CommitResult | null>(null);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -72,10 +74,15 @@ export default function SpondImportPage() {
         router.replace("/login");
         return;
       }
+      const roles = await supabase.from("user_roles").select("role").eq("user_id", session.data.session.user.id);
+      if (roles.error) { setStatus("Unable to verify management access. Please refresh."); return; }
+      if (!roles.data?.some((row) => ["manager", "admin"].includes(row.role))) { router.replace("/portal"); return; }
       const aal = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
       if (aal.error || aal.data.currentLevel !== "aal2") {
         router.replace("/mfa");
+        return;
       }
+      setAuthorized(true);
     })();
   }, [router]);
 
@@ -178,10 +185,12 @@ export default function SpondImportPage() {
     setStatus("");
   }
 
+  if (!authorized) return <main className="container py-8"><p role="status">{status || "Checking management access…"}</p></main>;
+
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Spond Import" isAdmin />
-      <main className="container py-8">
+      <main id="portal-main" className="container py-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">
@@ -216,6 +225,8 @@ export default function SpondImportPage() {
             </div>
           </div>
         </div>
+
+        <SpondConnection />
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
           <button
@@ -409,3 +420,4 @@ export default function SpondImportPage() {
     </div>
   );
 }
+
