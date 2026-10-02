@@ -9,6 +9,7 @@ import {
   Heart,
   ShieldCheck
 } from "lucide-react";
+import { ChildLinkRequest } from "@/components/ChildLinkRequest";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
@@ -27,6 +28,7 @@ type EventRow = {
 };
 
 type Dashboard = {
+  user: { id: string };
   players: Player[];
   events: EventRow[];
 };
@@ -215,9 +217,7 @@ export default function ParentToolsPage() {
         {!dashboard ? (
           <div className="card mt-8 p-6">Loading tools…</div>
         ) : players.length === 0 ? (
-          <div className="notice mt-8">
-            Your account is not linked to a player yet. A manager must complete the family/player link before these tools become available.
-          </div>
+          <ChildLinkRequest accountId={dashboard.user.id} />
         ) : (
           <div className="mt-8 grid gap-6 xl:grid-cols-2">
             <section className="card p-6">

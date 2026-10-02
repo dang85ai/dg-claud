@@ -10,6 +10,7 @@ import {
   UserPlus,
   UsersRound
 } from "lucide-react";
+import { FamilyLinks } from "@/components/FamilyLinks";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
@@ -24,6 +25,7 @@ export default function AdminManagePage() {
   const router = useRouter();
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState("");
+  const [playerVersion, setPlayerVersion] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -49,8 +51,11 @@ export default function AdminManagePage() {
         body: JSON.stringify({ action, input })
       });
       setStatus(`${action} completed successfully.`);
+      if (action === "player.create") setPlayerVersion((value) => value + 1);
+      return true;
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to complete action.");
+      return false;
     } finally {
       setBusy("");
     }
@@ -58,20 +63,22 @@ export default function AdminManagePage() {
 
   async function submitPlayer(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await adminAction("player.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await adminAction("player.create", {
       first_name: form.get("first_name"),
       last_name: form.get("last_name"),
       jersey_number: form.get("jersey_number") ? Number(form.get("jersey_number")) : null,
       position: form.get("position")
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function submitEvent(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await adminAction("event.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await adminAction("event.create", {
       event_type: form.get("event_type"),
       title: form.get("title"),
       opponent: form.get("opponent"),
@@ -80,30 +87,32 @@ export default function AdminManagePage() {
       venue_address: form.get("venue_address"),
       public_visible: form.get("public_visible") === "on"
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function submitAnnouncement(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await adminAction("announcement.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await adminAction("announcement.create", {
       title: form.get("title"),
       body: form.get("body"),
       visibility: form.get("visibility"),
       pinned: form.get("pinned") === "on"
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function submitInvite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    await adminAction("invite.create", {
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const saved = await adminAction("invite.create", {
       email: form.get("email"),
       full_name: form.get("full_name"),
       role: form.get("role")
     });
-    event.currentTarget.reset();
+    if (saved) formElement.reset();
   }
 
   async function downloadExport() {
@@ -302,6 +311,8 @@ export default function AdminManagePage() {
             </form>
           </section>
         </div>
+
+        <FamilyLinks refreshKey={playerVersion} />
 
         <section id="export" className="mt-6 rounded-3xl bg-black p-7 text-white">
           <div className="grid items-center gap-6 md:grid-cols-[1fr_auto]">

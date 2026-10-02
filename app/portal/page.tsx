@@ -16,12 +16,13 @@ import {
   Shirt,
   UserRound
 } from "lucide-react";
+import { ChildLinkRequest } from "@/components/ChildLinkRequest";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
 
 type Dashboard = {
-  user: { email: string | null };
+  user: { id: string; email: string | null };
   profile: { display_name?: string | null; full_name?: string | null } | null;
   roles: string[];
   players: Array<{
@@ -129,6 +130,14 @@ export default function PortalPage() {
             <div className="mt-1 text-3xl font-black">{data.form_submissions.length}</div>
           </div>
         </div>
+
+        <ChildLinkRequest accountId={data.user.id} />
+        {data.players.length ? <ul className="mt-4 grid gap-3 sm:grid-cols-2" aria-label="Linked children">
+          {data.players.map((player) => <li key={player.id} className="card p-4">
+            <span className="font-black">{player.first_name} {player.last_name}</span>
+            {player.jersey_number !== null ? <span className="ml-2 text-neutral-600">#{player.jersey_number}</span> : null}
+          </li>)}
+        </ul> : <p className="notice mt-4">No children linked yet. Use Add My Child to request a family link.</p>}
 
         {(spondGroupLink || spondWebLink) ? (
           <section className="mt-6 grid gap-4 md:grid-cols-2" aria-label="Spond links">
