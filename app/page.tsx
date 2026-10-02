@@ -15,6 +15,7 @@ import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { NextMatchCard } from "@/components/NextMatchCard";
 import { PublicShell } from "@/components/PublicShell";
 import { SectionHeader } from "@/components/SectionHeader";
+import { SeasonOverview } from "@/components/SeasonOverview";
 import { PwaRegister } from "@/components/PwaRegister";
 
 export const metadata: Metadata = {
@@ -43,38 +44,35 @@ export default function HomePage() {
               in one mobile-friendly place for youth soccer in Caledon, Ontario.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/schedule#current-week" className="btn btn-primary">
-                View This Week&apos;s Schedule
+              <Link href="/schedule" className="btn btn-primary">
+                View Schedule
               </Link>
               <Link href="/login" className="btn border border-white/30 bg-white/10 text-white">
-                Join the Parent Portal
+                Parent Portal
               </Link>
             </div>
+            <p className="mt-3 text-sm text-white/70">Sign in with your existing parent access. Need access? <Link href="/contact" className="font-bold text-white underline">Ask the team manager</Link>.</p>
           </div>
 
           <section aria-label="Next practice or game"><NextMatchCard /></section>
         </div>
       </section>
 
-      <section className="border-b border-neutral-200 bg-white">
+      <SeasonOverview />
+
+      <section aria-label="Parent quick actions" className="border-b border-neutral-200 bg-white">
         <div className="container py-5">
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            <Link href="/schedule" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
-              <CalendarDays className="shrink-0 text-red-600" size={20} />
-              <span className="font-black">View Schedule</span>
-            </Link>
-            <Link href="/login" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
+          <div className="flex flex-wrap gap-3">
+
+            <Link href="/parents#communications" className="card flex min-h-12 items-center gap-3 p-4 hover:border-red-500">
               <ClipboardCheck className="shrink-0 text-red-600" size={20} />
               <span className="font-black">Report an Absence</span>
             </Link>
-            <Link href="/contact" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
+            <Link href="/contact" className="card flex min-h-12 items-center gap-3 p-4 hover:border-red-500">
               <Mail className="shrink-0 text-red-600" size={20} />
               <span className="font-black">Contact Team Manager</span>
             </Link>
-            <Link href="/login" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
-              <ShieldCheck className="shrink-0 text-red-600" size={20} />
-              <span className="font-black">Parent Portal</span>
-            </Link>
+
           </div>
         </div>
       </section>
@@ -119,17 +117,18 @@ export default function HomePage() {
       <section className="section bg-black text-white">
         <div className="container">
           <SectionHeader
-            eyebrow="2026 Focus"
-            title="2026 Focus: Better players. Better teammates."
-            copy="Development is measured against each player's own progress, not public rankings."
+            eyebrow="Player Development"
+            title="What our U9 girls will work on"
+            copy="Players will build confidence with the ball through dribbling, passing, shooting, and small-sided games. We’ll help each girl learn to find space, make decisions, support teammates, and keep trying after mistakes. Progress is measured through individual growth, effort, and enjoyment."
           />
           <div className="grid gap-px overflow-hidden rounded-3xl bg-white/20 sm:grid-cols-2 lg:grid-cols-3">
-            {["Technical Development", "Confidence", "Teamwork", "Sportsmanship", "Game Understanding", "Love of Soccer"].map((item) => (
+            {["Dribbling & ball control", "Passing & first touch", "Shooting", "Finding space & decisions", "Supporting teammates", "Confidence & resilience"].map((item) => (
               <div key={item} className="bg-black p-6">
                 <div className="text-2xl font-black uppercase">{item}</div>
               </div>
             ))}
           </div>
+          <Link href="/development" className="mt-5 inline-flex min-h-11 items-center font-bold text-white underline">Development goals and home-practice ideas</Link>
         </div>
       </section>
 

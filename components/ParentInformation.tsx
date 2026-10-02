@@ -39,9 +39,12 @@ export function NewFamilyGuide() {
     <h2 className="text-2xl font-black uppercase">New to the team? Start here</h2>
     <ol className="mt-5 list-decimal space-y-4 pl-6 text-neutral-700">
       <li>Ask the <Link href="/contact" className="font-bold text-red-600 underline">team manager</Link> for the team&apos;s Spond invitation and parent access.</li>
-      <li><Link href="/login" className="font-bold text-red-600 underline">Sign in to the Parent Portal</Link> and review private information and any requested forms.</li>
+      <li><Link href="/login" className="font-bold text-red-600 underline">Sign in to the Parent Portal</Link> with existing access. Ask the manager for access if you do not have it.</li>
+      <li>Review <Link href="/login" className="font-bold text-red-600 underline">forms in your private portal</Link>. Complete forms the team or club specifically asks for; the mandatory form list is to be confirmed.</li>
+      <li>Read the <Link href="/conduct" className="font-bold text-red-600 underline">code of conduct</Link> and use the <Link href="/kit" className="font-bold text-red-600 underline">kit ordering guidance</Link>. Confirm order deadlines and costs with the manager.</li>
+      <li>Review <Link href="/parents#communications" className="font-bold text-red-600 underline">absence reporting</Link> and reply in Spond when attendance is requested.</li>
       <li><a href="https://sgoxywyhaketjmdmkzhm.supabase.co/functions/v1/team-calendar" className="font-bold text-red-600 underline">Add the team calendar</a>. Check Spond for changes; an imported calendar may need to be imported again to reflect updates.</li>
-      <li>Review the <Link href="/kit" className="font-bold text-red-600 underline">team kit</Link> and <Link href="/game-day" className="font-bold text-red-600 underline">equipment checklist</Link>.</li>
+      <li>Pack using the <Link href="/game-day" className="font-bold text-red-600 underline">first-session equipment checklist</Link>.</li>
       <li>Confirm the venue, arrival time and footwear before the first session. Read the <Link href="/conduct" className="font-bold text-red-600 underline">team expectations</Link> and club safety resources below.</li>
     </ol>
   </section>;

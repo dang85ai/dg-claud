@@ -90,7 +90,7 @@ export default function RosterPage() {
             </aside>
           </div>
 
-          <section className="mt-10 card overflow-hidden">
+          <section id="coaching-staff" className="mt-10 card scroll-mt-28 overflow-hidden">
             <div className="bg-black p-5 text-white">
               <h2 className="text-2xl font-black uppercase">Coaching Staff</h2>
             </div>

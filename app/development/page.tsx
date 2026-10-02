@@ -31,9 +31,9 @@ export default function DevelopmentPage() {
     <PublicShell>
       <DevelopmentBanner />
       <PublicPageHero
-        eyebrow="2026 Player Development"
+        eyebrow="2026–27 Player Development"
         title="Fun First. Growth Always."
-        copy="At U9, the emphasis is on fundamental skills, confidence, teamwork, sportsmanship, game understanding and building a lasting love of soccer."
+        copy="Players will build confidence with the ball through dribbling, passing, shooting, and small-sided games. We’ll help each girl learn to find space, make decisions, support teammates, and keep trying after mistakes. Progress is measured through individual growth, effort, and enjoyment."
       />
 
       <section className="section">
