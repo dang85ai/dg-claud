@@ -49,11 +49,11 @@ export default function ManagementModulePage() {
         availableEquipment: (refs[3].data ?? []).filter((r)=>r.status==="available").map((r)=>({id:r.id,label:r.item_name}))
       });
       const loaded = await Promise.all(config.sections.map(async(section) => {
-        const result = await supabase.from(section.table).select(section.columns).order(section.order,{ascending:false}).limit(200);
+        const result = await supabase.from(section.table).select(section.columns).order(section.order,{ascending:false}).limit(200).returns<Row[]>();
         if (result.error) throw result.error;
         return [section.table,result.data ?? []] as const;
       }));
-      setRecords(Object.fromEntries(loaded) as Record<string,Row[]>);
+      setRecords(Object.fromEntries(loaded));
     } catch (err) {
       setRecords({}); setChoices({});
       const detail = errorMessage(err);
