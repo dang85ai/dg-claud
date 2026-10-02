@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import {
   AlertTriangle,
   Building2,
+  Instagram,
   Mail,
   Phone,
   Users
@@ -100,6 +101,7 @@ export default function ContactPage() {
                 <a href="tel:+18555926444" className="mt-3 flex items-center gap-3 font-black hover:text-red-600">
                   <Phone size={18} /> 1-(855) 592-6444
                 </a>
+                <a href="https://www.instagram.com/girl.soccer1/" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center gap-2 font-bold hover:text-red-600"><Instagram size={20} aria-hidden="true" /><span>Instagram · @girl.soccer1<span className="sr-only"> (opens in a new tab)</span></span></a>
                 <p className="mt-5 text-sm text-neutral-600">
                   Development notifications and form review remain internal until launch approval.
                 </p>
