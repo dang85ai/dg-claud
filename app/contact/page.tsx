@@ -106,7 +106,7 @@ export default function ContactPage() {
 
               <div className="card p-6">
                 <Building2 className="text-red-600" />
-                <h2 className="mt-3 text-xl font-black uppercase">Caledon Soccer Club</h2>
+                <h2 className="mt-3 text-xl font-black uppercase">Caledon Soccer Club Office</h2><p className="mt-2 text-sm text-neutral-600">Club inquiries only. Use the venue in your Spond invite for training.</p>
                 <address className="mt-3 not-italic text-sm leading-6 text-neutral-700">
                   2 McKee Drive South<br />
                   Caledon East, ON L7C 1G8<br />
@@ -119,7 +119,7 @@ export default function ContactPage() {
                   rel="noopener noreferrer"
                   className="mt-4 inline-block text-sm font-black text-red-600"
                 >
-                  View on Google Maps →
+                  Club office map
                 </a>
               </div>
             </aside>
@@ -153,3 +153,4 @@ export default function ContactPage() {
     </PublicShell>
   );
 }
+

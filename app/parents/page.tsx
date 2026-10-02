@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ClubResources, CommunicationGuide, NewFamilyGuide, WeatherGuide } from "@/components/ParentInformation";
 import {
   BookOpenCheck,
   CircleHelp,
@@ -55,6 +56,7 @@ export default function ParentsPage() {
 
       <section className="section">
         <div className="container">
+          <div className="mb-8 grid gap-6 lg:grid-cols-2"><NewFamilyGuide /><CommunicationGuide /></div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {resources.map(({ href, Icon, title, text }) => (
               <Link href={href} key={href} className="card p-6 transition hover:-translate-y-1 hover:border-red-500">
@@ -66,6 +68,7 @@ export default function ParentsPage() {
             ))}
           </div>
 
+          <div className="mt-8 grid gap-6"><WeatherGuide /><ClubResources /></div>
           <div className="notice mt-8">
             Operational dates, league rules, named contacts and formal club policies are published only after they are confirmed by the team or club.
           </div>
@@ -74,3 +77,4 @@ export default function ParentsPage() {
     </PublicShell>
   );
 }
+

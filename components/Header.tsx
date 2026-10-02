@@ -30,7 +30,7 @@ export function Header() {
           </div>
           <div className="leading-none">
             <div className="text-sm">Caledon Soccer Club</div>
-            <div className="mt-1 text-xs tracking-[.16em] text-white/65">U9 Girls · 2026</div>
+            <div className="mt-1 text-xs tracking-[.16em] text-white/65">U9 Girls · 2026–27 Training</div>
           </div>
         </Link>
 
@@ -83,3 +83,4 @@ export function Header() {
     </header>
   );
 }
+

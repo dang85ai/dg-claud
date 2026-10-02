@@ -10,9 +10,12 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
+  { q: "Where do I RSVP and check changes?", a: "Respond in your Spond invite when attendance is requested. Check the latest invite and team messages before leaving. Portal attendance updates should not be assumed to update Spond. If details disagree, ask the team manager." },
+  { q: "Where is training?", a: "Tuesday venue information is still to be confirmed. Wednesday sessions name St Cornelius Gym, but a verified street address has not been supplied. Confirm the address, entrance, parking and indoor footwear in your invite. The club office is not the training venue." },
+  { q: "How does U9 soccer work?", a: "The team emphasizes development, confidence, teamwork and enjoyment. Match format, substitutions, goalkeeper rotation and the playing-time approach depend on the team’s confirmed program. Ask the coach for the rules that apply to this team; these details will be added once confirmed." },
   {
     q: "What if my player misses practice?",
-    a: "Please update attendance in the Parent Portal and let the team know as early as possible so coaches can plan the session."
+    a: "Reply to the Spond invite when attendance is requested and let the team know early. Use available portal attendance tools as directed by the manager; a portal update should not be assumed to update Spond."
   },
   {
     q: "What if we're late to a game?",
@@ -24,7 +27,7 @@ const faqs = [
   },
   {
     q: "What's the refund policy?",
-    a: "The official refund policy has not yet been published on this team site. The verified club policy will be linked here before launch."
+    a: "The official club refund policy is linked under Parents → Official club resources. Policies differ by program; contact the club about competitive refunds and confirm which policy applies to your registration."
   },
   {
     q: "How is playing time decided?",
@@ -65,7 +68,7 @@ export default function FaqPage() {
       <PublicPageHero
         eyebrow="Parent FAQ"
         title="Quick Answers"
-        copy="Common questions for families throughout the season. Confirmed club policies will replace any pending items before launch."
+        copy="Answers for the 2026–27 training season. Team-specific rules and locations are marked pending where confirmation is needed."
       />
       <section className="section">
         <div className="container max-w-4xl">
@@ -82,3 +85,4 @@ export default function FaqPage() {
     </PublicShell>
   );
 }
+

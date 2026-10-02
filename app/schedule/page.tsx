@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CommunicationGuide, VenueGuide, WeatherGuide } from "@/components/ParentInformation";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
@@ -35,7 +36,7 @@ export default function SchedulePage() {
         <div className="container">
           <div className="grid gap-4 md:grid-cols-4">
             {[
-              { Icon: CalendarDays, title: "Practices", text: "Recurring practice dates, times, fields and duration will publish here." },
+              { Icon: CalendarDays, title: "Practices", text: "October–May training is listed below. Check each invite for venue and arrival details." },
               { Icon: Trophy, title: "Games", text: "Opponent, home/away, kickoff, arrival time and field details will appear here." },
               { Icon: Users, title: "Team Events", text: "Photo day, fundraisers, socials and other team events will be included." },
               { Icon: MapPin, title: "Tournaments", text: "Tournament dates and venue information will be added when confirmed." }
@@ -67,12 +68,13 @@ export default function SchedulePage() {
               </div>
             </div>
 
-            <aside className="grid gap-4">
+            <aside className="grid h-fit gap-4">
               <div className="card p-5">
                 <Clock3 className="text-red-600" />
                 <h3 className="mt-3 font-black uppercase">Arrival Time</h3>
                 <p className="mt-2 text-sm text-neutral-600">
                   Plan to arrive 30 minutes before kickoff for warm-up unless the coach posts a different arrival time.
+                  For training, follow the arrival instructions in your Spond invite.
                 </p>
               </div>
               <div className="card p-5">
@@ -85,32 +87,7 @@ export default function SchedulePage() {
             </aside>
           </div>
 
-          <div className="mt-8 grid gap-6 lg:grid-cols-2">
-            <section className="card p-6">
-              <div className="flex items-center gap-3">
-                <MapPin className="text-red-600" />
-                <h2 className="text-2xl font-black uppercase">Field Directory</h2>
-              </div>
-              <p className="mt-4 text-sm text-neutral-600">
-                Wednesday sessions are listed at St Cornelius Gym. A street address was not included in the supplied Spond schedule, so no address has been published. Tuesday venue information is still to be confirmed.
-              </p>
-              <div className="mt-5 rounded-2xl bg-neutral-50 p-5 text-sm font-bold text-neutral-600">
-                Wednesday: St Cornelius Gym · Tuesday: venue not yet supplied
-              </div>
-            </section>
-
-            <section className="card p-6">
-              <h2 className="text-2xl font-black uppercase">Rescheduling & Cancellations</h2>
-              <div className="mt-4 grid gap-4 text-sm text-neutral-600">
-                <p>
-                  When an event changes, the website schedule and private team communication channel should be updated as soon as the change is confirmed.
-                </p>
-                <p>
-                  If you will be late or absent, sign in to the Parent Portal and update your player&apos;s attendance so coaches can plan accordingly.
-                </p>
-              </div>
-            </section>
-          </div>
+<div className="mt-8 grid gap-6 lg:grid-cols-2"><VenueGuide /><CommunicationGuide /><WeatherGuide /><section className="card p-6"><h2 className="text-2xl font-black uppercase">Important dates & deadlines</h2><p className="mt-4 text-neutral-600">Confirmed team events will appear in the calendar. Registration, kit orders, forms, payments and photo-day deadlines have not yet been supplied for this training season. Check private team messages or ask the manager.</p><a href="https://caledonsoccer.com/about-us/key-dates/" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-11 items-center font-bold text-red-600 underline">Official club key dates</a><p className="mt-2 text-sm text-neutral-600">Club events can apply to other programs. Confirm team participation and season before adding them.</p></section></div>
         </div>
       </section>
     </PublicShell>

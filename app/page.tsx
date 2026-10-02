@@ -29,22 +29,22 @@ export default function HomePage() {
       <DevelopmentBanner />
       <PwaRegister />
 
-      <section className="hero py-16 md:py-24">
+      <section className="hero py-8 md:py-12">
         <div className="container grid items-end gap-10 lg:grid-cols-[1.1fr_.9fr]">
           <div>
             <div className="kicker">Caledon Soccer Club</div>
-            <h1 className="display">
+            <h1 className="display !text-4xl !leading-none md:!text-6xl">
               Caledon U9 Girls 2026
               <span>Soccer Team Hub</span>
             </h1>
             <p className="max-w-xl text-base text-white/70 md:text-lg">
-              Welcome to the official team hub for the <strong className="text-white">Caledon SC U9 Girls 2026</strong> season.
+              The <strong className="text-white">2026–27 Training Season</strong> schedule is published for Caledon SC U9 Girls.
               Everything parents need at the field — schedules, team kit, roster, parent information and player-development resources —
               in one mobile-friendly place for youth soccer in Caledon, Ontario.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/schedule" className="btn btn-primary">
-                View This Week&apos;s Schedule <ChevronRight size={18} />
+              <Link href="/schedule#current-week" className="btn btn-primary">
+                View This Week&apos;s Schedule
               </Link>
               <Link href="/login" className="btn border border-white/30 bg-white/10 text-white">
                 Join the Parent Portal
@@ -52,22 +52,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-white/15 bg-white/5 p-5 backdrop-blur">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl bg-white p-5 text-black">
-                <div className="text-xs font-black uppercase tracking-[.12em] text-red-600">Season</div>
-                <div className="mt-2 text-5xl font-black tracking-tight">2026</div>
-              </div>
-              <div className="rounded-2xl bg-red-600 p-5 text-white">
-                <div className="text-xs font-black uppercase tracking-[.12em] text-white/75">Club Since</div>
-                <div className="mt-2 text-5xl font-black tracking-tight">1973</div>
-              </div>
-              <div className="rounded-2xl bg-white/10 p-5 text-white sm:col-span-2">
-                <div className="text-xs font-black uppercase tracking-[.12em] text-white/60">Team Standard</div>
-                <div className="mt-2 text-2xl font-black uppercase">Development · Confidence · Teamwork</div>
-              </div>
-            </div>
-          </div>
+          <section aria-label="Next practice or game"><NextMatchCard /></section>
         </div>
       </section>
 
@@ -99,7 +84,7 @@ export default function HomePage() {
           <Bell size={20} className="shrink-0" />
           <div>
             <div className="text-xs font-black uppercase tracking-[.14em] text-white/70">Season Status</div>
-            <div className="font-black">Official 2026 practice and game dates will appear here as soon as the team schedule is confirmed.</div>
+            <div className="font-black">2026–27 training runs October 6, 2026 through May 18, 2027. Check the latest Spond invite before leaving.</div>
           </div>
         </div>
       </section>
@@ -127,12 +112,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <section aria-labelledby="next-game-heading">
-            <h2 id="next-game-heading" className="mb-4 text-2xl font-black uppercase tracking-tight">
-              Next Game — Caledon U9 Girls 2026
-            </h2>
-            <NextMatchCard />
-          </section>
+<section className="card p-6"><h2 className="text-2xl font-black uppercase">New to the team?</h2><p className="mt-3 text-neutral-600">Get connected, check equipment and find the right place to reply.</p><div className="mt-5 grid gap-3"><Link href="/parents#start-here" className="btn btn-primary">New-family checklist</Link><Link href="/schedule#venues" className="btn btn-light">Training venues</Link><Link href="/parents#communications" className="btn btn-light">Communication guide</Link><Link href="/parents#club-resources" className="btn btn-light">Club resources</Link></div></section>
         </div>
       </section>
 
@@ -160,7 +140,7 @@ export default function HomePage() {
             <h2 className="mt-3 text-3xl font-black uppercase tracking-tight">Contact the Caledon U9 Girls 2026 Team</h2>
             <p className="mt-4 max-w-2xl text-neutral-600">
               Questions about the season, team kit, schedule or parent portal? Contact the team manager through the team contact page.
-              Caledon Soccer Club&apos;s public office is at 2 McKee Drive South, Caledon East, Ontario.
+              The club office at 2 McKee Drive South is for club inquiries. For training, use the venue in your event invite.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link href="/contact" className="btn btn-primary">Contact Team Manager</Link>
@@ -168,7 +148,7 @@ export default function HomePage() {
             </div>
           </div>
           <address className="card not-italic p-6">
-            <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Caledon Soccer Club</div>
+            <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Club office · Not a training venue</div>
             <div className="mt-3 font-black">2 McKee Drive South</div>
             <div className="mt-1 text-sm text-neutral-600">Caledon East, ON L7C 1G8</div>
             <a href="tel:+19055844033" className="mt-4 block font-black hover:text-red-600">905-584-4033</a>
@@ -179,7 +159,7 @@ export default function HomePage() {
               rel="noopener noreferrer"
               className="mt-2 block text-sm font-bold text-red-600"
             >
-              View Caledon Soccer Club on Google Maps →
+              Club office map
             </a>
             <a href="https://caledonsoccer.com" target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-bold text-red-600">
               Visit Caledon Soccer Club →
