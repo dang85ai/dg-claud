@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
+import { ScheduleEvents } from "@/components/ScheduleEvents";
 import {
   CalendarDays,
   CloudSun,
@@ -52,20 +53,17 @@ export default function SchedulePage() {
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <CalendarDays className="text-red-600" />
-                  <h2 className="text-2xl font-black uppercase">2026 Calendar</h2>
+                  <h2 className="text-2xl font-black uppercase">2026–27 Training Calendar</h2>
                 </div>
                 <a className="btn btn-primary" href={calendarUrl}>
                   <Download size={17} /> Add to Calendar
                 </a>
               </div>
               <p className="mt-4 text-neutral-600">
-                No official games or practices have been published yet. This area will populate from the live team schedule as events are confirmed.
+                Training schedule supplied from Spond for October 2026 through May 2027. Times are shown in Toronto local time.
               </p>
-              <div className="mt-6 rounded-2xl border border-dashed border-neutral-300 p-8 text-center">
-                <div className="text-sm font-black uppercase tracking-[.14em] text-neutral-500">Official schedule coming soon</div>
-                <p className="mx-auto mt-2 max-w-xl text-sm text-neutral-500">
-                  Use the calendar button now to subscribe to the team feed. Confirmed events will appear in the feed as they are published.
-                </p>
+              <div className="mt-6">
+                <ScheduleEvents />
               </div>
             </div>
 
@@ -94,10 +92,10 @@ export default function SchedulePage() {
                 <h2 className="text-2xl font-black uppercase">Field Directory</h2>
               </div>
               <p className="mt-4 text-sm text-neutral-600">
-                Confirmed field names, addresses, map links, parking notes and washroom information will be added here. Sample addresses are not published as real team locations.
+                Wednesday sessions are listed at St Cornelius Gym. A street address was not included in the supplied Spond schedule, so no address has been published. Tuesday venue information is still to be confirmed.
               </p>
-              <div className="mt-5 rounded-2xl bg-neutral-50 p-5 text-sm font-bold text-neutral-500">
-                No field locations published yet.
+              <div className="mt-5 rounded-2xl bg-neutral-50 p-5 text-sm font-bold text-neutral-600">
+                Wednesday: St Cornelius Gym · Tuesday: venue not yet supplied
               </div>
             </section>
 
