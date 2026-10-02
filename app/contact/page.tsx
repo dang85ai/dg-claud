@@ -14,9 +14,10 @@ import { PublicShell } from "@/components/PublicShell";
 import { endpoints, publicFetch } from "@/lib/api";
 
 const contacts = [
-  { role: "Head Coach", contact: "To be published" },
-  { role: "Assistant Coach", contact: "To be published" },
-  { role: "Team Manager", contact: "girlsoccer@r5play.net" },
+  { role: "Technical Director", contact: "Gabriel Borges" },
+  { role: "Coaches", contact: "Davinder Budwal · Courtney Quinn" },
+  { role: "Team Managers", contact: "Karam Budwal · Melissa Catalano · Daniel Guerra · Natalie Guerra · Giuseppe (Joe) Tomaselli" },
+  { role: "Team inquiries", contact: "girlsoccer@r5play.net" },
   { role: "Club Registrar", contact: "To be verified" },
   { role: "Field Coordinator", contact: "To be verified" }
 ];

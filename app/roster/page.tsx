@@ -8,13 +8,9 @@ import {
   UsersRound
 } from "lucide-react";
 
-const placeholders = Array.from({ length: 12 }, (_, i) => i + 1);
+const players = [["Seva",6],["Savi",12],["Gianna-Rose",null],["Natalia",null],["Milena",null],["Valentina",null],["Julia",null],["Georgia",null],["Milania",null]];
 
-const staff = [
-  ["Head Coach", "To be published", "Certification to be verified"],
-  ["Assistant Coach", "To be published", "Certification to be verified"],
-  ["Team Manager", "Team contact", "N/A"]
-];
+const staff = [["Technical Director","Gabriel Borges"],["Coach","Davinder Budwal"],["Coach","Courtney Quinn"],["Team Manager","Karam Budwal"],["Team Manager","Melissa Catalano"],["Team Manager","Daniel Guerra"],["Team Manager","Natalie Guerra"],["Team Manager","Giuseppe (Joe) Tomaselli"]];
 
 const volunteers = [
   "Team Manager",
@@ -29,9 +25,9 @@ export default function RosterPage() {
     <PublicShell>
       <DevelopmentBanner />
       <PublicPageHero
-        eyebrow="2026 Squad"
+        eyebrow="2026–27 Indoor Squad"
         title="Meet the Team"
-        copy="Public player profiles are consent-controlled. Until the roster and guardian permissions are confirmed, no player identity information is published."
+        copy="Meet our nine-player squad and the staff listed on the official 2026–27 U9 indoor pool roster. Public player cards show guardian-approved first names and confirmed jersey numbers."
       />
 
       <section className="section">
@@ -53,15 +49,15 @@ export default function RosterPage() {
                 Consented profiles can include first name, jersey number, optional position, a fun fact and an approved photo.
               </p>
               <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3">
-                {placeholders.map((n) => (
-                  <div className="card overflow-hidden" key={n}>
+                {players.map(([name, number]) => (
+                  <div className="card overflow-hidden" key={String(name)}>
                     <div className="grid aspect-[4/5] place-items-center bg-neutral-200">
                       <UserRound size={48} className="text-neutral-400" aria-hidden="true" />
                     </div>
                     <div className="p-4">
                       <div className="text-xs font-black uppercase tracking-[.12em] text-red-600">Player</div>
-                      <div className="mt-1 text-xl font-black uppercase">Roster Spot</div>
-                      <div className="mt-3 text-sm text-neutral-500"># — · Position —</div>
+                      <div className="mt-1 text-xl font-black uppercase">{name}</div>
+                      <div className="mt-3 text-sm text-neutral-500">{number ? `#${number}` : "Jersey number to be confirmed"}</div>
                     </div>
                   </div>
                 ))}
@@ -73,10 +69,10 @@ export default function RosterPage() {
                 <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Team Snapshot</div>
                 <div className="mt-4 grid gap-3 text-sm">
                   <div><strong>Age group:</strong> U9 Girls</div>
-                  <div><strong>Season:</strong> 2026</div>
+                  <div><strong>Season:</strong> 2026–27 Indoor</div>
                   <div><strong>League:</strong> To be confirmed</div>
                   <div><strong>Division:</strong> To be confirmed</div>
-                  <div><strong>Final roster count:</strong> To be confirmed</div>
+                  <div><strong>Current squad:</strong> 9 players</div>
                 </div>
               </div>
 
@@ -92,14 +88,15 @@ export default function RosterPage() {
 
           <section id="coaching-staff" className="mt-10 card scroll-mt-28 overflow-hidden">
             <div className="bg-black p-5 text-white">
-              <h2 className="text-2xl font-black uppercase">Coaching Staff</h2>
+              <h2 className="text-2xl font-black uppercase">Coaches & Team Staff</h2>
             </div>
+            <p className="bg-white px-5 py-4 text-sm text-neutral-600">Roles verified from the official CUFC F FUN TO Pool roster, printed September 30, 2026. Coach hierarchy and qualifications are not listed.</p>
             <div className="grid gap-px bg-neutral-200 md:grid-cols-3">
-              {staff.map(([role, name, certification]) => (
-                <div key={role} className="bg-white p-5">
+              {staff.map(([role, name]) => (
+                <div key={name} className="bg-white p-5">
                   <div className="text-xs font-black uppercase text-red-600">{role}</div>
                   <div className="mt-2 font-black">{name}</div>
-                  <div className="mt-2 text-sm text-neutral-500">{certification}</div>
+                  <div className="mt-2 text-sm text-neutral-500">Qualifications to be confirmed</div>
                 </div>
               ))}
             </div>

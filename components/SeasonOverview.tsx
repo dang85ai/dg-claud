@@ -49,7 +49,7 @@ export function SeasonOverview() {
           </section>
           <section id="coaches" className="card scroll-mt-28 p-6">
             <h3 className="text-xl font-black uppercase">Meet the coaches</h3>
-            <p className="mt-3 text-neutral-600">Coach introductions and verified qualifications will be added once confirmed. Our team focuses on development, confidence, teamwork and enjoyment.</p>
+            <p className="mt-3 text-neutral-600">Coaches Davinder Budwal and Courtney Quinn are listed on the official 2026–27 U9 indoor pool roster, alongside Technical Director Gabriel Borges and five team managers. Qualifications and individual introductions are to be confirmed.</p>
             <Link href="/roster#coaching-staff" className="mt-4 inline-flex min-h-11 items-center font-bold text-red-600 underline">Coaching staff information</Link>
             <Link href="/contact" className="block min-h-11 py-3 font-bold text-red-600 underline">Contact the team manager</Link>
           </section>
