@@ -139,7 +139,7 @@ export default function AdminSponsorsPage() {
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Sponsorship Pipeline" isAdmin />
-      <main className="container py-8">
+      <main id="portal-main" className="container py-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Community Partnerships</div>

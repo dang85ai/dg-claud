@@ -140,7 +140,7 @@ export default function ManagementModulePage() {
 
   function fieldControl(field:Field,table:string){
     const id="create-"+table+"-"+field.key;
-    if(field.type==="checkbox") return <label className="flex items-center gap-3" key={field.key}><input id={id} name={field.key} type="checkbox" disabled={busy}/>{field.label}{field.type==="datetime-local"?" (Toronto time)":""}</label>;
+    if(field.type==="checkbox") return <label className="flex items-center gap-3" key={field.key}><input id={id} name={field.key} type="checkbox" disabled={busy}/>{field.label}</label>;
     return <div key={field.key}><label htmlFor={id} className="field-label">{field.label}{field.type==="datetime-local"?" (Toronto time)":""}</label>
       {field.source || field.options ? <select id={id} name={field.key} className="field" required={field.required} disabled={busy}>
         <option value="">Select {field.label.toLowerCase()}</option>
