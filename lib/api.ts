@@ -12,6 +12,7 @@ export const endpoints = {
   mediaUpload: `${SUPABASE_URL}/functions/v1/media-upload`,
   formPdf: `${SUPABASE_URL}/functions/v1/form-pdf`,
   handoverExport: `${SUPABASE_URL}/functions/v1/handover-export`,
+  spondApi: `${SUPABASE_URL}/functions/v1/spond-api`,
   spondImport: `${SUPABASE_URL}/functions/v1/spond-import`
 };
 
@@ -65,4 +66,5 @@ export async function authedFetch<T>(url: string, init?: RequestInit): Promise<T
 
   return response.json() as Promise<T>;
 }
+
 
