@@ -3,20 +3,20 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { EmailOtpType } from "@supabase/supabase-js";
-import { KeyRound, ShieldCheck } from "lucide-react";
+import { KeyRound, Mail, ShieldCheck } from "lucide-react";
 import { AuthShell } from "@/components/AuthShell";
 import { supabase } from "@/lib/supabase";
 
 const DEFAULT_ADMIN_EMAIL = "daniel.f.guerra@gmail.com";
+const ACTIVATION_URL = "https://caledon-u9-girls-2026.netlify.app/activate";
 
 export default function ActivatePage() {
   const router = useRouter();
   const [ready, setReady] = useState(false);
   const [email, setEmail] = useState(DEFAULT_ADMIN_EMAIL);
-  const [otp, setOtp] = useState("");
-  const [needsCode, setNeedsCode] = useState(false);
   const [status, setStatus] = useState("Checking your activation…");
   const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -25,6 +25,7 @@ export default function ActivatePage() {
       const url = new URL(window.location.href);
       const tokenHash = url.searchParams.get("token_hash");
       const type = url.searchParams.get("type") as EmailOtpType | null;
+      const code = url.searchParams.get("code");
 
       if (tokenHash && type) {
         const verify = await supabase.auth.verifyOtp({
@@ -34,11 +35,20 @@ export default function ActivatePage() {
 
         if (!mounted) return;
 
-        if (!verify.error) {
-          window.history.replaceState({}, document.title, "/activate");
+        if (verify.error) {
+          setStatus("That recovery link is invalid or expired. Send yourself a fresh password setup email below.");
         } else {
-          setNeedsCode(true);
-          setStatus("That email link is no longer valid. Enter the new 6-digit activation code below.");
+          window.history.replaceState({}, document.title, "/activate");
+        }
+      } else if (code) {
+        const exchanged = await supabase.auth.exchangeCodeForSession(code);
+
+        if (!mounted) return;
+
+        if (exchanged.error) {
+          setStatus("That recovery link is invalid or expired. Send yourself a fresh password setup email below.");
+        } else {
+          window.history.replaceState({}, document.title, "/activate");
         }
       }
 
@@ -47,32 +57,26 @@ export default function ActivatePage() {
 
       if (error) {
         setStatus(error.message);
-        setNeedsCode(true);
         return;
       }
 
       if (data.session?.user) {
         setEmail(data.session.user.email ?? DEFAULT_ADMIN_EMAIL);
         setReady(true);
-        setNeedsCode(false);
         setStatus("");
-      } else {
+      } else if (!tokenHash && !code) {
         setReady(false);
-        setNeedsCode(true);
-        if (!tokenHash) {
-          setStatus("Enter the 6-digit activation code sent to your admin email.");
-        }
+        setStatus("Send yourself a secure password setup email to continue.");
       }
     }
 
-    resolveSession();
+    void resolveSession();
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!mounted) return;
       if (session?.user) {
         setEmail(session.user.email ?? DEFAULT_ADMIN_EMAIL);
         setReady(true);
-        setNeedsCode(false);
         setStatus("");
       }
     });
@@ -83,35 +87,23 @@ export default function ActivatePage() {
     };
   }, []);
 
-  async function verifyCode(event: FormEvent<HTMLFormElement>) {
+  async function sendSetupEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!email.trim() || otp.length !== 6) return;
-
     setBusy(true);
     setStatus("");
 
-    const { error } = await supabase.auth.verifyOtp({
-      email: email.trim(),
-      token: otp,
-      type: "email"
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: ACTIVATION_URL
     });
 
     if (error) {
-      setStatus("That activation code is invalid or expired. Use the newest code sent to your email.");
+      setStatus(`Unable to send the setup email: ${error.message}`);
       setBusy(false);
       return;
     }
 
-    const { data } = await supabase.auth.getSession();
-    if (data.session?.user) {
-      setReady(true);
-      setNeedsCode(false);
-      setEmail(data.session.user.email ?? email.trim());
-      setStatus("");
-    } else {
-      setStatus("Activation succeeded, but the session did not start. Refresh this page and enter the newest code again.");
-    }
-
+    setSent(true);
+    setStatus("Password setup email sent. Check Inbox, Spam and Promotions, then open the newest message.");
     setBusy(false);
   }
 
@@ -138,8 +130,12 @@ export default function ActivatePage() {
 
     const { error } = await supabase.auth.updateUser({
       password,
-      data: { must_change_password: false }
+      data: {
+        must_change_password: false,
+        password_setup_complete: true
+      }
     });
+
     if (error) {
       setStatus(error.message);
       setBusy(false);
@@ -148,7 +144,7 @@ export default function ActivatePage() {
 
     const refreshed = await supabase.auth.refreshSession();
     if (refreshed.error || !refreshed.data.session) {
-      setStatus("Your password was saved, but the secure session needs to be renewed. Sign in with your new password, then MFA setup will continue.");
+      setStatus("Your password was saved, but the secure session needs to be renewed. Sign in with your new password, then continue to MFA.");
       setBusy(false);
       return;
     }
@@ -157,19 +153,19 @@ export default function ActivatePage() {
   }
 
   return (
-    <AuthShell eyebrow="Administrator Activation" title={ready ? "Create Your Password" : "Verify Admin Access"}>
+    <AuthShell eyebrow="Administrator Activation" title={ready ? "Create Your Password" : "Set Up Admin Access"}>
       <div className="rounded-2xl bg-neutral-50 p-5">
         <div className="flex items-center gap-2 font-black uppercase">
           <ShieldCheck className="text-red-600" size={18} />
           Secure admin setup
         </div>
         <p className="mt-3 text-sm text-neutral-600">
-          Verify the one-time activation code, create your private password, then set up MFA before entering the Command Centre.
+          First send a secure password setup email to your admin address. Open the newest recovery email, return here, create your password, then complete MFA before entering the Command Centre.
         </p>
       </div>
 
-      {needsCode && !ready ? (
-        <form className="mt-6" onSubmit={verifyCode}>
+      {!ready ? (
+        <form className="mt-6" onSubmit={sendSetupEmail}>
           <div className="field-group">
             <label className="field-label" htmlFor="email">Admin Email</label>
             <input
@@ -183,22 +179,9 @@ export default function ActivatePage() {
             />
           </div>
 
-          <div className="field-group">
-            <label className="field-label" htmlFor="otp">6-Digit Activation Code</label>
-            <input
-              className="field text-center text-2xl font-black tracking-[0.35em]"
-              id="otp"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              value={otp}
-              maxLength={6}
-              onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
-              required
-            />
-          </div>
-
-          <button className="btn btn-primary w-full" type="submit" disabled={busy || otp.length !== 6}>
-            {busy ? "Verifying…" : "Verify Activation Code"}
+          <button className="btn btn-primary w-full" type="submit" disabled={busy}>
+            <Mail size={18} />
+            {busy ? "Sending…" : sent ? "Send Another Setup Email" : "Send Password Setup Email"}
           </button>
         </form>
       ) : null}
