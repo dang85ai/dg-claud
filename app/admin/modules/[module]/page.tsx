@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PortalHeader } from "@/components/PortalHeader";
 import { moduleConfigs, Field, Section } from "@/lib/management-config";
 import { managementModules } from "@/lib/management-modules";
 import { errorMessage, requireManager } from "@/lib/management-access";
+import { openProcessedImage } from "@/lib/private-media";
 import { authedFetch, endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
 
@@ -28,6 +29,9 @@ export default function ManagementModulePage() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [images, setImages] = useState<Record<string, string>>({});
+  const [decodedImages,setDecodedImages]=useState<Record<string,boolean>>({});
+  const imageUrls=useRef<string[]>([]);
+  useEffect(()=>()=>imageUrls.current.forEach(URL.revokeObjectURL),[]);
 
   const load = useCallback(async () => {
     if (!config) return;
@@ -120,10 +124,11 @@ export default function ManagementModulePage() {
       await requireManager();
       const path=String(row.processed_private_path ?? row.thumbnail_path ?? "");
       if(!path) throw new Error("No processed private image is available.");
-      const result=await supabase.storage.from("team-media-private").createSignedUrl(path,120);
-      if(result.error) throw result.error;
-      setImages((current)=>({...current,[String(row.id)]:result.data.signedUrl}));
-    },"Private image opened for review. The link expires after two minutes.");
+      const url=await openProcessedImage(path);
+      imageUrls.current.push(url);
+      setDecodedImages(current=>({...current,[String(row.id)]:false}));
+      setImages((current)=>({...current,[String(row.id)]:url}));
+    },"Private image opened. Approval is enabled after the image loads.");
   }
 
   function fieldControl(field:Field){
@@ -134,7 +139,7 @@ export default function ManagementModulePage() {
         <option value="">Select {field.label.toLowerCase()}</option>
         {field.options?.map((option)=><option key={option} value={option}>{label(option)}</option>)}
         {(choices[field.source ?? ""] ?? []).map((option)=><option key={option.id} value={option.id}>{option.label}</option>)}
-      </select> : <input id={id} name={field.key} className="field" type={field.type ?? "text"} required={field.required} maxLength={500} disabled={busy}/>}
+      </select> : <input id={id} name={field.key} className="field" type={field.type ?? "text"} required={field.required} maxLength={field.key==="body"?5000:2000} disabled={busy}/>}
     </div>;
   }
 
@@ -149,6 +154,13 @@ export default function ManagementModulePage() {
 
   function rowActions(table:string,row:Row){
     const id=String(row.id);
+    const editAction=({players:"player.update",events:"event.update",announcements:"announcement.update"} as Record<string,string>)[table];
+    const editableSection=config?.sections.find(s=>s.table===table);
+    if(editAction&&editableSection?.fields) return <details className="mt-4"><summary className="cursor-pointer font-bold">Edit {table==="players"?"player":table==="events"?"event":"announcement"}</summary><form className="mt-4 grid gap-4 sm:grid-cols-2" onSubmit={e=>{
+      e.preventDefault();const form=new FormData(e.currentTarget);const input:Row={id};
+      for(const field of editableSection.fields??[]){const value=String(form.get(field.key)??"").trim();input[field.key]=field.type==="checkbox"?form.get(field.key)==="on":field.type==="number"?value?Number(value):null:value||null;}
+      void perform(()=>act(editAction,input),"Changes saved.");
+    }}>{editableSection.fields.map(field=><div key={field.key}><label className="field-label" htmlFor={id+"-"+field.key}>{field.label}</label>{field.options?<select id={id+"-"+field.key} name={field.key} className="field" defaultValue={String(row[field.key]??"")} required={field.required} disabled={busy}>{field.options.map(v=><option key={v} value={v}>{label(v)}</option>)}</select>:field.type==="checkbox"?<input id={id+"-"+field.key} name={field.key} type="checkbox" defaultChecked={row[field.key]===true} disabled={busy}/>:<input id={id+"-"+field.key} name={field.key} className="field" type={field.type??"text"} defaultValue={String(row[field.key]??"")} required={field.required} maxLength={field.key==="body"?5000:2000} disabled={busy}/>}</div>)}<button className="btn btn-primary justify-self-start" disabled={busy}>Save Changes</button></form></details>;
     if(table==="kit_orders") return <form className="mt-4 flex flex-wrap gap-3" onSubmit={e=>{
       e.preventDefault(); const form=new FormData(e.currentTarget);
       void perform(()=>act("kit_order.status",{id,payment_status:form.get("payment_status")}),"Payment status saved.");
@@ -160,26 +172,26 @@ export default function ManagementModulePage() {
     if(table==="site_settings" && ["birthday_board_enabled","player_of_match_enabled"].includes(String(row.key))) return <button className="btn btn-light mt-4" disabled={busy} onClick={()=>void perform(()=>act("feature.toggle",{key:row.key,enabled:row.value!==true}),"Feature setting saved.")}>{row.value===true?"Disable":"Enable"}</button>;
     if(table==="media_items") return <div className="mt-4">
       <button className="btn btn-light" disabled={busy} onClick={()=>void viewImage(row)}>View Private Image</button>
-      {images[id] ? <img src={images[id]} alt={String(row.caption ?? "Private uploaded team image")} className="mt-4 max-h-96 max-w-full rounded-xl object-contain" /> : null}
+      {images[id] ? <img src={images[id]} alt={String(row.caption ?? "Private uploaded team image")} className="mt-4 max-h-96 max-w-full rounded-xl object-contain" onLoad={()=>setDecodedImages(v=>({...v,[id]:true}))} onError={()=>{setDecodedImages(v=>({...v,[id]:false}));setError("The stored image cannot be decoded. Ask the uploader to submit a new photo.");}} /> : null}
       {row.status==="pending" ? <form className="mt-4" onSubmit={e=>{
         e.preventDefault(); const form=new FormData(e.currentTarget);
         void perform(async()=>{
-          if(!images[id] || row.exif_stripped!==true || !row.processed_private_path) throw new Error("View the processed private image before approving it.");
+          if(!decodedImages[id] || row.exif_stripped!==true || !row.processed_private_path) throw new Error("View the processed private image before approving it.");
           await act("media.review",{id,status:"approved",visibility:"private_team",exif_stripped:row.exif_stripped,consent_reviewed:form.get("consent")==="on",processed_private_path:row.processed_private_path,thumbnail_path:row.thumbnail_path,processed_public_path:null});
         },"Approved for the private team portal.");
       }}><label className="flex gap-3 text-sm"><input type="checkbox" name="consent" required disabled={busy}/>I reviewed the image and confirmed private-team consent for everyone shown.</label>
-      <div className="mt-3 flex flex-wrap gap-3"><button className="btn btn-primary" disabled={busy || !images[id]}>Approve Private Image</button><button type="button" className="btn btn-light" disabled={busy} onClick={()=>void perform(()=>act("media.review",{...row,id,status:"rejected",visibility:"private_team",processed_public_path:null}),"Image rejected.")}>Reject</button></div></form>:null}
+      <div className="mt-3 flex flex-wrap gap-3"><button className="btn btn-primary" disabled={busy || !decodedImages[id]}>Approve Private Image</button><button type="button" className="btn btn-light" disabled={busy} onClick={()=>void perform(()=>act("media.review",{...row,id,status:"rejected",visibility:"private_team",processed_public_path:null}),"Image rejected.")}>Reject</button></div></form>:null}
     </div>;
     return null;
   }
 
   if(!config) return <div className="container py-12"><h1>Management module not found</h1><Link href="/admin">Return to dashboard</Link></div>;
-  return <div className="min-h-screen bg-neutral-100"><PortalHeader title={config.title} isAdmin/><main className="container py-8">
+  return <div className="min-h-screen bg-neutral-100"><PortalHeader title={config.title} isAdmin/><main id="portal-main" className="container py-8">
     <h1 className="text-4xl font-black uppercase">{config.title}</h1><p className="mt-3 max-w-3xl text-neutral-600">{config.description}</p>
     <nav className="mt-5 flex flex-wrap gap-3" aria-label="Management modules">{managementModules.map(item=><Link href={item.href} key={item.label} className="rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm font-bold">{item.label}</Link>)}</nav>
     <button type="button" className="btn btn-light mt-5" disabled={busy || loading} onClick={()=>void load()}>{loading?"Loading…":"Refresh Records"}</button>
     {error?<p role="alert" className="notice mt-4">{error}</p>:null}{message?<p role="status" className="notice mt-4">{message}</p>:null}
-    {!loading && !error ? config.sections.map(section=><section key={section.table} className="mt-8">
+    {!loading ? config.sections.map(section=><section key={section.table} className="mt-8">
       <h2 className="text-2xl font-black uppercase">{section.title}</h2>
       {section.fields ? <form className="card mt-4 grid gap-4 p-5 md:grid-cols-2" onSubmit={e=>void create(e,section)}>
         {section.fields.map(fieldControl)}<button className="btn btn-primary justify-self-start" disabled={busy}>{busy?"Saving…":section.createLabel}</button>

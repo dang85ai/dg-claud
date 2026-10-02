@@ -93,7 +93,7 @@ export default function PortalPage() {
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Team Portal" />
-      <main className="container py-8">
+      <main id="portal-main" className="container py-8">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Welcome</div>
@@ -212,12 +212,12 @@ export default function PortalPage() {
 
           <aside className="grid gap-4">
             {[
-              { Icon: CreditCard, title: "Payments", text: "View team kit payment status." },
-              { Icon: Car, title: "Carpool", text: "Offer or request rides by neighbourhood." },
-              { Icon: Heart, title: "Sisterhood", text: "Coach-moderated teammate recognition." },
-              { Icon: Camera, title: "Profile Photo", text: "Upload a consent-safe photo for manager review." }
-            ].map(({ Icon, title, text }) => (
-              <Link href="/portal/tools" className="card p-5 hover:border-red-500" key={title}>
+              { Icon: CreditCard, href:"/portal/activity/payments", title: "Payments", text: "View team kit payment status." },
+              { Icon: Car, href:"/portal/activity/carpool", title: "Carpool", text: "Offer or request rides by neighbourhood." },
+              { Icon: Heart, href:"/portal/activity/sisterhood", title: "Sisterhood", text: "Coach-moderated teammate recognition." },
+              { Icon: Camera, href:"/portal/tools#photo", title: "Profile Photo", text: "Upload a consent-safe photo for manager review." }
+            ].map(({ Icon, title, text,href }) => (
+              <Link href={href} className="card p-5 hover:border-red-500" key={title}>
                 <Icon className="text-red-600" />
                 <h3 className="mt-3 font-black uppercase">{title}</h3>
                 <p className="mt-2 text-sm text-neutral-600">{text}</p>

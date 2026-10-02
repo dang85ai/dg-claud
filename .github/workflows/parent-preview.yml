@@ -16,6 +16,8 @@ jobs:
           node-version: '22.13'
       - run: npm install
       - run: node scripts/test-management.cjs
+      - run: node scripts/test-portal.cjs
+      - run: node scripts/test-media-processing.mjs
       - run: npm run build
       - name: Publish draft preview
         env:

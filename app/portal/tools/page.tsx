@@ -43,6 +43,7 @@ export default function ParentToolsPage() {
   const router = useRouter();
   const [dashboard, setDashboard] = useState<Dashboard | null>(null);
   const [status, setStatus] = useState("");
+  const [loadError,setLoadError]=useState(false);
   const [busy, setBusy] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
 
@@ -57,7 +58,7 @@ export default function ParentToolsPage() {
         const data = await authedFetch<Dashboard>(endpoints.parentDashboard);
         setDashboard(data);
       } catch (error) {
-        setStatus(error instanceof Error ? error.message : "Unable to load portal tools.");
+        setLoadError(true);setStatus(error instanceof Error ? error.message : "Unable to load portal tools.");
       }
     })();
   }, [router]);
@@ -71,7 +72,7 @@ export default function ParentToolsPage() {
         headers:{ "Content-Type":"application/json" },
         body:JSON.stringify({ action, input })
       });
-      setStatus(`${action} completed successfully.`);
+      setStatus("Saved successfully.");
       return true;
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to complete action.");
@@ -149,8 +150,8 @@ export default function ParentToolsPage() {
 
   async function uploadProfilePhoto(event:FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!photo) {
-      setStatus("Select a photo first.");
+    if (!photo || photo.size===0 || photo.size>8*1024*1024 || !["image/jpeg","image/png","image/webp"].includes(photo.type)) {
+      setStatus("Choose a JPEG, PNG or WebP photo no larger than 8 MB.");
       return;
     }
 
@@ -195,8 +196,8 @@ export default function ParentToolsPage() {
   const players = dashboard?.players ?? [];
   const events = dashboard?.events ?? [];
 
-  const PlayerSelect = ({ name = "player_id" }: { name?: string }) => (
-    <select className="field" name={name} required>
+  const PlayerSelect = ({ name = "player_id",id }: { name?: string; id:string }) => (
+    <select id={id} className="field" name={name} required disabled={Boolean(busy)}>
       <option value="">Select player</option>
       {players.map((player) => (
         <option value={player.id} key={player.id}>
@@ -209,7 +210,7 @@ export default function ParentToolsPage() {
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Parent Tools" />
-      <main className="container py-8">
+      <main id="portal-main" className="container py-8">
         <div>
           <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Family Self-Service</div>
           <h1 className="mt-2 text-4xl font-black uppercase tracking-tight md:text-5xl">My Team Tools</h1>
@@ -218,15 +219,15 @@ export default function ParentToolsPage() {
           </p>
         </div>
 
-        {status ? <div className="notice mt-6 text-sm">{status}</div> : null}
+        {status ? <div role="status" className="notice mt-6 text-sm">{status}</div> : null}
 
         {!dashboard ? (
-          <div className="card mt-8 p-6">Loading tools…</div>
+          <div className="card mt-8 p-6">{loadError ? "Unable to load your tools. Reload this page to retry." : "Loading tools…"}</div>
         ) : players.length === 0 ? (
           <ChildLinkRequest accountId={dashboard.user.id} />
         ) : (
           <div className="mt-8 grid gap-6 xl:grid-cols-2">
-            <section className="card p-6">
+            <section id="consent" className="card scroll-mt-56 p-6">
               <div className="flex items-center gap-3">
                 <ShieldCheck className="text-red-600" />
                 <h2 className="text-2xl font-black uppercase">Photo & Media Consent</h2>
@@ -236,8 +237,7 @@ export default function ParentToolsPage() {
               </p>
               <form className="mt-6" onSubmit={submitPhotoConsent}>
                 <div className="field-group">
-                  <label className="field-label">Player</label>
-                  <PlayerSelect />
+                  <label className="field-label" htmlFor="player-select-1">Player</label><PlayerSelect id="player-select-1" />
                 </div>
                 <div className="grid gap-3">
                   {[
@@ -262,13 +262,13 @@ export default function ParentToolsPage() {
                   <label className="field-label" htmlFor="photo_signature">Electronic signature name</label>
                   <input className="field" id="photo_signature" name="signature_name" required />
                 </div>
-                <button className="btn btn-primary" disabled={busy === "form.submit"}>
+                <button className="btn btn-primary" disabled={Boolean(busy)}>
                   <ClipboardSignature size={18} /> Submit Consent
                 </button>
               </form>
             </section>
 
-            <section className="card p-6">
+            <section id="medical" className="card scroll-mt-56 p-6">
               <div className="flex items-center gap-3">
                 <ClipboardSignature className="text-red-600" />
                 <h2 className="text-2xl font-black uppercase">Medical Release</h2>
@@ -278,8 +278,7 @@ export default function ParentToolsPage() {
               </p>
               <form className="mt-6" onSubmit={submitMedicalRelease}>
                 <div className="field-group">
-                  <label className="field-label">Player</label>
-                  <PlayerSelect />
+                  <label className="field-label" htmlFor="player-select-2">Player</label><PlayerSelect id="player-select-2" />
                 </div>
                 <div className="field-group">
                   <label className="field-label" htmlFor="emergency_name">Emergency contact</label>
@@ -307,7 +306,7 @@ export default function ParentToolsPage() {
               </form>
             </section>
 
-            <section className="card p-6">
+            <section id="photo" className="card scroll-mt-56 p-6">
               <div className="flex items-center gap-3">
                 <Camera className="text-red-600" />
                 <h2 className="text-2xl font-black uppercase">Player Profile Photo</h2>
@@ -317,8 +316,7 @@ export default function ParentToolsPage() {
               </p>
               <form className="mt-6" onSubmit={uploadProfilePhoto}>
                 <div className="field-group">
-                  <label className="field-label">Player</label>
-                  <PlayerSelect />
+                  <label className="field-label" htmlFor="player-select-3">Player</label><PlayerSelect id="player-select-3" />
                 </div>
                 <div className="field-group">
                   <label className="field-label" htmlFor="profile_photo">Photo</label>
@@ -331,13 +329,13 @@ export default function ParentToolsPage() {
                     onChange={(event:ChangeEvent<HTMLInputElement>) => setPhoto(event.target.files?.[0] ?? null)}
                   />
                 </div>
-                <button className="btn btn-primary" disabled={busy === "photo"}>
+                <button className="btn btn-primary" disabled={Boolean(busy)}>
                   <Camera size={18} /> {busy === "photo" ? "Processing…" : "Upload for Review"}
                 </button>
               </form>
             </section>
 
-            <section className="card p-6">
+            <section id="carpool" className="card scroll-mt-56 p-6">
               <div className="flex items-center gap-3">
                 <Car className="text-red-600" />
                 <h2 className="text-2xl font-black uppercase">Carpool</h2>
@@ -348,8 +346,7 @@ export default function ParentToolsPage() {
               <form className="mt-6" onSubmit={submitCarpool}>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="field-group">
-                    <label className="field-label">Player</label>
-                    <PlayerSelect />
+                    <label className="field-label" htmlFor="player-select-4">Player</label><PlayerSelect id="player-select-4" />
                   </div>
                   <div className="field-group">
                     <label className="field-label" htmlFor="carpool_kind">Type</label>
@@ -382,13 +379,13 @@ export default function ParentToolsPage() {
                   <label className="field-label" htmlFor="carpool_note">Note</label>
                   <textarea className="field" id="carpool_note" name="note" maxLength={500} />
                 </div>
-                <button className="btn btn-primary" disabled={busy === "carpool.create"}>
+                <button className="btn btn-primary" disabled={Boolean(busy)}>
                   <Car size={18} /> Post Carpool
                 </button>
               </form>
             </section>
 
-            <section className="card p-6 xl:col-span-2">
+            <section id="recognition" className="card scroll-mt-56 p-6 xl:col-span-2">
               <div className="flex items-center gap-3">
                 <Heart className="text-red-600" />
                 <h2 className="text-2xl font-black uppercase">Sisterhood Recognition</h2>
@@ -398,8 +395,7 @@ export default function ParentToolsPage() {
               </p>
               <form className="mt-6 grid gap-4 md:grid-cols-[240px_240px_1fr_auto]" onSubmit={submitSisterhood}>
                 <div>
-                  <label className="field-label">Player</label>
-                  <PlayerSelect />
+                  <label className="field-label" htmlFor="player-select-5">Player</label><PlayerSelect id="player-select-5" />
                 </div>
                 <div>
                   <label className="field-label" htmlFor="category">Recognition</label>
@@ -416,7 +412,7 @@ export default function ParentToolsPage() {
                   <label className="field-label" htmlFor="sisterhood_body">Message</label>
                   <input className="field" id="sisterhood_body" name="body" required maxLength={600} />
                 </div>
-                <button className="btn btn-primary self-end" disabled={busy === "sisterhood.create"}>
+                <button className="btn btn-primary self-end" disabled={Boolean(busy)}>
                   <Heart size={18} /> Submit
                 </button>
               </form>

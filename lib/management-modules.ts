@@ -1,7 +1,7 @@
 export const managementModules = [
   {
     "label": "Players",
-    "href": "/admin/manage#players"
+    "href": "/admin/modules/players"
   },
   {
     "label": "Family Links",
@@ -9,7 +9,7 @@ export const managementModules = [
   },
   {
     "label": "Schedule",
-    "href": "/admin/manage#schedule"
+    "href": "/admin/modules/schedule"
   },
   {
     "label": "Spond Import",
@@ -57,7 +57,7 @@ export const managementModules = [
   },
   {
     "label": "Announcements",
-    "href": "/admin/manage#announcements"
+    "href": "/admin/modules/announcements"
   },
   {
     "label": "Invites",

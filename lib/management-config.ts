@@ -4,6 +4,16 @@ export type ModuleConfig = { title: string; description: string; sections: Secti
 const player = { key: "player_id", label: "Player", source: "players", required: true };
 const event = { key: "event_id", label: "Event", source: "events", required: true };
 export const moduleConfigs: Record<string, ModuleConfig> = {
+  players:{title:"Players",description:"Manage private squad records. Changing a player here does not grant public-profile or photo consent.",sections:[
+ {title:"Players",table:"players",columns:"id,first_name,last_name,jersey_number,position,active,created_at",order:"created_at",action:"player.create",createLabel:"Add Player",fields:[{key:"first_name",label:"First name",required:true},{key:"last_name",label:"Last name",required:true},{key:"jersey_number",label:"Jersey number",type:"number"},{key:"position",label:"Position"}]}
+ ]},
+ schedule:{title:"Schedule",description:"Create and edit team events. Enter date/time with a timezone, for example 2026-10-06T18:00:00-04:00.",sections:[
+ {title:"Events",table:"events",columns:"id,event_type,title,starts_at,ends_at,arrival_at,venue_name,venue_address,opponent,uniform,notes,status,public_visible,created_at",order:"starts_at",action:"event.create",createLabel:"Add Event",fields:[{key:"title",label:"Title",required:true},{key:"event_type",label:"Event type",options:["practice","game","team_event"],required:true},{key:"starts_at",label:"Start date/time including timezone",required:true},{key:"ends_at",label:"End date/time including timezone"},{key:"arrival_at",label:"Arrival date/time including timezone"},{key:"opponent",label:"Opponent"},{key:"venue_name",label:"Venue"},{key:"venue_address",label:"Venue address"},{key:"uniform",label:"Kit"},{key:"notes",label:"Notes"},{key:"status",label:"Status",options:["scheduled","cancelled","completed"],required:true},{key:"public_visible",label:"Show publicly when public access is enabled",type:"checkbox"}]}
+ ]},
+ announcements:{title:"Announcements",description:"Create and edit announcements for the private team or public site.",sections:[
+ {title:"Announcements",table:"announcements",columns:"id,title,body,visibility,pinned,published_at,expires_at,created_at",order:"published_at",action:"announcement.create",createLabel:"Post Announcement",fields:[{key:"title",label:"Title",required:true},{key:"body",label:"Message",required:true},{key:"visibility",label:"Visibility",options:["team","public"],required:true},{key:"pinned",label:"Pin announcement",type:"checkbox"}]}
+ ]},
+
   attendance: { title: "Attendance", description: "Review responses and record attendance for a player and event.", sections: [
     { title: "Attendance Records", table: "attendance", columns: "event_id,player_id,status,note,updated_at", order: "updated_at", action: "attendance.set", createLabel: "Save Attendance", fields: [event, player, { key: "status", label: "Attendance", options: ["unknown","attending","not_attending","maybe"], required: true }, { key: "note", label: "Note" }] }
   ] },
