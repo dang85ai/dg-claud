@@ -10,6 +10,7 @@ import {
   ClipboardCheck,
   CreditCard,
   Heart,
+  ExternalLink,
   Megaphone,
   ShieldCheck,
   Shirt,
@@ -85,7 +86,8 @@ export default function PortalPage() {
 
   const nextEvent = data.events[0];
   const displayName = data.profile?.display_name || data.profile?.full_name || data.user.email || "Parent";
-  const spondLink = data.team_links?.find((link) => link.link_key === "spond_group");
+  const spondGroupLink = data.team_links?.find((link) => link.link_key === "spond_group");
+  const spondWebLink = data.team_links?.find((link) => link.link_key === "spond_web");
 
   return (
     <div className="min-h-screen bg-neutral-100">
@@ -128,19 +130,40 @@ export default function PortalPage() {
           </div>
         </div>
 
-        {spondLink ? (
-          <a
-            href={spondLink.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 block rounded-3xl bg-red-600 p-6 text-white transition hover:bg-red-700"
-          >
-            <div className="text-xs font-black uppercase tracking-[.16em] text-white/75">Team Operations</div>
-            <div className="mt-2 text-2xl font-black uppercase">Open Team in Spond →</div>
-            <p className="mt-2 max-w-2xl text-sm text-white/80">
-              RSVP to games and practices, receive team updates, and use the private Spond group.
-            </p>
-          </a>
+        {(spondGroupLink || spondWebLink) ? (
+          <section className="mt-6 grid gap-4 md:grid-cols-2" aria-label="Spond links">
+            {spondGroupLink ? (
+              <a
+                href={spondGroupLink.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-3xl bg-red-600 p-6 text-white transition hover:bg-red-700"
+              >
+                <div className="text-xs font-black uppercase tracking-[.16em] text-white/75">Team Group</div>
+                <div className="mt-2 flex items-center gap-2 text-2xl font-black uppercase">
+                  Join / Open Team in Spond <ExternalLink size={20} />
+                </div>
+                <p className="mt-2 max-w-2xl text-sm text-white/80">
+                  Use this link to join the private Caledon U9 Girls group or open the group invite in Spond.
+                </p>
+              </a>
+            ) : null}
+
+            <a
+              href={spondWebLink?.url ?? "https://spond.com/client"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-3xl bg-black p-6 text-white transition hover:bg-neutral-800"
+            >
+              <div className="text-xs font-black uppercase tracking-[.16em] text-red-500">Already a Member?</div>
+              <div className="mt-2 flex items-center gap-2 text-2xl font-black uppercase">
+                Open Spond Web App <ExternalLink size={20} />
+              </div>
+              <p className="mt-2 max-w-2xl text-sm text-white/70">
+                Use the regular Spond web app if you are already signed in and already belong to the team group.
+              </p>
+            </a>
+          </section>
         ) : null}
 
         {(data.roles.includes("admin") || data.roles.includes("manager")) ? (
