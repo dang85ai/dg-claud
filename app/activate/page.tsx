@@ -93,7 +93,7 @@ export default function ActivatePage() {
     setStatus("");
 
     try {
-      const response = await fetch("/api/admin/send-password-setup", {
+      const response = await fetch("/.netlify/functions/send-admin-recovery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.trim() })
