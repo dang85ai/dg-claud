@@ -2,7 +2,7 @@
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FileSpreadsheet, RefreshCw, ShieldCheck, Upload } from "lucide-react";
+import { ExternalLink, FileSpreadsheet, RefreshCw, ShieldCheck, Upload } from "lucide-react";
 import { PortalHeader } from "@/components/PortalHeader";
 import { endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
@@ -194,8 +194,26 @@ export default function SpondImportPage() {
               Review the Spond export before anything changes. Raw spreadsheets are parsed in memory and are not retained.
             </p>
           </div>
-          <div className="flex items-center gap-2 rounded-full bg-black px-4 py-3 text-xs font-black uppercase text-white">
-            <ShieldCheck size={16} /> MFA Protected
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href="https://spond.com/landing/groupInvite?groupCode=26AD20F4F6DD7D16D4F3659BBB769721"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary !min-h-11 !px-4 text-sm"
+            >
+              Team Group <ExternalLink size={16} />
+            </a>
+            <a
+              href="https://spond.com/client"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-light !min-h-11 !px-4 text-sm"
+            >
+              Spond Web App <ExternalLink size={16} />
+            </a>
+            <div className="flex items-center gap-2 rounded-full bg-black px-4 py-3 text-xs font-black uppercase text-white">
+              <ShieldCheck size={16} /> MFA Protected
+            </div>
           </div>
         </div>
 
