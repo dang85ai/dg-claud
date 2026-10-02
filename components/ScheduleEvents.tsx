@@ -76,7 +76,7 @@ function formatTime(value: string) {
 }
 
 function directionsUrl(event: TeamEvent) {
-  const query = event.venue_address || event.venue_name;
+  const query = event.venue_address;
   return query
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
     : null;
@@ -213,7 +213,7 @@ export function ScheduleEvents() {
 
   if (status && !events.length) {
     return (
-      <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6 text-sm text-neutral-600">
+      <div id="current-week" className="scroll-mt-28 rounded-2xl border border-neutral-200 bg-neutral-50 p-6 text-sm text-neutral-600">
         <div className="flex items-center gap-2 font-black uppercase text-neutral-800">
           <RefreshCw size={17} /> {status}
         </div>
@@ -222,7 +222,7 @@ export function ScheduleEvents() {
   }
 
   return (
-    <div>
+    <div id="current-week" className="scroll-mt-28">
       <section id="this-week" className="scroll-mt-28 rounded-3xl border-2 border-red-200 bg-red-50 p-5 md:p-6">
         <div className="text-xs font-black uppercase tracking-[.16em] text-red-600">Current Week</div>
         <h3 className="mt-2 text-2xl font-black uppercase tracking-tight">This Week’s Training</h3>

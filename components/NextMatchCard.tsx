@@ -74,7 +74,7 @@ export function NextMatchCard() {
 
   if (status && !events.length) {
     return (
-      <div className="card overflow-hidden">
+      <div className="card overflow-hidden text-neutral-900">
         <div className="bg-black px-5 py-3 text-xs font-black uppercase tracking-[.18em] text-white">
           Next Session
         </div>
@@ -82,7 +82,7 @@ export function NextMatchCard() {
           <div className="flex items-center gap-2 text-sm font-black uppercase text-neutral-700">
             <RefreshCw size={17} /> {status}
           </div>
-          <Link href="/schedule#this-week" className="mt-5 inline-flex text-sm font-black text-red-600">
+          <Link href="/schedule#current-week" className="mt-5 inline-flex text-sm font-black text-red-600">
             View this week’s schedule →
           </Link>
         </div>
@@ -92,7 +92,7 @@ export function NextMatchCard() {
 
   if (!nextEvent) {
     return (
-      <div className="card overflow-hidden">
+      <div className="card overflow-hidden text-neutral-900">
         <div className="bg-black px-5 py-3 text-xs font-black uppercase tracking-[.18em] text-white">
           Next Session
         </div>
@@ -102,7 +102,7 @@ export function NextMatchCard() {
           <p className="mt-2 text-sm text-neutral-600">
             Check the current-week schedule for the latest training status.
           </p>
-          <Link href="/schedule#this-week" className="mt-5 inline-flex text-sm font-black text-red-600">
+          <Link href="/schedule#current-week" className="mt-5 inline-flex text-sm font-black text-red-600">
             View this week’s schedule →
           </Link>
         </div>
@@ -110,13 +110,13 @@ export function NextMatchCard() {
     );
   }
 
-  const mapQuery = nextEvent.venue_address || nextEvent.venue_name;
+  const mapQuery = nextEvent.venue_address;
   const mapUrl = mapQuery
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`
     : null;
 
   return (
-    <div className="card overflow-hidden">
+    <div className="card overflow-hidden text-neutral-900">
       <div className="bg-black px-5 py-3 text-xs font-black uppercase tracking-[.18em] text-white">
         Next Session
       </div>
@@ -138,7 +138,9 @@ export function NextMatchCard() {
           </div>
         </div>
 
+        <p className="mt-4 text-sm text-neutral-600">Follow the arrival and kit instructions in your latest Spond invite. Bring water and check the <Link href="/game-day" className="font-bold underline">equipment checklist</Link>. Confirm the venue address and entrance before travelling.</p>
         <div className="mt-5 flex flex-wrap gap-3">
+          <a href="https://spond.com/client/" target="_blank" rel="noopener noreferrer" className="btn btn-primary">Open Spond / RSVP</a>
           {mapUrl ? (
             <a
               href={mapUrl}
@@ -149,7 +151,7 @@ export function NextMatchCard() {
               <Navigation size={17} /> Directions
             </a>
           ) : null}
-          <Link href="/schedule#this-week" className="btn btn-light">
+          <Link href="/schedule#current-week" className="btn btn-light">
             View This Week
           </Link>
         </div>
