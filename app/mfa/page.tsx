@@ -55,6 +55,16 @@ export default function MfaPage() {
       return;
     }
 
+    const roleResult = await supabase.from("user_roles").select("role").eq("user_id",sessionData.session.user.id);
+      if (roleResult.error) {
+        setStatus("Unable to verify management access."); setMode("error");
+        return;
+      }
+      if (!roleResult.data?.some((item) => item.role === "manager" || item.role === "admin")) {
+        router.replace("/portal");
+        return;
+      }
+
     const aal = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (aal.error) {
       setStatus(`Unable to check MFA status: ${aal.error.message}`);
