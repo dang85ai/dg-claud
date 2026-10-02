@@ -48,6 +48,23 @@ const makeClient = (scenario) => {
   }};
   return {client,writes};
 };
+const vm=require("node:vm");
+const handlers={}, stored=[];
+let cacheControl="";
+vm.runInNewContext(fs.readFileSync("public/sw.js","utf8"),{
+  URL,
+  self:{location:{origin:"https://preview.example"},addEventListener:(event,handler)=>handlers[event]=handler,skipWaiting(){},clients:{claim(){}}},
+  caches:{open:async()=>({addAll:async()=>{},put:async(req)=>stored.push(req.url)}),match:async()=>null},
+  fetch:async()=>({ok:true,headers:{get:()=>cacheControl},clone(){return this;}})
+});
+async function checkCache(url,auth=false){
+  let response;const waits=[];
+  handlers.fetch({request:{method:"GET",url,headers:{has:(name)=>auth&&name==="authorization"}},respondWith(p){response=p;},waitUntil(p){waits.push(p);}});
+  if(response)await response;
+  await Promise.all(waits);
+  return Boolean(response);
+}
+
 (async()=>{
   for(const scenario of ["signed-out","parent","aal1","existing","new","ambiguous","inactive","write-fails"]){
     const {client,writes}=makeClient(scenario);
@@ -63,6 +80,17 @@ const makeClient = (scenario) => {
     }
     console.log("Squad linking "+scenario+": passed");
   }
+  for(const url of ["https://preview.example/portal","https://preview.example/admin/manage","https://preview.example/api/kit-pricing","https://project.supabase.co/functions/v1/parent-dashboard","https://preview.example/roster?_rsc=1"]){
+    assert.equal(await checkCache(url),false);
+  }
+  assert.equal(await checkCache("https://preview.example/roster",true),false);
+  cacheControl="private, no-store";
+  await checkCache("https://preview.example/roster");
+  assert.equal(stored.length,0);
+  cacheControl="public";
+  await checkCache("https://preview.example/roster");
+  assert.equal(stored.length,1);
+  console.log("Private/authenticated responses excluded from offline cache: passed");
   const priceSource=fs.readFileSync("app/api/kit-pricing/route.ts","utf8");
   assert.ok(priceSource.includes('["parent_player", "manager", "admin"]'));
   console.log("All 18 module destinations and member-pricing role: passed");
