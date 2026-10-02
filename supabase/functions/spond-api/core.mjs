@@ -88,11 +88,13 @@ export async function handleRequest(req, deps) {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers });
   if (req.method !== 'POST') return json({ error: 'Method not allowed.' }, 405);
   try {
-    await deps.authorize(req);
+    const authorizedClient = await deps.authorize(req);
     const body = await req.text();
     if (body.length > 2048) fail('invalid_input', 'Request is too large.', 400);
     let input; try { input = JSON.parse(body); } catch { fail('invalid_input', 'Invalid request.', 400); }
-    const data = await connectionAction(input, deps.credentials(), deps.fetcher);
+    const data = ['sync_status','sync_pause','sync_resume','sync_now'].includes(input?.action) && deps.syncAction
+      ? await deps.syncAction(input, authorizedClient)
+      : await connectionAction(input, deps.credentials(), deps.fetcher);
     return json(data);
   } catch (error) {
     if (error instanceof ConnectionError) return json({ ok: false, code: error.code, error: error.message }, error.status);

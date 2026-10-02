@@ -1,11 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { authedFetch, endpoints } from "@/lib/api";
 
 type Group = { id: string; name: string };
 type Event = { id: string; title: string; starts_at: string; venue: string; cancelled: boolean };
 type Result = { ok: boolean; groups?: Group[]; events?: Event[]; warning?: string; checked_at: string };
 export function SpondConnection() {
+  const [sync, setSync] = useState<{enabled:boolean;group_name:string;last_success_at:string|null;last_error:string|null;last_summary:Record<string,number>|null}|null>(null);
+  const [syncBusy, setSyncBusy] = useState(false);
+  const [syncMessage, setSyncMessage] = useState("");
+  async function syncAction(action = "sync_status") {
+    setSyncBusy(true); setSyncMessage("");
+    try {
+      const call = (value:string) => authedFetch<{sync:NonNullable<typeof sync>}>(endpoints.spondApi,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:value})});
+      if(action !== "sync_status") await call(action);
+      const result = await call("sync_status"); setSync(result.sync);
+    } catch(error) { setSyncMessage(error instanceof Error ? error.message : "Unable to check sync status."); }
+    finally { setSyncBusy(false); }
+  }
+  useEffect(() => { void syncAction(); }, []);
   const [groups, setGroups] = useState<Group[]>([]);
   const [group, setGroup] = useState("");
   const [events, setEvents] = useState<Event[] | null>(null);
@@ -31,6 +44,12 @@ export function SpondConnection() {
     finally { setBusy(false); }
   }
   return <section className="card mt-8 p-6" aria-labelledby="spond-api-title">
+    <div className="rounded-xl border p-4 mb-6">
+      <h3 className="text-xl font-bold">Daily schedule sync</h3>
+      <p className="mt-2 text-sm">Once a day at 10:00 UTC (6 a.m. Toronto in summer, 5 a.m. in winter). New sessions stay private until a manager publishes them. Conflicting website edits are preserved.</p>
+      {sync ? <><p className="mt-3 font-bold">{sync.enabled ? "Enabled" : "Paused"} · {sync.group_name}</p><p className="mt-2 text-sm">Last successful sync: {sync.last_success_at ? new Date(sync.last_success_at).toLocaleString("en-CA",{timeZone:"America/Toronto"}) + " · Toronto time" : "Not yet completed"}</p>{sync.last_summary ? <p className="mt-2 text-sm">Added {sync.last_summary.added} · Updated {sync.last_summary.updated} · Unchanged {sync.last_summary.unchanged} · Conflicts {sync.last_summary.conflicts}</p> : null}{sync.last_error ? <p role="alert" className="notice mt-2">{sync.last_error}</p> : null}<div className="mt-4 flex flex-wrap gap-3"><button type="button" className="btn btn-primary" disabled={syncBusy || !sync.enabled} onClick={() => syncAction("sync_now")}>Sync now</button><button type="button" className="btn btn-light" disabled={syncBusy} onClick={() => syncAction(sync.enabled ? "sync_pause" : "sync_resume")}>{sync.enabled ? "Pause auto sync" : "Resume auto sync"}</button></div></> : null}
+      <p role="status" aria-live="polite" className="mt-2 text-sm">{syncBusy ? "Checking sync…" : syncMessage}</p>
+    </div>
     <div className="text-xs font-bold uppercase tracking-widest text-red-600">Live Spond API · read-only</div>
     <h2 id="spond-api-title" className="mt-2 text-2xl font-bold">Connect your team</h2>
     <p className="mt-3 text-sm text-neutral-600">Test the connection, then choose a group to preview its events. This uses an unofficial Spond API; it may stop working if Spond changes it. No replies, messages or website records are changed.</p>
