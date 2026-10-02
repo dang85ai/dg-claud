@@ -29,7 +29,7 @@ export default function SchedulePage() {
       <PublicPageHero
         eyebrow="Games · Practices · Events"
         title="Schedule & Events"
-        copy="Designed for quick use from the sideline: date, arrival time, field, uniform, weather and parent duties."
+        copy="2026–27 training schedule for quick mobile use: this week, next session, training venue directions, cancellations and parent communication guidance."
       />
 
       <section className="section">
