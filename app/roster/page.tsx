@@ -1,14 +1,14 @@
+import { PlayerKitCard } from "@/components/PlayerKitCard";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import {
   ClipboardList,
   ShieldCheck,
-  UserRound,
   UsersRound
 } from "lucide-react";
 
-const players = [["Seva",6],["Savi",12],["Gianna-Rose",null],["Natalia",null],["Milena",null],["Valentina",null],["Julia",null],["Georgia",null],["Milania",null]];
+const players: [string, number | null][] = [["Seva",6],["Savi",12],["Gianna-Rose",null],["Natalia",null],["Milena",null],["Valentina",null],["Julia",null],["Georgia",null],["Milania",null]];
 
 const staff = [["Technical Director","Gabriel Borges"],["Coach","Davinder Budwal"],["Coach","Courtney Quinn"],["Team Manager","Karam Budwal"],["Team Manager","Melissa Catalano"],["Team Manager","Daniel Guerra"],["Team Manager","Natalie Guerra"],["Team Manager","Giuseppe (Joe) Tomaselli"]];
 
@@ -46,20 +46,11 @@ export default function RosterPage() {
                 <h2 className="text-3xl font-black uppercase">Player Profiles</h2>
               </div>
               <p className="mt-3 text-sm text-neutral-600">
-                Consented profiles can include first name, jersey number, optional position, a fun fact and an approved photo.
+                Hover over a player illustration to preview the white away kit. Move off to return to black home kit, or use Home / Away and tap controls. These are generic kit illustrations, not portraits of the players.
               </p>
               <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3">
                 {players.map(([name, number]) => (
-                  <div className="card overflow-hidden" key={String(name)}>
-                    <div className="grid aspect-[4/5] place-items-center bg-neutral-200">
-                      <UserRound size={48} className="text-neutral-400" aria-hidden="true" />
-                    </div>
-                    <div className="p-4">
-                      <div className="text-xs font-black uppercase tracking-[.12em] text-red-600">Player</div>
-                      <div className="mt-1 text-xl font-black uppercase">{name}</div>
-                      <div className="mt-3 text-sm text-neutral-500">{number ? `#${number}` : "Jersey number to be confirmed"}</div>
-                    </div>
-                  </div>
+                  <PlayerKitCard key={name} name={name} number={number} />
                 ))}
               </div>
             </section>
