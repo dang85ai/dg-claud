@@ -59,7 +59,11 @@ drop policy media_manager_update on public.media_items;
 drop policy media_public_read on public.media_items;
 drop policy media_team_read on public.media_items;
 drop policy media_team_insert_pending on public.media_items;
-create policy media_library_read on public.media_items for select to authenticated using (app_private.can_view_photo(id));
+-- INSERT RETURNING must evaluate ownership on the new row itself: a helper
+-- that rereads the table cannot see that row in the statement's snapshot.
+create policy media_library_read on public.media_items for select to authenticated using (
+ deleted_at is null and app_private.is_team_member() and
+ (uploader_id=(select auth.uid()) or app_private.is_admin_aal2() or app_private.can_view_photo(id)));
 create policy media_library_admin_update on public.media_items for update to authenticated using (app_private.is_admin_aal2() and deleted_at is null) with check (app_private.is_admin_aal2());
 create policy media_library_admin_delete on public.media_items for delete to authenticated using (app_private.is_admin_aal2());
 create policy media_library_upload on public.media_items for insert to authenticated with check (

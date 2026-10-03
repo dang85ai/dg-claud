@@ -218,7 +218,7 @@ Deno.serve(async (req: Request) => {
       }
     } catch (_) {}
 
-    const message = error instanceof Error ? error.message : "Unable to upload image.";
+    const message = error instanceof Error ? error.message : typeof error?.message === "string" ? error.message : "Unable to upload image.";
     const status = message.includes("Authentication") || message.includes("session") ? 401 : 400;
     return new Response(JSON.stringify({ ok: false, error: message }), {
       status,

@@ -16,14 +16,14 @@ do $$ declare pa uuid:=gen_random_uuid(); pb uuid:=gen_random_uuid(); ad uuid:=g
 end $$;
 select set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('test.parent_a'),'role','authenticated','aal','aal1')::text,true);
 set local role authenticated;
-do $$ declare changed int; begin
+do $$ declare changed int; inserted_id uuid; begin
  if not app_private.can_view_album(current_setting('test.album_a')::uuid) then raise exception 'Owner cannot view own album'; end if;
  if app_private.can_view_album(current_setting('test.album_b')::uuid) then raise exception 'Private album leaked to another parent'; end if;
  if not app_private.can_view_album(current_setting('test.shared')::uuid) then raise exception 'Assigned group cannot view shared album'; end if;
  if not app_private.can_view_photo(current_setting('test.photo_own')::uuid) then raise exception 'Uploader cannot view pending upload'; end if;
  if app_private.can_view_photo(current_setting('test.photo_hidden')::uuid) then raise exception 'Photo leaked across private albums'; end if;
  insert into public.media_items(album_id,uploader_id,media_type,original_path,processed_private_path,thumbnail_path,status,visibility,exif_stripped)
- values(current_setting('test.album_a')::uuid,current_setting('test.parent_a')::uuid,'photo',current_setting('test.parent_a')||'/allowed.jpg',current_setting('test.parent_a')||'/allowed.jpg',current_setting('test.parent_a')||'/allowed-thumb.jpg','pending','private_team',true);
+ values(current_setting('test.album_a')::uuid,current_setting('test.parent_a')::uuid,'photo',current_setting('test.parent_a')||'/allowed.jpg',current_setting('test.parent_a')||'/allowed.jpg',current_setting('test.parent_a')||'/allowed-thumb.jpg','pending','private_team',true) returning id into inserted_id;
  begin
   insert into public.media_items(album_id,uploader_id,media_type,original_path,processed_private_path,thumbnail_path,status,visibility,exif_stripped)
   values(current_setting('test.album_b')::uuid,current_setting('test.parent_a')::uuid,'photo',current_setting('test.parent_a')||'/denied.jpg',current_setting('test.parent_a')||'/denied.jpg',current_setting('test.parent_a')||'/denied-thumb.jpg','pending','private_team',true);
@@ -77,5 +77,4 @@ do $$ begin
  if not app_private.can_view_album(current_setting('test.album_b')::uuid) then raise exception 'MFA admin cannot manage another parent album'; end if;
 end $$;
 reset role;
-
 
