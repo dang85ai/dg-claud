@@ -336,3 +336,7 @@ dialog::backdrop { background:#0008; }
 .site-shell main { min-width: 0; }
 .container :where(.flex, .inline-flex) > :where(div, section, article, nav) { min-width: 0; }
 .btn { max-width: 100%; white-space: normal; text-align: center; padding-block: 10px; }
+
+@media (max-width: 760px) {
+  .card h2.text-3xl { font-size: clamp(1.5rem, 7vw, 1.875rem); line-height: 1.15; }
+}
