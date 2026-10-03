@@ -96,7 +96,16 @@ export default function RosterPage() {
           </section>
         </div>
       </section>
-    <PublicPageGuide page="/roster" />
+          <section className="card mt-8 p-6" aria-labelledby="roster-family-help">
+            <h2 id="roster-family-help" className="text-2xl font-black uppercase">Managing player profiles together</h2>
+            <div className="mt-4 grid gap-5 text-sm leading-7 text-neutral-600 md:grid-cols-2">
+              <p>Parents can open My Players in the Parent Portal to request a connection to their child. Include the child’s name, your relationship and information the team manager can verify against registration. A request stays pending until a manager approves it. Simply choosing a child’s name does not grant access. Each co-guardian can use a separate account, and managers can remove an outdated family link when circumstances change. Keep verification details private and leave medical information and identity documents out of the request.</p>
+              <p>Once linked, a parent can correct the jersey number or choose a developing position. A blank number means “Number pending”; it does not mean the player is missing from the team. Display-name changes go to manager review before the public name changes. For a roster portrait, first complete the Photo &amp; Media Consent form. Choose a photo, adjust the square crop, check the circular preview and confirm the crop before saving. The image is processed to remove location metadata and reviewed before public use.</p>
+              <p>The field below the profiles is a shared illustration of the team’s formation. It is not a promise of a starting place or a record of playing time. Managers assign the position slots, while families can update the position shown in their child’s details. Empty markers show positions awaiting assignment; players without a slot remain part of the rotating squad. Tap a marker to read its details. Managers have keyboard-friendly selectors as well as drag controls, so arranging the field does not depend on using a mouse.</p>
+              <p>Profile visibility and photo permission are checked separately. A private player record can still be managed by its verified family without being published on the public roster. Managers review current consent before publishing a name or portrait and can choose whether an approved profile appears on the public field. Withdrawing consent prevents further public display. Contact the manager privately if a correction involves family access or consent, rather than putting a child’s surname, birth date or household information in a public message.</p>
+            </div>
+          </section>
+          <PublicPageGuide page="/roster" />
     </PublicShell>
   );
 }

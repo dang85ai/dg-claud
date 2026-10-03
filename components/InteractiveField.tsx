@@ -4,7 +4,7 @@ import {useState} from 'react';
 import {formationSlots} from '@/lib/roster-formations.mjs';
 import {RosterPlayer,rosterPhoto} from '@/lib/roster-api';
 export function InteractiveField({players,formation,showNames=true,editable=false,onAssign}:{players:RosterPlayer[];formation:string;showNames?:boolean;editable?:boolean;onAssign?:(playerId:string,slot:string)=>void}){
- const [selected,setSelected]=useState<RosterPlayer|null>(null);const [dragSlot,setDragSlot]=useState('');const slots=formationSlots(formation);
+ const [selected,setSelected]=useState<RosterPlayer|null>(null);const [dragSlot,setDragSlot]=useState('');const slots=formationSlots(formation);const visiblePlayers=editable?players:players.filter(p=>p.show_on_field);
  return <section className="card mt-6 min-w-0 overflow-hidden p-4 sm:p-6" aria-labelledby="field-title">
   <div className="flex flex-wrap items-center justify-between gap-3"><div><div className="text-xs font-black uppercase tracking-widest text-red-600">Every position, every teammate</div><h2 id="field-title" className="mt-1 text-2xl font-black uppercase">On the Field</h2></div><span className="rounded-full bg-green-100 px-3 py-2 text-sm font-bold text-green-900">{formation}</span></div>
   <p className="my-4 text-sm text-neutral-600">A shared team formation, not a match selection or ranking. Tap a player to see their role. Players rotate positions as they learn.</p>
@@ -19,6 +19,6 @@ export function InteractiveField({players,formation,showNames=true,editable=fals
    </div>;})}
   </div>
   <div className="mt-4 min-h-12 rounded-xl bg-green-50 p-3 text-sm text-green-950" role="status">{selected?<><strong>{selected.name}</strong> · {selected.number===null?'Number pending':'#'+selected.number} · {selected.position||'Position developing'} <button className="ml-3 underline" onClick={()=>setSelected(null)}>Close</button></>:'Choose a player marker to learn more. Empty markers are positions awaiting an assignment.'}</div>
-  {players.some(p=>!p.slot&&p.active)?<p className="mt-3 break-words text-sm text-neutral-600"><strong>Rotating squad:</strong> {players.filter(p=>!p.slot&&p.active).map(p=>p.name).join(', ')}. Everyone is part of the team.</p>:null}
+  {visiblePlayers.some(p=>!p.slot&&p.active)?<p className="mt-3 break-words text-sm text-neutral-600"><strong>Rotating squad:</strong> {visiblePlayers.filter(p=>!p.slot&&p.active).map(p=>p.name).join(', ')}. Everyone is part of the team.</p>:null}
  </section>;
 }

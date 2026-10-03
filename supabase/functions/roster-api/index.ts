@@ -16,7 +16,8 @@ Deno.serve(async(req:Request)=>{
   }
   if(req.method==='POST'){
    if(Number(req.headers.get('content-length')||0)>16000)return respond({error:'Request too large'},413);
-   const body=await req.json();if(typeof body.action!=='string'||!body.input||typeof body.input!=='object')return respond({error:'Invalid request'},400);
+   const text=await req.text();if(text.length>16000)return respond({error:'Request too large'},413);
+   const body=JSON.parse(text);if(typeof body.action!=='string'||!body.input||typeof body.input!=='object'||Array.isArray(body.input))return respond({error:'Invalid request'},400);
    const result=await client.rpc('roster_action',{action:body.action,input:body.input});if(result.error)throw result.error;return respond(result.data);
   }
   const result=await client.rpc('roster_snapshot',{private_view:privateView});if(result.error)throw result.error;
