@@ -15,8 +15,8 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Schedule & Events | Caledon U9 Girls 2026",
-  description: "Games, practices, events, arrival guidance and field information for Caledon SC U9 Girls 2026.",
+  title: "Schedule & Events",
+  description: "2026–27 Caledon U9 Girls training schedule with practices, events, venue guidance, cancellations, arrival information and parent communication details.",
   alternates: { canonical: "/schedule" }
 };
 
