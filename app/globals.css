@@ -340,3 +340,19 @@ dialog::backdrop { background:#0008; }
 @media (max-width: 760px) {
   .card h2.text-3xl { font-size: clamp(1.5rem, 7vw, 1.875rem); line-height: 1.15; }
 }
+
+/* Album library: constrained layouts, accessible dialogs and clear drop targets. */
+.media-library { min-width:0; overflow-wrap:anywhere; }
+.media-library :where(.grid,.flex) > * { min-width:0; }
+.media-dialog,.media-lightbox { margin:auto; border:0; border-radius:24px; padding:24px; background:#fff; color:#111; width:min(640px,calc(100% - 24px)); max-height:90dvh; overflow:auto; box-shadow:0 24px 80px #0005; }
+.media-lightbox { width:min(1100px,calc(100% - 24px)); }
+.media-dialog::backdrop,.media-lightbox::backdrop { background:#111b; backdrop-filter:blur(4px); }
+.media-upload-zone { border:2px dashed #d4d4d4; border-radius:20px; padding:28px 18px; text-align:center; background:linear-gradient(135deg,#fff,#fff4f5); }
+.media-upload-zone.is-over,.media-drop-active { border-color:#e30613!important; background:#fff0f1!important; outline:3px solid #e3061325; }
+.media-empty-cover { height:100%; display:flex; align-items:center; justify-content:center; flex-direction:column; color:#e30613; background:radial-gradient(ellipse at top right,#e3061320,transparent 65%),repeating-linear-gradient(135deg,#f7f7f7 0 35px,#fff 36px 70px); }
+.media-bulk-bar { position:sticky; top:90px; z-index:20; display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px; background:#fff; border:1px solid #ddd; border-radius:16px; box-shadow:0 10px 30px #0001; }
+.media-recipient-list { max-height:260px; overflow:auto; }
+.media-album { transition:box-shadow .2s,border-color .2s; }
+.media-album:hover,.media-album:focus-within { border-color:#e3061360; box-shadow:0 14px 40px #e3061310; }
+@media(max-width:760px){ .media-dialog,.media-lightbox { padding:18px; max-height:calc(100dvh - 30px); } .media-bulk-bar { top:80px; } }
+

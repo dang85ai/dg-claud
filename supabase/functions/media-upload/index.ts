@@ -85,6 +85,10 @@ Deno.serve(async (req: Request) => {
       throw new Error("Team access is required.");
     }
 
+    if (roles.some((r:string)=>["admin","manager"].includes(r))) {
+      const claims=JSON.parse(atob(token.split(".")[1].replace(/-/g,"+").replace(/_/g,"/")));
+      if(claims.aal!=="aal2") throw new Error("Complete multi-factor authentication first.");
+    }
     const form = await req.formData();
     const file = form.get("file");
     if (!(file instanceof File)) throw new Error("Image file is required.");
@@ -114,9 +118,10 @@ Deno.serve(async (req: Request) => {
     }
 
     if (albumId) {
-      const albumRes = await userClient.from("albums").select("id").eq("id", albumId).maybeSingle();
+      const albumRes = await userClient.from("albums").select("id,created_by,allow_contributions,deleted_at").eq("id", albumId).is("deleted_at",null).maybeSingle();
       if (albumRes.error) throw albumRes.error;
       if (!albumRes.data) throw new Error("Album not found or unavailable.");
+      if(!roles.some((r:string)=>["admin","manager"].includes(r)) && albumRes.data.created_by!==userId && !albumRes.data.allow_contributions) throw new Error("Uploads are disabled in this album.");
     }
 
     const existingBucket = await adminClient.storage.getBucket(BUCKET);
@@ -170,6 +175,7 @@ Deno.serve(async (req: Request) => {
       exif_stripped: true,
       consent_reviewed: false,
       caption,
+      filename: file.name.replace(/[^a-zA-Z0-9 ._-]/g,"_").slice(0,120),
     }).select("id,album_id,media_type,processed_private_path,thumbnail_path,status,visibility,exif_stripped,consent_reviewed,created_at").single();
 
     if (mediaRes.error) throw mediaRes.error;
@@ -220,3 +226,5 @@ Deno.serve(async (req: Request) => {
     });
   }
 });
+
+

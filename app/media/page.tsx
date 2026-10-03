@@ -1,4 +1,5 @@
 import { PublicPageGuide } from "@/components/PublicPageGuide";
+import { MediaLibrary } from "@/components/MediaLibrary";
 import Link from "next/link";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
@@ -19,7 +20,7 @@ export default function MediaPage() {
       <DevelopmentBanner />
       <PublicPageHero
         eyebrow="Team Media"
-        title="Photos & Game Recaps"
+        title="Our Season in Photos"
         copy="A consent-controlled gallery for approved team memories, organized by event throughout the season."
       />
 
@@ -32,15 +33,7 @@ export default function MediaPage() {
             </p>
           </div>
 
-          <div className="card p-8 text-center">
-            <Camera className="mx-auto text-red-600" size={42} />
-            <h2 className="mt-4 text-2xl font-black uppercase">Team memories stay in the Parent Portal</h2>
-            <p className="mx-auto mt-3 max-w-xl text-neutral-600">There are no public photo albums available. Signed-in team members can view approved private team photos. Families can submit a player photo for manager review.</p>
-            <div className="mt-5 flex flex-wrap justify-center gap-3">
-              <Link href="/portal/activity/media" className="btn-primary">Open Team Photos</Link>
-              <Link href="/portal/tools#photo" className="btn-secondary">Submit a Player Photo</Link>
-            </div>
-          </div>
+          <MediaLibrary />
 
           <div className="mt-8 grid gap-6 lg:grid-cols-3">
             <div className="card p-6">
@@ -55,7 +48,7 @@ export default function MediaPage() {
               <Upload className="text-red-600" />
               <h2 className="mt-4 text-xl font-black uppercase">Submit Photos</h2>
               <p className="mt-2 text-sm text-neutral-600">
-                Authorized families can upload photos through the private Parent Portal. The photo coordinator or manager reviews them before any public use.
+                Signed-in families can create personal albums or contribute to shared albums. You can edit captions and remove your own uploads. Admins review photos and manage sharing, public visibility and organization.
               </p>
             </div>
 
