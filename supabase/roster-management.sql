@@ -15,7 +15,7 @@ create index roster_requests_player_idx on public.roster_requests(player_id);
 create index roster_requests_reviewer_idx on public.roster_requests(reviewed_by);
 create unique index roster_requests_pending_name_idx on public.roster_requests(requested_by,player_id) where status='pending' and kind='name';
 create table public.roster_formation (
- id text primary key check(id='team'), name text not null default '1-3-2-1' check(name in ('1-3-2-1','1-2-3-1','1-3-3-2','1-4-3-1')),
+ id text primary key check(id='team'), name text not null default '1-2-1-1' check(name in ('1-2-1-1','1-2-2','1-3-2-1','1-2-3-1','1-3-3-2','1-4-3-1')),
  show_names boolean not null default true, updated_at timestamptz not null default now()
 );
 insert into public.roster_formation(id) values('team');
@@ -135,12 +135,12 @@ begin
    update public.player_public_profiles set public_visible=case when input?'public_visible' then (input->>'public_visible')::boolean else public_visible end,show_on_field=case when input?'show_on_field' then (input->>'show_on_field')::boolean else show_on_field end where player_id=target;
   end if;
  elsif action='formation.save' then
-  formation:=input->>'name';if formation not in ('1-3-2-1','1-2-3-1','1-3-3-2','1-4-3-1') then raise exception 'Choose a valid 7v7 or 9v9 formation'; end if;
+  formation:=input->>'name';if formation not in ('1-2-1-1','1-2-2','1-3-2-1','1-2-3-1','1-3-3-2','1-4-3-1') then raise exception 'Choose a valid 5v5, 7v7 or 9v9 formation'; end if;
   perform 1 from public.roster_formation where id='team' for update;
   assignment:=coalesce(input->'assignments','{}'::jsonb);if jsonb_typeof(assignment)<>'object' then raise exception 'Invalid assignments'; end if;
   if (select count(*) from jsonb_each_text(assignment))<>(select count(distinct value) from jsonb_each_text(assignment)) then raise exception 'Player cannot occupy multiple slots'; end if;
   for slot,target in select key,value::uuid from jsonb_each_text(assignment) loop
-   if not (slot=any(case formation when '1-3-2-1' then array['GK','LB','CB','RB','LM','RM','ST'] when '1-2-3-1' then array['GK','LB','RB','LM','CM','RM','ST'] when '1-3-3-2' then array['GK','LB','CB','RB','LM','CM','RM','LS','RS'] else array['GK','LB','LCB','RCB','RB','LM','CM','RM','ST'] end)) then raise exception 'Invalid formation slot'; end if;
+   if not (slot=any(case formation when '1-2-1-1' then array['GK','LB','RB','CM','ST'] when '1-2-2' then array['GK','LB','RB','LS','RS'] when '1-3-2-1' then array['GK','LB','CB','RB','LM','RM','ST'] when '1-2-3-1' then array['GK','LB','RB','LM','CM','RM','ST'] when '1-3-3-2' then array['GK','LB','CB','RB','LM','CM','RM','LS','RS'] else array['GK','LB','LCB','RCB','RB','LM','CM','RM','ST'] end)) then raise exception 'Invalid formation slot'; end if;
    if not exists(select 1 from public.players where id=target and active) then raise exception 'Assigned player unavailable'; end if;
   end loop;
   update public.player_public_profiles set field_slot=null,updated_at=now() where field_slot is not null;
