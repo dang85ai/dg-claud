@@ -130,6 +130,27 @@ export default function PortalPage() {
           </div>
         </div>
 
+        <Link
+          href="/portal/training"
+          className="mt-6 block overflow-hidden rounded-3xl border border-neutral-200 bg-white transition hover:-translate-y-0.5 hover:border-red-500"
+        >
+          <div className="grid gap-0 md:grid-cols-[1fr_auto]">
+            <div className="p-6">
+              <div className="flex items-center gap-3">
+                <BookOpenCheck className="text-red-600" />
+                <div className="text-xs font-black uppercase tracking-[.16em] text-red-600">New Parent Resource</div>
+              </div>
+              <h2 className="mt-3 text-2xl font-black uppercase">Training & Development</h2>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-600">
+                See what the girls are learning, simple questions to ask after practice, 5-minute home challenges, and printable 60-minute coach session cards.
+              </p>
+            </div>
+            <div className="flex items-center bg-black px-6 py-5 text-sm font-black uppercase text-white md:min-w-52 md:justify-center">
+              Open Training Guide →
+            </div>
+          </div>
+        </Link>
+
         {(spondGroupLink || spondWebLink) ? (
           <section className="mt-6 grid gap-4 md:grid-cols-2" aria-label="Spond links">
             {spondGroupLink ? (
