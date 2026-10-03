@@ -146,7 +146,7 @@ begin
   perform id from public.media_items where album_id=a.id and deleted_at is null order by id for update;
   select count(*) into v_count from public.media_items where album_id=a.id and deleted_at is null;
   if v_count<>cardinality(v_order) or exists(select 1 from unnest(v_order) v where not exists(select 1 from public.media_items where id=v and album_id=a.id and deleted_at is null)) then raise exception 'Photo list changed. Refresh and retry.'; end if;
-  update public.media_items m set position=o.ordinality,updated_at=now() from unnest(v_order) with ordinality o(id,ordinality) where m.id=o.id;
+  update public.media_items mi set position=o.ordinality,updated_at=now() from unnest(v_order) with ordinality o(id,ordinality) where mi.id=o.id;
   update public.albums set sort_mode='manual',updated_at=now() where id=a.id;
  else raise exception 'Unknown media action';
  end if;
@@ -155,3 +155,4 @@ end $$;
 revoke all on function public.media_library_action(uuid,boolean,text,jsonb) from public,anon,authenticated;
 grant execute on function public.media_library_action(uuid,boolean,text,jsonb) to service_role;
 commit;
+
