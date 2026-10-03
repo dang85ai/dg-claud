@@ -3,11 +3,11 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Photo & Media Safety",
-  description: "Photo consent, privacy and media-safety practices for Caledon SC U9 Girls 2026.",
+  description: "Photo consent, privacy and media-safety practices for Caledon SC U9 Girls 2026–27.",
   alternates: { canonical: "/photo-safety" },
   openGraph: {
-    title: "Photo & Media Safety | Caledon U9 Girls 2026",
-    description: "Photo consent, privacy and media-safety practices for Caledon SC U9 Girls 2026.",
+    title: "Photo & Media Safety | Caledon U9 Girls 2026–27",
+    description: "Photo consent, privacy and media-safety practices for Caledon SC U9 Girls 2026–27.",
     url: "/photo-safety"
   }
 };
