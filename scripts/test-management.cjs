@@ -18,7 +18,7 @@ const {managementModules}=load("lib/management-modules.ts");
 const {moduleConfigs}=load("lib/management-config.ts",{"@/lib/training-plans":load("lib/training-plans.ts")});
 assert.equal(teamSquad.length,9);
 assert.equal(new Set(teamSquad.map(p=>p.recordId)).size,9);
-assert.equal(new Set(managementModules.map(m=>m.label)).size,21);
+assert.equal(new Set(managementModules.map(m=>m.label)).size,22);
 for(const item of managementModules){
   if(item.href.startsWith("/admin/modules/"))assert.ok(moduleConfigs[item.href.split("/").pop()],item.label);
   else {

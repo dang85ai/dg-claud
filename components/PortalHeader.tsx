@@ -5,7 +5,7 @@ import {LogOut,Menu,ShieldCheck,X} from "lucide-react";
 import {usePathname,useRouter} from "next/navigation";
 import {supabase} from "@/lib/supabase";
 import {activePortalLink,navigationForRoles} from "@/lib/portal-navigation";
-const groups=[{title:"Team",labels:["Dashboard","Player Management","Field & Formation","Players","Schedule","Training & Development","Spond Import","Attendance","Game Duties","Referees","Equipment"]},{title:"Families",labels:["Family Links","Invites","Forms","Payments","Kit Orders"]},{title:"Community",labels:["Media","Sisterhood","Sponsors","Announcements"]},{title:"Administration",labels:["Data Export","Settings"]}];
+const groups=[{title:"Team",labels:["Dashboard","Player Management","Field & Formation","Players","Schedule","Training & Development","Spond Import","Attendance","Game Duties","Referees","Equipment"]},{title:"Families",labels:["Family Links","Invites","Forms","Payments","Team Budget & Accounts","Kit Orders"]},{title:"Community",labels:["Media","Sisterhood","Sponsors","Announcements"]},{title:"Administration",labels:["Data Export","Settings"]}];
 export function PortalHeader({title,isAdmin=false}:{title:string;isAdmin?:boolean}){
  const router=useRouter(),pathname=usePathname(),drawer=useRef<HTMLDialogElement>(null);
  const [roles,setRoles]=useState<string[]>([]),[hash,setHash]=useState(""),[error,setError]=useState("");

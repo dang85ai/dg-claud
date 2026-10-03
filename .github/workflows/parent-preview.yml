@@ -22,6 +22,7 @@ jobs:
       - run: node scripts/test-media-processing.mjs
       - run: node scripts/test-media-library.mjs
       - run: node scripts/test-roster.mjs
+      - run: node scripts/test-finance.cjs
       - run: npm run build
       - run: node scripts/test-public-content.mjs
       - name: Publish draft preview
@@ -35,6 +36,3 @@ jobs:
           path: preview.json
       - name: Show preview URL
         run: node -e "const p=require('./preview.json'); console.log(p.deploy_url); require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY, 'Preview '+p.deploy_url)"
-
-
-

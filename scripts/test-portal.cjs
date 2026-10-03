@@ -13,6 +13,8 @@ assert.equal(nav.navigationForRoles([]).family.length,0);
 assert.equal(nav.navigationForRoles(["sponsor"]).management.length,0);
 assert.equal(nav.navigationForRoles(["parent_player"]).management.length,0);
 assert.equal(nav.navigationForRoles(["photographer"]).management.length,0);
+assert.ok(!nav.navigationForRoles(["photographer"]).family.some(l=>l.href==="/portal/finances"));
+assert.ok(nav.navigationForRoles(["parent_player"]).family.some(l=>l.href==="/portal/finances"));
 assert.equal(nav.navigationForRoles(["manager"]).management.length,modules.length+1);
 assert.equal(nav.navigationForRoles(["admin"]).management.length,modules.length+1);
 for(const link of nav.familyLinks){

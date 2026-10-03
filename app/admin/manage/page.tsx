@@ -177,7 +177,7 @@ export default function AdminManagePage() {
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Management Tools" isAdmin />
       <main id="portal-main" className="container py-8">
-        <Link href="/portal/training" className="btn btn-primary mb-6">Training & Development</Link>
+        <div className="mb-6 flex flex-wrap gap-3"><Link href="/portal/training" className="btn btn-primary">Training & Development</Link><Link href="/admin/finances" className="btn btn-primary">Team Budget &amp; Accounts</Link></div>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Operational Controls</div>
@@ -356,4 +356,3 @@ export default function AdminManagePage() {
     </div>
   );
 }
-
