@@ -136,9 +136,6 @@ export const metadata: Metadata = {
     ]
   },
   verification: {
-    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-      : {}),
     ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
       ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
       : {})
@@ -164,6 +161,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en-CA">
       <head>
+        <meta name="google-site-verification" content="mfhGP1wK0UBe-efLRh0OcDKvrOXlQqYo5Pum1zSN6Q8" />
         <link rel="mask-icon" href="/assets/brand/safari-pinned-tab.svg" color="#E30613" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsTeamSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
