@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 const siteUrl = "https://caledon-u9-girls-2026.netlify.app";
-const socialImage = `${siteUrl}/assets/brand/caledon-u9-girls-2026-primary.png`;
+const socialImage = `${siteUrl}/images/caledon-united-logo.webp`;
 
 const sportsTeamSchema = {
   "@context": "https://schema.org",
@@ -123,10 +123,10 @@ export const metadata: Metadata = {
       "Schedules, kit, roster, and parent info for the Caledon SC U9 Girls 2026 season.",
     images: [
       {
-        url: "/assets/brand/caledon-u9-girls-2026-primary.png",
-        width: 1200,
-        height: 630,
-        alt: "Caledon SC U9 Girls 2026 team crest and team hub branding"
+        url: "/images/caledon-united-logo.webp",
+        width: 500,
+        height: 500,
+        alt: "Caledon United Football Club crest"
       }
     ]
   },
@@ -134,18 +134,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Caledon U9 Girls 2026 Soccer Team Hub",
     description: "Schedules, kit, roster, and parent info for the 2026 season.",
-    images: ["/assets/brand/caledon-u9-girls-2026-primary.png"]
+    images: ["/images/caledon-united-logo.webp"]
   },
   icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/assets/brand/favicon.svg", type: "image/svg+xml" },
-      { url: "/assets/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/assets/brand/favicon-16.png", sizes: "16x16", type: "image/png" }
-    ],
-    apple: [
-      { url: "/assets/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
-    ]
+    icon: [{ url: "/caledon-united.ico", sizes: "any" }, { url: "/images/caledon-united-logo.webp", type: "image/webp", sizes: "500x500" }],
+    apple: [{ url: "/images/caledon-united-180.png", sizes: "180x180", type: "image/png" }]
   },
   verification: {
     ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
@@ -187,7 +180,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap"
         />
-        <link rel="mask-icon" href="/assets/brand/safari-pinned-tab.svg" color="#E30613" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsTeamSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
