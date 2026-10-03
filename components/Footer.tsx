@@ -7,7 +7,7 @@ export function Footer() {
         <div>
           <div className="text-2xl font-black uppercase">Caledon U9 Girls</div>
           <p className="mt-3 max-w-md text-sm text-white/65">
-            A mobile-first team hub for the 2026 season, built around player safety,
+            A mobile-first team hub for the 2026–27 season, built around player safety,
             parent clarity and a strong team culture.
           </p>
         </div>
