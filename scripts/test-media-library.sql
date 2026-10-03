@@ -51,6 +51,10 @@ do $$ begin
   raise exception 'Parent removed another uploader photo' using errcode='XX000';
  exception when raise_exception then null;end;
  perform public.media_library_action(current_setting('test.parent_a')::uuid,false,'photo_edit',jsonb_build_object('id',current_setting('test.photo_own'),'caption','Own caption','tags',jsonb_build_array('team')));
+ -- An admin-selected cover from another contributor must not prevent the
+ -- album owner editing title/description while preserving that same cover.
+ update public.albums set cover_media_id=current_setting('test.photo_other')::uuid where id=current_setting('test.album_a')::uuid;
+ perform public.media_library_action(current_setting('test.parent_a')::uuid,false,'edit',jsonb_build_object('id',current_setting('test.album_a'),'title','Fixture edited album','description','Owner metadata edit','visibility','private','allow_contributions',true,'cover_media_id',current_setting('test.photo_other')));
  perform public.media_library_action(current_setting('test.parent_a')::uuid,false,'delete',jsonb_build_object('id',current_setting('test.album_a')));
  if exists(select 1 from public.media_items where id=current_setting('test.photo_other')::uuid and deleted_at is not null) then raise exception 'Album removal deleted another parent upload'; end if;
  if not exists(select 1 from public.media_items where id=current_setting('test.photo_own')::uuid and deleted_at is not null) then raise exception 'Album removal did not remove owner upload'; end if;

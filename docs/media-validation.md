@@ -28,10 +28,10 @@ Passed on preview `6ac134211b2c69de812d9fc0` using two private validation albums
 
 The automated browser did not capture a download event for a blob download. The image retrieval succeeded, but actual file saving remains a manual acceptance check. Downloads now append the anchor to the document, use one `.jpg` extension and allow more time before revoking the blob URL.
 
-Parent-specific browser acceptance awaits an existing parent session. Automated API and database parent permission tests have passed.
+Parent-specific browser acceptance passed with an existing parent session: create/edit/remove own album, upload own photo, render its private thumbnail/full image, edit caption/tags and remove own photo. Move, manual-order, sharing-management and moderation controls were absent; photo cards had draggable=false. The parent validation album was removed afterward. Automated API and database tests cover attempts to alter another parent's content.
 
 ## Installed backend
 
-Migrations: `media_album_library`, `media_group_owner_index`, `media_upload_returning_owner_access`. Custom-auth Edge functions: `media-library` and `media-upload`.
+Migrations: `media_album_library`, `media_group_owner_index`, `media_upload_returning_owner_access`, `media_owner_preserve_existing_cover`. Custom-auth Edge functions: `media-library` and `media-upload`.
 
-The frontend remains a preview pending the remaining role acceptance checks. Do not describe the system as fully browser-validated until parent checks and a manual download check are complete.
+Both roles' core browser acceptance checks passed. Actual file saving remains a manual download acceptance check because the in-app browser did not expose a blob-download event.

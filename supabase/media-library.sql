@@ -125,7 +125,7 @@ begin
   if not p_admin and p_input->>'visibility' not in ('private','parents') and p_input->>'visibility'<>a.visibility then raise exception 'Parent visibility restricted'; end if;
   if not p_admin and a.visibility in ('public','shared') and p_input->>'visibility'<>a.visibility then raise exception 'Only admins can change assigned sharing'; end if;
   if not p_admin and p_input->>'visibility'='parents' and exists(select 1 from public.site_settings where key='media_parent_shared_enabled' and value='false'::jsonb) then raise exception 'Shared parent albums disabled'; end if;
-  if p_input->>'cover_media_id' is not null and not exists(select 1 from public.media_items where id=(p_input->>'cover_media_id')::uuid and album_id=a.id and deleted_at is null and (p_admin or uploader_id=p_actor)) then raise exception 'Choose an accessible photo in this album'; end if;
+  if p_input->>'cover_media_id' is not null and not exists(select 1 from public.media_items where id=(p_input->>'cover_media_id')::uuid and album_id=a.id and deleted_at is null and (p_admin or uploader_id=p_actor or id=a.cover_media_id)) then raise exception 'Choose an accessible photo in this album'; end if;
   update public.albums set title=p_input->>'title',description=p_input->>'description',event_date=(p_input->>'event_date')::date,event_id=(p_input->>'event_id')::uuid,visibility=p_input->>'visibility',public_visible=(p_input->>'visibility'='public'),allow_contributions=(p_input->>'allow_contributions')::boolean,cover_media_id=(p_input->>'cover_media_id')::uuid,updated_at=now() where id=a.id;
  elsif p_action='delete' then
   -- Preserve others' uploads: contributors can still access them through My Photos.
