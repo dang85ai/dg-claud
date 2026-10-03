@@ -35,7 +35,7 @@ function KitIllustration({ away, number }: { away: boolean; number: number | nul
         <path d="M104 107 L87 129 M108 108 L91 132 M112 109 L95 135 M156 107 L173 129 M152 108 L169 132 M148 109 L165 135" />
         <path d="M83 131 L97 139 M177 131 L163 139" strokeWidth="3" />
       </g>
-      <image href="/images/club-logo.webp" x="136" y="121" width="18" height="18" />
+      <image href="/images/caledon-united-logo.webp" x="136" y="121" width="18" height="18" />
       <text x="115" y="132" textAnchor="middle" fill={trim} fontSize="7" fontWeight="800">U9</text>
       <rect x="113" y="148" width="35" height="22" rx="3" fill="none" stroke={trim} opacity=".65" />
       <text x="130" y="163" textAnchor="middle" fill={trim} fontSize="8" fontWeight="800">CALEDON</text>

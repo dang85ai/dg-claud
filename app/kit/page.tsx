@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import { MemberKitPricing } from "@/components/MemberKitPricing";
 import Image from "next/image";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
@@ -283,6 +284,7 @@ export default function KitPage() {
           </section>
         </div>
       </section>
+    <PublicPageGuide page="/kit" />
     </PublicShell>
   );
 }

@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import Link from "next/link";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
@@ -68,6 +69,7 @@ export default function MediaPage() {
           </div>
         </div>
       </section>
+    <PublicPageGuide page="/media" />
     </PublicShell>
   );
 }

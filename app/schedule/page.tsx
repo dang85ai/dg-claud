@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import type { Metadata } from "next";
 import { CommunicationGuide, VenueGuide, WeatherGuide } from "@/components/ParentInformation";
 import { PublicPageHero } from "@/components/PublicPageHero";
@@ -90,6 +91,7 @@ export default function SchedulePage() {
 <div className="mt-8 grid gap-6 lg:grid-cols-2"><VenueGuide /><CommunicationGuide /><WeatherGuide /><section className="card p-6"><h2 className="text-2xl font-black uppercase">Important dates & deadlines</h2><p className="mt-4 text-neutral-600">Confirmed team events will appear in the calendar. Registration, kit orders, forms, payments and photo-day deadlines have not yet been supplied for this training season. Check private team messages or ask the manager.</p><a href="https://caledonsoccer.com/about-us/key-dates/" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-11 items-center font-bold text-red-600 underline">Official club key dates</a><p className="mt-2 text-sm text-neutral-600">Club events can apply to other programs. Confirm team participation and season before adding them.</p></section></div>
         </div>
       </section>
+    <PublicPageGuide page="/schedule" />
     </PublicShell>
   );
 }

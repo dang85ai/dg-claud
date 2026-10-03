@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import Link from "next/link";
 import { ClubResources, CommunicationGuide, NewFamilyGuide, WeatherGuide } from "@/components/ParentInformation";
 import {
@@ -74,6 +75,7 @@ export default function ParentsPage() {
           </div>
         </div>
       </section>
+    <PublicPageGuide page="/parents" />
     </PublicShell>
   );
 }

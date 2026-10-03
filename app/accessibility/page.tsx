@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
@@ -25,6 +26,7 @@ export default function AccessibilityPage() {
           </div>
         </div>
       </section>
+    <PublicPageGuide page="/accessibility" />
     </PublicShell>
   );
 }

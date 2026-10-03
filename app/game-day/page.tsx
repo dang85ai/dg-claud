@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import {
   CheckCircle2,
   Clock3,
@@ -94,6 +95,7 @@ export default function GameDayPage() {
           </aside>
         </div>
       </section>
+    <PublicPageGuide page="/game-day" />
     </PublicShell>
   );
 }

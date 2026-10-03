@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import type { Metadata } from "next";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
@@ -82,6 +83,7 @@ export default function FaqPage() {
           </div>
         </div>
       </section>
+    <PublicPageGuide page="/faq" />
     </PublicShell>
   );
 }

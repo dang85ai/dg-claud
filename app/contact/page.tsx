@@ -1,4 +1,5 @@
 "use client";
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 
 import { FormEvent, useState } from "react";
 import {
@@ -153,6 +154,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+    <PublicPageGuide page="/contact" />
     </PublicShell>
   );
 }

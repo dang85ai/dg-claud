@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import { teamSquad } from "@/lib/team-squad";
 import { PlayerKitCard } from "@/components/PlayerKitCard";
 import { PublicPageHero } from "@/components/PublicPageHero";
@@ -109,6 +110,7 @@ export default function RosterPage() {
           </section>
         </div>
       </section>
+    <PublicPageGuide page="/roster" />
     </PublicShell>
   );
 }

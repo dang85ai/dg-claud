@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import {
   CalendarDays,
   HeartHandshake,
@@ -53,6 +54,7 @@ export default function EndOfSeasonPage() {
           </div>
         </div>
       </section>
+    <PublicPageGuide page="/end-of-season" />
     </PublicShell>
   );
 }

@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import {
   Footprints,
   Heart,
@@ -108,6 +109,7 @@ export default function DevelopmentPage() {
           </div>
         </div>
       </section>
+    <PublicPageGuide page="/development" />
     </PublicShell>
   );
 }

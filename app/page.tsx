@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import { PitchBackdrop } from "@/components/PitchBackdrop";
 import { ClubLogo } from "@/components/ClubLogo";
 import type { Metadata } from "next";
@@ -195,6 +196,7 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+    <PublicPageGuide page="/" />
     </PublicShell>
   );
 }

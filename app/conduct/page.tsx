@@ -1,3 +1,4 @@
+import { PublicPageGuide } from "@/components/PublicPageGuide";
 import {
   CheckCircle2,
   MessageSquareText,
@@ -92,6 +93,7 @@ export default function ConductPage() {
           </section>
         </div>
       </section>
+    <PublicPageGuide page="/conduct" />
     </PublicShell>
   );
 }
