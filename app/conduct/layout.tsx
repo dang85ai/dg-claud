@@ -3,11 +3,11 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Code of Conduct",
-  description: "Player and parent expectations for respect, sportsmanship and constructive communication on Caledon SC U9 Girls 2026.",
+  description: "Player and parent expectations for respect, sportsmanship and constructive communication on Caledon SC U9 Girls 2026–27.",
   alternates: { canonical: "/conduct" },
   openGraph: {
-    title: "Code of Conduct | Caledon U9 Girls 2026",
-    description: "Player and parent expectations for respect, sportsmanship and constructive communication on Caledon SC U9 Girls 2026.",
+    title: "Code of Conduct | Caledon U9 Girls 2026–27",
+    description: "Player and parent expectations for respect, sportsmanship and constructive communication on Caledon SC U9 Girls 2026–27.",
     url: "/conduct"
   }
 };
