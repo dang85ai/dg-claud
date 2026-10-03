@@ -154,11 +154,11 @@ export function ScheduleEvents() {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h4 className={`text-lg font-black uppercase ${isCancelled ? "text-neutral-500" : ""}`}>
+              <h4 className={`min-w-0 break-words text-base font-black uppercase leading-tight sm:text-lg ${isCancelled ? "text-neutral-500" : ""}`}>
                 {event.title}
               </h4>
               {isCancelled ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-3 py-1 text-xs font-black uppercase text-white">
+                <span className="inline-flex max-w-full items-center gap-1 rounded-full bg-red-600 px-3 py-1 text-center text-xs font-black uppercase leading-tight text-white whitespace-normal">
                   <XCircle size={14} /> Cancelled — no session
                 </span>
               ) : null}
@@ -190,7 +190,7 @@ export function ScheduleEvents() {
             ) : null}
 
             {inviteNote && !isCancelled ? (
-              <div className="mt-3 text-xs font-black uppercase tracking-wide text-red-600">
+              <div className="mt-3 break-words text-xs font-black uppercase tracking-[.08em] text-red-600 sm:tracking-wide">
                 Spond invite goes out 3 days in advance
               </div>
             ) : null}
