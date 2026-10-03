@@ -275,3 +275,9 @@ dialog::backdrop { background:#0008; }
 @media (max-width: 760px) { .pitch-lines { right: -150px; width: 620px; opacity: .065; } .pitch-glow { opacity: .7; } .pitch-orbit { opacity: .5; } }
 @media (prefers-reduced-motion: reduce) { .pitch-art * { animation: none !important; } .motion-toggle { display: none; } }
 
+
+/* Keep headings, long links and card copy inside narrow or enlarged-text layouts. */
+.site-shell { min-width: 0; overflow-wrap: anywhere; }
+.site-shell main { min-width: 0; }
+.container :where(.flex, .inline-flex) > :where(div, section, article, nav) { min-width: 0; }
+.btn { max-width: 100%; white-space: normal; text-align: center; padding-block: 10px; }
