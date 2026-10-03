@@ -1,17 +1,13 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Team Roster",
-  description: "Consent-controlled roster information for Caledon SC U9 Girls 2026, with public player data intentionally limited.",
-  alternates: { canonical: "/roster" },
-  openGraph: {
-    title: "Team Roster | Caledon U9 Girls 2026",
-    description: "Consent-controlled roster information for Caledon SC U9 Girls 2026, with public player data intentionally limited.",
-    url: "/roster"
-  }
-};
+  description: "Consent-controlled Caledon U9 Girls roster information. Player identity information is intentionally excluded from search indexing.",
+  path: "/roster",
+  index: false
+});
 
 export default function RouteLayout({ children }: { children: ReactNode }) {
-  return children;
+  return <>{children}</>;
 }
