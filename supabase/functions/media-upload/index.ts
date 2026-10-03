@@ -195,6 +195,8 @@ Deno.serve(async (req: Request) => {
       }).select("*").single();
       if (requestRes.error) throw requestRes.error;
       profileRequest = requestRes.data;
+      const audit=await adminClient.from("audit_log").insert({actor_user_id:userId,action:"roster.photo.upload",entity_type:"player",entity_id:playerId,metadata:{request_id:requestRes.data.id}});
+      if(audit.error)throw audit.error;
     }
 
     uploadedPaths = [];

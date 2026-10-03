@@ -186,3 +186,17 @@ do $$ declare item record; pid uuid; begin
   insert into public.player_public_profiles(player_id,display_first_name,jersey_number,public_visible) select id,first_name,jersey_number,false from public.players where id=pid on conflict(player_id) do nothing;
  end loop;
 end $$;
+-- Privileged implementation lives outside the exposed API schema; public wrappers use invoker rights.
+alter function public.roster_snapshot(boolean) set schema app_private;
+alter function public.roster_action(text,jsonb) set schema app_private;
+alter function public.roster_photo_allowed(uuid) set schema app_private;
+create function public.roster_snapshot(private_view boolean default false) returns jsonb language sql stable security invoker set search_path='' as $$ select app_private.roster_snapshot(private_view); $$;
+create function public.roster_action(action text,input jsonb) returns jsonb language sql security invoker set search_path='' as $$ select app_private.roster_action(action,input); $$;
+create function public.roster_photo_allowed(target uuid) returns boolean language sql stable security invoker set search_path='' as $$ select app_private.roster_photo_allowed(target); $$;
+revoke all on function public.roster_snapshot(boolean),public.roster_action(text,jsonb),public.roster_photo_allowed(uuid) from public,anon,authenticated;
+grant execute on function public.roster_snapshot(boolean) to anon,authenticated;
+grant execute on function public.roster_action(text,jsonb),public.roster_photo_allowed(uuid) to authenticated;
+create index player_public_profiles_media_idx on public.player_public_profiles(profile_media_id);
+drop policy profile_photo_requests_guardian_insert on public.profile_photo_requests;
+drop policy profile_photo_requests_manager_insert on public.profile_photo_requests;
+create policy profile_photo_requests_verified_insert on public.profile_photo_requests for insert to authenticated with check(submitted_by=(select auth.uid()) and (app_private.is_admin_aal2() or app_private.guardian_for_player(player_id)));

@@ -18,7 +18,7 @@ const {managementModules}=load("lib/management-modules.ts");
 const {moduleConfigs}=load("lib/management-config.ts");
 assert.equal(teamSquad.length,9);
 assert.equal(new Set(teamSquad.map(p=>p.recordId)).size,9);
-assert.equal(new Set(managementModules.map(m=>m.label)).size,18);
+assert.equal(new Set(managementModules.map(m=>m.label)).size,20);
 for(const item of managementModules){
   if(item.href.startsWith("/admin/modules/"))assert.ok(moduleConfigs[item.href.split("/").pop()],item.label);
   else {
@@ -93,5 +93,5 @@ async function checkCache(url,auth=false){
   console.log("Private/authenticated responses excluded from offline cache: passed");
   const priceSource=fs.readFileSync("app/api/kit-pricing/route.ts","utf8");
   assert.ok(priceSource.includes('["parent_player", "manager", "admin"]'));
-  console.log("All 18 module destinations and member-pricing role: passed");
+  console.log("All 20 module destinations and member-pricing role: passed");
 })().catch(error=>{console.error(error);process.exitCode=1;});

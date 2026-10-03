@@ -13,7 +13,7 @@ assert.equal(nav.navigationForRoles([]).family.length,0);
 assert.equal(nav.navigationForRoles(["sponsor"]).management.length,0);
 assert.equal(nav.navigationForRoles(["parent_player"]).management.length,0);
 assert.equal(nav.navigationForRoles(["photographer"]).management.length,0);
-assert.equal(nav.navigationForRoles(["manager"]).management.length,19);
+assert.equal(nav.navigationForRoles(["manager"]).management.length,21);
 assert.equal(nav.navigationForRoles(["admin"]).management.length,19);
 for(const link of nav.familyLinks){
  const [url,hash]=link.href.split("#");
