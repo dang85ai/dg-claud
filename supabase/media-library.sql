@@ -28,6 +28,7 @@ create index albums_library_owner_idx on public.albums(created_by) where deleted
 create index album_recipients_user_idx on public.album_recipients(user_id,album_id);
 create index media_group_members_user_idx on public.media_group_members(user_id,group_id);
 create index album_groups_group_idx on public.album_groups(group_id,album_id);
+create index media_groups_created_by_idx on public.media_groups(created_by);
 
 create or replace function app_private.can_view_album(p_id uuid) returns boolean language sql stable security definer set search_path='' as $$
  select (select auth.uid()) is not null and app_private.is_team_member() and exists (
