@@ -1,5 +1,7 @@
 name: Netlify Deploy
 
+# Production rebuilds pick up Netlify-managed public environment variables,
+# including Search Console verification metadata.
 on:
   workflow_dispatch:
   push:
