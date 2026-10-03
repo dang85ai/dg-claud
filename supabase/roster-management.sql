@@ -143,7 +143,7 @@ begin
    if not (slot=any(case formation when '1-3-2-1' then array['GK','LB','CB','RB','LM','RM','ST'] when '1-2-3-1' then array['GK','LB','RB','LM','CM','RM','ST'] when '1-3-3-2' then array['GK','LB','CB','RB','LM','CM','RM','LS','RS'] else array['GK','LB','LCB','RCB','RB','LM','CM','RM','ST'] end)) then raise exception 'Invalid formation slot'; end if;
    if not exists(select 1 from public.players where id=target and active) then raise exception 'Assigned player unavailable'; end if;
   end loop;
-  update public.player_public_profiles set field_slot=null,updated_at=now();
+  update public.player_public_profiles set field_slot=null,updated_at=now() where field_slot is not null;
   for slot,target in select key,value::uuid from jsonb_each_text(assignment) loop update public.player_public_profiles set field_slot=slot,updated_at=now() where player_id=target; end loop;
   update public.roster_formation set name=formation,show_names=coalesce((input->>'show_names')::boolean,true),updated_at=now() where id='team';
  elsif action='photo.remove' then
