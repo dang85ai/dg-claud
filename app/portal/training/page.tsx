@@ -84,9 +84,7 @@ export default function TrainingDevelopmentPage() {
 
   return (
     <div className="min-h-screen bg-neutral-100">
-      <div className="no-print">
-        <PortalHeader title="Training & Development" />
-      </div>
+      <PortalHeader title="Training & Development" />
 
       <main id="portal-main" className="container py-8">
         <div className="no-print">
