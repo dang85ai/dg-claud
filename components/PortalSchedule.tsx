@@ -43,7 +43,7 @@ export function PortalSchedule() {
         if (aal.error || aal.data.currentLevel !== "aal2") { router.replace("/mfa"); return; }
       }
       if (alive) setEvents(data.events);
-    } catch (error) { if (alive) setStatus(error instanceof Error ? error.message : "Unable to load schedule."); }
+    } catch (error) { const message = error instanceof Error ? error.message : "Unable to load schedule."; if (message === "Please sign in.") { router.replace("/login"); return; } if (alive) setStatus(message); }
   })(); return () => { alive = false; }; }, [router]);
   return <div className="min-h-screen bg-neutral-100"><PortalHeader title="Team Schedule"/><main id="portal-main" className="container py-8">{events ? <WeekView events={events} all/> : <div className="notice">{status}</div>}</main></div>;
 }
