@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { sessions, trainingPlan } from "@/lib/training-plans";
 import { PortalHeader } from "@/components/PortalHeader";
 import { moduleConfigs, Field, Section } from "@/lib/management-config";
 import { errorMessage, requireManager } from "@/lib/management-access";
@@ -59,8 +60,8 @@ export default function ManagementModulePage() {
       const loaded = await Promise.all(config.sections.map(async(section) => {
         const result = await supabase.from(section.table).select(section.columns).order(section.order,{ascending:false}).limit(200).returns<Row[]>();
         if (result.error) throw result.error;
-        const rows=section.table==="event_duties"?(result.data??[]).map(row=>({...row,is_claimed:Array.isArray(row.duty_claims)&&row.duty_claims.length>0})):(result.data??[]);
-        return [section.table,rows] as const;
+        const rows: Row[]=section.table==="event_duties"?(result.data??[]).map(row=>({...row,is_claimed:Array.isArray(row.duty_claims)&&row.duty_claims.length>0})):(result.data??[]);
+        return [section.table, section.table === "events" ? rows.map(row => ({...row, training_plan: trainingPlan({title:String(row.title), notes:String(row.notes ?? ""),event_type:String(row.event_type)})?.title ?? "Plan to be confirmed"})) : rows] as const;
       }));
       setRecords(Object.fromEntries(loaded));
     } catch (err) {
@@ -76,6 +77,12 @@ export default function ManagementModulePage() {
 
   async function act(action: string, input: Row) {
     await requireManager();
+    if (action.startsWith("event.") && "training_plan" in input) {
+      const plan = sessions.find(s => s.title === input.training_plan);
+      const clean = String(input.notes ?? "").replace(/\s*\[Training: session-[1-4]\]/gi, "").trim();
+      input.notes = clean + (["practice", "training"].includes(String(input.event_type)) && plan ? ` [Training: ${plan.id}]` : "");
+      delete input.training_plan;
+    }
     if(action.startsWith("event."))for(const key of ["starts_at","ends_at","arrival_at"])if(typeof input[key]==="string"&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(String(input[key])))input[key]=teamTimeIso(String(input[key]));
     await authedFetch(endpoints.adminActions, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action,input})});
   }
@@ -209,7 +216,7 @@ export default function ManagementModulePage() {
           <h3 className="font-black">{String(row.title ?? row.item_name ?? row.caption ?? row.duty_type ?? row.key ?? section.title+" "+(index+1))}</h3>
           <dl className="mt-3 grid gap-2 text-sm">
             {Object.entries(row).filter(([key])=>key!=="id" && key!=="duty_claims" && !key.endsWith("_path")).map(([key,value])=><div className="grid grid-cols-[minmax(100px,1fr)_2fr] gap-3" key={key}><dt className="font-bold">{label(key)}</dt><dd className="break-words whitespace-pre-wrap">{showValue(key,value)}</dd></div>)}
-          </dl>{rowActions(section.table,row)}
+          </dl>{section.table === "events" && row.training_plan !== "Plan to be confirmed" ? <Link className="mt-3 block font-bold text-red-600" href={`/portal/training#${trainingPlan({title:String(row.title),notes:String(row.notes ?? ""),event_type:String(row.event_type)})?.id}-coach`}>Open Coach Plan / Print Session Card →</Link> : null}{rowActions(section.table,row)}
         </article>):<p className="notice">No {section.title.toLowerCase()} match these filters.</p>}
       </div>
       <p className="mt-3 text-sm text-neutral-600" role="status">{matches.length} matching records</p>

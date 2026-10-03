@@ -13,12 +13,12 @@ assert.equal(nav.navigationForRoles([]).family.length,0);
 assert.equal(nav.navigationForRoles(["sponsor"]).management.length,0);
 assert.equal(nav.navigationForRoles(["parent_player"]).management.length,0);
 assert.equal(nav.navigationForRoles(["photographer"]).management.length,0);
-assert.equal(nav.navigationForRoles(["manager"]).management.length,21);
+assert.equal(nav.navigationForRoles(["manager"]).management.length,modules.length+1);
 assert.equal(nav.navigationForRoles(["admin"]).management.length,modules.length+1);
 for(const link of nav.familyLinks){
  const [url,hash]=link.href.split("#");
  if(url.startsWith("/portal/activity/"))assert.ok(fs.readFileSync("app/portal/activity/[section]/page.tsx","utf8").includes(url.split("/").pop()+':'));
- else if(hash)assert.ok(fs.readFileSync("app/portal/tools/page.tsx","utf8").includes('id="'+hash+'"'));
+ else if(hash)assert.ok(fs.readFileSync(url==="/portal"?"components/PortalSchedule.tsx":"app/portal/tools/page.tsx","utf8").includes('id="'+hash+'"'));
 }
 assert.equal(nav.activePortalLink("/portal","/portal/activity/media"),false);
 assert.equal(nav.activePortalLink("/portal/tools#photo","/portal/tools","#photo"),true);

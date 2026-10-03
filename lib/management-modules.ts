@@ -1,4 +1,5 @@
 export const managementModules = [
+  {label:"Training & Development",href:"/portal/training"},
   {label:"Player Management",href:"/admin/players"},
   {label:"Field & Formation",href:"/admin/formation"},
   {

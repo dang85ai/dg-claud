@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { trainingPlan } from "@/lib/training-plans";
 import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, Clock3, MapPin, Navigation, RefreshCw, XCircle } from "lucide-react";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase";
@@ -207,6 +209,7 @@ export function ScheduleEvents() {
             ) : null}
           </div>
         </div>
+        {!isCancelled ? <Link className="mt-4 inline-block text-sm font-bold text-red-600" href={trainingPlan(event) ? `/portal/training#${trainingPlan(event)!.id}` : "/portal/schedule"}>View training in Parent Portal →</Link> : null}
       </article>
     );
   }

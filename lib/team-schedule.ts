@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase";
 
 export type TeamEvent = {
-  id: string; event_type: string; title: string; starts_at: string; ends_at: string | null;
-  venue_name: string | null; venue_address: string | null; notes: string | null; status: string;
+  id: string; event_type?: string; title: string; starts_at: string; ends_at?: string | null;
+  venue_name?: string | null; venue_address?: string | null; notes?: string | null; status?: string | null;
 };
 export function useTeamSchedule() {
   const [events, setEvents] = useState<TeamEvent[]>([]);
