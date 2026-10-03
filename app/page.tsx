@@ -18,8 +18,8 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { PwaRegister } from "@/components/PwaRegister";
 
 export const metadata: Metadata = {
-  title: "Caledon U9 Girls 2026 Soccer Team Hub | Caledon SC",
-  description: "Official team hub for Caledon SC U9 Girls 2026. Find schedules, team kit, roster, parent information and player-development resources.",
+  title: "2026–27 Soccer Team Hub",
+  description: "Official Caledon SC U9 Girls 2026–27 team hub with training schedules, team kit, parent resources, sponsorship information and player-development guidance.",
   alternates: { canonical: "/" }
 };
 
@@ -39,7 +39,7 @@ export default function HomePage() {
             </h1>
             <p className="max-w-xl text-base text-white/70 md:text-lg">
               The <strong className="text-white">2026–27 Training Season</strong> schedule is published for Caledon SC U9 Girls.
-              Everything parents need at the field — schedules, team kit, roster, parent information and player-development resources —
+              Everything parents need at the field — schedules, team kit, parent information and player-development resources —
               in one mobile-friendly place for youth soccer in Caledon, Ontario.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -95,7 +95,7 @@ export default function HomePage() {
             <SectionHeader
               eyebrow="Caledon Soccer Team Hub"
               title="Everything parents need at the field"
-              copy="Bookmark this Caledon U9 Girls 2026 team hub and check back often. The goal is fewer scattered messages, less uncertainty, and a clear mobile home for the team."
+              copy="Bookmark this Caledon U9 Girls 2026–27 team hub and check back often. The goal is fewer scattered messages, less uncertainty, and a clear mobile home for the team."
             />
             <div className="grid gap-4 sm:grid-cols-2">
               {[
