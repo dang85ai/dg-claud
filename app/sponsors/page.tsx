@@ -323,7 +323,6 @@ export default function SponsorsPage() {
               alt="Overview of Caledon U9 Girls 2026 sponsorship placement options across the home kit, away kit, tracksuit, backpack and outdoor jacket."
               width={1536}
               height={1024}
-              unoptimized
               className="h-auto w-full"
               sizes="100vw"
             />
@@ -340,7 +339,6 @@ export default function SponsorsPage() {
                 alt="Caledon U9 Girls 2026 black home match kit showing main sponsor, secondary sponsor and sleeve sponsor placement examples."
                 width={1122}
                 height={1402}
-                unoptimized
                 className="h-auto w-full"
                 sizes="(max-width: 1023px) 100vw, 50vw"
               />
@@ -363,7 +361,6 @@ export default function SponsorsPage() {
                 alt="Caledon U9 Girls 2026 white away match kit showing main sponsor, secondary sponsor and sleeve sponsor placement examples."
                 width={1122}
                 height={1402}
-                unoptimized
                 className="h-auto w-full"
                 sizes="(max-width: 1023px) 100vw, 50vw"
               />
@@ -386,7 +383,6 @@ export default function SponsorsPage() {
                 alt="Caledon U9 Girls 2026 black tracksuit sponsorship mockup showing sponsor placement on the upper back with player personalization."
                 width={1122}
                 height={1402}
-                unoptimized
                 className="h-auto w-full"
                 sizes="(max-width: 1023px) 100vw, 50vw"
               />
@@ -405,7 +401,6 @@ export default function SponsorsPage() {
                 alt="Caledon U9 Girls 2026 outdoor jacket sponsorship mockup showing a large sponsor logo placement on the back."
                 width={1122}
                 height={1402}
-                unoptimized
                 className="h-auto w-full"
                 sizes="(max-width: 1023px) 100vw, 50vw"
               />
@@ -425,7 +420,6 @@ export default function SponsorsPage() {
                   alt="Caledon U9 Girls 2026 backpack sponsorship mockup showing sponsor logo placement on the front pocket below the club crest."
                   width={1122}
                   height={1402}
-                  unoptimized
                   className="h-auto w-full"
                   sizes="(max-width: 1023px) 100vw, 900px"
                 />

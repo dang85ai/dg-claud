@@ -3,11 +3,11 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Player Development",
-  description: "U9 player-development priorities, home-practice ideas and parent guidance for Caledon SC U9 Girls 2026.",
+  description: "U9 player-development priorities, home-practice ideas and parent guidance for Caledon SC U9 Girls 2026–27.",
   alternates: { canonical: "/development" },
   openGraph: {
-    title: "Player Development | Caledon U9 Girls 2026",
-    description: "U9 player-development priorities, home-practice ideas and parent guidance for Caledon SC U9 Girls 2026.",
+    title: "Player Development | Caledon U9 Girls 2026–27",
+    description: "U9 player-development priorities, home-practice ideas and parent guidance for Caledon SC U9 Girls 2026–27.",
     url: "/development"
   }
 };

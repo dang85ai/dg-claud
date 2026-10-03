@@ -2,9 +2,9 @@ import type { ReactNode } from "react";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Photos & Media",
-  description: "Consent-controlled Caledon U9 Girls team media. Public gallery content is intentionally excluded from search indexing.",
-  path: "/media",
+  title: "Account Activation",
+  description: "Secure account activation for Caledon U9 Girls team management.",
+  path: "/activate",
   index: false
 });
 
