@@ -22,6 +22,13 @@ do $$ declare changed int; begin
  if not app_private.can_view_album(current_setting('test.shared')::uuid) then raise exception 'Assigned group cannot view shared album'; end if;
  if not app_private.can_view_photo(current_setting('test.photo_own')::uuid) then raise exception 'Uploader cannot view pending upload'; end if;
  if app_private.can_view_photo(current_setting('test.photo_hidden')::uuid) then raise exception 'Photo leaked across private albums'; end if;
+ insert into public.media_items(album_id,uploader_id,media_type,original_path,processed_private_path,thumbnail_path,status,visibility,exif_stripped)
+ values(current_setting('test.album_a')::uuid,current_setting('test.parent_a')::uuid,'photo',current_setting('test.parent_a')||'/allowed.jpg',current_setting('test.parent_a')||'/allowed.jpg',current_setting('test.parent_a')||'/allowed-thumb.jpg','pending','private_team',true);
+ begin
+  insert into public.media_items(album_id,uploader_id,media_type,original_path,processed_private_path,thumbnail_path,status,visibility,exif_stripped)
+  values(current_setting('test.album_b')::uuid,current_setting('test.parent_a')::uuid,'photo',current_setting('test.parent_a')||'/denied.jpg',current_setting('test.parent_a')||'/denied.jpg',current_setting('test.parent_a')||'/denied-thumb.jpg','pending','private_team',true);
+  raise exception 'Parent uploaded to an inaccessible private album';
+ exception when insufficient_privilege then null;end;
  update public.media_items set caption='Forbidden direct update' where id=current_setting('test.photo_own')::uuid;
  get diagnostics changed=row_count;if changed<>0 then raise exception 'Parent bypassed API caption/review boundary'; end if;
  begin
@@ -70,4 +77,5 @@ do $$ begin
  if not app_private.can_view_album(current_setting('test.album_b')::uuid) then raise exception 'MFA admin cannot manage another parent album'; end if;
 end $$;
 reset role;
+
 
