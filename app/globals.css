@@ -20,6 +20,19 @@ body {
   color: var(--ink);
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
   line-height: 1.5;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, a, button, span {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6,
+.btn,
+.kicker {
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -71,10 +84,13 @@ button, .tap-target {
 
 .kicker {
   display: inline-flex;
+  max-width: 100%;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   font-size: .78rem;
   font-weight: 900;
+  line-height: 1.35;
   text-transform: uppercase;
   letter-spacing: .18em;
 }
@@ -87,12 +103,14 @@ button, .tap-target {
 }
 
 .display {
+  max-width: 100%;
   font-size: clamp(3.2rem, 13vw, 8.4rem);
   line-height: .82;
   letter-spacing: -.06em;
   font-weight: 900;
   text-transform: uppercase;
   margin: 18px 0;
+  overflow-wrap: anywhere;
 }
 
 .display span {
@@ -122,13 +140,18 @@ button, .tap-target {
 
 .btn {
   display: inline-flex;
+  max-width: 100%;
   min-height: 48px;
+  height: auto;
   align-items: center;
   justify-content: center;
   gap: 10px;
   border-radius: 999px;
-  padding: 0 22px;
+  padding: 10px 22px;
   font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+  white-space: normal;
   border: 2px solid transparent;
   cursor: pointer;
 }
@@ -202,9 +225,42 @@ textarea.field {
 }
 
 @media (max-width: 760px) {
-  .container { width: min(100% - 24px, 1180px); }
+  .container {
+    width: calc(100% - 24px);
+    max-width: 100%;
+  }
+
   .section { padding: 44px 0; }
-  .display { font-size: clamp(3.1rem, 20vw, 5.4rem); }
+
+  .display {
+    font-size: clamp(2.5rem, 14vw, 4.2rem);
+    line-height: .9;
+    letter-spacing: -.045em;
+  }
+
+  .section-title {
+    font-size: clamp(1.9rem, 9vw, 3rem);
+    line-height: 1;
+  }
+
+  .kicker {
+    font-size: .7rem;
+    letter-spacing: .12em;
+  }
+
+  .kicker::before {
+    width: 22px;
+    flex: 0 0 22px;
+  }
+
+  .card,
+  .notice {
+    min-width: 0;
+  }
+
+  .btn svg {
+    flex: 0 0 auto;
+  }
 
   .mobile-bottom-nav {
     display: grid;
