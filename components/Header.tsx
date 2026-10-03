@@ -21,16 +21,18 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black text-white">
       <div className="container flex min-h-18 items-center justify-between gap-4">
-        <Link href="/" className="flex min-h-12 items-center gap-3 font-black uppercase tracking-tight">
+        <Link href="/" className="flex min-w-0 flex-1 items-center gap-2 font-black uppercase tracking-tight sm:gap-3">
           <div
             aria-hidden="true"
-            className="grid h-11 w-11 place-items-center rounded-full border-2 border-white bg-red-600 text-[11px] font-black"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-white bg-red-600 text-[10px] font-black sm:h-11 sm:w-11 sm:text-[11px]"
           >
             CSC
           </div>
-          <div className="leading-none">
-            <div className="text-sm">Caledon Soccer Club</div>
-            <div className="mt-1 text-xs tracking-[.16em] text-white/65">U9 Girls · 2026–27 Training</div>
+          <div className="min-w-0 leading-none">
+            <div className="truncate text-xs sm:text-sm">Caledon Soccer Club</div>
+            <div className="mt-1 text-[10px] tracking-[.08em] text-white/65 sm:text-xs sm:tracking-[.14em]">
+              U9 Girls · 2026–27
+            </div>
           </div>
         </Link>
 
@@ -50,7 +52,7 @@ export function Header() {
           type="button"
           aria-label={open ? "Close navigation" : "Open navigation"}
           aria-expanded={open}
-          className="grid h-12 w-12 place-items-center rounded-xl border border-white/20 lg:hidden"
+          className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-white/20 lg:hidden"
           onClick={() => setOpen((value) => !value)}
         >
           {open ? <X /> : <Menu />}
