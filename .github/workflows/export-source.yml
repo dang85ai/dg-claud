@@ -1,0 +1,22 @@
+name: Export source for deployment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/export-source.yml"
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Upload source
+        uses: actions/upload-artifact@v4
+        with:
+          name: caledon-u9-source
+          path: .
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
