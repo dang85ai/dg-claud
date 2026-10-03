@@ -96,6 +96,7 @@ export default function RosterPage() {
           </section>
         </div>
       </section>
+      <div className="container">
           <section className="card mt-8 p-6" aria-labelledby="roster-family-help">
             <h2 id="roster-family-help" className="text-2xl font-black uppercase">Managing player profiles together</h2>
             <div className="mt-4 grid gap-5 text-sm leading-7 text-neutral-600 md:grid-cols-2">
@@ -105,6 +106,7 @@ export default function RosterPage() {
               <p>Profile visibility and photo permission are checked separately. A private player record can still be managed by its verified family without being published on the public roster. Managers review current consent before publishing a name or portrait and can choose whether an approved profile appears on the public field. Withdrawing consent prevents further public display. Contact the manager privately if a correction involves family access or consent, rather than putting a child’s surname, birth date or household information in a public message.</p>
             </div>
           </section>
+      </div>
           <PublicPageGuide page="/roster" />
     </PublicShell>
   );
