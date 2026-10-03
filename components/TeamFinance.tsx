@@ -36,7 +36,7 @@ export function TeamFinance({admin=false}:{admin?:boolean}){
    allRows("team_transactions",transactionColumns,"occurred_on"),allRows("team_finance_documents",documentColumns,"created_at")
   ]);
   if(settings.error)throw new Error(settings.error.message);
-  setData({settings:settings.data,lines:lines as BudgetLine[],transactions:transactions as Transaction[],documents:documents as FinanceDocument[]});
+  setData({settings:settings.data,lines:lines as BudgetLine[],transactions:transactions as Transaction[],documents:(documents as FinanceDocument[]).filter(d=>admin||(d.shared&&d.redaction_confirmed))});
   if(admin){const result=await supabase.from("team_finance_audit").select("id,table_name,record_id,operation,changed_at").order("changed_at",{ascending:false}).limit(30);if(result.error)throw new Error(result.error.message);setAudit(result.data??[]);}
  },[admin]);
  useEffect(()=>{
