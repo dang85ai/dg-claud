@@ -259,10 +259,7 @@
       "intro": "Start with the next session and the actions your family needs today. This hub connects the public team information with private parent tools, while keeping player development and a welcoming team experience at the centre. The guide below explains how to use those resources together and where to ask when something is unclear.",
       "sections": [
         "schedule",
-        "families",
-        "account",
-        "communication",
-        "values"
+        "families"
       ],
       "links": [
         [
@@ -286,8 +283,7 @@
         "values",
         "development",
         "families",
-        "pathway",
-        "community"
+        "pathway"
       ],
       "links": [
         [
@@ -311,8 +307,7 @@
         "access",
         "keyboard",
         "mobile",
-        "language",
-        "feedback"
+        "language"
       ],
       "links": [
         [
@@ -332,8 +327,7 @@
         "values",
         "sideline",
         "concerns",
-        "communication",
-        "recognition"
+        "communication"
       ],
       "links": [
         [
@@ -353,8 +347,7 @@
         "contact",
         "help",
         "account",
-        "feedback",
-        "communication"
+        "feedback"
       ],
       "links": [
         [
@@ -373,9 +366,7 @@
       "sections": [
         "development",
         "homepractice",
-        "recognition",
-        "sideline",
-        "pathway"
+        "recognition"
       ],
       "links": [
         [
@@ -395,8 +386,7 @@
         "reflection",
         "celebration",
         "recognition",
-        "consent",
-        "community"
+        "consent"
       ],
       "links": [
         [
@@ -418,9 +408,6 @@
       "intro": "Questions often connect more than one part of the website: a missing child affects attendance, a changed event affects packing and a private gallery depends on permissions. Use this guide to follow the right next step without creating duplicate records or sharing account details. The linked pages provide more focused information for each task.",
       "sections": [
         "account",
-        "attendance",
-        "updates",
-        "colours",
         "help"
       ],
       "links": [
@@ -445,8 +432,7 @@
         "schedule",
         "venues",
         "packing",
-        "sideline",
-        "attendance"
+        "sideline"
       ],
       "links": [
         [
@@ -468,10 +454,7 @@
       "intro": "The public kit page helps families understand the home and away designs and prepare for sessions. Current member pricing and ordering details remain behind sign-in. Read the guidance below before choosing sizes or requesting personalization, and confirm any unannounced ordering or delivery arrangements with the team.",
       "sections": [
         "colours",
-        "sizing",
-        "kitcare",
-        "packing",
-        "help"
+        "sizing"
       ],
       "links": [
         [
@@ -495,8 +478,7 @@
         "photos",
         "mediaworkflow",
         "consent",
-        "sharing",
-        "reporting"
+        "sharing"
       ],
       "links": [
         [
@@ -518,10 +500,7 @@
       "intro": "Parents need clear information and a simple way to complete the tasks connected to their children. Start by checking your household links, then use the current event and the team's designated communication channel. The sections below cover everyday preparation, attendance and support without requiring families to disclose private circumstances publicly.",
       "sections": [
         "families",
-        "account",
-        "attendance",
-        "packing",
-        "communication"
+        "account"
       ],
       "links": [
         [
@@ -545,8 +524,7 @@
         "photos",
         "consent",
         "sharing",
-        "publicprivacy",
-        "reporting"
+        "publicprivacy"
       ],
       "links": [
         [
@@ -570,8 +548,7 @@
         "publicprivacy",
         "account",
         "consent",
-        "sharing",
-        "reporting"
+        "sharing"
       ],
       "links": [
         [
@@ -590,9 +567,7 @@
       "sections": [
         "roles",
         "values",
-        "recognition",
-        "publicprivacy",
-        "families"
+        "recognition"
       ],
       "links": [
         [
@@ -614,10 +589,7 @@
       "intro": "Use the current event details to plan your journey and attendance response. A recurring pattern or a saved calendar entry can become out of date. The guide below explains venue checks, daily schedule syncing and communication when details change. Check the latest Spond invitation before travelling, especially for last-minute updates.",
       "sections": [
         "schedule",
-        "updates",
-        "venues",
-        "attendance",
-        "weather"
+        "updates"
       ],
       "links": [
         [
