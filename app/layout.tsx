@@ -1,5 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { Montserrat } from "next/font/google";
+import { Analytics } from "@/components/Analytics";
 import "./globals.css";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  display: "swap"
+});
 
 const siteUrl = "https://caledon-u9-girls-2026.netlify.app";
 const socialImage = `${siteUrl}/assets/brand/caledon-u9-girls-2026-primary.png`;
@@ -7,14 +14,14 @@ const socialImage = `${siteUrl}/assets/brand/caledon-u9-girls-2026-primary.png`;
 const sportsTeamSchema = {
   "@context": "https://schema.org",
   "@type": "SportsTeam",
-  name: "Caledon SC U9 Girls 2026",
-  alternateName: "Caledon U9 Girls 2026",
+  name: "Caledon SC U9 Girls 2026–27",
+  alternateName: "Caledon U9 Girls 2026–27",
   sport: "Soccer",
   url: siteUrl,
   logo: socialImage,
   image: socialImage,
   description:
-    "Official team hub for Caledon SC U9 Girls 2026 — schedules, team kit, roster, and parent information.",
+    "Official team hub for Caledon SC U9 Girls 2026–27 — schedules, team kit, parent resources and team information.",
   memberOf: {
     "@type": "SportsOrganization",
     name: "Caledon Soccer Club",
@@ -52,7 +59,7 @@ const sportsTeamSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Caledon SC U9 Girls 2026 Team Hub",
+  name: "Caledon SC U9 Girls 2026–27 Team Hub",
   url: siteUrl,
   inLanguage: "en-CA",
   publisher: {
@@ -63,33 +70,14 @@ const websiteSchema = {
   }
 };
 
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Caledon Soccer Club",
-      item: "https://caledonsoccer.com"
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "U9 Girls 2026",
-      item: siteUrl
-    }
-  ]
-};
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Caledon U9 Girls 2026 Soccer Team Hub | Caledon SC",
-    template: "%s | Caledon U9 Girls 2026"
+    default: "Caledon U9 Girls Soccer | 2026–27 Team Hub",
+    template: "%s | Caledon U9 Girls"
   },
   description:
-    "Official team hub for Caledon SC U9 Girls 2026. Find schedules, team kit, roster, and parent information. Development · Confidence · Teamwork.",
+    "Official Caledon SC U9 Girls 2026–27 team hub with training schedules, team kit, parent resources, sponsorship information and youth-safety guidance.",
   keywords: [
     "Caledon U9 Girls 2026 soccer",
     "Caledon SC youth soccer",
@@ -100,7 +88,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Caledon Soccer Club", url: "https://caledonsoccer.com" }],
   creator: "Caledon Soccer Club",
   publisher: "Caledon Soccer Club",
-  applicationName: "Caledon U9 Girls 2026",
+  applicationName: "Caledon U9 Girls",
   manifest: "/site.webmanifest",
   robots: {
     index: true,
@@ -117,10 +105,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_CA",
     url: siteUrl,
-    siteName: "Caledon SC U9 Girls 2026",
-    title: "Caledon U9 Girls 2026 Soccer Team Hub | Caledon SC",
+    siteName: "Caledon U9 Girls",
+    title: "Caledon U9 Girls Soccer | 2026–27 Team Hub",
     description:
-      "Schedules, kit, roster, and parent info for the Caledon SC U9 Girls 2026 season.",
+      "Schedules, kit, parent resources and team information for the Caledon SC U9 Girls 2026–27 season.",
     images: [
       {
         url: "/assets/brand/caledon-u9-girls-2026-primary.png",
@@ -132,8 +120,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Caledon U9 Girls 2026 Soccer Team Hub",
-    description: "Schedules, kit, roster, and parent info for the 2026 season.",
+    title: "Caledon U9 Girls Soccer | 2026–27 Team Hub",
+    description: "Schedules, kit, parent resources and team information for the 2026–27 season.",
     images: ["/assets/brand/caledon-u9-girls-2026-primary.png"]
   },
   icons: {
@@ -176,23 +164,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en-CA">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="preload"
-          as="style"
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap"
-        />
         <link rel="mask-icon" href="/assets/brand/safari-pinned-tab.svg" color="#E30613" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsTeamSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       </head>
-      <body>{children}</body>
+      <body className={montserrat.className}>{children}<Analytics /></body>
     </html>
   );
 }
