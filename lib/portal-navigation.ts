@@ -1,6 +1,7 @@
 import { managementModules } from "@/lib/management-modules";
 export const familyLinks = [
  {label:"Overview",href:"/portal"},
+ {label:"My Players",href:"/portal/players"},
  {label:"Schedule & Attendance",href:"/portal/activity/attendance"},
  {label:"Forms & Consent",href:"/portal/tools#consent"},
  {label:"Signed Forms",href:"/portal/activity/forms"},

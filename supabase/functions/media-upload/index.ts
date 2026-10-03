@@ -103,6 +103,9 @@ Deno.serve(async (req: Request) => {
     const caption = String(form.get("caption") ?? "").trim().slice(0, 600) || null;
 
     if (purpose === "profile") {
+      const consent=await userClient.rpc("roster_photo_allowed",{target:playerId});
+      if(consent.error||consent.data!==true)throw new Error("Approved guardian link and current public profile/photo consent required.");
+      if (!roles.some((r:string)=>["admin","manager"].includes(r))) {
       if (!playerId) throw new Error("Player is required for a profile photo.");
       const guardianRes = await userClient.from("guardians").select("id").eq("user_id", userId).maybeSingle();
       if (guardianRes.error) throw guardianRes.error;
@@ -115,6 +118,7 @@ Deno.serve(async (req: Request) => {
         .maybeSingle();
       if (linkRes.error) throw linkRes.error;
       if (!linkRes.data) throw new Error("You can only upload a profile photo for your linked player.");
+      }
     }
 
     if (albumId) {
@@ -226,5 +230,6 @@ Deno.serve(async (req: Request) => {
     });
   }
 });
+
 
 

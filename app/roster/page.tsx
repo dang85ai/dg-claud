@@ -1,6 +1,6 @@
 import { PublicPageGuide } from "@/components/PublicPageGuide";
-import { teamSquad } from "@/lib/team-squad";
-import { PlayerKitCard } from "@/components/PlayerKitCard";
+
+import { RosterProfiles } from "@/components/RosterProfiles";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
@@ -10,7 +10,6 @@ import {
   UsersRound
 } from "lucide-react";
 
-const players: [string, number | null][] = teamSquad.map(({ name, number }) => [name, number]);
 
 const staff = [["Technical Director","Gabriel Borges"],["Coach","Davinder Budwal"],["Coach","Courtney Quinn"],["Team Manager","Karam Budwal"],["Team Manager","Melissa Catalano"],["Team Manager","Daniel Guerra"],["Team Manager","Natalie Guerra"],["Team Manager","Giuseppe (Joe) Tomaselli"]];
 
@@ -42,22 +41,9 @@ export default function RosterPage() {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-            <section>
-              <div className="flex items-center gap-3">
-                <UsersRound className="text-red-600" />
-                <h2 className="text-3xl font-black uppercase">Player Profiles</h2>
-              </div>
-              <p className="mt-3 text-sm text-neutral-600">
-                Hover over a player illustration to preview the white away kit. Move off to return to black home kit, or use Home / Away and tap controls. These are generic kit illustrations, not portraits of the players.
-              </p>
-              <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3">
-                {players.map(([name, number]) => (
-                  <PlayerKitCard key={name} name={name} number={number} />
-                ))}
-              </div>
-            </section>
+            <div className="min-w-0"><RosterProfiles /></div>
 
-            <aside className="grid content-start gap-4">
+          <aside className="grid content-start gap-4">
               <div className="card p-5">
                 <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Team Snapshot</div>
                 <div className="mt-4 grid gap-3 text-sm">

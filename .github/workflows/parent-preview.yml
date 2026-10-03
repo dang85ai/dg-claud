@@ -21,6 +21,7 @@ jobs:
       - run: node scripts/test-spond-api.mjs
       - run: node scripts/test-media-processing.mjs
       - run: node scripts/test-media-library.mjs
+      - run: node scripts/test-roster.mjs
       - run: npm run build
       - run: node scripts/test-public-content.mjs
       - name: Publish draft preview
