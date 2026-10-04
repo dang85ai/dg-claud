@@ -5,18 +5,18 @@ import {
   AlertTriangle,
   Building2,
   Mail,
-  Phone,
   Users
 } from "lucide-react";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { endpoints, publicFetch } from "@/lib/api";
+import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
 
 const contacts = [
   { role: "Head Coach", contact: "To be published" },
   { role: "Assistant Coach", contact: "To be published" },
-  { role: "Team Manager", contact: "girlsoccer@r5play.net" },
+  { role: "Team Manager", contact: TEAM_EMAIL },
   { role: "Club Registrar", contact: "To be verified" },
   { role: "Field Coordinator", contact: "To be verified" }
 ];
@@ -53,7 +53,7 @@ export default function ContactPage() {
       <PublicPageHero
         eyebrow="Get in Touch"
         title="Contact the Team"
-        copy="Questions, suggestions or concerns can be sent through the team contact form. During development, submissions are stored for review and no outbound email is sent."
+        copy="Questions, suggestions or concerns can be sent through the team contact form or directly to the official team email."
       />
 
       <section className="section">
@@ -93,14 +93,11 @@ export default function ContactPage() {
             <aside className="grid h-fit gap-4">
               <div className="card p-6">
                 <div className="text-sm font-black uppercase text-red-600">Team Contact</div>
-                <a href="mailto:girlsoccer@r5play.net" className="mt-4 flex items-center gap-3 font-black hover:text-red-600">
-                  <Mail size={18} /> girlsoccer@r5play.net
-                </a>
-                <a href="tel:+18555926444" className="mt-3 flex items-center gap-3 font-black hover:text-red-600">
-                  <Phone size={18} /> 1-(855) 592-6444
+                <a href={TEAM_EMAIL_HREF} className="mt-4 flex items-center gap-3 font-black hover:text-red-600">
+                  <Mail size={18} /> {TEAM_EMAIL}
                 </a>
                 <p className="mt-5 text-sm text-neutral-600">
-                  Development notifications and form review remain internal until launch approval.
+                  Use this address for team questions, parent communication and sponsorship inquiries.
                 </p>
               </div>
 
