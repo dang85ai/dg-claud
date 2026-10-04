@@ -37,9 +37,9 @@ export default function SchedulePage() {
           <div className="grid gap-4 md:grid-cols-4">
             {[
               { Icon: CalendarDays, title: "Practices", text: "October–May planning dates are listed below. Check Spond for exact time, venue and arrival details." },
-              { Icon: Trophy, title: "Games", text: "Opponent, home/away, kickoff, arrival time and field details will appear here." },
+              { Icon: Trophy, title: "Games", text: "Game dates can appear here. Exact opponent, kickoff, venue and arrival instructions are confirmed in Spond." },
               { Icon: Users, title: "Team Events", text: "Photo day, fundraisers, socials and other team events will be included." },
-              { Icon: MapPin, title: "Tournaments", text: "Tournament dates and venue information will be added when confirmed." }
+              { Icon: MapPin, title: "Tournaments", text: "Tournament planning dates can appear here. Exact venue and team logistics are confirmed in Spond." }
             ].map(({ Icon, title, text }) => (
               <div className="card p-5" key={title}>
                 <Icon className="text-red-600" />
