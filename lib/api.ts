@@ -1,6 +1,7 @@
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL, supabase } from "@/lib/supabase";
 
 export const endpoints = {
+  userManagement: `${SUPABASE_URL}/functions/v1/user-management`,
   publicSite: `${SUPABASE_URL}/functions/v1/public-site-data`,
   calendar: `${SUPABASE_URL}/functions/v1/team-calendar`,
   contact: `${SUPABASE_URL}/functions/v1/contact-submit`,

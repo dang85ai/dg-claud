@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { FamilyLinks } from "@/components/FamilyLinks";
 import { ParentInvitation } from "@/components/ParentInvitation";
+import { UserManagement } from "@/components/UserManagement";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
@@ -171,7 +172,7 @@ export default function AdminManagePage() {
     }
   }
 
-  if (!authorized) return <div className="container py-12"><p role="status">{status || "Checking management access…"}</p></div>;
+  if (!authorized) return <div className="container py-12"><p role="status">{status || "Checking management accessâ€¦"}</p></div>;
 
   return (
     <div className="min-h-screen bg-neutral-100">
@@ -218,7 +219,7 @@ export default function AdminManagePage() {
                 </div>
               </div>
               <button disabled={busy === "player.create"} className="btn btn-primary" type="submit">
-                <UserPlus size={18} /> {busy === "player.create" ? "Adding…" : "Add Player"}
+                <UserPlus size={18} /> {busy === "player.create" ? "Addingâ€¦" : "Add Player"}
               </button>
             </form>
           </section>
@@ -264,7 +265,7 @@ export default function AdminManagePage() {
                 Show when site becomes public
               </label>
               <button disabled={busy === "event.create"} className="btn btn-primary" type="submit">
-                <CalendarPlus size={18} /> {busy === "event.create" ? "Adding…" : "Add Event"}
+                <CalendarPlus size={18} /> {busy === "event.create" ? "Addingâ€¦" : "Add Event"}
               </button>
             </form>
           </section>
@@ -296,47 +297,18 @@ export default function AdminManagePage() {
                 </label>
               </div>
               <button disabled={busy === "announcement.create"} className="btn btn-primary" type="submit">
-                <Megaphone size={18} /> {busy === "announcement.create" ? "Posting…" : "Post Announcement"}
+                <Megaphone size={18} /> {busy === "announcement.create" ? "Postingâ€¦" : "Post Announcement"}
               </button>
             </form>
           </section>
 
           <section id="invites" className="card p-6">
             <ParentInvitation />
-            <div className="flex items-center gap-3">
-              <UserPlus className="text-red-600" />
-              <h2 className="text-2xl font-black uppercase">Create Invite</h2>
-            </div>
-            <p className="mt-3 text-sm text-neutral-600">
-              This records an invitation for review. It does not create a login or send an email. Family Links requires an already activated parent account.
-            </p>
-            <form className="mt-6" onSubmit={submitInvite}>
-              <div className="field-group">
-                <label className="field-label" htmlFor="invite_email">Email</label>
-                <input className="field" id="invite_email" name="email" type="email" required />
-              </div>
-              <div className="field-group">
-                <label className="field-label" htmlFor="full_name">Name</label>
-                <input className="field" id="full_name" name="full_name" />
-              </div>
-              <div className="field-group">
-                <label className="field-label" htmlFor="role">Role</label>
-                <select className="field" id="role" name="role" defaultValue="parent_player">
-                  <option value="parent_player">Parent / Player</option>
-                  <option value="manager">Manager</option>
-                  <option value="admin">Administrator</option>
-                  <option value="photographer">Official Photographer</option>
-                  <option value="sponsor">Sponsor</option>
-                </select>
-              </div>
-              <button disabled={busy === "invite.create"} className="btn btn-primary" type="submit">
-                <UserPlus size={18} /> {busy === "invite.create" ? "Creating…" : "Create Invite"}
-              </button>
-            </form>
           </section>
         </div>
 
         <FamilyLinks refreshKey={playerVersion} />
+        <UserManagement />
 
         <section id="export" className="mt-6 rounded-3xl bg-black p-7 text-white">
           <div className="grid items-center gap-6 md:grid-cols-[1fr_auto]">
@@ -348,7 +320,7 @@ export default function AdminManagePage() {
               </p>
             </div>
             <button disabled={busy === "export"} onClick={downloadExport} className="btn btn-primary">
-              <Download size={18} /> {busy === "export" ? "Preparing…" : "Download ZIP"}
+              <Download size={18} /> {busy === "export" ? "Preparingâ€¦" : "Download ZIP"}
             </button>
           </div>
         </section>
@@ -356,3 +328,4 @@ export default function AdminManagePage() {
     </div>
   );
 }
+
