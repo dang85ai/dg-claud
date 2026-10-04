@@ -1,30 +1,20 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, Clock3, MapPin, Navigation, RefreshCw, XCircle } from "lucide-react";
+import { CalendarDays, RefreshCw, ShieldCheck, XCircle } from "lucide-react";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase";
+import { SPOND_URL } from "@/lib/team-config";
 
 type TeamEvent = {
   id: string;
-  event_type: string;
-  title: string;
-  starts_at: string;
-  ends_at: string | null;
-  venue_name: string | null;
-  venue_address: string | null;
-  notes: string | null;
+  event_type?: string;
+  title?: string;
+  date?: string;
+  starts_at?: string;
   status: string;
 };
 
 const scheduleUrl = `${SUPABASE_URL}/functions/v1/public-schedule`;
-
-function monthKey(value: string) {
-  return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "America/Toronto",
-    year: "numeric",
-    month: "long"
-  }).format(new Date(value));
-}
 
 function torontoDayKey(value: string | Date) {
   const parts = new Intl.DateTimeFormat("en-CA", {
@@ -33,9 +23,22 @@ function torontoDayKey(value: string | Date) {
     month: "2-digit",
     day: "2-digit"
   }).formatToParts(new Date(value));
-
   const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
   return `${values.year}-${values.month}-${values.day}`;
+}
+
+function eventDate(event: TeamEvent) {
+  if (event.date) return event.date;
+  if (event.starts_at) return torontoDayKey(event.starts_at);
+  return "";
+}
+
+function monthKey(value: string) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "UTC",
+    year: "numeric",
+    month: "long"
+  }).format(new Date(`${value}T12:00:00Z`));
 }
 
 function currentTorontoWeek() {
@@ -47,7 +50,6 @@ function currentTorontoWeek() {
 
   const start = new Date(today);
   start.setUTCDate(today.getUTCDate() + offsetToMonday);
-
   const end = new Date(start);
   end.setUTCDate(start.getUTCDate() + 6);
 
@@ -59,36 +61,28 @@ function currentTorontoWeek() {
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "America/Toronto",
+    timeZone: "UTC",
     weekday: "short",
     month: "short",
     day: "numeric",
     year: "numeric"
-  }).format(new Date(value));
+  }).format(new Date(`${value}T12:00:00Z`));
 }
 
-function formatTime(value: string) {
-  return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "America/Toronto",
-    hour: "numeric",
-    minute: "2-digit"
-  }).format(new Date(value));
-}
-
-function directionsUrl(event: TeamEvent) {
-  const query = event.venue_address;
-  return query
-    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
-    : null;
+function safeTitle(event: TeamEvent) {
+  if (event.title) return event.title;
+  if (event.event_type === "game") return "Game Day";
+  if (event.event_type === "tournament") return "Tournament";
+  if (event.event_type === "practice" || event.event_type === "training") return "Training Session";
+  return "Team Event";
 }
 
 export function ScheduleEvents() {
   const [events, setEvents] = useState<TeamEvent[]>([]);
-  const [status, setStatus] = useState("Loading training schedule…");
+  const [status, setStatus] = useState("Loading planning dates…");
 
   useEffect(() => {
     let mounted = true;
-
     (async () => {
       try {
         const response = await fetch(scheduleUrl, {
@@ -100,29 +94,24 @@ export function ScheduleEvents() {
 
         if (mounted) {
           setEvents(
-            [...(payload.events ?? [])].sort(
-              (a: TeamEvent, b: TeamEvent) =>
-                new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime()
-            )
+            [...(payload.events ?? [])]
+              .filter((event: TeamEvent) => Boolean(eventDate(event)))
+              .sort((a: TeamEvent, b: TeamEvent) => eventDate(a).localeCompare(eventDate(b)))
           );
           setStatus("");
         }
       } catch (error) {
-        if (mounted) {
-          setStatus(error instanceof Error ? error.message : "Unable to load schedule.");
-        }
+        if (mounted) setStatus(error instanceof Error ? error.message : "Unable to load schedule.");
       }
     })();
 
-    return () => {
-      mounted = false;
-    };
+    return () => { mounted = false; };
   }, []);
 
   const groups = useMemo(() => {
     const map = new Map<string, TeamEvent[]>();
     for (const event of events) {
-      const key = monthKey(event.starts_at);
+      const key = monthKey(eventDate(event));
       const current = map.get(key) ?? [];
       current.push(event);
       map.set(key, current);
@@ -133,7 +122,7 @@ export function ScheduleEvents() {
   const currentWeekEvents = useMemo(() => {
     const { start, end } = currentTorontoWeek();
     return events.filter((event) => {
-      const key = torontoDayKey(event.starts_at);
+      const key = eventDate(event);
       return key >= start && key <= end;
     });
   }, [events]);
@@ -142,20 +131,13 @@ export function ScheduleEvents() {
 
   function EventCard({ event }: { event: TeamEvent }) {
     const isCancelled = event.status === "cancelled";
-    const inviteNote = event.notes?.includes("Spond invite goes out 3 days in advance");
-    const mapUrl = directionsUrl(event);
-
     return (
-      <article
-        className={`rounded-2xl border p-5 ${
-          isCancelled ? "border-red-300 bg-red-50" : "border-neutral-200 bg-white"
-        }`}
-      >
+      <article className={`rounded-2xl border p-5 ${isCancelled ? "border-red-300 bg-red-50" : "border-neutral-200 bg-white"}`}>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <h4 className={`min-w-0 break-words text-base font-black uppercase leading-tight sm:text-lg ${isCancelled ? "text-neutral-500" : ""}`}>
-                {event.title}
+                {safeTitle(event)}
               </h4>
               {isCancelled ? (
                 <span className="inline-flex max-w-full items-center gap-1 rounded-full bg-red-600 px-3 py-1 text-center text-xs font-black uppercase leading-tight text-white whitespace-normal">
@@ -167,44 +149,18 @@ export function ScheduleEvents() {
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-neutral-600">
               <span className="inline-flex items-center gap-2">
                 <CalendarDays size={16} className="text-red-600" />
-                {formatDate(event.starts_at)}
+                {formatDate(eventDate(event))}
               </span>
-
-              {!isCancelled ? (
-                <span className="inline-flex items-center gap-2">
-                  <Clock3 size={16} className="text-red-600" />
-                  {formatTime(event.starts_at)}
-                </span>
-              ) : null}
-
-              {event.venue_name ? (
-                <span className="inline-flex items-center gap-2">
-                  <MapPin size={16} className="text-red-600" />
-                  {event.venue_name}
-                </span>
-              ) : null}
             </div>
 
-            {isCancelled ? (
-              <p className="mt-3 text-sm font-bold text-red-700">Cancelled — no session.</p>
-            ) : null}
-
-            {inviteNote && !isCancelled ? (
-              <div className="mt-3 break-words text-xs font-black uppercase tracking-[.08em] text-red-600 sm:tracking-wide">
-                Spond invite goes out 3 days in advance
+            {!isCancelled ? (
+              <div className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-neutral-700">
+                <ShieldCheck size={16} className="text-red-600" />
+                Exact time, venue and arrival details are in Spond.
               </div>
-            ) : null}
-
-            {mapUrl && !isCancelled ? (
-              <a
-                href={mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-flex items-center gap-2 text-sm font-black text-red-600 hover:text-red-700"
-              >
-                <Navigation size={16} /> Get venue directions
-              </a>
-            ) : null}
+            ) : (
+              <p className="mt-3 text-sm font-bold text-red-700">Cancelled — no session.</p>
+            )}
           </div>
         </div>
       </article>
@@ -217,6 +173,9 @@ export function ScheduleEvents() {
         <div className="flex items-center gap-2 font-black uppercase text-neutral-800">
           <RefreshCw size={17} /> {status}
         </div>
+        <a href={SPOND_URL} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex font-black text-red-600">
+          Open Spond →
+        </a>
       </div>
     );
   }
@@ -225,50 +184,33 @@ export function ScheduleEvents() {
     <div id="current-week" className="scroll-mt-28">
       <section id="this-week" className="scroll-mt-28 rounded-3xl border-2 border-red-200 bg-red-50 p-5 md:p-6">
         <div className="text-xs font-black uppercase tracking-[.16em] text-red-600">Current Week</div>
-        <h3 className="mt-2 text-2xl font-black uppercase tracking-tight">This Week’s Training</h3>
+        <h3 className="mt-2 text-2xl font-black uppercase tracking-tight">This Week’s Team Dates</h3>
         <p className="mt-2 text-sm text-neutral-600">
-          Current Monday–Sunday schedule shown in Toronto local time.
+          Public planning dates only. Check Spond for exact start time, venue, entrance and arrival instructions.
         </p>
 
         <div className="mt-5 grid gap-3">
-          {currentWeekEvents.length ? (
-            currentWeekEvents.map((event) => <EventCard key={event.id} event={event} />)
-          ) : (
-            <div className="rounded-2xl bg-white p-5 text-sm font-bold text-neutral-600">
-              No training session is scheduled for the current week.
-            </div>
+          {currentWeekEvents.length ? currentWeekEvents.map((event) => <EventCard key={event.id} event={event} />) : (
+            <div className="rounded-2xl bg-white p-5 text-sm font-bold text-neutral-600">No team session is scheduled for the current week.</div>
           )}
         </div>
+        <a href={SPOND_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-5">Open Spond / RSVP</a>
       </section>
 
       <div className="my-6 grid gap-3 sm:grid-cols-3">
-        <div className="rounded-2xl bg-neutral-100 p-4">
-          <div className="text-3xl font-black">{events.length}</div>
-          <div className="mt-1 text-xs font-black uppercase tracking-wide text-neutral-500">Training Events</div>
-        </div>
-        <div className="rounded-2xl bg-neutral-100 p-4">
-          <div className="text-3xl font-black">{events.length - cancelled}</div>
-          <div className="mt-1 text-xs font-black uppercase tracking-wide text-neutral-500">Active</div>
-        </div>
-        <div className="rounded-2xl bg-neutral-100 p-4">
-          <div className="text-3xl font-black text-red-600">{cancelled}</div>
-          <div className="mt-1 text-xs font-black uppercase tracking-wide text-neutral-500">Cancelled</div>
-        </div>
+        <div className="rounded-2xl bg-neutral-100 p-4"><div className="text-3xl font-black">{events.length}</div><div className="mt-1 text-xs font-black uppercase tracking-wide text-neutral-500">Team Dates</div></div>
+        <div className="rounded-2xl bg-neutral-100 p-4"><div className="text-3xl font-black">{events.length - cancelled}</div><div className="mt-1 text-xs font-black uppercase tracking-wide text-neutral-500">Active</div></div>
+        <div className="rounded-2xl bg-neutral-100 p-4"><div className="text-3xl font-black text-red-600">{cancelled}</div><div className="mt-1 text-xs font-black uppercase tracking-wide text-neutral-500">Cancelled</div></div>
       </div>
 
       <div className="grid gap-8">
         {groups.map(([month, monthEvents]) => (
           <section key={month}>
             <h3 className="mb-3 text-xl font-black uppercase tracking-tight">{month}</h3>
-            <div className="grid gap-3">
-              {monthEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
+            <div className="grid gap-3">{monthEvents.map((event) => <EventCard key={event.id} event={event} />)}</div>
           </section>
         ))}
       </div>
-
       {status ? <div className="notice mt-5 text-sm">{status}</div> : null}
     </div>
   );
