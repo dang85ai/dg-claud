@@ -99,7 +99,7 @@ export default function HomePage() {
             />
             <div className="grid gap-4 sm:grid-cols-2">
               {[
-                { icon: CalendarDays, title: "Schedule", text: "Games, practices, arrival times, locations and weather alerts." },
+                { icon: CalendarDays, title: "Schedule", text: "Public planning dates with exact times and venues kept in Spond." },
                 { icon: Shirt, title: "Team Kit", text: "Home, away, tracksuit, jacket, backpack, sizing and game-day kit guidance." },
                 { icon: Users, title: "Roster", text: "Consent-controlled player profiles with first names only in public." },
                 { icon: ShieldCheck, title: "Private Portal", text: "Forms, payments, carpool, attendance and parent-only information." }
@@ -112,7 +112,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-<section className="card p-6"><h2 className="text-2xl font-black uppercase">New to the team?</h2><p className="mt-3 text-neutral-600">Get connected, check equipment and find the right place to reply.</p><div className="mt-5 grid gap-3"><Link href="/parents#start-here" className="btn btn-primary">New-family checklist</Link><Link href="/schedule#venues" className="btn btn-light">Training venues</Link><Link href="/parents#communications" className="btn btn-light">Communication guide</Link><Link href="/parents#club-resources" className="btn btn-light">Club resources</Link></div></section>
+<section className="card p-6"><h2 className="text-2xl font-black uppercase">New to the team?</h2><p className="mt-3 text-neutral-600">Get connected, check equipment and find the right place to reply.</p><div className="mt-5 grid gap-3"><Link href="/parents#start-here" className="btn btn-primary">New-family checklist</Link><Link href="/schedule#venues" className="btn btn-light">Venue instructions</Link><Link href="/parents#communications" className="btn btn-light">Communication guide</Link><Link href="/parents#club-resources" className="btn btn-light">Club resources</Link></div></section>
         </div>
       </section>
 

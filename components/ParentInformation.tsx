@@ -15,12 +15,12 @@ export function CommunicationGuide() {
 
 export function VenueGuide() {
   return <section id="venues" className="card scroll-mt-28 p-6">
-    <h2 className="text-2xl font-black uppercase">Training venues & directions</h2>
-    <div className="mt-4 grid gap-5">
-      <div><h3 className="font-black">Tuesday · 6:00 p.m.</h3><p className="mt-1 text-neutral-600">Venue to be confirmed. Check your Spond invite or ask the team manager before travelling.</p></div>
-      <div><h3 className="font-black">Wednesday · 6:15 p.m. · St Cornelius Gym</h3><p className="mt-1 text-neutral-600">The schedule names the gym but does not include a verified street address. Confirm the address, entrance door, parking and indoor footwear requirements in your invite.</p></div>
-      <div className="rounded-xl bg-neutral-100 p-4"><h3 className="font-black">Outdoor club fields</h3><p className="mt-1 text-neutral-600">The club directory includes field maps and entrances for Caledon East Soccer Complex, Johnston Sports Park and Fire Hall Field. Use the venue named in your event; these are not confirmed Tuesday training locations.</p><a href="https://caledonsoccer.com/about-us/facilities/" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex min-h-11 items-center font-bold text-red-600 underline">Club field maps & addresses</a></div>
-      <p className="text-sm font-bold">2 McKee Drive South is the club office. It is not a training destination unless your event explicitly says so.</p>
+    <h2 className="text-2xl font-black uppercase">Training venue access</h2>
+    <p className="mt-4 text-neutral-600">Exact training locations, start times, entrances and parking instructions are shared through Spond rather than published on the public website.</p>
+    <div className="mt-4 grid gap-4">
+      <div><h3 className="font-black">Before leaving</h3><p className="mt-1 text-neutral-600">Open the latest Spond invite and confirm the venue, start time, arrival instructions and footwear requirements.</p></div>
+      <div><h3 className="font-black">If information conflicts</h3><p className="mt-1 text-neutral-600">Treat the latest Spond update as the primary event source and contact the team manager if anything is unclear.</p></div>
+      <div className="rounded-xl bg-neutral-100 p-4"><h3 className="font-black">Club facilities</h3><p className="mt-1 text-neutral-600">Use the club facilities directory only after your event identifies the facility. The club office is not a training destination unless your private event information explicitly says so.</p><a href="https://caledonsoccer.com/about-us/facilities/" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex min-h-11 items-center font-bold text-red-600 underline">Club field maps &amp; addresses</a></div>
     </div>
   </section>;
 }
