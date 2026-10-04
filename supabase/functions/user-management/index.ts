@@ -24,7 +24,13 @@ Deno.serve(async(req:Request)=>{
   let email=String(input.email||'').trim().toLowerCase(),name=String(input.full_name||'').trim().slice(0,140);
   if(action==='resend'){
    const u=await admin.auth.admin.getUserById(String(input.user_id||''));if(u.error)throw u.error;
-   if(u.data.user.email_confirmed_at)return reply({error:'This account is already activated. Ask the user to use Forgot your password.'},400);
+   if(u.data.user.email_confirmed_at){
+    const email=u.data.user.email;if(!email)throw new Error('Account has no email address');
+    const sent=await admin.auth.resetPasswordForEmail(email,{redirectTo:origin+'/auth/finish'});
+    const log=await client.rpc('manage_team_accounts',{action:'delivery',input:{email,outcome:sent.error?'access_email_failed':'access_email_accepted'}});if(log.error)throw new Error(log.error.message);
+    if(sent.error)throw new Error('Access email was not sent: '+sent.error.message);
+    return reply({message:'This account is already activated. A password setup email was accepted for sending to '+email+'. Their password changes only if they use the link.',email_sent:true});
+   }
    email=u.data.user.email||'';name=String(u.data.user.user_metadata?.full_name||'');
   }else{const r=await client.rpc('manage_team_accounts',{action:'invite',input:{email,full_name:name,role:input.role}});if(r.error)throw r.error;}
   // Authentication links are never returned for activated accounts.
