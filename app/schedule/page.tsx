@@ -29,14 +29,14 @@ export default function SchedulePage() {
       <PublicPageHero
         eyebrow="Games · Practices · Events"
         title="Schedule & Events"
-        copy="2026–27 training schedule for quick mobile use: this week, next session, training venue directions, cancellations and parent communication guidance."
+        copy="Public planning dates for the 2026–27 season. Exact start times, venues, entrances and arrival instructions stay in Spond and parent-only communication."
       />
 
       <section className="section">
         <div className="container">
           <div className="grid gap-4 md:grid-cols-4">
             {[
-              { Icon: CalendarDays, title: "Practices", text: "October–May training is listed below. Check each invite for venue and arrival details." },
+              { Icon: CalendarDays, title: "Practices", text: "October–May planning dates are listed below. Check Spond for exact time, venue and arrival details." },
               { Icon: Trophy, title: "Games", text: "Opponent, home/away, kickoff, arrival time and field details will appear here." },
               { Icon: Users, title: "Team Events", text: "Photo day, fundraisers, socials and other team events will be included." },
               { Icon: MapPin, title: "Tournaments", text: "Tournament dates and venue information will be added when confirmed." }
@@ -57,11 +57,11 @@ export default function SchedulePage() {
                   <h2 className="text-xl font-black uppercase sm:text-2xl">2026–27 Training Calendar</h2>
                 </div>
                 <a className="btn btn-primary" href={calendarUrl}>
-                  <Download size={17} /> Add to Calendar
+                  <Download size={17} /> Add Planning Dates
                 </a>
               </div>
               <p className="mt-4 text-neutral-600">
-                Training schedule supplied from Spond for October 2026 through May 2027. Times are shown in Toronto local time.
+                Planning dates are supplied from the team schedule for October 2026 through May 2027. Exact start times and locations are intentionally kept in Spond.
               </p>
               <div className="mt-6">
                 <ScheduleEvents />
