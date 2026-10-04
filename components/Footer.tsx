@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
 
 export function Footer() {
   return (
@@ -14,8 +15,7 @@ export function Footer() {
 
         <div>
           <div className="font-black uppercase tracking-wide">Contact</div>
-          <p className="mt-3 text-sm">girlsoccer@r5play.net</p>
-          <p className="mt-1 text-sm">1-(855) 592-6444</p>
+          <a href={TEAM_EMAIL_HREF} className="mt-3 block text-sm font-bold hover:text-red-400">{TEAM_EMAIL}</a>
         </div>
 
         <div>
