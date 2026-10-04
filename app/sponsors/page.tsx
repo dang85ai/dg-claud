@@ -13,7 +13,6 @@ import {
   Mail,
   MapPin,
   Megaphone,
-  Phone,
   Shirt,
   Star,
   Trophy,
@@ -22,6 +21,7 @@ import {
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicShell } from "@/components/PublicShell";
 import { SponsorshipInquiryForm } from "@/components/SponsorshipInquiryForm";
+import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
 
 const tiers = [
   {
@@ -570,18 +570,11 @@ export default function SponsorsPage() {
               </p>
 
               <div className="mt-6 grid gap-3">
-                <a href="mailto:girlsoccer@r5play.net" className="card flex min-h-16 items-center gap-4 p-4 hover:border-red-500">
+                <a href={TEAM_EMAIL_HREF} className="card flex min-h-16 items-center gap-4 p-4 hover:border-red-500">
                   <Mail className="text-red-600" />
                   <div>
-                    <div className="text-xs font-black uppercase text-neutral-500">Email</div>
-                    <div className="font-black">girlsoccer@r5play.net</div>
-                  </div>
-                </a>
-                <a href="tel:+18555926444" className="card flex min-h-16 items-center gap-4 p-4 hover:border-red-500">
-                  <Phone className="text-red-600" />
-                  <div>
-                    <div className="text-xs font-black uppercase text-neutral-500">Phone</div>
-                    <div className="font-black">1-(855) 592-6444</div>
+                    <div className="text-xs font-black uppercase text-neutral-500">Official Team Email</div>
+                    <div className="font-black">{TEAM_EMAIL}</div>
                   </div>
                 </a>
               </div>
@@ -603,7 +596,7 @@ export default function SponsorsPage() {
             <div className="card p-6">
               <Banknote className="text-red-600" />
               <h3 className="mt-4 font-black uppercase">Interac e-Transfer</h3>
-              <p className="mt-2 text-sm text-neutral-600">girlsoccer@r5play.net</p>
+              <p className="mt-2 text-sm text-neutral-600">Payment instructions are provided after sponsorship confirmation.</p>
             </div>
             <div className="card p-6">
               <CreditCard className="text-red-600" />
