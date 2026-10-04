@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CalendarDays, ShieldCheck } from "lucide-react";
-import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase";
+import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase-public";
 import { SPOND_URL } from "@/lib/team-config";
 
 type TeamEvent = {
