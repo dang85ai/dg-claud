@@ -172,7 +172,7 @@ export default function AdminManagePage() {
     }
   }
 
-  if (!authorized) return <div className="container py-12"><p role="status">{status || "Checking management accessâ€¦"}</p></div>;
+  if (!authorized) return <div className="container py-12"><p role="status">{status || "Checking management access…"}</p></div>;
 
   return (
     <div className="min-h-screen bg-neutral-100">
@@ -219,7 +219,7 @@ export default function AdminManagePage() {
                 </div>
               </div>
               <button disabled={busy === "player.create"} className="btn btn-primary" type="submit">
-                <UserPlus size={18} /> {busy === "player.create" ? "Addingâ€¦" : "Add Player"}
+                <UserPlus size={18} /> {busy === "player.create" ? "Adding…" : "Add Player"}
               </button>
             </form>
           </section>
@@ -265,7 +265,7 @@ export default function AdminManagePage() {
                 Show when site becomes public
               </label>
               <button disabled={busy === "event.create"} className="btn btn-primary" type="submit">
-                <CalendarPlus size={18} /> {busy === "event.create" ? "Addingâ€¦" : "Add Event"}
+                <CalendarPlus size={18} /> {busy === "event.create" ? "Adding…" : "Add Event"}
               </button>
             </form>
           </section>
@@ -297,7 +297,7 @@ export default function AdminManagePage() {
                 </label>
               </div>
               <button disabled={busy === "announcement.create"} className="btn btn-primary" type="submit">
-                <Megaphone size={18} /> {busy === "announcement.create" ? "Postingâ€¦" : "Post Announcement"}
+                <Megaphone size={18} /> {busy === "announcement.create" ? "Posting…" : "Post Announcement"}
               </button>
             </form>
           </section>
@@ -320,7 +320,7 @@ export default function AdminManagePage() {
               </p>
             </div>
             <button disabled={busy === "export"} onClick={downloadExport} className="btn btn-primary">
-              <Download size={18} /> {busy === "export" ? "Preparingâ€¦" : "Download ZIP"}
+              <Download size={18} /> {busy === "export" ? "Preparing…" : "Download ZIP"}
             </button>
           </div>
         </section>

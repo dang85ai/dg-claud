@@ -2,7 +2,7 @@ begin;
 revoke insert,update,delete on public.user_roles from authenticated;
 alter policy account_invites_admin_insert on app_private.account_invites with check (app_private.is_admin_aal2() and created_by=auth.uid() and (role not in ('admin','manager') or app_private.has_role('admin')));
 alter policy account_invites_admin_update on app_private.account_invites using (app_private.is_admin_aal2() and (role not in ('admin','manager') or app_private.has_role('admin'))) with check (app_private.is_admin_aal2() and (role not in ('admin','manager') or app_private.has_role('admin')));
-create or replace function public.manage_team_accounts(action text, input jsonb default '{}'::jsonb)
+create or replace function app_private.manage_team_accounts(action text, input jsonb default '{}'::jsonb)
 returns jsonb language plpgsql security definer set search_path='' as $$
 declare target uuid; desired public.app_role; invite_id uuid; old_roles jsonb; result jsonb; mail text;
 begin
@@ -39,6 +39,9 @@ begin
  return result;
 end;
 $$;
+revoke all on function app_private.manage_team_accounts(text,jsonb) from public,anon;
+grant execute on function app_private.manage_team_accounts(text,jsonb) to authenticated;
+create or replace function public.manage_team_accounts(action text,input jsonb default '{}'::jsonb) returns jsonb language sql security invoker set search_path='' as $$ select app_private.manage_team_accounts(action,input); $$;
 revoke all on function public.manage_team_accounts(text,jsonb) from public,anon;
 grant execute on function public.manage_team_accounts(text,jsonb) to authenticated;
 -- The legacy review-only action must not let managers assign administrator privileges.
