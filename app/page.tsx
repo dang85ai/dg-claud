@@ -29,15 +29,15 @@ export default function HomePage() {
       <DevelopmentBanner />
       <PwaRegister />
 
-      <section className="hero py-8 md:py-12">
-        <div className="container grid items-end gap-10 lg:grid-cols-[1.1fr_.9fr]">
-          <div>
+      <section className="hero home-hero py-12 md:py-16">
+        <div className="container flex min-h-[430px] items-center md:min-h-[500px]">
+          <div className="home-hero-content">
             <div className="kicker">Caledon Soccer Club</div>
             <h1 className="display !text-4xl !leading-none md:!text-6xl">
               Caledon U9 Girls 2026
               <span>Soccer Team Hub</span>
             </h1>
-            <p className="max-w-xl text-base text-white/70 md:text-lg">
+            <p className="home-hero-copy text-base text-white/80 md:text-lg">
               The <strong className="text-white">2026–27 Training Season</strong> schedule is published for Caledon SC U9 Girls.
               Everything parents need at the field — schedules, team kit, parent information and player-development resources —
               in one mobile-friendly place for youth soccer in Caledon, Ontario.
@@ -46,35 +46,38 @@ export default function HomePage() {
               <Link href="/schedule#current-week" className="btn btn-primary">
                 View This Week&apos;s Schedule
               </Link>
-              <Link href="/login" className="btn border border-white/30 bg-white/10 text-white">
+              <Link href="/login" className="btn home-hero-secondary">
                 Join the Parent Portal
               </Link>
             </div>
           </div>
-
-          <section aria-label="Next practice or game"><NextMatchCard /></section>
         </div>
       </section>
 
-      <section className="border-b border-neutral-200 bg-white">
-        <div className="container py-5">
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            <Link href="/schedule" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
-              <CalendarDays className="shrink-0 text-red-600" size={20} />
-              <span className="font-black">View Schedule</span>
-            </Link>
-            <Link href="/login" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
-              <ClipboardCheck className="shrink-0 text-red-600" size={20} />
-              <span className="font-black">Report an Absence</span>
-            </Link>
-            <Link href="/contact" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
-              <Mail className="shrink-0 text-red-600" size={20} />
-              <span className="font-black">Contact Team Manager</span>
-            </Link>
-            <Link href="/login" className="card flex min-h-16 items-center gap-3 p-4 hover:border-red-500">
-              <ShieldCheck className="shrink-0 text-red-600" size={20} />
-              <span className="font-black">Parent Portal</span>
-            </Link>
+      <section className="home-dashboard border-b border-neutral-200 bg-white">
+        <div className="container py-6">
+          <div className="grid gap-5 lg:grid-cols-[.9fr_1.25fr]">
+            <section aria-label="Next practice or game">
+              <NextMatchCard />
+            </section>
+            <div className="grid content-start gap-3 sm:grid-cols-2">
+              <Link href="/schedule" className="card flex min-h-20 items-center gap-3 p-4 hover:border-red-500">
+                <CalendarDays className="shrink-0 text-red-600" size={20} />
+                <span className="font-black">View Schedule</span>
+              </Link>
+              <Link href="/login" className="card flex min-h-20 items-center gap-3 p-4 hover:border-red-500">
+                <ClipboardCheck className="shrink-0 text-red-600" size={20} />
+                <span className="font-black">Report an Absence</span>
+              </Link>
+              <Link href="/contact" className="card flex min-h-20 items-center gap-3 p-4 hover:border-red-500">
+                <Mail className="shrink-0 text-red-600" size={20} />
+                <span className="font-black">Contact Team Manager</span>
+              </Link>
+              <Link href="/login" className="card flex min-h-20 items-center gap-3 p-4 hover:border-red-500">
+                <ShieldCheck className="shrink-0 text-red-600" size={20} />
+                <span className="font-black">Parent Portal</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
