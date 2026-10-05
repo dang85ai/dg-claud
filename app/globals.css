@@ -30,6 +30,66 @@ p, a, button, span {
 
 h1, h2, h3, h4, h5, h6,
 .btn,
+.home-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 500px;
+  background-color: #050607;
+  background-image:
+    linear-gradient(90deg, rgba(0,0,0,.96) 0%, rgba(0,0,0,.87) 32%, rgba(0,0,0,.58) 52%, rgba(0,0,0,.18) 76%, rgba(0,0,0,.08) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.12) 58%, rgba(0,0,0,.62) 100%),
+    url("/images/home-hero.webp");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.home-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 28%;
+  z-index: -1;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,.42));
+  pointer-events: none;
+}
+
+.home-hero-content {
+  max-width: 690px;
+}
+
+.home-hero .display {
+  text-shadow: 0 3px 24px rgba(0,0,0,.55);
+}
+
+.home-hero-copy {
+  text-shadow: 0 2px 14px rgba(0,0,0,.7);
+}
+
+.home-hero-secondary {
+  border-color: rgba(255,255,255,.36);
+  background: rgba(0,0,0,.32);
+  color: white;
+  backdrop-filter: blur(6px);
+}
+
+.home-hero-secondary:hover {
+  background: rgba(0,0,0,.52);
+}
+
+.home-dashboard {
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 1024px) {
+  .home-hero {
+    min-height: 565px;
+    background-position: center 44%;
+  }
+}
+
+
 .kicker {
   overflow-wrap: anywhere;
   word-break: normal;
@@ -231,6 +291,22 @@ textarea.field {
   }
 
   .section { padding: 44px 0; }
+
+  .home-hero {
+    min-height: 610px;
+    background-image:
+      linear-gradient(180deg, rgba(0,0,0,.50) 0%, rgba(0,0,0,.76) 46%, rgba(0,0,0,.94) 100%),
+      url("/images/home-hero.webp");
+    background-position: 69% center;
+  }
+
+  .home-hero-content {
+    max-width: 100%;
+  }
+
+  .home-hero-copy {
+    max-width: 34rem;
+  }
 
   .display {
     font-size: clamp(2.5rem, 14vw, 4.2rem);
