@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, Home, Menu, Shield, Users } from "lucide-react";
+import { CalendarDays, Home, ShoppingBag, Shield, Users } from "lucide-react";
 
 export function MobileNav() {
   const links = [
@@ -7,7 +7,7 @@ export function MobileNav() {
     { href: "/schedule", label: "Schedule", Icon: CalendarDays },
     { href: "/roster", label: "Team", Icon: Users },
     { href: "/login", label: "Portal", Icon: Shield },
-    { href: "/contact", label: "More", Icon: Menu }
+    { href: "/order", label: "Order", Icon: ShoppingBag }
   ];
 
   return (

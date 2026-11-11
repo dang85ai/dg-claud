@@ -1,351 +1,139 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Backpack, CloudRain, Footprints, Shirt } from "lucide-react";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
-import { Backpack, CloudRain, Footprints, Shirt, Tags } from "lucide-react";
 
-const groups = [
+const kitItems = [
   {
     id: "home",
-    Icon: Shirt,
     title: "Home Match Kit",
-    subtitle: "Red / Black",
+    detail: "Red jersey · Black shorts · Red socks",
+    description: "Our red home strip, featuring black detailing, the Caledon United crest and illustrated name-and-number placement.",
     image: "/kit/home-match-kit-caledon-united-2026.jpg",
-    imageAlt: "Caledon United FC 2018 Girls red home match kit with black shorts and red socks, front and back jerseys, and white Smith number 10 lettering.",
-    regular: 1620,
-    best: 1484.85,
-    perPlayer: 108,
-    items: [
-      { sku: "KB1319", product: "adidas Tiro26 League Kids Jersey", colour: "Black / White", regular: 40, best: 40, retailer: "Adidas Canada / Sport Chek" },
-      { sku: "KA8819", product: "adidas Tiro26 League Kids Shorts", colour: "Black / White", regular: 30, best: 20.99, retailer: "Sport Chek" },
-      { sku: "ADI-25 TEAM", product: "adidas Team Match Socks", colour: "Black / White", regular: 18, best: 18, retailer: "Adidas Canada" },
-      { sku: "DEC-HK", product: "Crest + Back Number + Optional Name", colour: "Customization", regular: 20, best: 20, retailer: "Team Supplier / Customizer" }
-    ]
+    alt: "Caledon United FC 2018 Girls home kit: red jersey, black shorts and red socks, with front and back views.",
+    Icon: Shirt
   },
   {
     id: "away",
-    Icon: Shirt,
     title: "Away Match Kit",
-    subtitle: "White / Black",
+    detail: "White jersey · Black shorts · White socks",
+    description: "Our white away strip with black accents and the matching Caledon United team crest.",
     image: "/kit/away-match-kit-caledon-united-2026.jpg",
-    imageAlt: "Caledon United FC 2018 Girls white away match kit with black shorts and white socks, front and back jerseys, and black Smith number 10 lettering.",
-    regular: 1620,
-    best: 1484.85,
-    perPlayer: 108,
-    items: [
-      { sku: "KB1317", product: "adidas Tiro26 League Kids Jersey", colour: "White / White / Black", regular: 40, best: 40, retailer: "Adidas Canada / Sport Chek" },
-      { sku: "KA8819", product: "adidas Tiro26 League Kids Shorts", colour: "Black / White", regular: 30, best: 20.99, retailer: "Sport Chek" },
-      { sku: "ADI-25 TEAM", product: "adidas Team Match Socks", colour: "White / Black", regular: 18, best: 18, retailer: "Adidas Canada" },
-      { sku: "DEC-AK", product: "Crest + Back Number + Optional Name", colour: "Customization", regular: 20, best: 20, retailer: "Team Supplier / Customizer" }
-    ]
+    alt: "Caledon United FC 2018 Girls away kit: white jersey, black shorts and white socks, with front and back views.",
+    Icon: Shirt
   },
   {
     id: "tracksuit",
-    Icon: Footprints,
     title: "Track Suit",
-    subtitle: "Travel / Warm-up",
-    image: "/kit/track-suit.webp",
-    imageAlt: "Caledon U9 Girls 2026 adidas tracksuit visual showing the Tiro 24 training jacket, Tiro 26 training pants and player-initial decoration placement.",
-    regular: 1500,
-    best: 1109.85,
-    perPlayer: 100,
-    items: [
-      { sku: "IJ9958", product: "adidas Tiro 24 Training Jacket Kids", colour: "Black / White", regular: 20, best: 20, retailer: "Adidas Canada" },
-      { sku: "KH1770", product: "adidas Tiro 26 League Training Pants Kids", colour: "Black / White", regular: 65, best: 38.99, retailer: "Sport Chek" },
-      { sku: "DEC-TS", product: "Crest + Player Initials", colour: "Customization", regular: 15, best: 15, retailer: "Team Supplier / Customizer" }
-    ]
+    detail: "Black · White stripes",
+    description: "Coordinated training and travel jacket and pants, shown with the updated club crest and sample player personalization.",
+    image: "/kit/track-suit-caledon-united-2026.webp",
+    alt: "Black Caledon United FC 2018 Girls track suit front and back with white side stripes and the updated club crest.",
+    Icon: Footprints
   },
   {
     id: "jacket",
-    Icon: CloudRain,
     title: "Outdoor Jacket",
-    subtitle: "Cold Weather / Sideline",
-    image: "/kit/outdoor-jacket.webp",
-    imageAlt: "Caledon U9 Girls 2026 outdoor jacket visual showing the black adidas Tiro 24 winter jacket with club crest and player initials.",
-    regular: 1710,
-    best: 1710,
-    perPlayer: 114,
-    items: [
-      { sku: "IP6670", product: "adidas Tiro 24 Winter Jacket Kids", colour: "Black / White", regular: 102, best: 102, retailer: "Adidas Canada" },
-      { sku: "DEC-OJ", product: "Crest + Player Initials", colour: "Customization", regular: 12, best: 12, retailer: "Team Supplier / Customizer" }
-    ]
+    detail: "Black · Cold-weather layer",
+    description: "A warm sideline layer illustrated with club branding and optional player personalization.",
+    image: "/kit/outdoor-jacket-caledon-united-2026.webp",
+    alt: "Caledon United FC 2018 Girls black outdoor winter jacket with updated crest, front and back views.",
+    Icon: CloudRain
   },
   {
     id: "backpack",
-    Icon: Backpack,
-    title: "Backpack",
-    subtitle: "Travel / Storage",
-    image: "/kit/backpack.webp",
-    imageAlt: "Caledon U9 Girls 2026 adidas Stadium 4 backpack visual showing the club crest, player initials and storage features.",
-    regular: 1200,
-    best: 1199.85,
-    perPlayer: 80,
-    items: [
-      { sku: "JJ7421", product: "adidas Stadium 4 Backpack", colour: "Black", regular: 70, best: 69.99, retailer: "Sport Chek" },
-      { sku: "DEC-BP", product: "Crest + Player Initials", colour: "Customization", regular: 10, best: 10, retailer: "Team Supplier / Customizer" }
-    ]
+    title: "Team Backpack",
+    detail: "Black · White details",
+    description: "A practical match-day and training backpack with the Caledon United crest and sample name placement.",
+    image: "/kit/backpack-caledon-united-2026.webp",
+    alt: "Caledon United FC 2018 Girls black team backpack with the updated crest, shown from front and side.",
+    Icon: Backpack
   }
 ];
-
-function money(value: number) {
-  return new Intl.NumberFormat("en-CA", {
-    style: "currency",
-    currency: "CAD"
-  }).format(value);
-}
 
 export default function KitPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
       <PublicPageHero
-        eyebrow="Adidas Teamwear"
-        title="2026 Team Kit"
-        copy="The complete five-part Caledon U9 Girls package: home, away, tracksuit, outdoor jacket and backpack, matched to the approved SKU references and decoration layout."
+        eyebrow="Caledon United FC · 2018 Girls"
+        title="Team Kit & Accessories"
+        copy="Explore the 2026–27 teamwear collection. These illustrations show the planned look, club crest and personalization positions — not a price list or confirmed supplier order."
       />
-
       <section className="section">
         <div className="container">
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="card p-6">
-              <div className="text-sm font-black uppercase text-red-600">Decorated Package</div>
-              <div className="mt-2 text-5xl font-black">C$510</div>
-              <p className="mt-3 text-sm text-neutral-600">
-                Per player. The 15-player package baseline is C$7,650.
-              </p>
+          <div className="flex flex-col gap-5 rounded-3xl bg-black p-6 text-white sm:flex-row sm:items-center sm:justify-between md:p-8">
+            <div>
+              <div className="text-xs font-black uppercase tracking-[.18em] text-red-400">Interested in teamwear?</div>
+              <h2 className="mt-2 text-2xl font-black uppercase sm:text-3xl">Request your kit</h2>
+              <p className="mt-3 max-w-xl text-sm text-white/70">Use the separate order-request form to select items, supply sizes and share personalization details. Requests are reviewed by the team before any order is confirmed.</p>
             </div>
-
-            <div className="card p-6">
-              <div className="text-sm font-black uppercase text-red-600">Best-Price Reference</div>
-              <div className="mt-2 text-5xl font-black">C$465.96</div>
-              <p className="mt-3 text-sm text-neutral-600">
-                Per player using the supplied sale-price references.
-              </p>
-            </div>
-
-            <div className="card p-6">
-              <div className="text-sm font-black uppercase text-red-600">15-Player Savings</div>
-              <div className="mt-2 text-5xl font-black">C$660.60</div>
-              <p className="mt-3 text-sm text-neutral-600">
-                C$7,650 package baseline → C$6,989.40 best-price reference. Save C$44.04/player (8.6%).
-              </p>
-            </div>
+            <Link href="/order" className="btn btn-primary shrink-0"><span>Open order request form</span><ArrowRight size={18} /></Link>
           </div>
 
-          <div className="notice mt-6">
-            <strong>Pricing note:</strong> The visuals below are the approved package reference boards matched to the listed SKUs. Sale pricing, stock, sizing and team discounts can change and should be re-verified before the final order.
-          </div>
-
-          <nav className="mt-6 flex flex-wrap gap-2" aria-label="Kit sections">
-            {groups.map((group) => (
-              <a
-                key={group.id}
-                href={`#${group.id}`}
-                className="btn btn-light shrink-0 !min-h-11 text-sm"
-              >
-                {group.title}
-              </a>
+          <nav className="mt-8 flex flex-wrap gap-2" aria-label="Jump to teamwear sections">
+            {kitItems.map((item) => (
+              <a href={"#" + item.id} key={item.id} className="btn btn-light shrink-0 !min-h-11 text-sm">{item.title}</a>
             ))}
           </nav>
 
-          <div className="mt-10 grid gap-8">
-            {groups.map(({ id, Icon, title, subtitle, image, imageAlt, regular, best, perPlayer, items }, index) => (
+          <div className="mt-9 grid gap-8">
+            {kitItems.map(({ id, title, detail, description, image, alt, Icon }, index) => (
               <section id={id} key={id} className="card scroll-mt-28 overflow-hidden">
-                <div className="flex flex-wrap items-center justify-between gap-4 bg-black p-6 text-white">
-                  <div className="flex items-center gap-4">
-                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-red-600">
-                      <Icon size={26} aria-hidden="true" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-black uppercase tracking-[.16em] text-red-500">{subtitle}</div>
-                      <h2 className="mt-1 text-2xl font-black uppercase">{title}</h2>
-                    </div>
-                  </div>
-
-                  <div className="text-right">
-                    <div className="text-xs font-black uppercase text-white/50">Decorated package</div>
-                    <div className="mt-1 text-lg font-black">{money(perPlayer)} / player</div>
-                    <div className="mt-1 text-xs text-white/60">
-                      15 players: {money(regular)}
-                      {best !== regular ? <> · Best ref. <span className="text-red-400">{money(best)}</span></> : null}
-                    </div>
+                <div className="flex items-center gap-4 bg-black px-5 py-5 text-white md:px-7">
+                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-red-600"><Icon size={25} aria-hidden="true" /></div>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[.12em] text-red-400">{detail}</p>
+                    <h2 className="mt-1 text-2xl font-black uppercase">{title}</h2>
                   </div>
                 </div>
-
-                <div className="grid gap-0 xl:grid-cols-[minmax(0,1fr)_minmax(520px,1.15fr)]">
-                  <div className="border-b border-neutral-200 bg-neutral-50 p-4 sm:p-6 xl:border-b-0 xl:border-r">
+                <div className="grid items-center lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,.9fr)]">
+                  <div className="bg-neutral-50 p-4 sm:p-6">
                     <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
                       <Image
                         src={image}
-                        alt={imageAlt}
+                        alt={alt}
                         width={1122}
                         height={1402}
                         priority={index === 0}
+                        sizes="(max-width: 1023px) 100vw, 55vw"
                         className="h-auto w-full object-contain"
-                        sizes="(max-width: 1279px) 100vw, 48vw"
                       />
                     </div>
-                    <p className="mt-3 text-xs text-neutral-500">
-                      {id === "home"
-                        ? "New red home kit illustration. The jersey and sock SKU/colour references below are from the previous black home kit and must be confirmed for the red version before purchasing."
-                        : "Package mockup / decoration reference. Product selection corresponds to the SKUs in the table."}
-                    </p>
                   </div>
-
-                  <div className="p-4 sm:p-6">
-                    <div className="mb-4 hidden grid-cols-[120px_minmax(0,1fr)] gap-4 border-b border-neutral-200 pb-3 text-xs font-black uppercase tracking-wide text-neutral-500 md:grid">
-                      <div>SKU</div>
-                      <div>Product Details</div>
+                  <div className="p-6 md:p-9">
+                    <h3 className="text-2xl font-black uppercase">{title}</h3>
+                    <p className="mt-4 text-base leading-7 text-neutral-600">{description}</p>
+                    <div className="mt-5 rounded-2xl bg-neutral-100 p-4 text-sm leading-6 text-neutral-600">
+                      The player name and number shown are examples only. Final fit, sizing, item availability and personalization are subject to team and supplier confirmation.
                     </div>
-
-                    <div className="grid gap-4">
-                      {items.map((item) => (
-                        <article
-                          key={`${id}-${item.sku}-${item.colour}`}
-                          className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm"
-                        >
-                          <div className="grid gap-3 md:grid-cols-[120px_minmax(0,1fr)] md:gap-4">
-                            <div>
-                              <div className="text-[11px] font-black uppercase tracking-wide text-neutral-400 md:hidden">SKU</div>
-                              <div className="mt-1 inline-flex rounded-lg bg-black px-3 py-2 text-sm font-black text-white md:mt-0">
-                                {item.sku}
-                              </div>
-                            </div>
-
-                            <div className="min-w-0">
-                              <div className="text-[11px] font-black uppercase tracking-wide text-neutral-400 md:hidden">Product</div>
-                              <h3 className="mt-1 break-words text-base font-black leading-snug text-neutral-950 md:mt-0 md:text-lg">
-                                {item.product}
-                              </h3>
-
-                              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                                <div className="rounded-xl bg-neutral-50 p-3">
-                                  <div className="text-[10px] font-black uppercase tracking-wide text-neutral-400">Colour / Use</div>
-                                  <div className="mt-1 text-sm font-bold text-neutral-700">{item.colour}</div>
-                                </div>
-
-                                <div className="rounded-xl bg-neutral-50 p-3">
-                                  <div className="text-[10px] font-black uppercase tracking-wide text-neutral-400">Retailer</div>
-                                  <div className="mt-1 break-words text-sm font-bold text-neutral-700">{item.retailer}</div>
-                                </div>
-
-                                <div className="rounded-xl bg-neutral-50 p-3">
-                                  <div className="text-[10px] font-black uppercase tracking-wide text-neutral-400">Package Price</div>
-                                  <div className="mt-1 text-lg font-black">{money(item.regular)}</div>
-                                </div>
-
-                                <div className="rounded-xl bg-red-50 p-3">
-                                  <div className="text-[10px] font-black uppercase tracking-wide text-red-500">Best Reference</div>
-                                  <div className="mt-1 text-lg font-black text-red-600">{money(item.best)}</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </article>
-                      ))}
-                    </div>
+                    <Link href="/order" className="btn btn-primary mt-6"><span>Request this item</span><ArrowRight size={18} /></Link>
                   </div>
                 </div>
               </section>
             ))}
           </div>
 
-          <section className="mt-10">
-            <div className="grid gap-6 lg:grid-cols-2">
-              <div className="card p-6">
-                <div className="text-sm font-black uppercase tracking-[.14em] text-red-600">Sizing Guide</div>
-                <h2 className="mt-2 text-3xl font-black uppercase">Fit before you order</h2>
-                <div className="mt-5 grid gap-3">
-                  {[
-                    ["Jersey", "YXS–YXL", "Youth sizing — size up if between sizes."],
-                    ["Shorts", "YXS–YXL", "Elastic waist."],
-                    ["Socks", "YS–YL", "Shin-guard compatible."],
-                    ["Tracksuit / Jacket", "Youth sizing", "Confirm fit using supplier size chart before ordering."]
-                  ].map(([item, sizes, notes]) => (
-                    <div key={item} className="grid gap-2 rounded-2xl bg-neutral-50 p-4 sm:grid-cols-[120px_110px_1fr]">
-                      <div className="font-black">{item}</div>
-                      <div className="text-sm font-bold text-red-600">{sizes}</div>
-                      <div className="text-sm text-neutral-600">{notes}</div>
-                    </div>
-                  ))}
-                </div>
-                <p className="mt-4 text-xs text-neutral-500">
-                  Sizing is a planning guide only. Final supplier charts and player try-on samples should be used before the team order is placed.
-                </p>
-              </div>
-
-              <div className="card p-6">
-                <div className="text-sm font-black uppercase tracking-[.14em] text-red-600">Ordering</div>
-                <h2 className="mt-2 text-3xl font-black uppercase">Where to buy</h2>
-                <div className="mt-5 grid gap-4 text-sm text-neutral-600">
-                  <p>
-                    Product-card retailer references above show where current pricing was sourced. A final team-order link or supplier process will be posted once the bulk quote is approved.
-                  </p>
-                  <div className="rounded-2xl bg-neutral-50 p-4">
-                    <div className="text-xs font-black uppercase text-neutral-500">Order Deadline</div>
-                    <div className="mt-1 font-black">To be confirmed</div>
-                    <p className="mt-2 text-xs text-neutral-500">Allow time for sizing, stock, decoration and delivery before the first game.</p>
-                  </div>
-                </div>
-              </div>
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+            <div className="card p-6 md:p-8">
+              <div className="text-sm font-black uppercase tracking-[.12em] text-red-600">Fit & sizing</div>
+              <h2 className="mt-2 text-2xl font-black uppercase">Choose sizes with care</h2>
+              <p className="mt-4 text-sm leading-7 text-neutral-600">When requesting items, provide each player's youth jersey, shorts, sock and outerwear sizes. Select "Not sure" on the form if a try-on or supplier size chart is needed before ordering.</p>
             </div>
-
-            <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1fr]">
-              <div className="card p-6">
-                <div className="text-sm font-black uppercase tracking-[.14em] text-red-600">Game Day</div>
-                <h2 className="mt-2 text-3xl font-black uppercase">What to bring</h2>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {[
-                    "Jersey — home or away as instructed",
-                    "Black shorts",
-                    "Team socks",
-                    "Shin guards — mandatory",
-                    "Cleats — no metal studs",
-                    "Water bottle",
-                    "Hair tie, if needed",
-                    "No jewelry"
-                  ].map((item, index) => (
-                    <div key={item} className="flex gap-3 rounded-xl bg-neutral-50 p-3 text-sm font-bold">
-                      <span className={index === 7 ? "text-red-600" : "text-green-700"}>{index === 7 ? "✕" : "✓"}</span>
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid gap-4">
-                <div className="card p-6">
-                  <h3 className="text-xl font-black uppercase">Kit Care</h3>
-                  <p className="mt-3 text-sm text-neutral-600">
-                    Wash jerseys inside-out in cold water and avoid tumble drying. Name labels are recommended to reduce lost-item mix-ups.
-                  </p>
-                </div>
-                <div className="card p-6">
-                  <h3 className="text-xl font-black uppercase">Jersey Numbers</h3>
-                  <p className="mt-3 text-sm text-neutral-600">
-                    Numbers are assigned by the team for the season. Requests may be considered, but final assignments are not guaranteed until the roster is confirmed.
-                  </p>
-                </div>
-                <div className="card p-6">
-                  <h3 className="text-xl font-black uppercase">Lost & Found</h3>
-                  <p className="mt-3 text-sm text-neutral-600">
-                    Unclaimed team items can be posted through the Parent Portal so families can identify and recover them.
-                  </p>
-                </div>
-              </div>
+            <div className="card p-6 md:p-8">
+              <div className="text-sm font-black uppercase tracking-[.12em] text-red-600">Request process</div>
+              <h2 className="mt-2 text-2xl font-black uppercase">No payment on this page</h2>
+              <p className="mt-4 text-sm leading-7 text-neutral-600">The form records what your family is interested in. It does not place a purchase, collect payment or confirm a jersey number. The team will follow up separately with next steps.</p>
             </div>
-          </section>
+          </div>
 
-          <section className="mt-10 rounded-3xl bg-black p-7 text-white md:p-10">
-            <div className="flex items-center gap-3">
-              <Tags className="text-red-500" />
-              <div className="text-xs font-black uppercase tracking-[.16em] text-red-500">Procurement Strategy</div>
-            </div>
-            <h2 className="mt-4 text-3xl font-black uppercase md:text-4xl">Request a 15-player team quote before ordering</h2>
-            <p className="mt-4 max-w-3xl text-white/70">
-              Use the exact SKUs and the decoration references above when requesting team pricing. Verify youth sizing, crest placement, numbers, initials, stock and lead times before the final order. Compare Sport Chek, Adidas Canada and a specialist team supplier for the best combined product and decoration quote.
-            </p>
-          </section>
+          <div className="mt-10 rounded-3xl bg-black px-6 py-9 text-center text-white md:px-12">
+            <h2 className="text-3xl font-black uppercase">Ready to request your kit?</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-white/70">One request per player helps keep sizes and customization clear.</p>
+            <Link href="/order" className="btn btn-primary mt-6"><span>Go to order request</span><ArrowRight size={18} /></Link>
+          </div>
         </div>
       </section>
     </PublicShell>

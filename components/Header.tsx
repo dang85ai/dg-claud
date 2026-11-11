@@ -9,6 +9,7 @@ const nav = [
   ["Team", "/roster"],
   ["Schedule", "/schedule"],
   ["Kit", "/kit"],
+  ["Order", "/order"],
   ["Media", "/media"],
   ["Sponsors", "/sponsors"],
   ["Parents", "/parents"],
