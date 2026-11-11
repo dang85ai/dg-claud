@@ -14,7 +14,6 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     X-Frame-Options = "DENY"
-    X-Robots-Tag = "index, follow"
 
 [[headers]]
   for = "/portal"
@@ -108,6 +107,19 @@
   [headers.values]
     Content-Type = "application/manifest+json"
     Cache-Control = "public, max-age=86400"
+
+# Consolidate old Netlify production URLs onto the canonical domain.
+[[redirects]]
+  from = "https://caledon-u9-girls-2026.netlify.app"
+  to = "https://caledonunited2018girls.ca"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://caledon-u9-girls-2026.netlify.app/*"
+  to = "https://caledonunited2018girls.ca/:splat"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/team-kit"

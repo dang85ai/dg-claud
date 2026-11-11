@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://caledon-u9-girls-2026.netlify.app";
+const baseUrl = "https://caledonunited2018girls.ca";
 
 export default function robots(): MetadataRoute.Robots {
   return {

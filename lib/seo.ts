@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const siteUrl = "https://caledon-u9-girls-2026.netlify.app";
+const siteUrl = "https://caledonunited2018girls.ca";
 const socialImage = "/assets/brand/caledon-united-social.png";
 
 type PageMetadataOptions = {
@@ -12,7 +12,7 @@ type PageMetadataOptions = {
 
 export function buildPageMetadata({ title, description, path, index = true }: PageMetadataOptions): Metadata {
   const canonicalPath = path.startsWith("/") ? path : `/${path}`;
-  const fullTitle = `${title} | Caledon U9 Girls`;
+  const fullTitle = `${title} | Caledon United 2018 Girls`;
 
   return {
     title,
@@ -41,7 +41,7 @@ export function buildPageMetadata({ title, description, path, index = true }: Pa
           type: "website",
           locale: "en_CA",
           url: new URL(canonicalPath, siteUrl).toString(),
-          siteName: "Caledon U9 Girls",
+          siteName: "Caledon United FC 2018 Girls",
           title: fullTitle,
           description,
           images: [{ url: socialImage, width: 512, height: 512, alt: "Caledon United Football Club crest" }]

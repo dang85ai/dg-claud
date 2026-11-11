@@ -8,21 +8,21 @@ const montserrat = Montserrat({
   display: "swap"
 });
 
-const siteUrl = "https://caledon-u9-girls-2026.netlify.app";
+const siteUrl = "https://caledonunited2018girls.ca";
 const crestLogo = `${siteUrl}/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2`;
 const socialImage = `${siteUrl}/assets/brand/caledon-united-social.png?v=crest-20261111-v2`;
 
 const sportsTeamSchema = {
   "@context": "https://schema.org",
   "@type": "SportsTeam",
-  name: "Caledon SC U9 Girls 2026–27",
+  name: "Caledon United FC 2018 Girls 2026–27",
   alternateName: "Caledon U9 Girls 2026–27",
   sport: "Soccer",
   url: siteUrl,
   logo: crestLogo,
   image: socialImage,
   description:
-    "Official team hub for Caledon SC U9 Girls 2026–27 — schedules, team kit, parent resources and team information.",
+    "Team hub for Caledon United FC 2018 Girls — schedules, team kit, parent resources and team information.",
   memberOf: {
     "@type": "SportsOrganization",
     name: "Caledon Soccer Club",
@@ -60,7 +60,7 @@ const sportsTeamSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Caledon SC U9 Girls 2026–27 Team Hub",
+  name: "Caledon United FC 2018 Girls Team Hub",
   url: siteUrl,
   inLanguage: "en-CA",
   publisher: {
@@ -74,12 +74,13 @@ const websiteSchema = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Caledon U9 Girls Soccer | 2026–27 Team Hub",
-    template: "%s | Caledon U9 Girls"
+    default: "Caledon United FC 2018 Girls | 2026–27 Team Hub",
+    template: "%s | Caledon United 2018 Girls"
   },
   description:
-    "Official Caledon SC U9 Girls 2026–27 team hub with training schedules, team kit, parent resources, sponsorship information and youth-safety guidance.",
+    "Caledon United FC 2018 Girls 2026–27 team hub with schedules, team kit, parent resources, sponsorship information and youth-safety guidance.",
   keywords: [
+    "Caledon United FC 2018 Girls soccer",
     "Caledon U9 Girls 2026–27 soccer",
     "Caledon SC youth soccer",
     "U9 girls soccer schedule Caledon",
@@ -89,7 +90,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Caledon Soccer Club", url: "https://caledonsoccer.com" }],
   creator: "Caledon Soccer Club",
   publisher: "Caledon Soccer Club",
-  applicationName: "Caledon U9 Girls",
+  applicationName: "Caledon United 2018 Girls",
   manifest: "/site.webmanifest",
   robots: {
     index: true,
@@ -106,10 +107,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_CA",
     url: siteUrl,
-    siteName: "Caledon U9 Girls",
-    title: "Caledon U9 Girls Soccer | 2026–27 Team Hub",
+    siteName: "Caledon United FC 2018 Girls",
+    title: "Caledon United FC 2018 Girls | 2026–27 Team Hub",
     description:
-      "Schedules, kit, parent resources and team information for the Caledon SC U9 Girls 2026–27 season.",
+      "Schedules, kit, parent resources and team information for Caledon United FC 2018 Girls during the 2026–27 season.",
     images: [
       {
         url: "/assets/brand/caledon-united-social.png?v=crest-20261111-v2",
@@ -121,7 +122,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Caledon U9 Girls Soccer | 2026–27 Team Hub",
+    title: "Caledon United FC 2018 Girls | 2026–27 Team Hub",
     description: "Schedules, kit, parent resources and team information for the 2026–27 season.",
     images: ["/assets/brand/caledon-united-social.png?v=crest-20261111-v2"]
   },
