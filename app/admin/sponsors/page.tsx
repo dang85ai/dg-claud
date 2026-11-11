@@ -13,6 +13,7 @@ import {
   UserRoundCheck
 } from "lucide-react";
 import { PortalHeader } from "@/components/PortalHeader";
+import { SponsorshipOfferManager } from "@/components/SponsorshipOfferManager";
 import { authedFetch, endpoints } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
 
@@ -154,6 +155,8 @@ export default function AdminSponsorsPage() {
         </div>
 
         {status ? <div className="notice mt-6 text-sm">{status}</div> : null}
+
+        <SponsorshipOfferManager />
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="card p-5">

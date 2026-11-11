@@ -1,652 +1,205 @@
+import type { Metadata } from "next";
 import Image from "next/image";
-import {
-  Banknote,
-  CheckCircle2,
-  CreditCard,
-  Crown,
-  Dumbbell,
-  FileText,
-  Handshake,
-  Heart,
-  HeartHandshake,
-  Laptop,
-  Mail,
-  MapPin,
-  Megaphone,
-  Shirt,
-  Star,
-  Trophy,
-  Users
-} from "lucide-react";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
+import Link from "next/link";
+import { createClient } from "@supabase/supabase-js";
+import { ArrowRight, CheckCircle2, Heart, Mail, ShieldCheck, Shirt, Trophy, Users, Wallet } from "lucide-react";
 import { PublicShell } from "@/components/PublicShell";
 import { SponsorshipInquiryForm } from "@/components/SponsorshipInquiryForm";
-import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
+import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase-public";
 
-const tiers = [
-  {
-    name: "Community Supporter",
-    price: "Any amount",
-    suggested: "Suggested C$25+",
-    Icon: Heart,
-    accent: "bg-slate-100 text-slate-900",
-    border: "border-slate-200",
-    tagline: "Every contribution helps.",
-    bestFor: "Individuals, soccer families and community supporters",
-    recognition: "Mentioned in team communications",
-    benefits: [
-      "Name on team sponsor list",
-      "Team thank-you message",
-      "Option to remain anonymous"
-    ]
-  },
-  {
-    name: "Friend of the Team",
-    price: "C$25–C$99",
-    suggested: "Suggested C$50–C$99",
-    Icon: Users,
-    accent: "bg-cyan-50 text-cyan-950",
-    border: "border-cyan-200",
-    tagline: "A little support makes a big difference.",
-    bestFor: "Family members, friends of players and small local businesses",
-    recognition: "Team communications and approved social recognition",
-    benefits: [
-      "Name on team sponsor list",
-      "Thank-you from the team",
-      "Recognition in season newsletter",
-      "Option to remain anonymous"
-    ]
-  },
-  {
-    name: "Team Supporter",
-    price: "C$100–C$299",
-    suggested: "Suggested C$100",
-    Icon: Handshake,
-    accent: "bg-amber-50 text-amber-950",
-    border: "border-amber-200",
-    tagline: "Great for families and local businesses.",
-    bestFor: "Local businesses and passionate supporters",
-    recognition: "Team communications, approved social posts and team poster",
-    benefits: [
-      "Name on team sponsor list",
-      "Recognition as a supporter of the girls",
-      "Team thank-you",
-      "Recognition in season newsletter",
-      "Optional family/player dedication",
-      "Option to remain anonymous"
-    ]
-  },
-  {
-    name: "Digital Sponsor",
-    price: "C$300–C$499",
-    suggested: "Suggested C$300",
-    Icon: Laptop,
-    accent: "bg-red-50 text-red-950",
-    border: "border-red-200",
-    tagline: "Reach families online.",
-    bestFor: "Digital businesses, online services and technology companies",
-    recognition: "Website sponsor page and approved 2026 social posts",
-    benefits: [
-      "Name or logo on the 2026 team sponsor page",
-      "Recognition in season social posts",
-      "Team thank-you message",
-      "Option to remain anonymous"
-    ]
-  },
-  {
-    name: "Team Sponsor",
-    price: "C$500–C$2,999",
-    suggested: "Suggested C$500",
-    Icon: Shirt,
-    accent: "bg-neutral-100 text-neutral-950",
-    border: "border-neutral-300",
-    tagline: "Major team-level support.",
-    bestFor: "Local businesses and community organizations",
-    recognition: "Prominent placement across approved team materials",
-    benefits: [
-      "Logo on an approved team-kit placement",
-      "2026 sponsor page",
-      "Recognition in season newsletter",
-      "Season posts and team thank-you",
-      "Optional family/player dedication",
-      "First chance to renew next season"
-    ]
-  },
-  {
-    name: "Main Jersey Sponsor",
-    price: "C$3,000",
-    suggested: "Exclusive — one per team",
-    Icon: Crown,
-    accent: "bg-black text-white",
-    border: "border-amber-400",
-    tagline: "Put your business on the front of the team.",
-    bestFor: "A business seeking the highest-visibility 2026 team placement",
-    recognition: "Highest-visibility approved sponsorship package",
-    benefits: [
-      "Front-of-jersey logo on approved Home & Away kits",
-      "2026 sponsor page",
-      "Recognition in the digital package",
-      "Team thank-you",
-      "Featured in approved social content",
-      "Team photo opportunity subject to player/guardian consent",
-      "End-of-season thank-you",
-      "First chance to renew next season"
-    ],
-    exclusive: true
-  }
-];
+export const dynamic = "force-dynamic";
 
-const uses = [
-  ["League Fees", "⚽"],
-  ["Team Kits", "👕"],
-  ["Equipment", "🎒"],
-  ["Field Rentals", "🏟️"],
-  ["Tournaments", "🏆"],
-  ["Training", "📚"],
-  ["Team Development", "👥"]
-];
+export const metadata: Metadata = {
+  title: "Sponsorship Opportunities | Caledon United FC 2018 Girls",
+  description: "Support Caledon United FC 2018 Girls. See up-to-date jersey sponsorship availability, business sponsorship packages and community supporter opportunities.",
+  alternates: { canonical: "/sponsors" }
+};
 
-const faqs = [
-  {
-    q: "What happens to sponsorship funds?",
-    a: "Sponsorship funds are designated for the U9 Girls program and its season costs, including league fees, kits, equipment, field rentals, tournaments, training and team development."
-  },
-  {
-    q: "Can an individual sponsor the team?",
-    a: "Yes. Community Supporter and Friend of the Team options are designed for families, friends and individual supporters as well as businesses."
-  },
-  {
-    q: "Can a sponsor remain anonymous?",
-    a: "Yes. Supporters can ask not to be publicly named."
-  },
-  {
-    q: "Can we choose where our logo appears?",
-    a: "For eligible sponsorship levels, placement is coordinated with the team based on the selected package, final kit design and available approved branding positions."
-  },
-  {
-    q: "Is the Main Jersey Sponsor exclusive?",
-    a: "Yes. The C$3,000 Main Jersey Sponsor is intended as a one-team, one-season exclusive placement."
-  }
-];
+type Campaign = {
+  slug: string; season_label: string; heading: string; tagline: string;
+  description: string; contact_email: string; cheque_payee: string;
+};
+type Offer = {
+  id: string; offer_key: string; name: string; description: string;
+  pricing_mode: "any" | "fixed" | "starting_at" | "contact";
+  price_cad: number | null; availability: "available" | "reserved" | "sold";
+  is_visible: boolean; benefits: string[]; sort_order: number;
+};
 
-export default function SponsorsPage() {
+function formattedPrice(offer: Offer) {
+  if (offer.pricing_mode === "any") return "Any amount";
+  if (offer.pricing_mode === "contact" || offer.price_cad == null) return "Contact for pricing";
+  const amount = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 }).format(Number(offer.price_cad));
+  return offer.pricing_mode === "starting_at" ? amount + " and up" : amount;
+}
+
+function IconForOffer({ offerKey }: { offerKey: string }) {
+  if (offerKey === "community_supporter") return <Heart size={26} aria-hidden />;
+  if (offerKey === "business_sponsor") return <Users size={26} aria-hidden />;
+  return <Shirt size={26} aria-hidden />;
+}
+
+async function sponsorshipData(): Promise<{ campaign: Campaign | null; offers: Offer[]; error: boolean }> {
+  const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false }
+  });
+  const current = await db.from("sponsorship_campaigns")
+    .select("slug,season_label,heading,tagline,description,contact_email,cheque_payee")
+    .eq("is_current", true).maybeSingle();
+  if (current.error || !current.data) return { campaign: null, offers: [], error: true };
+  const packages = await db.from("sponsorship_offers")
+    .select("id,offer_key,name,description,pricing_mode,price_cad,availability,is_visible,benefits,sort_order")
+    .eq("campaign_slug", current.data.slug).eq("is_visible", true)
+    .order("sort_order", { ascending: true });
+  if (packages.error) return { campaign: current.data as Campaign, offers: [], error: true };
+  return { campaign: current.data as Campaign, offers: (packages.data || []) as Offer[], error: false };
+}
+
+export default async function SponsorsPage() {
+  const { campaign, offers, error } = await sponsorshipData();
+  const available = offers.filter((offer) => offer.availability === "available");
   return (
     <PublicShell>
-      <DevelopmentBanner />
-
-      <section className="relative overflow-hidden bg-black text-white">
-        <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(90deg,transparent_49%,rgba(255,255,255,.14)_50%,transparent_51%),linear-gradient(rgba(255,0,0,.22)_1px,transparent_1px)] [background-size:260px_100%,100%_90px]" />
-        <div className="container relative py-16 md:py-24">
-          <div className="max-w-4xl">
-            <div className="text-sm font-black uppercase tracking-[.2em] text-red-500">Caledon U9 Girls · 2026</div>
-            <h1 className="mt-4 text-5xl font-black uppercase leading-[.92] tracking-tight md:text-7xl">
-              Support Our Girls
-              <span className="block text-red-500">Small Players, Big Dreams</span>
+      <section className="relative isolate overflow-hidden bg-black text-white">
+        <div className="pointer-events-none absolute -right-24 -top-40 size-[550px] rounded-full bg-red-700/30 blur-[125px]" />
+        <div className="pointer-events-none absolute -bottom-60 left-1/4 size-[520px] rounded-full bg-red-800/20 blur-[110px]" />
+        <div className="container relative grid items-center gap-9 py-14 lg:grid-cols-[1fr_320px] lg:py-20">
+          <div>
+            <div className="text-sm font-black uppercase tracking-[.19em] text-red-400">Caledon United FC 2018 Girls</div>
+            <div className="mt-4 inline-block bg-red-600 px-4 py-2 text-xs font-black uppercase tracking-[.18em] text-white">
+              {campaign?.season_label || "Team sponsorship"}
+            </div>
+            <h1 className="mt-5 max-w-3xl text-4xl font-black uppercase leading-[.98] tracking-tight sm:text-6xl">
+              {campaign?.heading || "Sponsorship Opportunities"}
+              <span className="mt-2 block text-red-500">Sponsorship Opportunities</span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-white/75">
-              Help give our girls an incredible 2026 soccer season. Every sponsorship—big or small—supports the season in front of them.
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
+              {campaign?.description || "Find current sponsorship packages and support local girls' soccer."}
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#sponsor-form" className="btn btn-primary">Become a Sponsor</a>
-              <a href="#tiers" className="btn border border-white/20 bg-white/10 text-white">View Sponsorship Levels</a>
+            <div className="mt-6 text-xl font-black uppercase tracking-wide text-red-400">
+              {campaign?.tagline || "Local girls. Stronger together."}
             </div>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-black uppercase tracking-wide text-white/55">
-              <span>Stronger Together</span>
-              <span>Play • Learn • Grow • Belong</span>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#packages" className="btn btn-primary">View packages <ArrowRight size={18} /></a>
+              <a href="#sponsor-form" className="btn border border-white/25 bg-white/10 text-white">Become a sponsor</a>
             </div>
+          </div>
+          <div className="mx-auto w-full max-w-[280px] rounded-full bg-white/5 p-4 ring-1 ring-white/15 lg:max-w-none">
+            <Image src="/assets/brand/caledon-united-crest.webp" alt="Caledon United Football Club 1973 crest" width={330} height={330} priority unoptimized className="h-auto w-full object-contain" />
           </div>
         </div>
       </section>
 
-      <section className="section bg-neutral-50">
-        <div className="container">
-          <div className="grid gap-5 md:grid-cols-3">
+      <section className="border-y border-neutral-200 bg-neutral-50">
+        <div className="container py-10">
+          <h2 className="text-center text-2xl font-black uppercase sm:text-3xl">Your support helps provide</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              {
-                Icon: HeartHandshake,
-                title: "Build Community",
-                text: "Every contribution helps young athletes train, compete, build confidence, make friendships and enjoy a season they’ll remember.",
-                highlight: "No minimum and no maximum. Every contribution helps."
-              },
-              {
-                Icon: Megaphone,
-                title: "Grow Your Business",
-                text: "Support youth soccer while giving your business visibility through approved team, website, digital and kit placements.",
-                highlight: "Exclusive Main Jersey Sponsor — C$3,000."
-              },
-              {
-                Icon: Trophy,
-                title: "Develop Future Athletes",
-                text: "Support helps fund the facilities, equipment, training and competition opportunities that shape confident young players.",
-                highlight: "Funds are designated for the U9 Girls program."
-              }
-            ].map(({ Icon, title, text, highlight }) => (
-              <article className="card p-6" key={title}>
-                <Icon className="text-red-600" size={28} />
-                <h2 className="mt-4 text-2xl font-black uppercase">{title}</h2>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">{text}</p>
-                <div className="mt-5 border-l-4 border-red-600 pl-4 text-xs font-black uppercase tracking-wide">
-                  {highlight}
-                </div>
-              </article>
+              { name: "Training & equipment", Icon: Shirt },
+              { name: "Tournament opportunities", Icon: Trophy },
+              { name: "Team development", Icon: Users },
+              { name: "Reduced costs for families", Icon: Heart }
+            ].map(({ name, Icon }) => (
+              <div key={name} className="flex items-center gap-3 rounded-2xl border border-neutral-200 bg-white p-4">
+                <Icon className="shrink-0 text-red-600" size={27} />
+                <div className="text-sm font-black uppercase leading-snug">{name}</div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="tiers" className="section scroll-mt-24">
+      <section id="packages" className="section scroll-mt-24 bg-white">
         <div className="container">
           <div className="max-w-3xl">
-            <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Sponsorship Levels</div>
-            <h2 className="section-title mt-3 !mb-0">A place for every supporter</h2>
-            <p className="mt-4 text-neutral-600">
-              Choose the level that fits your business, family or community contribution. Expand any card to see the full recognition package.
-            </p>
+            <div className="text-xs font-black uppercase tracking-[.2em] text-red-600">Sponsor packages</div>
+            <h2 className="mt-3 text-3xl font-black uppercase tracking-tight sm:text-4xl">Support our girls</h2>
+            <p className="mt-3 text-neutral-600">Pricing and availability are managed by our team for each season. Sold placements remain visible so supporters can see which opportunities are taken.</p>
           </div>
-
-          <div className="mt-8 grid gap-5 lg:grid-cols-2">
-            {tiers.map(({ name, price, suggested, Icon, accent, border, tagline, bestFor, recognition, benefits, exclusive }) => (
-              <details key={name} className={`group overflow-hidden rounded-3xl border bg-white shadow-sm ${border}`}>
-                <summary className="cursor-pointer list-none p-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600">
-                  <div className="flex items-start justify-between gap-5">
-                    <div className="flex gap-4">
-                      <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${accent}`}>
-                        <Icon size={24} />
+          {error ? (
+            <div role="alert" className="mt-7 rounded-xl border border-red-300 bg-red-50 p-5 text-red-900">
+              Sponsorship availability cannot be confirmed at the moment. Please contact the team directly before making a commitment.
+            </div>
+          ) : null}
+          {!error && offers.length === 0 ? (
+            <div className="mt-7 rounded-xl border border-neutral-200 p-6">There are no published sponsorship packages for this season.</div>
+          ) : null}
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            {offers.map((offer) => {
+              const sold = offer.availability === "sold";
+              const reserved = offer.availability === "reserved";
+              return (
+                <article key={offer.id} className={"overflow-hidden rounded-3xl border bg-white shadow-sm " + (sold ? "border-neutral-300" : "border-red-200")}>
+                  <div className={"flex items-start justify-between gap-4 p-6 " + (sold ? "bg-neutral-900 text-white" : "bg-black text-white")}>
+                    <div className="flex min-w-0 items-start gap-3">
+                      <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-red-600 text-white">
+                        <IconForOffer offerKey={offer.offer_key} />
                       </div>
-                      <div>
-                        {exclusive ? (
-                          <div className="mb-2 inline-flex rounded-full bg-amber-400 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-black">
-                            Exclusive
-                          </div>
-                        ) : null}
-                        <h3 className="text-2xl font-black uppercase">{name}</h3>
-                        <p className="mt-1 text-sm text-neutral-600">{tagline}</p>
+                      <div className="min-w-0">
+                        <h3 className="text-xl font-black uppercase leading-tight sm:text-2xl">{offer.name}</h3>
+                        {offer.offer_key.includes("home") ? <div className="mt-2 text-xs font-black uppercase text-white/65">Home jersey placement</div> : null}
+                        {offer.offer_key.includes("away") ? <div className="mt-2 text-xs font-black uppercase text-white/65">Away jersey placement</div> : null}
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-xl font-black text-red-600">{price}</div>
-                      <div className="mt-1 text-xs font-bold text-neutral-500">{suggested}</div>
+                    <span className={"shrink-0 rounded-full px-3 py-1 text-xs font-black uppercase " + (sold ? "bg-red-600 text-white" : reserved ? "bg-amber-400 text-black" : "bg-white/15 text-white")}>
+                      {sold ? "Sold" : reserved ? "Reserved" : "Available"}
+                    </span>
+                  </div>
+                  <div className="p-6">
+                    <div className={"text-3xl font-black uppercase " + (sold ? "text-neutral-500" : "text-red-600")}>
+                      {sold ? "Sold out" : formattedPrice(offer)}
                     </div>
-                  </div>
-                  <div className="mt-5 text-xs font-black uppercase tracking-wide text-neutral-500">
-                    Tap to view benefits +
-                  </div>
-                </summary>
-
-                <div className="border-t border-neutral-200 p-6 pt-5">
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <div>
-                      <div className="text-xs font-black uppercase tracking-wide text-neutral-500">Benefits</div>
-                      <ul className="mt-3 grid gap-3">
-                        {benefits.map((benefit) => (
-                          <li className="flex gap-2 text-sm" key={benefit}>
-                            <CheckCircle2 className="mt-0.5 shrink-0 text-red-600" size={17} />
-                            <span>{benefit}</span>
-                          </li>
-                        ))}
+                    {sold && offer.price_cad != null ? <div className="mt-1 text-sm text-neutral-500">Package value: {formattedPrice(offer)}</div> : null}
+                    {reserved ? <p className="mt-2 text-sm font-bold text-amber-800">This placement is pending confirmation.</p> : null}
+                    <p className="mt-4 text-sm leading-relaxed text-neutral-600">{offer.description}</p>
+                    {Array.isArray(offer.benefits) && offer.benefits.length ? (
+                      <ul className="mt-4 space-y-2">
+                        {offer.benefits.map((benefit, idx) => <li key={idx} className="flex gap-2 text-sm"><CheckCircle2 size={17} className="mt-0.5 shrink-0 text-red-600" /><span>{benefit}</span></li>)}
                       </ul>
-                    </div>
-                    <div className="rounded-2xl bg-neutral-50 p-4">
-                      <div className="text-xs font-black uppercase tracking-wide text-neutral-500">Recognition</div>
-                      <p className="mt-2 text-sm">{recognition}</p>
-                      <div className="mt-4 text-xs font-black uppercase tracking-wide text-neutral-500">Best for</div>
-                      <p className="mt-2 text-sm">{bestFor}</p>
+                    ) : null}
+                    <div className="mt-6">
+                      {sold ? <div className="rounded-xl bg-neutral-100 px-4 py-3 text-center text-sm font-black uppercase text-neutral-500">This placement has been secured</div> :
+                        reserved ? <a href={"mailto:" + (campaign?.contact_email || "girlsoccer2018@gmail.com")} className="btn btn-light w-full">Ask about availability</a> :
+                        <a href="#sponsor-form" className="btn btn-primary w-full">Enquire about this package <ArrowRight size={17} /></a>}
                     </div>
                   </div>
-                  <a href="#sponsor-form" className="btn btn-primary mt-5">
-                    {exclusive ? "Become Main Sponsor" : name.includes("Sponsor") ? "Sponsor Now" : "Support Now"}
-                  </a>
-                </div>
-              </details>
-            ))}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
 
       <section className="section bg-neutral-100">
-        <div className="container">
-          <div className="max-w-3xl">
-            <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Brand Visibility</div>
-            <h2 className="section-title mt-3 !mb-0">Where your brand can appear</h2>
-            <p className="mt-4 text-neutral-600">
-              The examples below use the approved 2026 sponsorship mockups for each team package. Final placement depends on sponsorship level, available space, club approval and the final decoration layout.
-            </p>
+        <div className="container grid gap-7 lg:grid-cols-[1.35fr_.65fr]">
+          <div id="sponsor-form" className="scroll-mt-24 rounded-3xl border border-neutral-200 bg-white p-6 md:p-8">
+            <div className="text-xs font-black uppercase tracking-[.16em] text-red-600">Sponsorship commitment</div>
+            <h2 className="mt-2 text-3xl font-black uppercase">Ready to support our girls?</h2>
+            <p className="mt-3 text-neutral-600">Complete our sponsorship interest form and the team will follow up to confirm your package and payment details.</p>
+            <div className="mt-7"><SponsorshipInquiryForm offers={available} seasonLabel={campaign?.season_label || "Current season"} /></div>
           </div>
-
-          <article className="card mt-8 overflow-hidden">
-            <div className="bg-black p-5 text-white md:p-6">
-              <div className="text-xs font-black uppercase tracking-wide text-red-500">Complete Overview</div>
-              <h3 className="mt-1 text-2xl font-black uppercase md:text-3xl">All Sponsorship Placement Options</h3>
+          <aside className="rounded-3xl bg-black p-6 text-white md:p-8">
+            <div className="text-xs font-black uppercase tracking-[.16em] text-red-400">Support & payment information</div>
+            <h2 className="mt-3 text-2xl font-black uppercase">Get in touch</h2>
+            <p className="mt-4 text-sm leading-relaxed text-white/70">Email or e-transfer contact:</p>
+            <a className="mt-3 flex items-center gap-2 break-all text-sm font-black text-red-400 underline underline-offset-4" href={"mailto:" + (campaign?.contact_email || "girlsoccer2018@gmail.com")}>
+              <Mail className="shrink-0" size={19} />{campaign?.contact_email || "girlsoccer2018@gmail.com"}
+            </a>
+            <div className="mt-7 border-t border-white/20 pt-6">
+              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wide text-white/60"><Wallet size={18} />Cheques payable to</div>
+              <p className="mt-3 font-black">{campaign?.cheque_payee || "Caledon United FC 2018 Girls"}</p>
             </div>
-            <Image
-              src="/sponsors/sponsor-all-options.webp"
-              alt="Overview of Caledon U9 Girls 2026 sponsorship placement options across the home kit, away kit, tracksuit, backpack and outdoor jacket."
-              width={1536}
-              height={1024}
-              className="h-auto w-full"
-              sizes="100vw"
-            />
-          </article>
-
-          <div className="mt-6 grid gap-6 lg:grid-cols-2">
-            <article className="card overflow-hidden">
-              <div className="bg-black p-5 text-white">
-                <div className="text-xs font-black uppercase tracking-wide text-red-500">Match Kit</div>
-                <h3 className="mt-1 text-2xl font-black uppercase">Home Match Kit Sponsorship</h3>
-              </div>
-              <Image
-                src="/sponsors/sponsor-home-match-kit.webp"
-                alt="Caledon U9 Girls 2026 black home match kit showing main sponsor, secondary sponsor and sleeve sponsor placement examples."
-                width={1122}
-                height={1402}
-                className="h-auto w-full"
-                sizes="(max-width: 1023px) 100vw, 50vw"
-              />
-              <div className="p-6">
-                <ul className="grid gap-3 text-sm">
-                  <li><strong>Main Jersey Logo:</strong> front center · exclusive package · C$3,000.</li>
-                  <li><strong>Secondary Jersey Logo:</strong> right-chest area · C$500–C$2,000.</li>
-                  <li><strong>Sleeve Logo:</strong> upper arm · C$300–C$700.</li>
-                </ul>
-              </div>
-            </article>
-
-            <article className="card overflow-hidden">
-              <div className="bg-black p-5 text-white">
-                <div className="text-xs font-black uppercase tracking-wide text-red-500">Match Kit</div>
-                <h3 className="mt-1 text-2xl font-black uppercase">Away Match Kit Sponsorship</h3>
-              </div>
-              <Image
-                src="/sponsors/sponsor-away-match-kit.webp"
-                alt="Caledon U9 Girls 2026 white away match kit showing main sponsor, secondary sponsor and sleeve sponsor placement examples."
-                width={1122}
-                height={1402}
-                className="h-auto w-full"
-                sizes="(max-width: 1023px) 100vw, 50vw"
-              />
-              <div className="p-6">
-                <ul className="grid gap-3 text-sm">
-                  <li><strong>Main Jersey Logo:</strong> front center · premium placement · C$3,000.</li>
-                  <li><strong>Secondary Jersey Logo:</strong> right-chest area · C$500–C$2,000.</li>
-                  <li><strong>Sleeve Logo:</strong> upper arm · C$300–C$700.</li>
-                </ul>
-              </div>
-            </article>
-
-            <article className="card overflow-hidden">
-              <div className="bg-black p-5 text-white">
-                <div className="text-xs font-black uppercase tracking-wide text-red-500">Travel / Warm-up</div>
-                <h3 className="mt-1 text-2xl font-black uppercase">Track Suit Sponsorship</h3>
-              </div>
-              <Image
-                src="/sponsors/sponsor-track-suit.webp"
-                alt="Caledon U9 Girls 2026 black tracksuit sponsorship mockup showing sponsor placement on the upper back with player personalization."
-                width={1122}
-                height={1402}
-                className="h-auto w-full"
-                sizes="(max-width: 1023px) 100vw, 50vw"
-              />
-              <div className="p-6 text-sm text-neutral-700">
-                Sponsor branding can be coordinated on the approved tracksuit placement while preserving the club crest, adidas branding and player personalization.
-              </div>
-            </article>
-
-            <article className="card overflow-hidden">
-              <div className="bg-black p-5 text-white">
-                <div className="text-xs font-black uppercase tracking-wide text-red-500">Cold Weather / Sideline</div>
-                <h3 className="mt-1 text-2xl font-black uppercase">Outdoor Jacket Sponsorship</h3>
-              </div>
-              <Image
-                src="/sponsors/sponsor-jacket.webp"
-                alt="Caledon U9 Girls 2026 outdoor jacket sponsorship mockup showing a large sponsor logo placement on the back."
-                width={1122}
-                height={1402}
-                className="h-auto w-full"
-                sizes="(max-width: 1023px) 100vw, 50vw"
-              />
-              <div className="p-6 text-sm text-neutral-700">
-                The outdoor jacket offers a high-visibility back placement for an approved sponsor while retaining the club crest and player name.
-              </div>
-            </article>
-
-            <article className="card overflow-hidden lg:col-span-2">
-              <div className="bg-black p-5 text-white">
-                <div className="text-xs font-black uppercase tracking-wide text-red-500">Travel / Storage</div>
-                <h3 className="mt-1 text-2xl font-black uppercase">Backpack Sponsorship</h3>
-              </div>
-              <div className="mx-auto max-w-4xl">
-                <Image
-                  src="/sponsors/sponsor-backpack.webp"
-                  alt="Caledon U9 Girls 2026 backpack sponsorship mockup showing sponsor logo placement on the front pocket below the club crest."
-                  width={1122}
-                  height={1402}
-                  className="h-auto w-full"
-                  sizes="(max-width: 1023px) 100vw, 900px"
-                />
-              </div>
-              <div className="border-t border-neutral-200 p-6 text-sm text-neutral-700">
-                The backpack provides a prominent front-pocket sponsor placement that travels with the team throughout the season.
-              </div>
-            </article>
-
-            <article className="card p-6">
-              <Laptop className="text-red-600" size={28} />
-              <h3 className="mt-4 text-2xl font-black uppercase">Digital & Print</h3>
-              <div className="mt-5 grid gap-3 text-sm">
-                <div><strong>Team sponsor page:</strong> logo + approved website link · C$300+.</div>
-                <div><strong>Approved social recognition:</strong> season posts · C$300+.</div>
-                <div><strong>Season newsletter:</strong> sponsor section · included at C$100+ tiers.</div>
-                <div><strong>Team poster:</strong> sponsor recognition · C$100+.</div>
-              </div>
-            </article>
-
-            <article className="card p-6">
-              <Dumbbell className="text-red-600" size={28} />
-              <h3 className="mt-4 text-2xl font-black uppercase">Equipment, Field & Training</h3>
-              <div className="mt-5 grid gap-3 text-sm">
-                <div><strong>Equipment Sponsor:</strong> support training equipment · C$500–C$1,500.</div>
-                <div><strong>Field Sponsor:</strong> support field-rental time · C$200–C$500.</div>
-                <div><strong>Training Sponsor:</strong> support a training initiative · C$300–C$1,000.</div>
-              </div>
-            </article>
-          </div>
+            <div className="mt-7 border-t border-white/20 pt-6 text-sm text-white/65">
+              <ShieldCheck className="mb-2 text-red-400" size={22} />
+              Sponsorship terms, placement and payment are confirmed by the team. This website does not collect payments.
+            </div>
+            <Link href="/contact" className="btn btn-primary mt-7 w-full">Contact the team</Link>
+          </aside>
         </div>
       </section>
-      <section className="section">
-        <div className="container">
-          <div className="text-center">
-            <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Your Sponsorship Makes a Difference</div>
-            <h2 className="section-title mt-3">Where support goes</h2>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
-            {uses.map(([label, icon]) => (
-              <div className="card grid min-h-36 place-items-center p-5 text-center" key={label}>
-                <div>
-                  <div className="text-3xl" aria-hidden="true">{icon}</div>
-                  <div className="mt-3 text-sm font-black uppercase">{label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mx-auto mt-8 max-w-4xl rounded-3xl bg-red-600 p-7 text-center text-white">
-            <p className="text-lg font-black">
-              Every dollar helps our girls spend more time playing, learning, competing and enjoying the game.
-            </p>
-            <p className="mt-2 text-sm text-white/80">
-              Sponsorship funds are designated for the U9 Girls program and the season costs shown above.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="section bg-neutral-50">
-        <div className="container">
-          <div className="grid gap-6 lg:grid-cols-3">
-            <article className="card p-6">
-              <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Team Sponsors</div>
-              <h2 className="mt-2 text-2xl font-black uppercase">Thank You to Our Sponsors</h2>
-              <p className="mt-3 text-sm text-neutral-600">
-                Approved sponsor logos, business names and website links will appear here once sponsorships are confirmed.
-              </p>
-              <div className="mt-5 rounded-2xl border border-dashed border-neutral-300 p-5 text-center text-sm font-bold text-neutral-500">
-                No sponsors published yet.
-              </div>
-            </article>
-
-            <article className="card p-6">
-              <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Fundraising</div>
-              <h2 className="mt-2 text-2xl font-black uppercase">Community Initiatives</h2>
-              <p className="mt-3 text-sm text-neutral-600">
-                Potential fundraising ideas can include a bottle drive, car wash, restaurant night or raffle. Only approved events will be published as scheduled team activities.
-              </p>
-            </article>
-
-            <article className="card p-6">
-              <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Budget Transparency</div>
-              <h2 className="mt-2 text-2xl font-black uppercase">Where Team Funds Go</h2>
-              <div className="mt-4 grid gap-2 text-sm">
-                {["League fees", "Referee fees", "Tournament fees", "Equipment", "End-of-season event"].map((item) => (
-                  <div key={item} className="flex items-center justify-between gap-3 border-b border-neutral-200 py-2">
-                    <span>{item}</span>
-                    <span className="font-black text-neutral-400">To be published</span>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-4 text-xs text-neutral-500">
-                Actual budget figures will only be shown after they are approved and ready for team communication.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="section bg-black text-white">
-        <div className="container">
-          <div className="grid gap-6 lg:grid-cols-[1.1fr_.9fr]">
-            <div>
-              <div className="text-sm font-black uppercase tracking-[.16em] text-red-500">How to Sponsor</div>
-              <h2 className="mt-3 text-4xl font-black uppercase tracking-tight md:text-5xl">It’s easy to support our girls</h2>
-
-              <div className="mt-8 grid gap-5">
-                {[
-                  ["1", "Complete the form", "Use the online sponsorship-interest form below from your phone or computer."],
-                  ["2", "Choose your recognition", "Tell us your preferred sponsorship level, branding option and whether you want to remain anonymous."],
-                  ["3", "Confirm payment", "The team will confirm the selected package and provide the appropriate payment instructions."]
-                ].map(([number, title, text]) => (
-                  <div className="flex gap-4" key={number}>
-                    <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-red-600 font-black">{number}</div>
-                    <div>
-                      <h3 className="font-black uppercase">{title}</h3>
-                      <p className="mt-1 text-sm text-white/65">{text}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <div className="text-xs font-black uppercase tracking-wide text-red-500">Sponsor Commitment</div>
-              <h3 className="mt-3 text-2xl font-black uppercase">More than a sponsorship—you’re building the team.</h3>
-              <div className="mt-5 grid gap-3 text-sm text-white/70">
-                <div className="flex gap-3"><Star className="shrink-0 text-red-500" size={18} /> Every sponsor is recognized unless they prefer to remain anonymous.</div>
-                <div className="flex gap-3"><FileText className="shrink-0 text-red-500" size={18} /> Businesses can submit a logo for eligible digital and team sponsorship packages.</div>
-                <div className="flex gap-3"><HeartHandshake className="shrink-0 text-red-500" size={18} /> Your support helps create a season the girls can enjoy and remember.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="sponsor-form" className="section scroll-mt-24 bg-neutral-50">
-        <div className="container">
-          <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr]">
-            <div>
-              <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Become a Sponsor</div>
-              <h2 className="section-title mt-3 !mb-0">Start the conversation</h2>
-              <p className="mt-4 text-neutral-600">
-                Tell us the level you’re considering and we’ll use your submission to coordinate the package, branding and payment details.
-              </p>
-
-              <div className="mt-6 grid gap-3">
-                <a href={TEAM_EMAIL_HREF} className="card flex min-h-16 items-center gap-4 p-4 hover:border-red-500">
-                  <Mail className="text-red-600" />
-                  <div>
-                    <div className="text-xs font-black uppercase text-neutral-500">Official Team Email</div>
-                    <div className="font-black">{TEAM_EMAIL}</div>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <div className="card p-6 md:p-8">
-              <SponsorshipInquiryForm />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Ways to Pay</div>
-          <h2 className="section-title mt-3">Payment options</h2>
-
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <div className="card p-6">
-              <Banknote className="text-red-600" />
-              <h3 className="mt-4 font-black uppercase">Interac e-Transfer</h3>
-              <p className="mt-2 text-sm text-neutral-600">Payment instructions are provided after sponsorship confirmation.</p>
-            </div>
-            <div className="card p-6">
-              <CreditCard className="text-red-600" />
-              <h3 className="mt-4 font-black uppercase">Credit / Debit Card</h3>
-              <p className="mt-2 text-sm text-neutral-600">Stripe checkout will be added before public launch.</p>
-            </div>
-            <div className="card p-6">
-              <Banknote className="text-red-600" />
-              <h3 className="mt-4 font-black uppercase">Cash</h3>
-              <p className="mt-2 text-sm text-neutral-600">Accepted by arrangement with the team.</p>
-            </div>
-            <div className="card p-6">
-              <FileText className="text-red-600" />
-              <h3 className="mt-4 font-black uppercase">Cheque</h3>
-              <p className="mt-2 text-sm text-neutral-600">Payable to Rivers5 Inc.</p>
-            </div>
-          </div>
-
-          <div className="notice mt-6">
-            Live card payments are intentionally disabled during development. Sponsorship payment details should be confirmed with the team before funds are sent.
-          </div>
-        </div>
-      </section>
-
-      <section className="section bg-neutral-100">
-        <div className="container">
-          <div className="max-w-3xl">
-            <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">FAQ</div>
-            <h2 className="section-title mt-3 !mb-0">Common sponsorship questions</h2>
-          </div>
-
-          <div className="mt-7 grid gap-3">
-            {faqs.map((item) => (
-              <details className="card p-5" key={item.q}>
-                <summary className="cursor-pointer font-black">{item.q}</summary>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">{item.a}</p>
-              </details>
-            ))}
-          </div>
-
-          <div className="mt-10 flex flex-wrap items-center justify-between gap-5 rounded-3xl bg-black p-7 text-white md:p-9">
-            <div>
-              <div className="text-xs font-black uppercase tracking-[.16em] text-red-500">Back the Girls</div>
-              <h2 className="mt-2 text-3xl font-black uppercase">Build the team. Be part of their 2026 season.</h2>
-              <p className="mt-2 text-sm text-white/60">Community • Opportunity • Confidence • Friendships • Brighter Tomorrows</p>
-            </div>
-            <a href="#sponsor-form" className="btn btn-primary">Become a Sponsor</a>
-          </div>
-        </div>
-      </section>
+      <div className="bg-black px-4 py-6 text-center text-sm font-black uppercase tracking-widest text-red-400">
+        Caledon United FC 2018 Girls · {campaign?.season_label || "Team season"} · {campaign?.tagline || "Local girls. Stronger together."}
+      </div>
     </PublicShell>
   );
 }
