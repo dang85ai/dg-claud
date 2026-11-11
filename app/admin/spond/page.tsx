@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ExternalLink, FileSpreadsheet, RefreshCw, ShieldCheck, Upload } from "lucide-react";
 import { PortalHeader } from "@/components/PortalHeader";
+import { SpondLivePanel } from "@/components/SpondLivePanel";
 import { endpoints } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
 
@@ -216,6 +217,8 @@ export default function SpondImportPage() {
             </div>
           </div>
         </div>
+
+        <SpondLivePanel />
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
           <button

@@ -11,6 +11,10 @@ export const endpoints = {
   mediaUpload: `${SUPABASE_URL}/functions/v1/media-upload`,
   formPdf: `${SUPABASE_URL}/functions/v1/form-pdf`,
   handoverExport: `${SUPABASE_URL}/functions/v1/handover-export`,
+  rosterApi: `${SUPABASE_URL}/functions/v1/roster-api`,
+  userManagement: `${SUPABASE_URL}/functions/v1/user-management`,
+  parentOnboarding: `${SUPABASE_URL}/functions/v1/parent-onboarding`,
+  spondApi: `${SUPABASE_URL}/functions/v1/spond-api`,
   spondImport: `${SUPABASE_URL}/functions/v1/spond-import`
 };
 
