@@ -106,23 +106,27 @@ export default function AdminPage() {
   const spondLink = data.team_links?.find((item) => item.link_key === "spond_group");
 
   const modules = [
-    { label: "Players", href: "/admin/manage#players" },
+    { label: "Players", href: "/admin/players" },
+    { label: "Family Links", href: "/admin/families" },
+    { label: "Formation", href: "/admin/formation" },
+    { label: "Accounts", href: "/admin/accounts" },
+    { label: "Team Operations", href: "/admin/operations" },
     { label: "Schedule", href: "/admin/manage#schedule" },
     { label: "Spond Import", href: "/admin/spond" },
-    { label: "Attendance", href: "/admin/manage#schedule" },
-    { label: "Game Duties", href: "/admin/manage#schedule" },
-    { label: "Forms", href: "/admin/manage" },
-    { label: "Payments", href: "/admin/manage" },
-    { label: "Kit Orders", href: "/admin/manage" },
-    { label: "Media", href: "/admin/manage" },
+    { label: "Attendance", href: "/admin/operations#attendance" },
+    { label: "Game Duties", href: "/admin/operations#duties" },
+    { label: "Forms", href: "/admin/operations#forms" },
+    { label: "Payments", href: "/admin/operations#finance" },
+    { label: "Kit Orders", href: "/admin/operations#kit" },
+    { label: "Media", href: "/admin/operations#media" },
     { label: "Sponsors", href: "/admin/sponsors" },
-    { label: "Sisterhood", href: "/admin/manage" },
-    { label: "Equipment", href: "/admin/manage" },
-    { label: "Referees", href: "/admin/manage" },
+    { label: "Sisterhood", href: "/admin/operations#recognition" },
+    { label: "Equipment", href: "/admin/operations#equipment" },
+    { label: "Referees", href: "/admin/operations#referees" },
     { label: "Announcements", href: "/admin/manage#announcements" },
     { label: "Invites", href: "/admin/manage#invites" },
     { label: "Data Export", href: "/admin/manage#export" },
-    { label: "Settings", href: "/admin/manage" }
+    { label: "Settings", href: "/admin/operations#settings" }
   ];
 
   return (

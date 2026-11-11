@@ -25,18 +25,24 @@ type PortalNavItem = {
 
 const parentNavigation: PortalNavItem[] = [
   { label: "Dashboard", href: "/portal", Icon: Home },
+  { label: "My Players", href: "/portal/players", Icon: Users },
+  { label: "Team Schedule", href: "/portal/schedule", Icon: CalendarDays },
   { label: "Parent Tools", href: "/portal/tools", Icon: ClipboardList },
   { label: "Training", href: "/portal/training", Icon: BookOpenCheck },
-  { label: "Schedule", href: "/schedule", Icon: CalendarDays },
   { label: "Team Kit", href: "/kit", Icon: Shirt },
   { label: "Kit Request", href: "/order", Icon: Package }
 ];
 
 const managementNavigation: PortalNavItem[] = [
   { label: "Dashboard", href: "/admin", Icon: Home },
-  { label: "Management Tools", href: "/admin/manage", Icon: SlidersHorizontal },
-  { label: "Spond Import", href: "/admin/spond", Icon: CalendarDays },
+  { label: "Team Operations", href: "/admin/operations", Icon: SlidersHorizontal },
+  { label: "Player Administration", href: "/admin/players", Icon: Users },
+  { label: "Family Links", href: "/admin/families", Icon: Users },
+  { label: "Formation", href: "/admin/formation", Icon: ClipboardList },
+  { label: "Accounts", href: "/admin/accounts", Icon: ShieldCheck },
+  { label: "Spond", href: "/admin/spond", Icon: CalendarDays },
   { label: "Sponsors", href: "/admin/sponsors", Icon: Users },
+  { label: "Management Tools", href: "/admin/manage", Icon: SlidersHorizontal },
   { label: "Team Kit", href: "/kit", Icon: Shirt },
   { label: "Kit Request", href: "/order", Icon: Package }
 ];
