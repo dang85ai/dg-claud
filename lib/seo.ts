@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const siteUrl = "https://caledon-u9-girls-2026.netlify.app";
-const socialImage = "/assets/brand/caledon-u9-girls-2026-primary.png";
+const socialImage = "/assets/brand/caledon-united-social.png";
 
 type PageMetadataOptions = {
   title: string;
@@ -44,7 +44,7 @@ export function buildPageMetadata({ title, description, path, index = true }: Pa
           siteName: "Caledon U9 Girls",
           title: fullTitle,
           description,
-          images: [{ url: socialImage, width: 1200, height: 630, alt: "Caledon U9 Girls 2026–27 soccer team hub" }]
+          images: [{ url: socialImage, width: 512, height: 512, alt: "Caledon United Football Club crest" }]
         }
       : undefined,
     twitter: index

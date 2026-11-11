@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, Shield, X } from "lucide-react";
 import { useState } from "react";
 
@@ -22,16 +23,19 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black text-white">
       <div className="container flex min-h-18 items-center justify-between gap-4">
         <Link href="/" className="flex min-w-0 flex-1 items-center gap-2 font-black uppercase tracking-tight sm:gap-3">
-          <div
-            aria-hidden="true"
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-white bg-red-600 text-[10px] font-black sm:h-11 sm:w-11 sm:text-[11px]"
-          >
-            CSC
-          </div>
+          <Image
+            src="/assets/brand/caledon-united-crest.webp"
+            alt="Caledon United Football Club crest"
+            width={48}
+            height={48}
+            priority
+            unoptimized
+            className="h-10 w-10 shrink-0 object-contain sm:h-11 sm:w-11"
+          />
           <div className="min-w-0 leading-none">
-            <div className="truncate text-xs sm:text-sm">Caledon Soccer Club</div>
+            <div className="truncate text-xs sm:text-sm">Caledon United FC</div>
             <div className="mt-1 text-[10px] tracking-[.08em] text-white/65 sm:text-xs sm:tracking-[.14em]">
-              U9 Girls · 2026–27
+              2018 Girls · 2026–27
             </div>
           </div>
         </Link>

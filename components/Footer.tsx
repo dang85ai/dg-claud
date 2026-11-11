@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
 
 export function Footer() {
@@ -6,7 +7,10 @@ export function Footer() {
     <footer className="mt-auto bg-black py-12 text-white">
       <div className="container grid gap-10 md:grid-cols-2 xl:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <div className="text-2xl font-black uppercase">Caledon U9 Girls</div>
+          <div className="flex items-center gap-3">
+            <Image src="/assets/brand/caledon-united-crest.webp" alt="Caledon United Football Club crest" width={56} height={56} unoptimized className="h-14 w-14 shrink-0 object-contain" />
+            <div className="text-xl font-black uppercase sm:text-2xl">Caledon United 2018 Girls</div>
+          </div>
           <p className="mt-3 max-w-md text-sm text-white/65">
             A mobile-first team hub for the 2026–27 season, built around player safety,
             parent clarity and a strong team culture.

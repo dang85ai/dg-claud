@@ -9,20 +9,16 @@
   "lang": "en-CA",
   "icons": [
     {
-      "src": "/assets/brand/favicon-192.png",
+      "src": "/assets/brand/caledon-united-icon-192.webp",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/webp",
+      "purpose": "any"
     },
     {
-      "src": "/assets/brand/favicon-512.png",
+      "src": "/assets/brand/caledon-united-icon-512.webp",
       "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/assets/brand/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/webp",
+      "purpose": "any"
     }
   ]
 }

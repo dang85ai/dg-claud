@@ -1,5 +1,5 @@
-const CACHE = "caledon-u9-shell-v1";
-const SHELL = ["/", "/schedule", "/roster", "/kit", "/manifest.webmanifest"];
+const CACHE = "caledon-u9-shell-v2-new-crest";
+const SHELL = ["/", "/schedule", "/roster", "/kit", "/site.webmanifest", "/assets/brand/caledon-united-crest.webp"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));
