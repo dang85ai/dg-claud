@@ -153,6 +153,9 @@ export default async function SponsorsPage() {
                     {sold && offer.price_cad != null ? <div className="mt-1 text-sm text-neutral-500">Package value: {formattedPrice(offer)}</div> : null}
                     {reserved ? <p className="mt-2 text-sm font-bold text-amber-800">This placement is pending confirmation.</p> : null}
                     <p className="mt-4 text-sm leading-relaxed text-neutral-600">{offer.description}</p>
+                    {sold && offer.offer_key === "home_main_logo" ? (
+                      <SponsorPlacementHighlight placement="Home Jersey Main Logo Sponsor" />
+                    ) : null}
                     {sold && offer.offer_key === "home_sleeve_logo" ? (
                       <SponsorPlacementHighlight placement="Home Jersey Sleeve Sponsor" />
                     ) : null}
