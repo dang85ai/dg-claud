@@ -8,7 +8,7 @@ export function Footer() {
       <div className="container grid gap-10 md:grid-cols-2 xl:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-3">
-            <Image src="/assets/brand/caledon-united-crest.webp" alt="Caledon United Football Club crest" width={56} height={56} unoptimized className="h-14 w-14 shrink-0 object-contain" />
+            <Image src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2" alt="Caledon United Football Club crest" width={56} height={56} unoptimized className="h-14 w-14 shrink-0 object-contain" />
             <div className="text-xl font-black uppercase sm:text-2xl">Caledon United 2018 Girls</div>
           </div>
           <p className="mt-3 max-w-md text-sm text-white/65">

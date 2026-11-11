@@ -9,8 +9,8 @@ const montserrat = Montserrat({
 });
 
 const siteUrl = "https://caledon-u9-girls-2026.netlify.app";
-const crestLogo = `${siteUrl}/assets/brand/caledon-united-crest.webp`;
-const socialImage = `${siteUrl}/assets/brand/caledon-united-social.png`;
+const crestLogo = `${siteUrl}/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2`;
+const socialImage = `${siteUrl}/assets/brand/caledon-united-social.png?v=crest-20261111-v2`;
 
 const sportsTeamSchema = {
   "@context": "https://schema.org",
@@ -112,7 +112,7 @@ export const metadata: Metadata = {
       "Schedules, kit, parent resources and team information for the Caledon SC U9 Girls 2026–27 season.",
     images: [
       {
-        url: "/assets/brand/caledon-united-social.png",
+        url: "/assets/brand/caledon-united-social.png?v=crest-20261111-v2",
         width: 512,
         height: 512,
         alt: "Caledon United Football Club 1973 crest"
@@ -123,17 +123,17 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Caledon U9 Girls Soccer | 2026–27 Team Hub",
     description: "Schedules, kit, parent resources and team information for the 2026–27 season.",
-    images: ["/assets/brand/caledon-united-social.png"]
+    images: ["/assets/brand/caledon-united-social.png?v=crest-20261111-v2"]
   },
   icons: {
     icon: [
-      { url: "/assets/brand/caledon-united-favicon-32.webp", sizes: "32x32", type: "image/webp" },
-      { url: "/assets/brand/caledon-united-crest.webp", sizes: "256x256", type: "image/webp" },
-      { url: "/favicon.ico?v=caledon-united-2026", sizes: "any", type: "image/x-icon" }
+      { url: "/assets/brand/caledon-united-favicon-32.webp?v=crest-20261111-v2", sizes: "32x32", type: "image/webp" },
+      { url: "/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2", sizes: "256x256", type: "image/webp" },
+      { url: "/favicon.ico?v=crest-20261111-v2", sizes: "any", type: "image/x-icon" }
     ],
-    shortcut: "/assets/brand/caledon-united-favicon-32.webp",
+    shortcut: "/assets/brand/caledon-united-favicon-32.webp?v=crest-20261111-v2",
     apple: [
-      { url: "/assets/brand/caledon-united-apple-180.png", sizes: "180x180", type: "image/png" }
+      { url: "/assets/brand/caledon-united-apple-180.png?v=crest-20261111-v2", sizes: "180x180", type: "image/png" }
     ]
   },
   verification: {

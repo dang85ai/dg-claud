@@ -24,7 +24,7 @@ export function Header() {
       <div className="container flex min-h-18 items-center justify-between gap-4">
         <Link href="/" className="flex min-w-0 flex-1 items-center gap-2 font-black uppercase tracking-tight sm:gap-3">
           <Image
-            src="/assets/brand/caledon-united-crest.webp"
+            src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2"
             alt="Caledon United Football Club crest"
             width={48}
             height={48}
