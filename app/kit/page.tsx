@@ -9,9 +9,9 @@ const groups = [
     id: "home",
     Icon: Shirt,
     title: "Home Match Kit",
-    subtitle: "Black / White",
-    image: "/kit/home-team-kit.webp",
-    imageAlt: "Caledon U9 Girls 2026 home match kit visual showing the black adidas Tiro26 jersey, shorts, socks and decoration placement.",
+    subtitle: "Red / Black",
+    image: "/kit/home-match-kit-caledon-united-2026.jpg",
+    imageAlt: "Caledon United FC 2018 Girls red home match kit with black shorts and red socks, front and back jerseys, and white Smith number 10 lettering.",
     regular: 1620,
     best: 1484.85,
     perPlayer: 108,
@@ -27,8 +27,8 @@ const groups = [
     Icon: Shirt,
     title: "Away Match Kit",
     subtitle: "White / Black",
-    image: "/kit/away-team-kit.webp",
-    imageAlt: "Caledon U9 Girls 2026 away match kit visual showing the white adidas Tiro26 jersey, black shorts, white socks and decoration placement.",
+    image: "/kit/away-match-kit-caledon-united-2026.jpg",
+    imageAlt: "Caledon United FC 2018 Girls white away match kit with black shorts and white socks, front and back jerseys, and black Smith number 10 lettering.",
     regular: 1620,
     best: 1484.85,
     perPlayer: 108,
@@ -186,7 +186,9 @@ export default function KitPage() {
                       />
                     </div>
                     <p className="mt-3 text-xs text-neutral-500">
-                      Package mockup / decoration reference. Product selection corresponds to the SKUs in the table.
+                      {id === "home"
+                        ? "New red home kit illustration. The jersey and sock SKU/colour references below are from the previous black home kit and must be confirmed for the red version before purchasing."
+                        : "Package mockup / decoration reference. Product selection corresponds to the SKUs in the table."}
                     </p>
                   </div>
 
