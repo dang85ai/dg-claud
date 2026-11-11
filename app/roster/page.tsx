@@ -11,10 +11,17 @@ import {
 const placeholders = Array.from({ length: 12 }, (_, i) => i + 1);
 
 const staff = [
-  ["Head Coach", "To be published", "Certification to be verified"],
-  ["Assistant Coach", "To be published", "Certification to be verified"],
-  ["Team Manager", "Team contact", "N/A"]
+  { name: "Gabriel Borges", role: "Technical Director" },
+  { name: "Davinder Budwal", role: "Coach" },
+  { name: "Karam Budwal", role: "Team Manager" },
+  { name: "Melissa Catalano", role: "Team Manager" },
+  { name: "Daniel Guerra", role: "Team Manager" },
+  { name: "Natalie Guerra", role: "Team Manager" },
+  { name: "Courtney Quinn", role: "Coach" },
+  { name: "Giuseppe (Joe) Tomaselli", role: "Team Manager" }
 ];
+
+const portraitColumns = ["0%", "33.3333%", "66.6667%", "100%"];
 
 const volunteers = [
   "Team Manager",
@@ -29,7 +36,7 @@ export default function RosterPage() {
     <PublicShell>
       <DevelopmentBanner />
       <PublicPageHero
-        eyebrow="2026 Squad"
+        eyebrow="2026–27 Team"
         title="Meet the Team"
         copy="Public player profiles are consent-controlled. Until the roster and guardian permissions are confirmed, no player identity information is published."
       />
@@ -42,6 +49,46 @@ export default function RosterPage() {
               Player photos and profile details appear only when the appropriate guardian consent is active. Private portal access can show additional team information to authorized families.
             </p>
           </div>
+
+          <section id="team-staff" className="mb-10 scroll-mt-24">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <div className="text-xs font-black uppercase tracking-[.15em] text-red-600">2026–27 Indoor</div>
+                <h2 className="mt-2 text-3xl font-black uppercase">Meet Our Team Staff</h2>
+                <p className="mt-2 max-w-2xl text-sm text-neutral-600">
+                  Coaches, technical leadership and team managers supporting our Caledon United U9 Girls.
+                </p>
+              </div>
+              <div className="rounded-full bg-neutral-100 px-4 py-2 text-xs font-bold uppercase text-neutral-600">
+                8 Registered Staff
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {staff.map((member, index) => (
+                <article key={member.name} className="card flex flex-col items-center overflow-hidden px-3 py-6 text-center sm:px-5">
+                  <div
+                    role="img"
+                    aria-label={`Portrait of ${member.name}`}
+                    className="h-24 w-24 shrink-0 rounded-full border-4 border-white bg-neutral-200 shadow-md sm:h-28 sm:w-28"
+                    style={{
+                      backgroundImage: "url('/assets/team/team-staff-2026-27.webp')",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "400% 200%",
+                      backgroundPosition: `${portraitColumns[index % 4]} ${index < 4 ? "0%" : "100%"}`
+                    }}
+                  />
+                  <h3 className="mt-4 text-base font-black uppercase leading-snug sm:text-lg">{member.name}</h3>
+                  <p className="mt-2 rounded-full bg-red-50 px-3 py-1 text-xs font-black uppercase tracking-wide text-red-700">
+                    {member.role}
+                  </p>
+                </article>
+              ))}
+            </div>
+            <p className="mt-4 text-xs text-neutral-500">
+              Staff names and positions sourced from the official Caledon Soccer Club 2026–27 Indoor roster dated September 30, 2026.
+            </p>
+          </section>
 
           <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
             <section>
@@ -73,7 +120,7 @@ export default function RosterPage() {
                 <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Team Snapshot</div>
                 <div className="mt-4 grid gap-3 text-sm">
                   <div><strong>Age group:</strong> U9 Girls</div>
-                  <div><strong>Season:</strong> 2026</div>
+                  <div><strong>Season:</strong> 2026–27 Indoor</div>
                   <div><strong>League:</strong> To be confirmed</div>
                   <div><strong>Division:</strong> To be confirmed</div>
                   <div><strong>Final roster count:</strong> To be confirmed</div>
@@ -89,21 +136,6 @@ export default function RosterPage() {
               </div>
             </aside>
           </div>
-
-          <section className="mt-10 card overflow-hidden">
-            <div className="bg-black p-5 text-white">
-              <h2 className="text-2xl font-black uppercase">Coaching Staff</h2>
-            </div>
-            <div className="grid gap-px bg-neutral-200 md:grid-cols-3">
-              {staff.map(([role, name, certification]) => (
-                <div key={role} className="bg-white p-5">
-                  <div className="text-xs font-black uppercase text-red-600">{role}</div>
-                  <div className="mt-2 font-black">{name}</div>
-                  <div className="mt-2 text-sm text-neutral-500">{certification}</div>
-                </div>
-              ))}
-            </div>
-          </section>
 
           <section className="mt-6 card p-6">
             <h2 className="text-2xl font-black uppercase">Parent Volunteer Roles</h2>
