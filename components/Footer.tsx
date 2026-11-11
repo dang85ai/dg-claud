@@ -1,10 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
+import { SponsorLogoBanner } from "@/components/SponsorLogoBanner";
 
 export function Footer() {
   return (
-    <footer className="mt-auto bg-black py-12 text-white">
+    <footer className="mt-auto bg-black text-white">
+      <SponsorLogoBanner />
+      <div className="py-12">
       <div className="container grid gap-10 md:grid-cols-2 xl:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-3">
@@ -42,6 +45,7 @@ export function Footer() {
             <Link href="/photo-safety">Photo & Media Safety</Link>
           </div>
         </div>
+      </div>
       </div>
     </footer>
   );

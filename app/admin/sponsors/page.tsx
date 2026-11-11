@@ -41,6 +41,8 @@ type Sponsor = {
   amount_cad: number | null;
   active: boolean;
   created_at: string;
+  logo_path: string | null;
+  website_url: string | null;
 };
 
 const statusLabels: Record<Inquiry["status"], string> = {
@@ -64,6 +66,7 @@ export default function AdminSponsorsPage() {
   const router = useRouter();
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
+  const [sponsorEdits, setSponsorEdits] = useState<Record<string, { logo_path: string; website_url: string }>>({});
   const [status, setStatus] = useState("Loading sponsorship pipeline…");
   const [busy, setBusy] = useState("");
   const [notes, setNotes] = useState<Record<string, string>>({});
@@ -74,7 +77,7 @@ export default function AdminSponsorsPage() {
         .select("id,name,email,phone,business_name,tier_key,amount_cad,notes,anonymous,status,admin_notes,converted_sponsor_id,created_at,sponsorship_tiers(name)")
         .order("created_at", { ascending: false }),
       supabase.from("sponsors")
-        .select("id,name,sponsorship_level,amount_cad,active,created_at")
+        .select("id,name,sponsorship_level,amount_cad,active,created_at,logo_path,website_url")
         .order("created_at", { ascending: false })
     ]);
 
@@ -83,6 +86,10 @@ export default function AdminSponsorsPage() {
 
     setInquiries((inquiryRes.data ?? []) as Inquiry[]);
     setSponsors((sponsorRes.data ?? []) as Sponsor[]);
+    setSponsorEdits(Object.fromEntries((sponsorRes.data ?? []).map((item) => [item.id, {
+      website_url: item.website_url ?? "",
+      logo_path: item.logo_path ?? ""
+    }])));
     setNotes(Object.fromEntries((inquiryRes.data ?? []).map((item: any) => [item.id, item.admin_notes ?? ""])));
     setStatus("");
   }, []);
@@ -123,6 +130,41 @@ export default function AdminSponsorsPage() {
         : "Sponsorship inquiry updated.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to update sponsorship inquiry.");
+    } finally {
+      setBusy("");
+    }
+  }
+
+  async function saveSponsorBranding(id: string) {
+    const draft = sponsorEdits[id];
+    if (!draft) return;
+    const website = draft.website_url.trim();
+    const logo = draft.logo_path.trim();
+    const safeHttps = (value: string) => {
+      try {
+        const parsed = new URL(value);
+        return parsed.protocol === "https:" && !parsed.username && !parsed.password;
+      } catch { return false; }
+    };
+    const safeLocalLogo = /^\/assets\/sponsors\/[a-zA-Z0-9_./-]+\.(webp|png|jpe?g)$/i.test(logo) && !logo.includes("..");
+    if (website && !safeHttps(website)) {
+      setStatus("Sponsor website must be a valid https:// address.");
+      return;
+    }
+    if (logo && !safeLocalLogo && !safeHttps(logo)) {
+      setStatus("Logo must be an approved /assets/sponsors/ path or a public https:// image URL.");
+      return;
+    }
+    setBusy("brand:" + id);
+    setStatus("");
+    try {
+      const { error } = await supabase.from("sponsors")
+        .update({ website_url: website || null, logo_path: logo || null }).eq("id", id);
+      if (error) throw error;
+      await load();
+      setStatus("Sponsor website and logo saved. The public banner refreshes automatically.");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Unable to save sponsor branding.");
     } finally {
       setBusy("");
     }
@@ -313,6 +355,34 @@ export default function AdminSponsorsPage() {
                 <div className="text-xs font-black uppercase text-red-600">{sponsor.sponsorship_level || "Sponsor"}</div>
                 <h3 className="mt-2 text-xl font-black">{sponsor.name}</h3>
                 <div className="mt-4 text-2xl font-black">{money(sponsor.amount_cad)}</div>
+                <div className="mt-5 space-y-3 border-t border-neutral-200 pt-4">
+                  <div className="text-xs font-black uppercase text-neutral-500">Public sponsor branding</div>
+                  <label className="block text-xs font-bold">
+                    Website
+                    <input className="field mt-1" type="url" inputMode="url"
+                      placeholder="https://sponsorwebsite.ca"
+                      value={sponsorEdits[sponsor.id]?.website_url ?? ""}
+                      onChange={(e) => setSponsorEdits((previous) => ({
+                        ...previous,
+                        [sponsor.id]: { ...(previous[sponsor.id] || { logo_path: "", website_url: "" }), website_url: e.target.value }
+                      }))} />
+                  </label>
+                  <label className="block text-xs font-bold">
+                    Sponsor logo path / public image URL
+                    <input className="field mt-1" type="text"
+                      placeholder="/assets/sponsors/your-sponsor.webp"
+                      value={sponsorEdits[sponsor.id]?.logo_path ?? ""}
+                      onChange={(e) => setSponsorEdits((previous) => ({
+                        ...previous,
+                        [sponsor.id]: { ...(previous[sponsor.id] || { logo_path: "", website_url: "" }), logo_path: e.target.value }
+                      }))} />
+                  </label>
+                  <button type="button" className="btn btn-light w-full"
+                    disabled={busy !== ""}
+                    onClick={() => void saveSponsorBranding(sponsor.id)}>
+                    {busy === "brand:" + sponsor.id ? "Saving…" : "Save Sponsor Branding"}
+                  </button>
+                </div>
               </article>
             )) : (
               <div className="card p-6 text-sm text-neutral-600">No active sponsor records yet.</div>
