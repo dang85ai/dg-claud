@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import { ArrowRight, CheckCircle2, Heart, Mail, ShieldCheck, Shirt, Trophy, Users, Wallet } from "lucide-react";
 import { PublicShell } from "@/components/PublicShell";
 import { SponsorshipInquiryForm } from "@/components/SponsorshipInquiryForm";
+import { SponsorPlacementHighlight } from "@/components/SponsorLogoBanner";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase-public";
 
 export const dynamic = "force-dynamic";
@@ -152,6 +153,9 @@ export default async function SponsorsPage() {
                     {sold && offer.price_cad != null ? <div className="mt-1 text-sm text-neutral-500">Package value: {formattedPrice(offer)}</div> : null}
                     {reserved ? <p className="mt-2 text-sm font-bold text-amber-800">This placement is pending confirmation.</p> : null}
                     <p className="mt-4 text-sm leading-relaxed text-neutral-600">{offer.description}</p>
+                    {sold && offer.offer_key === "home_sleeve_logo" ? (
+                      <SponsorPlacementHighlight placement="Home Jersey Sleeve Sponsor" />
+                    ) : null}
                     {Array.isArray(offer.benefits) && offer.benefits.length ? (
                       <ul className="mt-4 space-y-2">
                         {offer.benefits.map((benefit, idx) => <li key={idx} className="flex gap-2 text-sm"><CheckCircle2 size={17} className="mt-0.5 shrink-0 text-red-600" /><span>{benefit}</span></li>)}
