@@ -1,14 +1,8 @@
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
-import {
-  ClipboardList,
-  ShieldCheck,
-  UserRound,
-  UsersRound
-} from "lucide-react";
-
-const placeholders = Array.from({ length: 12 }, (_, i) => i + 1);
+import { RosterProfiles } from "@/components/RosterProfiles";
+import { ShieldCheck } from "lucide-react";
 
 const staff = [
   { name: "Gabriel Borges", role: "Technical Director" },
@@ -38,7 +32,7 @@ export default function RosterPage() {
       <PublicPageHero
         eyebrow="2026–27 Team"
         title="Meet the Team"
-        copy="Public player profiles are consent-controlled. Until the roster and guardian permissions are confirmed, no player identity information is published."
+        copy="Meet our squad in their home and away kits, explore the formation, and get to know our registered coaching and team staff. Player details follow guardian-consent settings."
       />
 
       <section className="section">
@@ -50,7 +44,9 @@ export default function RosterPage() {
             </p>
           </div>
 
-          <section id="team-staff" className="mb-10 scroll-mt-24">
+          <RosterProfiles />
+
+          <section id="team-staff" className="mb-10 mt-12 scroll-mt-24">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <div className="text-xs font-black uppercase tracking-[.15em] text-red-600">2026–27 Indoor</div>
@@ -89,53 +85,6 @@ export default function RosterPage() {
               Staff names and positions sourced from the official Caledon Soccer Club 2026–27 Indoor roster dated September 30, 2026.
             </p>
           </section>
-
-          <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-            <section>
-              <div className="flex items-center gap-3">
-                <UsersRound className="text-red-600" />
-                <h2 className="text-3xl font-black uppercase">Player Profiles</h2>
-              </div>
-              <p className="mt-3 text-sm text-neutral-600">
-                Consented profiles can include first name, jersey number, optional position, a fun fact and an approved photo.
-              </p>
-              <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3">
-                {placeholders.map((n) => (
-                  <div className="card overflow-hidden" key={n}>
-                    <div className="grid aspect-[4/5] place-items-center bg-neutral-200">
-                      <UserRound size={48} className="text-neutral-400" aria-hidden="true" />
-                    </div>
-                    <div className="p-4">
-                      <div className="text-xs font-black uppercase tracking-[.12em] text-red-600">Player</div>
-                      <div className="mt-1 text-xl font-black uppercase">Roster Spot</div>
-                      <div className="mt-3 text-sm text-neutral-500"># — · Position —</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <aside className="grid content-start gap-4">
-              <div className="card p-5">
-                <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Team Snapshot</div>
-                <div className="mt-4 grid gap-3 text-sm">
-                  <div><strong>Age group:</strong> U9 Girls</div>
-                  <div><strong>Season:</strong> 2026–27 Indoor</div>
-                  <div><strong>League:</strong> To be confirmed</div>
-                  <div><strong>Division:</strong> To be confirmed</div>
-                  <div><strong>Final roster count:</strong> To be confirmed</div>
-                </div>
-              </div>
-
-              <div className="card p-5">
-                <ClipboardList className="text-red-600" />
-                <h3 className="mt-3 font-black uppercase">Privacy & Consent</h3>
-                <p className="mt-2 text-sm text-neutral-600">
-                  To update or withdraw player-profile or photo consent, use the Parent Portal or contact the team manager.
-                </p>
-              </div>
-            </aside>
-          </div>
 
           <section className="mt-6 card p-6">
             <h2 className="text-2xl font-black uppercase">Parent Volunteer Roles</h2>
