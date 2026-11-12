@@ -19,6 +19,7 @@
   for = "/order"
   [headers.values]
     X-Robots-Tag = "noindex, follow"
+    Cache-Control = "private, no-store"
 
 [[headers]]
   for = "/__forms.html"
@@ -30,31 +31,37 @@
   for = "/portal"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "private, no-store"
 
 [[headers]]
   for = "/portal/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "private, no-store"
 
 [[headers]]
   for = "/admin"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "private, no-store"
 
 [[headers]]
   for = "/admin/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "private, no-store"
 
 [[headers]]
   for = "/login"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "private, no-store"
 
 [[headers]]
   for = "/mfa"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "private, no-store"
 
 
 
@@ -62,11 +69,13 @@
   for = "/roster"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "private, no-store"
 
 [[headers]]
   for = "/media"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "private, no-store"
 
 [[headers]]
   for = "/_next/static/*"
@@ -102,6 +111,7 @@
   for = "/activate"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "private, no-store"
 
 [[headers]]
   for = "/404.html"
@@ -120,6 +130,20 @@
     Cache-Control = "public, max-age=86400"
 
 # Consolidate old Netlify production URLs onto the canonical domain.
+# Cover both protocols for the site's assigned legacy Netlify hostname.
+# Netlify automatically canonicalizes www to the primary domain when DNS is configured.
+[[redirects]]
+  from = "http://caledon-u9-girls-2026.netlify.app"
+  to = "https://caledonunited2018girls.ca"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://caledon-u9-girls-2026.netlify.app/*"
+  to = "https://caledonunited2018girls.ca/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "https://caledon-u9-girls-2026.netlify.app"
   to = "https://caledonunited2018girls.ca"

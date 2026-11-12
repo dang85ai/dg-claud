@@ -4,7 +4,7 @@ import { CircleOff, CalendarDays, Shirt, Users, Mail } from "lucide-react";
 import { PublicShell } from "@/components/PublicShell";
 
 export const metadata: Metadata = {
-  title: "Page Not Found | Caledon U9 Girls 2026",
+  title: "Page Not Found | Caledon United FC 2018 Girls",
   robots: {
     index: false,
     follow: true

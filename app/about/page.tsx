@@ -7,14 +7,14 @@ export default function AboutPage() {
     <PublicShell>
       <DevelopmentBanner />
       <PublicPageHero
-        eyebrow="Caledon Soccer Club"
-        title="Building Players Since 1973"
-        copy="The 2026 U9 Girls program is built around development, confidence, teamwork, sportsmanship, game understanding and a love of soccer."
+        eyebrow="Caledon United FC 2018 Girls"
+        title="Our Team Philosophy"
+        copy="Our 2026–27 girls team focuses on technical development, confidence, teamwork, sportsmanship and a lasting love of soccer."
       />
       <section className="section">
         <div className="container grid gap-6 lg:grid-cols-2">
           <div className="card p-7">
-            <div className="text-sm font-black uppercase text-red-600">Our 2026 Goals</div>
+            <div className="text-sm font-black uppercase text-red-600">Our 2026–27 Goals</div>
             <div className="mt-5 grid gap-3">
               {["Technical development", "Confidence", "Teamwork", "Sportsmanship", "Game understanding", "Love of soccer"].map((item) => (
                 <div key={item} className="border-b border-neutral-200 pb-3 text-xl font-black uppercase">{item}</div>

@@ -18,8 +18,8 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { PwaRegister } from "@/components/PwaRegister";
 
 export const metadata: Metadata = {
-  title: "2026–27 Soccer Team Hub",
-  description: "Official Caledon SC U9 Girls 2026–27 team hub with training schedules, team kit, parent resources, sponsorship information and player-development guidance.",
+  title: { absolute: "Caledon United FC 2018 Girls | 2026–27 Team Hub" },
+  description: "Official Caledon United FC 2018 Girls team hub for 2026–27. Find training schedules, teamwear, sponsors, player development and parent resources in Caledon, Ontario.",
   alternates: { canonical: "/" }
 };
 
@@ -32,13 +32,13 @@ export default function HomePage() {
       <section className="hero home-hero py-12 md:py-16">
         <div className="container flex min-h-[430px] items-center md:min-h-[500px]">
           <div className="home-hero-content">
-            <div className="kicker">Caledon Soccer Club</div>
+            <div className="kicker">Caledon United Football Club</div>
             <h1 className="display !text-4xl !leading-none md:!text-6xl">
-              Caledon U9 Girls 2026
-              <span>Soccer Team Hub</span>
+              Caledon United FC 2018 Girls
+              <span>2026–27 Team Hub</span>
             </h1>
             <p className="home-hero-copy text-base text-white/80 md:text-lg">
-              The <strong className="text-white">2026–27 Training Season</strong> schedule is published for Caledon SC U9 Girls.
+              Follow the <strong className="text-white">2026–27 Training Season</strong> with Caledon United FC 2018 Girls.
               Everything parents need at the field — schedules, team kit, parent information and player-development resources —
               in one mobile-friendly place for youth soccer in Caledon, Ontario.
             </p>
@@ -96,9 +96,9 @@ export default function HomePage() {
         <div className="container grid gap-8 lg:grid-cols-[1.1fr_.9fr]">
           <div>
             <SectionHeader
-              eyebrow="Caledon Soccer Team Hub"
+              eyebrow="Caledon United FC 2018 Girls"
               title="Everything parents need at the field"
-              copy="Bookmark this Caledon U9 Girls 2026–27 team hub and check back often. The goal is fewer scattered messages, less uncertainty, and a clear mobile home for the team."
+              copy="Bookmark the Caledon United FC 2018 Girls 2026–27 team hub and check back often. The goal is fewer scattered messages, less uncertainty, and a clear mobile home for the team."
             />
             <div className="grid gap-4 sm:grid-cols-2">
               {[
@@ -140,7 +140,7 @@ export default function HomePage() {
         <div className="container grid gap-6 lg:grid-cols-[1fr_380px]">
           <div>
             <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Caledon East · Ontario</div>
-            <h2 className="mt-3 text-3xl font-black uppercase tracking-tight">Contact the Caledon U9 Girls 2026 Team</h2>
+            <h2 className="mt-3 text-3xl font-black uppercase tracking-tight">Contact Caledon United FC 2018 Girls</h2>
             <p className="mt-4 max-w-2xl text-neutral-600">
               Questions about the season, team kit, schedule or parent portal? Contact the team manager through the team contact page.
               The club office at 2 McKee Drive South is for club inquiries. For training, use the venue in your event invite.

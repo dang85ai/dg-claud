@@ -4,8 +4,8 @@ import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 
 export const metadata: Metadata = {
-  title: "Parent FAQ | Caledon U9 Girls 2026",
-  description: "Answers to common parent questions for the Caledon SC U9 Girls 2026 season.",
+  title: "Parent FAQ",
+  description: "Frequently asked questions for Caledon United FC 2018 Girls families, including training, Spond invitations, attendance and team guidelines for 2026–27.",
   alternates: { canonical: "/faq" }
 };
 

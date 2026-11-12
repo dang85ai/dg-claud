@@ -16,7 +16,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Schedule & Events",
-  description: "2026–27 Caledon U9 Girls training schedule with practices, events, venue guidance, cancellations, arrival information and parent communication details.",
+  description: "Caledon United FC 2018 Girls 2026–27 team schedule with training dates, games, cancellations, venue guidance and links to Spond for current event details.",
   alternates: { canonical: "/schedule" }
 };
 

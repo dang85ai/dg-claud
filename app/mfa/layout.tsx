@@ -3,7 +3,7 @@ import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "MFA Security",
-  description: "Secure multi-factor authentication for Caledon U9 Girls team management.",
+  description: "Secure multi-factor authentication for Caledon United FC 2018 Girls team management.",
   path: "/mfa",
   index: false
 });

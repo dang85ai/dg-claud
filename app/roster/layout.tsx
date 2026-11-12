@@ -3,7 +3,7 @@ import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Team Roster",
-  description: "Consent-controlled Caledon U9 Girls roster information. Player identity information is intentionally excluded from search indexing.",
+  description: "Consent-controlled Caledon United FC 2018 Girls roster information. Player identity information is intentionally excluded from search indexing.",
   path: "/roster",
   index: false
 });

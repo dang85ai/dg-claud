@@ -12,7 +12,7 @@ type PageMetadataOptions = {
 
 export function buildPageMetadata({ title, description, path, index = true }: PageMetadataOptions): Metadata {
   const canonicalPath = path.startsWith("/") ? path : `/${path}`;
-  const fullTitle = `${title} | Caledon United 2018 Girls`;
+  const fullTitle = `${title} | Caledon United FC 2018 Girls`;
 
   return {
     title,
@@ -49,7 +49,7 @@ export function buildPageMetadata({ title, description, path, index = true }: Pa
       : undefined,
     twitter: index
       ? {
-          card: "summary_large_image",
+          card: "summary",
           title: fullTitle,
           description,
           images: [socialImage]

@@ -13,9 +13,9 @@ export default function EndOfSeasonPage() {
     <PublicShell>
       <DevelopmentBanner />
       <PublicPageHero
-        eyebrow="2026 Season"
+        eyebrow="2026–27 Season"
         title="End-of-Season Hub"
-        copy="The place for the season recap, team celebration, thank-yous and banquet information once the 2026 season is complete."
+        copy="The place for the season recap, team celebration, thank-yous and banquet information once the 2026–27 season is complete."
       />
 
       <section className="section">

@@ -3,11 +3,11 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Privacy & Youth Safety",
-  description: "Privacy and youth-safety information for the Caledon SC U9 Girls 2026–27 team website.",
+  description: "Privacy and youth-safety information for the Caledon United FC 2018 Girls 2026–27 team website.",
   alternates: { canonical: "/privacy" },
   openGraph: {
-    title: "Privacy & Youth Safety | Caledon U9 Girls 2026–27",
-    description: "Privacy and youth-safety information for the Caledon SC U9 Girls 2026–27 team website.",
+    title: "Privacy & Youth Safety | Caledon United FC 2018 Girls 2026–27",
+    description: "Privacy and youth-safety information for the Caledon United FC 2018 Girls 2026–27 team website.",
     url: "/privacy"
   }
 };

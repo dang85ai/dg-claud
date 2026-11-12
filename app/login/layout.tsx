@@ -3,7 +3,7 @@ import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Parent Login",
-  description: "Secure sign-in for the Caledon U9 Girls parent portal.",
+  description: "Secure sign-in for the Caledon United FC 2018 Girls parent portal.",
   path: "/login",
   index: false
 });

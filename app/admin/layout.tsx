@@ -3,7 +3,7 @@ import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
   title: "Manager Command Centre",
-  description: "Private Caledon U9 Girls management area.",
+  description: "Private Caledon United FC 2018 Girls management area.",
   path: "/admin",
   index: false
 });

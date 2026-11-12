@@ -21,7 +21,7 @@ export function SportsEventJsonLd({
   opponent,
   homeAway
 }: SportsEventJsonLdProps) {
-  const caledon = { "@type": "SportsTeam", name: "Caledon SC U9 Girls 2026" };
+  const caledon = { "@type": "SportsTeam", name: "Caledon United FC 2018 Girls" };
   const other = { "@type": "SportsTeam", name: opponent };
 
   const schema = {

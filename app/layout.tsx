@@ -75,7 +75,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: "Caledon United FC 2018 Girls | 2026–27 Team Hub",
-    template: "%s | Caledon United 2018 Girls"
+    template: "%s | Caledon United FC 2018 Girls"
   },
   description:
     "Caledon United FC 2018 Girls 2026–27 team hub with schedules, team kit, parent resources, sponsorship information and youth-safety guidance.",
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Caledon Soccer Club", url: "https://caledonsoccer.com" }],
   creator: "Caledon Soccer Club",
   publisher: "Caledon Soccer Club",
-  applicationName: "Caledon United 2018 Girls",
+  applicationName: "Caledon United FC 2018 Girls",
   manifest: "/site.webmanifest",
   robots: {
     index: true,
@@ -121,7 +121,7 @@ export const metadata: Metadata = {
     ]
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Caledon United FC 2018 Girls | 2026–27 Team Hub",
     description: "Schedules, kit, parent resources and team information for the 2026–27 season.",
     images: ["/assets/brand/caledon-united-social.png?v=crest-20261111-v2"]

@@ -12,7 +12,7 @@ export function Footer() {
         <div>
           <div className="flex items-center gap-3">
             <Image src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2" alt="Caledon United Football Club crest" width={56} height={56} unoptimized className="h-14 w-14 shrink-0 object-contain" />
-            <div className="text-xl font-black uppercase sm:text-2xl">Caledon United 2018 Girls</div>
+            <div className="text-xl font-black uppercase sm:text-2xl">Caledon United FC 2018 Girls</div>
           </div>
           <p className="mt-3 max-w-md text-sm text-white/65">
             A mobile-first team hub for the 2026–27 season, built around player safety,
