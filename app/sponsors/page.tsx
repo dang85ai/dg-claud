@@ -11,7 +11,7 @@ import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase-public";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Sponsorship Opportunities | Caledon United FC 2018 Girls",
+  title: "Sponsorship Opportunities",
   description: "Support Caledon United FC 2018 Girls. See up-to-date jersey sponsorship availability, business sponsorship packages and community supporter opportunities.",
   alternates: { canonical: "/sponsors" }
 };

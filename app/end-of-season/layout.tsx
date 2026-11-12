@@ -4,7 +4,8 @@ import type { ReactNode } from "react";
 export const metadata: Metadata = {
   title: "End of Season",
   description: "Season recap, recognition, celebration and thank-you information for Caledon United FC 2018 Girls 2026–27.",
-  alternates: { canonical: "/end-of-season" },
+  // Season recap is a placeholder until real 2026–27 results and events can be published.
+  robots: { index: false, follow: true, googleBot: { index: false, follow: true } },
   openGraph: {
     title: "End of Season | Caledon United FC 2018 Girls 2026–27",
     description: "Season recap, recognition, celebration and thank-you information for Caledon United FC 2018 Girls 2026–27.",
