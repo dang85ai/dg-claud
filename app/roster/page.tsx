@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
@@ -5,17 +6,15 @@ import { RosterProfiles } from "@/components/RosterProfiles";
 import { ShieldCheck, Users, HeartHandshake } from "lucide-react";
 
 const staff = [
-  { name: "Gabriel Borges", role: "Technical Director" },
-  { name: "Davinder Budwal", role: "Coach" },
-  { name: "Karam Budwal", role: "Team Manager" },
-  { name: "Melissa Catalano", role: "Team Manager" },
-  { name: "Daniel Guerra", role: "Team Manager" },
-  { name: "Natalie Guerra", role: "Team Manager" },
-  { name: "Courtney Quinn", role: "Coach" },
-  { name: "Giuseppe (Joe) Tomaselli", role: "Team Manager" }
+  { name: "Gabriel Borges", role: "Technical Director", photo: "/assets/team/staff/gabriel-borges.webp" },
+  { name: "Davinder Budwal", role: "Coach", photo: "/assets/team/staff/davinder-budwal.webp" },
+  { name: "Karam Budwal", role: "Team Manager", photo: "/assets/team/staff/karam-budwal.webp" },
+  { name: "Melissa Catalano", role: "Team Manager", photo: "/assets/team/staff/melissa-catalano.webp" },
+  { name: "Daniel Guerra", role: "Team Manager", photo: "/assets/team/staff/daniel-guerra.webp" },
+  { name: "Natalie Guerra", role: "Team Manager", photo: "/assets/team/staff/natalie-guerra.webp" },
+  { name: "Courtney Quinn", role: "Coach", photo: "/assets/team/staff/courtney-quinn.webp" },
+  { name: "Giuseppe (Joe) Tomaselli", role: "Team Manager", photo: "/assets/team/staff/giuseppe-tomaselli.webp" }
 ];
-
-const portraitColumns = ["0%", "33.3333%", "66.6667%", "100%"];
 
 const volunteers = [
   "Team Manager",
@@ -57,20 +56,20 @@ export default function RosterPage() {
             </div>
 
             <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              {staff.map((member, index) => (
+              {staff.map((member) => (
                 <article key={member.name} className="group relative flex min-h-32 items-center gap-4 overflow-hidden rounded-[22px] border border-neutral-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-red-300 hover:shadow-lg">
                   <span className="absolute inset-y-0 left-0 w-[4px] bg-[#D71930]" aria-hidden="true" />
-                  <div
-                    role="img"
-                    aria-label={`Portrait of ${member.name}`}
-                    className="h-20 w-20 shrink-0 rounded-2xl border border-neutral-200 bg-neutral-200 shadow-inner sm:h-24 sm:w-24"
-                    style={{
-                      backgroundImage: "url('/assets/team/team-staff-2026-27.webp')",
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "400% 200%",
-                      backgroundPosition: `${portraitColumns[index % 4]} ${index < 4 ? "0%" : "100%"}`
-                    }}
-                  />
+                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 shadow-sm sm:h-24 sm:w-24">
+                    <Image
+                      src={member.photo}
+                      alt={`Portrait of ${member.name}`}
+                      fill
+                      sizes="(min-width: 640px) 96px, 80px"
+                      unoptimized
+                      className="object-cover object-center"
+                      loading="lazy"
+                    />
+                  </div>
                   <div className="min-w-0">
                     <p className="text-[10px] font-black uppercase tracking-[.14em] text-red-700">{member.role}</p>
                     <h3 className="mt-2 break-words text-sm font-black uppercase leading-snug text-neutral-900 sm:text-base">{member.name}</h3>

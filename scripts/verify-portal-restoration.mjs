@@ -13,7 +13,15 @@ const needed = [
  "components/RosterProfiles.tsx", "components/PortalHeader.tsx",
  "public/roster/home-jersey-2026.webp","public/roster/away-jersey-2026.webp",
  "public/assets/sponsors/jb-aluminum-products-limited.webp",
- "public/assets/sponsors/knockout-sports-bar.webp"
+ "public/assets/sponsors/knockout-sports-bar.webp",
+ "public/assets/team/staff/gabriel-borges.webp",
+ "public/assets/team/staff/davinder-budwal.webp",
+ "public/assets/team/staff/karam-budwal.webp",
+ "public/assets/team/staff/melissa-catalano.webp",
+ "public/assets/team/staff/daniel-guerra.webp",
+ "public/assets/team/staff/natalie-guerra.webp",
+ "public/assets/team/staff/courtney-quinn.webp",
+ "public/assets/team/staff/giuseppe-tomaselli.webp"
 ];
 for(const name of needed)assert.ok(existsSync(name), "Restoration regression: missing file "+name);
 const source = file => readFileSync(file,"utf8");
@@ -29,6 +37,8 @@ check("components/PortalHeader.tsx",["portal-sidebar","portal-drawer","Switch to
 check("components/TeamFinance.tsx",["team_finance_settings","team_budget_lines","team_transactions"]);
 check("components/MediaLibrary.tsx",["media-api","privateMode"]);
 check("netlify.toml",["for = \"/portal/*\"","for = \"/admin/*\"","Cache-Control = \"private, no-store\""]);
+check("app/roster/page.tsx",["staff.map((member)", "member.photo", "object-cover", "sm:h-24"]);
+assert.ok(!source("app/roster/page.tsx").includes("team-staff-2026-27.webp"),"Do not reintroduce the low-quality staff collage");
 assert.ok(!existsSync("lib/team-squad.ts"),"Do not republish October's hard-coded minor roster");
 console.log("Restoration source checks passed ("+needed.length+" files and role/consent guards).");
 console.log("NOTE: browser interaction, parental consent and MFA-account E2E still require real test sessions.");
