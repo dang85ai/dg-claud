@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, LockKeyhole, RotateCcw, ShieldCheck, Shirt, UserRound, Users } from "lucide-react";
+import { ArrowUpRight, LockKeyhole, RotateCcw, ShieldCheck, Shirt, Users } from "lucide-react";
 import { authedFetch, endpoints, publicFetch } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
 
@@ -30,7 +31,6 @@ type RosterSnapshot = {
 };
 
 type Kit = "home" | "away";
-const DEFAULT_SQUAD_SIZE = 9;
 const formationSlots: Record<string, Array<{ slot: string; x: number; y: number }>> = {
   "1-2-1-1": [
     { slot: "GK", x: 50, y: 86 }, { slot: "LB", x: 27, y: 62 },
@@ -70,48 +70,14 @@ const formationSlots: Record<string, Array<{ slot: string; x: number; y: number 
   ]
 };
 
-function KitIllustration({ kit, number }: { kit: Kit; number: number | null }) {
-  const home = kit === "home";
-  const primary = home ? "#C41523" : "#FAFAFA";
-  const shadow = home ? "#880C19" : "#D9DDE1";
-  const accents = home ? "#FFFFFF" : "#141517";
-  const backNumber = number === null ? "—" : String(number);
-  return (
-    <svg viewBox="0 0 270 340" role="img" aria-label={`${home ? "Red home" : "White away"} football uniform illustration`} className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id={home ? "roster-home-jersey" : "roster-away-jersey"} x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0" stopColor={primary} />
-          <stop offset="1" stopColor={shadow} />
-        </linearGradient>
-        <linearGradient id={home ? "roster-home-ground" : "roster-away-ground"} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor={home ? "#FDE9EB" : "#F4F4F4"} />
-          <stop offset="1" stopColor={home ? "#F4D6D9" : "#E6EAED"} />
-        </linearGradient>
-      </defs>
-      <rect width="270" height="340" rx="18" fill={`url(#${home ? "roster-home-ground" : "roster-away-ground"})`} />
-      <ellipse cx="135" cy="309" rx="89" ry="13" fill="#121212" opacity="0.12" />
-      {/* T-shirt; side panels and shoulder stripes deliberately mimic the team kit silhouette. */}
-      <path d="M94 44 L118 35 Q135 43 152 35 L176 44 L221 80 L200 116 L176 102 L176 211 L94 211 L94 102 L70 116 L49 80 Z" fill={`url(#${home ? "roster-home-jersey" : "roster-away-jersey"})`} stroke={home ? "#990E1C" : "#CDD1D7"} strokeWidth="2" />
-      <path d="M116 36 Q135 57 154 36" stroke={accents} strokeWidth="7" strokeLinecap="round" fill="none" />
-      <path d="M94 45 L65 84 M102 48 L72 87 M108 51 L79 90 M176 45 L205 84 M168 48 L198 87 M162 51 L191 90" stroke={accents} strokeWidth="3.8" opacity="0.9" />
-      <path d="M95 205 L175 205 L174 240 L139 236 L135 259 L129 236 L96 240 Z" fill="#17191D" />
-      <path d="M100 211 L101 237 M106 211 L107 239 M164 211 L165 239 M170 211 L171 238" stroke="#ECECEC" strokeWidth="2" />
-      <path d="M104 242 L128 245 L128 287 L101 287 Z M143 245 L166 242 L170 287 L143 287 Z" fill={home ? "#C41523" : "#F9FAFB"} stroke={home ? "#970E1A" : "#D2D8DE"} strokeWidth="1" />
-      <path d="M103 264 L127 264 M103 272 L127 272 M145 264 L168 264 M145 272 L169 272" stroke={home ? "#FFFFFF" : "#18191D"} strokeWidth="4" />
-      <path d="M101 283 L128 283 L135 295 L130 302 L88 302 L90 290 Z M145 283 L170 283 L182 292 L181 302 L140 302 L137 296 Z" fill="#1A1A1A" />
-      <path d="M100 302 L131 302 M145 302 L179 302" stroke="#FFFFFF" strokeWidth="3" />
-      <image href="/assets/brand/caledon-united-crest.webp" x="151" y="74" width="23" height="23" preserveAspectRatio="xMidYMid meet" />
-      <text x="135" y="150" fontFamily="Arial, sans-serif" fontSize={backNumber === "—" ? "54" : "50"} fontWeight="900" textAnchor="middle" fill={accents}>{backNumber}</text>
-      <text x="135" y="181" fontFamily="Arial, sans-serif" fontSize="8.5" fontWeight="800" letterSpacing="2" textAnchor="middle" fill={accents}>CALEDON UNITED</text>
-    </svg>
-  );
-}
-
 function ApprovedPortrait({ id, name, privateAccess }: { id: string; name: string; privateAccess: boolean }) {
   const [src, setSrc] = useState<string | null>(null);
+
   useEffect(() => {
     let active = true;
-    let blobUrl: string | null = null;
+    let objectUrl: string | null = null;
+    setSrc(null);
+
     (async () => {
       try {
         const { data } = await supabase.auth.getSession();
@@ -128,44 +94,64 @@ function ApprovedPortrait({ id, name, privateAccess }: { id: string; name: strin
         if (!response.ok) return;
         const dataBlob = await response.blob();
         if (!dataBlob.type.startsWith("image/")) return;
-        blobUrl = URL.createObjectURL(dataBlob);
-        if (active) setSrc(blobUrl);
-      } catch { /* Missing or revoked photo consent: retain the neutral avatar. */ }
+        objectUrl = URL.createObjectURL(dataBlob);
+        if (active) setSrc(objectUrl);
+      } catch {
+        // The approved-photo service can withhold or revoke a photo at any time.
+      }
     })();
+
     return () => {
       active = false;
-      if (blobUrl) URL.revokeObjectURL(blobUrl);
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, [id, privateAccess]);
-  return src ? (
-    // Private media is fetched with short-lived authorization and never turned into a public asset path.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={src} alt={`Approved portrait of ${name}`} className="h-full w-full rounded-full object-cover" />
-  ) : <UserRound aria-hidden="true" size={26} className="text-neutral-400" />;
+
+  if (!src) return null;
+  // Consent-controlled portraits are retrieved as non-cacheable blobs, never public image paths.
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={src} alt={`Approved portrait of ${name}`} className="absolute inset-0 h-full w-full object-cover object-top" />;
 }
 
-function PlayerTile({ player, index, kit, privateAccess }: { player: Player | null; index: number; kit: Kit; privateAccess: boolean }) {
-  const revealed = !!player;
-  const name = revealed ? player.name : "Squad Member";
+function PlayerCard({ player, kit, privateAccess }: { player: Player; kit: Kit; privateAccess: boolean }) {
+  const isHome = kit === "home";
+  const photoAllowed = Boolean(player.photo_id && (privateAccess || player.photo_consent));
+  const number = player.number === null ? "—" : String(player.number);
+
   return (
-    <article className="card group overflow-hidden">
-      <div className="relative aspect-[4/5] overflow-hidden bg-neutral-100">
-        <KitIllustration kit={kit} number={player?.number ?? null} />
-        <div className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-neutral-800 shadow-sm">
-          {kit === "home" ? "Home · Red" : "Away · White"}
+    <article className="group overflow-hidden rounded-[26px] border border-white/15 bg-white shadow-[0_16px_40px_rgba(0,0,0,0.18)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(0,0,0,0.25)]">
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#17191D]">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{ backgroundImage: "radial-gradient(circle at 50% 34%,rgba(255,255,255,.13),transparent 58%),linear-gradient(150deg,#26282D 0%,#0C0D10 100%)" }}
+        />
+        <div className="absolute -right-2 top-12 text-[120px] font-black leading-none tracking-[-.12em] text-white/[.055] sm:text-[150px]" aria-hidden="true">{number}</div>
+        {!photoAllowed && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Image src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2" alt="" width={180} height={180} unoptimized className="h-36 w-36 object-contain opacity-40 sm:h-44 sm:w-44" />
+          </div>
+        )}
+        {photoAllowed && player.photo_id ? <ApprovedPortrait key={player.photo_id} id={player.photo_id} name={player.name} privateAccess={privateAccess} /> : null}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-4">
+          <span className={`rounded-lg px-3 py-1.5 text-[10px] font-black uppercase tracking-[.16em] ${isHome ? "bg-[#D91B2B] text-white" : "bg-white text-neutral-950"}`}>{isHome ? "Home squad" : "Away squad"}</span>
+          <span className="text-4xl font-black tabular-nums tracking-[-.07em] text-white drop-shadow-xl">{number}</span>
         </div>
-        {player?.photo_id ? <div className="absolute bottom-3 right-3 grid h-16 w-16 place-items-center overflow-hidden rounded-full border-4 border-white bg-white shadow-lg sm:h-20 sm:w-20">
-          <ApprovedPortrait id={player.photo_id} name={player.name} privateAccess={privateAccess} />
-        </div> : null}
+        <div className="absolute inset-x-0 bottom-0 p-5">
+          <div className="mb-2 flex items-center gap-2">
+            <span className={`h-[3px] w-7 rounded-full ${isHome ? "bg-red-500" : "bg-white"}`} />
+            <span className="text-[10px] font-bold uppercase tracking-[.18em] text-white/80">Caledon United FC</span>
+          </div>
+          <h3 className="break-words text-xl font-black uppercase leading-tight text-white sm:text-2xl">{player.name}</h3>
+          <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-white/75">{player.position || "Rotating positions"}</p>
+        </div>
       </div>
-      <div className="p-4">
-        <div className="text-[10px] font-black uppercase tracking-[.14em] text-red-700">2026–27 Squad · {index + 1}</div>
-        <h3 className="mt-1 min-h-12 break-words text-lg font-black uppercase leading-tight sm:text-xl">{name}</h3>
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-sm text-neutral-600">
-          <span>{revealed && player.number !== null ? `#${player.number}` : "Number pending"}</span>
-          <span>{revealed ? player.position || "Rotating positions" : "Private profile"}</span>
-        </div>
-        {player?.can_edit ? <Link href={privateAccess ? "/portal/players" : "/login"} className="mt-4 block rounded-xl border border-neutral-200 p-2 text-center text-xs font-black uppercase text-neutral-700 hover:border-red-500 hover:text-red-600">Manage Player</Link> : null}
+      <div className="flex min-h-14 items-center justify-between gap-3 border-t border-neutral-200 px-5 py-3">
+        <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-500">{photoAllowed ? "Player profile" : "Photo not published"}</span>
+        {player.can_edit ? (
+          <Link href={privateAccess ? "/portal/players" : "/login"} className="inline-flex min-h-11 items-center gap-1.5 text-xs font-black uppercase text-red-700 hover:text-red-900">Manage <ArrowUpRight size={15} aria-hidden="true" /></Link>
+        ) : <span className="text-xs font-black uppercase text-neutral-800">#{number}</span>}
       </div>
     </article>
   );
@@ -175,36 +161,54 @@ function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot 
   const name = snapshot?.formation?.name || "1-2-1-1";
   const slots = formationSlots[name] || formationSlots["1-2-1-1"];
   const canShowNames = snapshot?.formation?.show_names ?? false;
+
   return (
-    <section className="mt-10 overflow-hidden rounded-3xl border border-neutral-200 bg-white">
-      <div className="flex flex-wrap items-end justify-between gap-3 p-6">
+    <section className="mt-12 overflow-hidden rounded-[30px] border border-neutral-200 bg-white shadow-sm">
+      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-neutral-100 px-5 py-7 sm:px-8">
         <div>
-          <div className="text-xs font-black uppercase tracking-widest text-red-700">Tactical Lineup</div>
-          <h3 className="mt-2 text-2xl font-black uppercase">Team Formation</h3>
-          <p className="mt-2 text-sm text-neutral-600">Positions rotate during development. Only approved identities appear in the lineup.</p>
+          <p className="text-xs font-black uppercase tracking-[.18em] text-red-700">On the pitch</p>
+          <h3 className="mt-2 text-2xl font-black uppercase tracking-tight sm:text-3xl">How We Line Up</h3>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600">A development-first look at our positions. Players rotate, learn different roles and build their game understanding.</p>
         </div>
-        <span className="rounded-full bg-neutral-100 px-4 py-2 text-xs font-black uppercase text-neutral-700">{slots.length}v{slots.length} · {name}</span>
+        <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-center">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Formation</p>
+          <p className="mt-1 text-lg font-black text-neutral-900">{name}</p>
+        </div>
       </div>
-      <div className="mx-4 mb-4 sm:mx-6 sm:mb-6">
-        <div className="relative aspect-[5/6] max-h-[520px] min-h-[350px] overflow-hidden rounded-2xl bg-[#17683C] sm:aspect-[16/10]">
-          <div className="absolute inset-4 rounded-md border-2 border-white/55" />
-          <div className="absolute left-4 right-4 top-1/2 h-px bg-white/60" />
-          <div className="absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white/60 sm:h-32 sm:w-32" />
-          <div className="absolute left-1/4 right-1/4 top-4 h-[14%] border-x-2 border-b-2 border-white/60" />
-          <div className="absolute bottom-4 left-1/4 right-1/4 h-[14%] border-x-2 border-t-2 border-white/60" />
+      <div className="grid gap-7 p-4 sm:p-7 lg:grid-cols-[minmax(0,1fr)_260px]">
+        <div
+          className="relative mx-auto aspect-[4/5] w-full max-w-[640px] overflow-hidden rounded-[22px] border border-[#236248] bg-[#115437] sm:aspect-[10/9]"
+          style={{ backgroundImage: "repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0,rgba(255,255,255,.035) 13%,transparent 13%,transparent 26%)" }}
+        >
+          <div className="absolute inset-[5%] rounded-sm border-2 border-white/45" aria-hidden="true" />
+          <div className="absolute left-[5%] right-[5%] top-1/2 h-[2px] bg-white/40" aria-hidden="true" />
+          <div className="absolute left-1/2 top-1/2 h-[24%] aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white/45" aria-hidden="true" />
+          <div className="absolute left-[29%] right-[29%] top-[5%] h-[14%] border-x-2 border-b-2 border-white/40" aria-hidden="true" />
+          <div className="absolute bottom-[5%] left-[29%] right-[29%] h-[14%] border-x-2 border-t-2 border-white/40" aria-hidden="true" />
           {slots.map(({ slot, x, y }) => {
             const player = snapshot?.players.find((p) => p.slot === slot && p.active);
-            // The backend only returns players/slots permitted for this viewer.
-            // For unapproved public profiles, show only generic slot names.
-            const displayName = player && (privateAccess || (player.public_visible && player.name_consent)) && canShowNames ? player.name : null;
-            return <div key={slot} className="absolute z-10 flex w-[100px] max-w-[26%] -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center" style={{ left: `${x}%`, top: `${y}%` }}>
-              <div className="grid h-9 w-9 place-items-center rounded-full border-2 border-white bg-[#BE172A] text-[10px] font-black text-white shadow-lg sm:h-12 sm:w-12 sm:text-xs">{slot}</div>
-              {displayName ? <span className="mt-1 max-w-full truncate rounded bg-black/70 px-2 py-1 text-[10px] font-bold text-white sm:text-xs">{displayName}</span> : null}
-            </div>;
+            const showName = player && (privateAccess || (player.public_visible && player.name_consent)) && canShowNames;
+            return (
+              <div key={slot} className="absolute z-10 flex w-28 max-w-[29%] -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center" style={{ left: `${x}%`, top: `${y}%` }}>
+                <div className="grid h-11 w-11 place-items-center rounded-xl border-2 border-white/90 bg-[#D71930] text-xs font-black text-white shadow-[0_7px_18px_rgba(0,0,0,.35)] sm:h-14 sm:w-14 sm:text-sm">{slot}</div>
+                {showName ? <span className="mt-1.5 max-w-full truncate rounded-md bg-[#0B1010]/90 px-2 py-1 text-[10px] font-bold text-white sm:text-xs">{player.name}</span> : null}
+              </div>
+            );
           })}
         </div>
+        <aside className="flex flex-col justify-center gap-5 rounded-2xl bg-neutral-50 p-5">
+          <div className="rounded-xl border border-neutral-200 bg-white p-5">
+            <div className="text-xs font-black uppercase tracking-[.15em] text-red-700">Development approach</div>
+            <p className="mt-3 text-xl font-black uppercase leading-snug text-neutral-900">Every player learns every part of the game.</p>
+            <p className="mt-3 text-sm leading-6 text-neutral-600">This board is a formation reference—not a fixed starting lineup or a player ranking.</p>
+          </div>
+          <div className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-xs font-semibold text-neutral-700">
+            <span className="h-4 w-4 rounded bg-[#D71930]" aria-hidden="true" />
+            Positions are shown in red
+          </div>
+          {privateAccess && snapshot?.manager ? <Link href="/admin/formation" className="btn btn-dark justify-center">Edit Formation</Link> : null}
+        </aside>
       </div>
-      {privateAccess && snapshot?.manager ? <div className="border-t border-neutral-200 p-5 text-center"><Link href="/admin/formation" className="btn btn-light">Edit Formation</Link></div> : null}
     </section>
   );
 }
@@ -265,43 +269,81 @@ export function RosterProfiles() {
       if (b.number === null) return -1;
       return a.number - b.number;
     });
-    return Array.from({ length: Math.max(DEFAULT_SQUAD_SIZE, ordered.length) }, (_, index) => ordered[index] ?? null);
+    return ordered;
   }, [chosen, privateAccess]);
 
   return (
-    <section id="player-roster" className="scroll-mt-24">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[.15em] text-red-700"><Users size={16} aria-hidden="true" /> 2026–27 Team Roster</div>
-          <h2 className="mt-2 text-3xl font-black uppercase">Meet the Squad</h2>
-          <p className="mt-3 max-w-2xl text-sm text-neutral-600">
-            Explore our home and away jerseys. Names, jersey numbers and approved player photographs appear according to the team's guardian-consent and account-access settings.
-          </p>
+    <section id="player-roster" className="scroll-mt-28">
+      <div className="overflow-hidden rounded-[30px] bg-[#0B0C10] px-5 py-7 text-white shadow-[0_20px_60px_rgba(0,0,0,.13)] sm:px-8 sm:py-9">
+        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-white/15 pb-6">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[.2em] text-red-400"><Users size={16} aria-hidden="true" /> 2026–27 Squad</div>
+            <h2 className="mt-3 text-3xl font-black uppercase tracking-tight sm:text-4xl">Our Players</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65">Meet the team through approved player profiles. Select our red home or white away kit to view the official uniform artwork.</p>
+          </div>
+          <div className="inline-flex rounded-2xl border border-white/20 bg-white/10 p-1.5" role="group" aria-label="Select match kit">
+            <button type="button" aria-pressed={kit === "home"} onClick={() => setKit("home")} className={`inline-flex min-h-11 items-center gap-2 rounded-xl px-4 text-xs font-black uppercase transition sm:text-sm ${kit === "home" ? "bg-[#D71930] text-white shadow-lg" : "text-white/75 hover:bg-white/10"}`}><Shirt size={17} aria-hidden="true" /> Home</button>
+            <button type="button" aria-pressed={kit === "away"} onClick={() => setKit("away")} className={`inline-flex min-h-11 items-center gap-2 rounded-xl px-4 text-xs font-black uppercase transition sm:text-sm ${kit === "away" ? "bg-white text-neutral-950 shadow-lg" : "text-white/75 hover:bg-white/10"}`}><Shirt size={17} aria-hidden="true" /> Away</button>
+          </div>
         </div>
-        <div className="inline-flex items-center rounded-full border border-neutral-200 bg-white p-1 shadow-sm" role="group" aria-label="Select team jersey">
-          <button type="button" aria-pressed={kit === "home"} onClick={() => setKit("home")} className={`inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-sm font-bold transition ${kit === "home" ? "bg-[#BA1728] text-white" : "text-neutral-700 hover:bg-neutral-100"}`}><Shirt size={16} aria-hidden="true" /> Home · Red</button>
-          <button type="button" aria-pressed={kit === "away"} onClick={() => setKit("away")} className={`inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-sm font-bold transition ${kit === "away" ? "bg-neutral-900 text-white" : "text-neutral-700 hover:bg-neutral-100"}`}><Shirt size={16} aria-hidden="true" /> Away · White</button>
+
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-xs text-white/65">
+          <div className="inline-flex items-center gap-2"><LockKeyhole size={15} aria-hidden="true" />
+            {privateAccess ? (privateRoster?.manager ? "Secure management view" : "Authorized family view") : "Public portraits appear only with guardian approval"}
+          </div>
+          <div className="flex items-center gap-4">
+            {privateRoster?.manager ? <Link href="/admin/players" className="font-bold text-white underline decoration-red-500 underline-offset-4 hover:text-red-300">Manage Players</Link> : null}
+            <Link href={hasSession ? "/portal/players" : "/login"} className="font-bold text-white underline decoration-red-500 underline-offset-4 hover:text-red-300">{hasSession ? "My Players" : "Family Login"}</Link>
+            <button type="button" disabled={loading} onClick={() => void load()} className="inline-flex min-h-11 items-center gap-1.5 font-bold text-white hover:text-red-300 disabled:opacity-50"><RotateCcw size={15} aria-hidden="true" /> Refresh</button>
+          </div>
+        </div>
+        {message ? <div className="mt-4 flex items-start gap-3 rounded-xl border border-white/15 bg-white/10 p-4 text-sm text-white/85"><ShieldCheck className="shrink-0 text-red-400" size={19} /><p>{message}</p></div> : null}
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+          <div>
+            {loading && visiblePlayers.length === 0 ? (
+              <div aria-live="polite" className="grid gap-5 sm:grid-cols-2">
+                {[0, 1].map((i) => <div key={i} className="aspect-[4/5] animate-pulse rounded-[26px] bg-white/10" aria-hidden="true" />)}
+                <span className="sr-only">Loading approved player profiles…</span>
+              </div>
+            ) : visiblePlayers.length ? (
+              <div className="grid gap-5 sm:grid-cols-2">
+                {visiblePlayers.map((player) => <PlayerCard key={player.id} player={player} kit={kit} privateAccess={privateAccess} />)}
+              </div>
+            ) : (
+              <div className="flex min-h-[340px] flex-col items-center justify-center rounded-[24px] border border-white/15 bg-white/[.06] p-8 text-center">
+                <Image src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2" alt="" width={100} height={100} unoptimized className="h-20 w-20 object-contain opacity-75" />
+                <h3 className="mt-6 text-xl font-black uppercase">Squad profiles are private</h3>
+                <p className="mt-3 max-w-sm text-sm leading-6 text-white/65">Player names and portraits will be shown here when guardian permissions allow them. Authorized families can sign in to see the profiles available to their account.</p>
+                <Link href="/login" className="btn btn-primary mt-6">Open Family Portal</Link>
+              </div>
+            )}
+          </div>
+
+          <aside className="self-start overflow-hidden rounded-[24px] bg-white text-neutral-950">
+            <div className="border-b border-neutral-200 px-5 py-5">
+              <p className="text-[10px] font-black uppercase tracking-[.2em] text-red-700">Official teamwear</p>
+              <h3 className="mt-1 text-xl font-black uppercase">{kit === "home" ? "Home Match Kit" : "Away Match Kit"}</h3>
+              <p className="mt-1 text-xs font-medium text-neutral-600">{kit === "home" ? "Red jersey · Black shorts · Red socks" : "White jersey · Black shorts · White socks"}</p>
+            </div>
+            <div className="bg-neutral-50">
+              <Image
+                src={kit === "home" ? "/kit/home-match-kit-caledon-united-2026.jpg" : "/kit/away-match-kit-caledon-united-2026.jpg"}
+                alt={kit === "home" ? "Caledon United FC red home kit front and back" : "Caledon United FC white away kit front and back"}
+                width={1122}
+                height={1402}
+                sizes="(max-width: 1023px) 100vw, 300px"
+                className="h-auto w-full"
+              />
+            </div>
+            <div className="border-t border-neutral-200 px-5 py-4">
+              <p className="text-xs leading-5 text-neutral-600">Illustrative teamwear reference. Name and number shown on the sample jersey are examples.</p>
+              <Link href="/kit" className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-xs font-black uppercase text-red-700 hover:text-red-900">View the full kit collection <ArrowUpRight size={16} aria-hidden="true" /></Link>
+            </div>
+          </aside>
         </div>
       </div>
 
-      {message ? <div className="notice mt-5 flex items-start gap-2 text-sm"><ShieldCheck size={18} className="shrink-0 text-red-700" /><p>{message}</p></div> : null}
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-neutral-100 px-4 py-3 text-xs text-neutral-600">
-        <span className="inline-flex items-center gap-2"><LockKeyhole size={15} aria-hidden="true" /> {privateAccess ? (privateRoster?.manager ? "Manager roster view · secured with MFA" : "Private family roster view") : "Public profiles require guardian approval"}</span>
-        <div className="flex flex-wrap items-center gap-3">
-          {privateRoster?.manager ? <Link href="/admin/players" className="font-black text-red-700 underline underline-offset-2">Manage Players</Link> : null}
-          {hasSession ? <Link href="/portal/players" className="font-black text-red-700 underline underline-offset-2">My Players</Link> : <Link href="/login" className="font-black text-red-700 underline underline-offset-2">Family Login</Link>}
-          <button type="button" disabled={loading} onClick={() => void load()} className="inline-flex items-center gap-1 font-black text-neutral-700 hover:text-red-700 disabled:opacity-50"><RotateCcw size={14} /> Refresh</button>
-        </div>
-      </div>
-
-      <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {visiblePlayers.map((player, index) => <PlayerTile key={player?.id ?? `private-placeholder-${index}`} player={player} index={index} kit={kit} privateAccess={privateAccess} />)}
-      </div>
-      {loading ? <div aria-live="polite" className="mt-4 text-sm text-neutral-500">Checking current roster permissions…</div> : null}
-      {visiblePlayers.every((p) => p === null) ? <div className="mt-6 rounded-xl border border-neutral-200 bg-white p-5 text-sm text-neutral-700">
-        <p><strong>Player information is not public yet.</strong> The squad is registered, but player names and portraits are shown only after the required guardian approvals. Authorized families and managers can sign in to view their linked player records.</p>
-      </div> : null}
-      <div className="mt-5 flex items-center justify-center gap-2 text-xs text-neutral-500"><ChevronLeft size={14} aria-hidden="true" /> Switch between red home and white away player cards <ChevronRight size={14} aria-hidden="true" /></div>
       <FormationPitch snapshot={chosen} privateAccess={privateAccess} />
     </section>
   );

@@ -2,7 +2,7 @@ import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { RosterProfiles } from "@/components/RosterProfiles";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Users, HeartHandshake } from "lucide-react";
 
 const staff = [
   { name: "Gabriel Borges", role: "Technical Director" },
@@ -30,43 +30,40 @@ export default function RosterPage() {
     <PublicShell>
       <DevelopmentBanner />
       <PublicPageHero
-        eyebrow="2026–27 Team"
+        eyebrow="Caledon United FC · 2018 Girls"
         title="Meet the Team"
-        copy="Meet our squad in their home and away kits, explore the formation, and get to know our registered coaching and team staff. Player details follow guardian-consent settings."
+        copy="Get to know our 2026–27 squad and the people supporting them. Explore our red home and white away kit while respecting every family's photo and privacy choices."
       />
 
       <section className="section">
         <div className="container">
-          <div className="notice mb-8 flex gap-3">
-            <ShieldCheck className="shrink-0 text-red-600" />
-            <p className="text-sm">
-              Player photos and profile details appear only when the appropriate guardian consent is active. Private portal access can show additional team information to authorized families.
-            </p>
+          <div className="mb-8 flex items-start gap-3 rounded-2xl border border-neutral-200 bg-white px-5 py-4 text-sm leading-6 text-neutral-600">
+            <ShieldCheck className="mt-0.5 shrink-0 text-red-700" size={20} aria-hidden="true" />
+            <p>We celebrate our players while respecting their privacy. Player names and portraits appear only for the viewers authorized under the team's guardian-consent and account permissions.</p>
           </div>
 
           <RosterProfiles />
 
-          <section id="team-staff" className="mb-10 mt-12 scroll-mt-24">
-            <div className="flex flex-wrap items-end justify-between gap-3">
+          <section id="team-staff" className="mt-14 scroll-mt-28">
+            <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <div className="text-xs font-black uppercase tracking-[.15em] text-red-600">2026–27 Indoor</div>
-                <h2 className="mt-2 text-3xl font-black uppercase">Meet Our Team Staff</h2>
-                <p className="mt-2 max-w-2xl text-sm text-neutral-600">
-                  Coaches, technical leadership and team managers supporting our Caledon United U9 Girls.
-                </p>
+                <div className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[.18em] text-red-700">
+                  <Users size={17} aria-hidden="true" /> Coaching & Leadership
+                </div>
+                <h2 className="mt-3 text-3xl font-black uppercase tracking-tight sm:text-4xl">The Team Behind the Team</h2>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-600">Coaches, technical leadership and volunteers supporting our players throughout the 2026–27 season.</p>
               </div>
-              <div className="rounded-full bg-neutral-100 px-4 py-2 text-xs font-bold uppercase text-neutral-600">
-                8 Registered Staff
-              </div>
+              <span className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-wide text-neutral-700">8 Team Staff</span>
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {staff.map((member, index) => (
-                <article key={member.name} className="card flex flex-col items-center overflow-hidden px-3 py-6 text-center sm:px-5">
+                <article key={member.name} className="group relative flex min-h-32 items-center gap-4 overflow-hidden rounded-[22px] border border-neutral-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-red-300 hover:shadow-lg">
+                  <span className="absolute inset-y-0 left-0 w-[4px] bg-[#D71930]" aria-hidden="true" />
                   <div
                     role="img"
                     aria-label={`Portrait of ${member.name}`}
-                    className="h-24 w-24 shrink-0 rounded-full border-4 border-white bg-neutral-200 shadow-md sm:h-28 sm:w-28"
+                    className="h-20 w-20 shrink-0 rounded-2xl border border-neutral-200 bg-neutral-200 shadow-inner sm:h-24 sm:w-24"
                     style={{
                       backgroundImage: "url('/assets/team/team-staff-2026-27.webp')",
                       backgroundRepeat: "no-repeat",
@@ -74,28 +71,28 @@ export default function RosterPage() {
                       backgroundPosition: `${portraitColumns[index % 4]} ${index < 4 ? "0%" : "100%"}`
                     }}
                   />
-                  <h3 className="mt-4 text-base font-black uppercase leading-snug sm:text-lg">{member.name}</h3>
-                  <p className="mt-2 rounded-full bg-red-50 px-3 py-1 text-xs font-black uppercase tracking-wide text-red-700">
-                    {member.role}
-                  </p>
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-black uppercase tracking-[.14em] text-red-700">{member.role}</p>
+                    <h3 className="mt-2 break-words text-sm font-black uppercase leading-snug text-neutral-900 sm:text-base">{member.name}</h3>
+                    <p className="mt-2 text-[11px] font-semibold text-neutral-500">2026–27 Staff</p>
+                  </div>
                 </article>
               ))}
             </div>
-            <p className="mt-4 text-xs text-neutral-500">
-              Staff names and positions sourced from the official Caledon Soccer Club 2026–27 Indoor roster dated September 30, 2026.
-            </p>
+            <p className="mt-5 text-xs leading-5 text-neutral-500">Staff names and roles are based on the Caledon Soccer Club indoor roster dated September 30, 2026.</p>
           </section>
 
-          <section className="mt-6 card p-6">
-            <h2 className="text-2xl font-black uppercase">Parent Volunteer Roles</h2>
-            <p className="mt-3 text-sm text-neutral-600">
-              Volunteer assignments and contact details will be visible to authorized team families once roles are confirmed.
-            </p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <section className="mt-12 rounded-[28px] border border-neutral-200 bg-white p-6 sm:p-8">
+            <div className="flex items-start gap-4">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-red-50 text-red-700"><HeartHandshake size={25} aria-hidden="true" /></div>
+              <div>
+                <h2 className="text-2xl font-black uppercase tracking-tight">Family & Volunteer Support</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600">Behind every match and training session are families giving their time. These are the areas where our team benefits from support; assigned contacts remain available to authorized families.</p>
+              </div>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-2.5">
               {volunteers.map((role) => (
-                <div key={role} className="rounded-2xl bg-neutral-50 p-4 text-sm font-black uppercase">
-                  {role}
-                </div>
+                <span key={role} className="rounded-full border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-xs font-black uppercase tracking-wide text-neutral-700">{role}</span>
               ))}
             </div>
           </section>
