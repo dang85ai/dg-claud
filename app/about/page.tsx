@@ -15,7 +15,7 @@ export default function AboutPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="about"
         eyebrow="Caledon United FC · 2018 Girls"
         title="Our Team"
         copy="A 2026–27 girls soccer team in Caledon, Ontario, focused on developing skills, confidence, teamwork and a love for the game."

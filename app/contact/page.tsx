@@ -41,7 +41,7 @@ export default function ContactPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="contact"
         eyebrow="Get in Touch"
         title="Contact the Team"
         copy="Questions, suggestions or concerns can be sent through the team contact form or directly to the official team email."

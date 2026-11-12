@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, LogOut, ShieldCheck, ExternalLink, Home, Users, CalendarDays, ClipboardList, BookOpenCheck, Shirt, Package, SlidersHorizontal, Camera, Heart, Wallet, Car, UserRound, Megaphone } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { ApprovedPageBanner, type ApprovedBannerId } from "@/components/ApprovedPageBanner";
 
 type Item = { label: string; href: string; external?: boolean; icon: typeof Home };
 type Group = { heading: string; items: Item[] };
@@ -73,6 +74,26 @@ const managerGroups: Group[] = [
  ]}
 ];
 
+
+const pageBanners: Partial<Record<string,ApprovedBannerId>> = {
+ "/portal":"parent-portal",
+ "/portal/players":"roster",
+ "/portal/schedule":"schedule",
+ "/portal/training":"training",
+ "/portal/tools":"parent-portal",
+ "/portal/conduct":"conduct",
+ "/portal/finances":"finance",
+ "/portal/media":"media",
+ "/portal/activity/media":"media",
+ "/admin/players":"roster",
+ "/admin/formation":"roster",
+ "/admin/finances":"finance",
+ "/admin/media":"media",
+ "/admin/modules/media":"media",
+ "/admin/sponsors":"sponsors",
+ "/admin/conduct":"conduct"
+};
+
 export function PortalHeader({ title, isAdmin = false }: { title: string; isAdmin?: boolean }) {
  const router = useRouter(), pathname = usePathname(), drawer = useRef<HTMLDialogElement>(null);
  const [roles,setRoles]=useState<string[]>([]),[accessChecked,setAccessChecked]=useState(false);
@@ -122,7 +143,9 @@ export function PortalHeader({ title, isAdmin = false }: { title: string; isAdmi
    </div>}
   </>;
  }
- return <header className="portal-header sticky top-0 z-40 border-b border-neutral-200 bg-white shadow-sm">
+ const selectedBanner = pageBanners[pathname];
+ return <>
+ <header className="portal-header sticky top-0 z-40 border-b border-neutral-200 bg-white shadow-sm">
   <a className="sr-only focus:not-sr-only focus:block focus:p-3" href="#portal-main">Skip to portal content</a>
   <div className="container flex min-h-20 items-center justify-between gap-3 py-3">
    <div className="flex min-w-0 items-center gap-3">
@@ -146,5 +169,7 @@ export function PortalHeader({ title, isAdmin = false }: { title: string; isAdmi
    {accessChecked&&(!isAdmin||manager)?renderGroups():<p className="text-sm text-neutral-600">Sign in with your team account to access navigation.</p>}
   </dialog>
   {error?<p role="alert" className="container pb-3 text-sm text-red-700">{error}</p>:null}
- </header>;
+ </header>
+ {selectedBanner ? <ApprovedPageBanner banner={selectedBanner} portal /> : null}
+ </>;
 }

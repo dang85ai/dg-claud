@@ -40,6 +40,30 @@ check("components/MediaLibrary.tsx",["media-api","privateMode"]);
 check("netlify.toml",["for = \"/portal/*\"","for = \"/admin/*\"","Cache-Control = \"private, no-store\""]);
 check("app/roster/page.tsx",["staff.map((member)", "member.photo", "object-cover", "sm:h-24"]);
 assert.ok(!source("app/roster/page.tsx").includes("team-staff-2026-27.webp"),"Do not reintroduce the low-quality staff collage");
+const approvedBanners = [
+ "home","parent-portal","roster","schedule","training","kit",
+ "sponsors","conduct","media","finance","about","contact"
+];
+for(const name of approvedBanners)
+ assert.ok(existsSync("public/assets/banners/2026-27/"+name+".webp"),"Missing approved banner: "+name);
+check("components/ApprovedPageBanner.tsx",["ApprovedBannerId","aria-label","asHeading","sm:hidden","sm:block"]);
+check("components/PublicPageHero.tsx",["ApprovedPageBanner","asHeading"]);
+check("components/PortalHeader.tsx",["pageBanners","/portal","/portal/finances","/admin/finances","ApprovedPageBanner"]);
+check("app/page.tsx",['banner="home"',"View This Week"]);
+check("app/sponsors/page.tsx",['banner="sponsors"',"home-kit-preview"]);
+for(const [path, key] of [
+ ["app/about/page.tsx","about"],
+ ["app/roster/page.tsx","roster"],
+ ["app/schedule/page.tsx","schedule"],
+ ["app/development/page.tsx","training"],
+ ["app/kit/page.tsx","kit"],
+ ["app/media/page.tsx","media"],
+ ["app/conduct/page.tsx","conduct"],
+ ["app/contact/page.tsx","contact"],
+ ["app/parents/page.tsx","parent-portal"],
+ ["app/order/page.tsx","kit"]
+]) check(path,['banner="'+key+'"']);
+
 assert.ok(!existsSync("lib/team-squad.ts"),"Do not republish October's hard-coded minor roster");
 console.log("Restoration source checks passed ("+needed.length+" files and role/consent guards).");
 console.log("NOTE: browser interaction, parental consent and MFA-account E2E still require real test sessions.");

@@ -26,7 +26,7 @@ export default function SchedulePage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="schedule"
         eyebrow="Games · Practices · Events"
         title="Schedule & Events"
         copy="Public planning dates for the 2026–27 season. Exact start times, venues, entrances and arrival instructions stay in Spond and parent-only communication."
