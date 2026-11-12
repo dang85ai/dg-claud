@@ -128,15 +128,22 @@ function PlayerCard({ player, kit, privateAccess }: { player: Player; kit: Kit; 
         />
         <div className="absolute -right-2 top-12 text-[120px] font-black leading-none tracking-[-.12em] text-white/[.055] sm:text-[150px]" aria-hidden="true">{number}</div>
         {!photoAllowed && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Image src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2" alt="" width={180} height={180} unoptimized className="h-36 w-36 object-contain opacity-40 sm:h-44 sm:w-44" />
+          <div className="absolute inset-0">
+            <Image
+              src={isHome ? "/roster/home-jersey-2026.webp" : "/roster/away-jersey-2026.webp"}
+              alt=""
+              fill
+              unoptimized
+              sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+              className="object-cover object-top opacity-95 transition-transform duration-500 group-hover:scale-[1.035]"
+            />
           </div>
         )}
         {photoAllowed && player.photo_id ? <ApprovedPortrait key={player.photo_id} id={player.photo_id} name={player.name} privateAccess={privateAccess} /> : null}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-4">
           <span className={`rounded-lg px-3 py-1.5 text-[10px] font-black uppercase tracking-[.16em] ${isHome ? "bg-[#D91B2B] text-white" : "bg-white text-neutral-950"}`}>{isHome ? "Home squad" : "Away squad"}</span>
-          <span className="text-4xl font-black tabular-nums tracking-[-.07em] text-white drop-shadow-xl">{number}</span>
+          <span className="rounded-xl border border-white/20 bg-black/75 px-3 py-1.5 text-3xl font-black tabular-nums tracking-[-.06em] text-white shadow-lg sm:text-4xl">{number}</span>
         </div>
         <div className="absolute inset-x-0 bottom-0 p-5">
           <div className="mb-2 flex items-center gap-2">
@@ -148,7 +155,7 @@ function PlayerCard({ player, kit, privateAccess }: { player: Player; kit: Kit; 
         </div>
       </div>
       <div className="flex min-h-14 items-center justify-between gap-3 border-t border-neutral-200 px-5 py-3">
-        <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-500">{photoAllowed ? "Player profile" : "Photo not published"}</span>
+        <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-500">{photoAllowed ? "Approved player portrait" : "Official match jersey"}</span>
         {player.can_edit ? (
           <Link href={privateAccess ? "/portal/players" : "/login"} className="inline-flex min-h-11 items-center gap-1.5 text-xs font-black uppercase text-red-700 hover:text-red-900">Manage <ArrowUpRight size={15} aria-hidden="true" /></Link>
         ) : <span className="text-xs font-black uppercase text-neutral-800">#{number}</span>}
