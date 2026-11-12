@@ -477,3 +477,7 @@ textarea.field {
  }
 }
 @media(prefers-reduced-motion:reduce) { .portal-nav-item {transition:none;} }
+
+/* Restored private photo viewer for authenticated team members. */
+.private-photo-dialog{margin:auto;width:min(980px,calc(100% - 24px));max-height:95dvh;overflow:auto;padding:20px;border:0;border-radius:18px;background:#fff;color:#171717;box-shadow:0 18px 60px #0004;}
+.private-photo-dialog::backdrop{background:#0009;}
