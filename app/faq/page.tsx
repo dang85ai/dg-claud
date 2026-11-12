@@ -1,88 +1,93 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
+import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
 
 export const metadata: Metadata = {
   title: "Parent FAQ",
-  description: "Frequently asked questions for Caledon United FC 2018 Girls families, including training, Spond invitations, attendance and team guidelines for 2026–27.",
+  description: "Helpful answers for Caledon United FC 2018 Girls families about Spond, games, training, kit requests, privacy and contacting the team.",
   alternates: { canonical: "/faq" }
 };
 
 const faqs = [
-  { q: "Where do I RSVP and check changes?", a: "Respond in your Spond invite when attendance is requested. Check the latest invite and team messages before leaving. Portal attendance updates should not be assumed to update Spond. If details disagree, ask the team manager." },
-  { q: "Where is training?", a: "Tuesday venue information is still to be confirmed. Wednesday sessions name St Cornelius Gym, but a verified street address has not been supplied. Confirm the address, entrance, parking and indoor footwear in your invite. The club office is not the training venue." },
-  { q: "How does U9 soccer work?", a: "The team emphasizes development, confidence, teamwork and enjoyment. Match format, substitutions, goalkeeper rotation and the playing-time approach depend on the team’s confirmed program. Ask the coach for the rules that apply to this team; these details will be added once confirmed." },
   {
-    q: "What if my player misses practice?",
-    a: "Reply to the Spond invite when attendance is requested and let the team know early. Use available portal attendance tools as directed by the manager; a portal update should not be assumed to update Spond."
+    q: "Where can I find the latest team schedule?",
+    a: "Check the public team schedule for planning. Your Spond invitation and manager messages are the source of truth for confirmed times, venues, cancellations and RSVP requests."
   },
   {
-    q: "What if we're late to a game?",
-    a: "Contact the team manager or coach through the team communication channel. When you arrive, follow the coach's direction for joining warm-up or play."
+    q: "How do I confirm attendance or report an absence?",
+    a: "Respond to your Spond event invitation when an RSVP is requested. Let the team manager know early about absences or late arrivals. Updates in other website tools should not be assumed to update Spond."
   },
   {
-    q: "Can my player play other sports?",
-    a: "The team supports clear communication around schedule conflicts. Share known conflicts early so coaches can plan."
+    q: "Where do training sessions and games take place?",
+    a: "Venues can change during the indoor season. Follow the location and arrival instructions in your latest Spond invitation rather than relying on a saved address or an old event."
   },
   {
-    q: "What's the refund policy?",
-    a: "The official club refund policy is linked under Parents → Official club resources. Policies differ by program; contact the club about competitive refunds and confirm which policy applies to your registration."
+    q: "What should a player bring to training?",
+    a: "Bring appropriate footwear, shin guards, water and the teamwear requested by your coach. Check the event message for indoor footwear, ball requirements or venue-specific rules."
   },
   {
-    q: "How is playing time decided?",
-    a: "The U9 program is development-focused. The final team playing-time approach will follow the coach and club policy once confirmed."
+    q: "How does the team approach player development?",
+    a: "The 2018 Girls team focuses on ball skills, confidence, teamwork and game understanding. Players are encouraged to explore different roles; lineups and game formats follow the confirmed competition rules."
   },
   {
-    q: "What if there's a conflict with a coach or parent?",
-    a: "Start with respectful direct communication or contact the team manager. If the issue cannot be resolved at team level, use the club's formal escalation process."
+    q: "How do I request a jersey or other kit items?",
+    a: "Browse the Team Kit page to see the designs, then use the separate Kit Request form to select items and sizes. The request is for team review only; it does not confirm an order or collect payment."
   },
   {
-    q: "Are there tryouts?",
-    a: "The 2026 placement and registration process will be published once the club's confirmed U9 process is available."
+    q: "Who can see player names and photographs?",
+    a: "Public player profiles and photographs depend on guardian consent. Authenticated family accounts may see additional information when authorized. Contact the team to ask about consent changes or removal."
   },
   {
-    q: "What if my player needs a break?",
-    a: "Tell the coach. Player well-being comes before the result of a single practice or game."
+    q: "Where can I find official club rules and policies?",
+    a: "Use the official club resources linked from Parent Resources for registration and refund policies. Always confirm which rules apply to your competition and season."
+  },
+  {
+    q: "Who should I contact with a team concern?",
+    a: "Contact the team using the official email address. For urgent safety matters, follow the venue and club's emergency procedures. In an emergency, call 911."
   }
 ];
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((item) => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: item.a
-    }
-  }))
-};
 
 export default function FaqPage() {
   return (
     <PublicShell>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <DevelopmentBanner />
       <PublicPageHero
-        eyebrow="Parent FAQ"
-        title="Quick Answers"
-        copy="Answers for the 2026–27 training season. Team-specific rules and locations are marked pending where confirmation is needed."
+        eyebrow="Family Resources · 2026–27"
+        title="Parent Questions, Answered"
+        copy="Practical information for the Caledon United FC 2018 Girls season. Spond and official club communications remain the sources for confirmed operational details."
       />
       <section className="section">
         <div className="container max-w-4xl">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-black p-5 text-white">
+            <p className="text-sm leading-6 text-white/80">Need the latest time or venue? Check your Spond invitation before leaving.</p>
+            <Link href="/schedule" className="btn btn-primary">Team Schedule</Link>
+          </div>
           <div className="grid gap-3">
-            {faqs.map((item) => (
-              <details key={item.q} className="card p-5">
-                <summary className="cursor-pointer text-lg font-black">{item.q}</summary>
-                <p className="mt-3 text-sm leading-6 text-neutral-600">{item.a}</p>
+            {faqs.map(({q,a})=>(
+              <details key={q} className="card group p-5">
+                <summary className="cursor-pointer text-lg font-black leading-snug marker:text-red-600">{q}</summary>
+                <p className="mt-4 text-sm leading-7 text-neutral-600">{a}</p>
               </details>
             ))}
+          </div>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <Link href="/parents" className="card p-6 transition hover:border-red-500">
+              <h2 className="text-lg font-black uppercase">Parent Resources</h2>
+              <p className="mt-2 text-sm leading-6 text-neutral-600">Game-day preparation, player development, weather guidance and club information.</p>
+            </Link>
+            <Link href="/kit" className="card p-6 transition hover:border-red-500">
+              <h2 className="text-lg font-black uppercase">Team Kit & Accessories</h2>
+              <p className="mt-2 text-sm leading-6 text-neutral-600">Explore official uniform illustrations and the separate request form.</p>
+            </Link>
+          </div>
+          <div className="notice mt-8 text-sm leading-7">
+            Still need an answer? Email <a href={TEAM_EMAIL_HREF} className="font-black text-red-700 underline">{TEAM_EMAIL}</a>.
           </div>
         </div>
       </section>
     </PublicShell>
   );
 }
-

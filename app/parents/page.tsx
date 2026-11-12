@@ -5,6 +5,8 @@ import {
   CircleHelp,
   ClipboardList,
   HeartHandshake,
+  Shirt,
+  Mail,
   Trophy
 } from "lucide-react";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
@@ -37,10 +39,22 @@ const resources = [
     text: "Player and parent expectations focused on respect, sportsmanship and constructive communication."
   },
   {
+    href: "/kit",
+    Icon: Shirt,
+    title: "Uniforms & Accessories",
+    text: "See the red home and white away kits, tracksuit, jacket and backpack before requesting items."
+  },
+  {
+    href: "/order",
+    Icon: Mail,
+    title: "Teamwear Request",
+    text: "Send the team a request for kit items and sizes. The request does not collect payment or place an order."
+  },
+  {
     href: "/end-of-season",
     Icon: Trophy,
     title: "End of Season",
-    text: "Season recap, recognition, banquet information and thank-you notes once the season wraps."
+    text: "A recap, appreciation and celebration hub will be updated when the season concludes."
   }
 ];
 

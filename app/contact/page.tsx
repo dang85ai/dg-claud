@@ -4,22 +4,13 @@ import { FormEvent, useState } from "react";
 import {
   AlertTriangle,
   Building2,
-  Mail,
-  Users
+  Mail
 } from "lucide-react";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { endpoints, publicFetch } from "@/lib/api";
 import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
-
-const contacts = [
-  { role: "Head Coach", contact: "To be published" },
-  { role: "Assistant Coach", contact: "To be published" },
-  { role: "Team Manager", contact: TEAM_EMAIL },
-  { role: "Club Registrar", contact: "To be verified" },
-  { role: "Field Coordinator", contact: "To be verified" }
-];
 
 export default function ContactPage() {
   const [status, setStatus] = useState("");
@@ -122,21 +113,14 @@ export default function ContactPage() {
             </aside>
           </div>
 
-          <section className="mt-8 card overflow-hidden">
-            <div className="bg-black p-5 text-white">
-              <div className="flex items-center gap-3">
-                <Users className="text-red-500" />
-                <h2 className="text-2xl font-black uppercase">Key Contacts</h2>
-              </div>
-            </div>
-            <div className="grid gap-px bg-neutral-200 md:grid-cols-5">
-              {contacts.map((item) => (
-                <div key={item.role} className="bg-white p-5">
-                  <div className="text-xs font-black uppercase tracking-wide text-red-600">{item.role}</div>
-                  <div className="mt-2 break-words text-sm font-bold text-neutral-700">{item.contact}</div>
-                </div>
-              ))}
-            </div>
+          <section className="mt-8 rounded-3xl bg-black p-7 text-white md:p-9">
+            <h2 className="text-2xl font-black uppercase">One official team contact</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/75">
+              For parent questions, team arrangements and sponsorship discussions, use the official team inbox. The team will direct club-specific enquiries to the appropriate contact.
+            </p>
+            <a href={TEAM_EMAIL_HREF} className="mt-5 inline-flex min-h-11 items-center gap-2 break-all text-base font-black text-white underline decoration-red-500 underline-offset-4">
+              <Mail size={19} aria-hidden="true" /> {TEAM_EMAIL}
+            </a>
           </section>
 
           <div className="notice mt-8 flex items-start gap-3">
