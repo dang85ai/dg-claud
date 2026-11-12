@@ -13,15 +13,24 @@ const parentGroups: Group[] = [
   {label:"Dashboard",href:"/portal",icon:Home},
   {label:"My Players",href:"/portal/players",icon:Users},
   {label:"Team Schedule",href:"/portal/schedule",icon:CalendarDays},
+  {label:"Schedule & Attendance",href:"/portal/activity/attendance",icon:CalendarDays},
   {label:"Training",href:"/portal/training",icon:BookOpenCheck}
  ]},
  { heading: "Family Tools", items: [
   {label:"Parent Tools",href:"/portal/tools",icon:ClipboardList},
   {label:"Forms & Consent",href:"/portal/tools#consent",icon:ClipboardList},
+  {label:"Signed Forms",href:"/portal/activity/forms",icon:ClipboardList},
+  {label:"My Account",href:"/portal/activity/account",icon:UserRound},
+  {label:"Kit & Payments",href:"/portal/activity/payments",icon:Wallet},
+  {label:"Team Budget & Accounts",href:"/portal/finances",icon:Wallet},
   {label:"Team Kit",href:"/kit",icon:Shirt},
   {label:"Kit Request",href:"/order",icon:Package}
  ]},
  { heading: "Team Community", items: [
+  {label:"Photos",href:"/portal/media",icon:Camera},
+  {label:"Game Duties",href:"/portal/activity/duties",icon:ClipboardList},
+  {label:"Carpool",href:"/portal/activity/carpool",icon:Car},
+  {label:"Recognition",href:"/portal/activity/sisterhood",icon:Heart},
   {label:"Spond",href:"https://spond.com/client",external:true,icon:ExternalLink}
  ]}
 ];
@@ -31,20 +40,34 @@ const managerGroups: Group[] = [
   {label:"Team Operations",href:"/admin/operations",icon:SlidersHorizontal},
   {label:"Player Administration",href:"/admin/players",icon:Users},
   {label:"Field & Formation",href:"/admin/formation",icon:ClipboardList},
-  {label:"Spond",href:"/admin/spond",icon:CalendarDays}
+  {label:"Spond",href:"/admin/spond",icon:CalendarDays},
+  {label:"Schedule",href:"/admin/modules/schedule",icon:CalendarDays},
+  {label:"Attendance",href:"/admin/modules/attendance",icon:ClipboardList},
+  {label:"Game Duties",href:"/admin/modules/duties",icon:ClipboardList},
+  {label:"Equipment",href:"/admin/modules/equipment",icon:Package},
+  {label:"Referees",href:"/admin/modules/referees",icon:Users}
  ]},
  {heading:"Families & Accounts",items:[
   {label:"Family Links",href:"/admin/families",icon:Users},
   {label:"Accounts & Invites",href:"/admin/accounts",icon:UserRound},
-  {label:"Parent Tools",href:"/portal/tools",icon:ClipboardList}
+  {label:"Parent Tools",href:"/portal/tools",icon:ClipboardList},
+  {label:"Forms",href:"/admin/modules/forms",icon:ClipboardList},
+  {label:"Payments",href:"/admin/modules/payments",icon:Wallet},
+  {label:"Team Budget & Accounts",href:"/admin/finances",icon:Wallet},
+  {label:"Kit Orders",href:"/admin/modules/orders",icon:Package}
  ]},
  {heading:"Community & Kit",items:[
   {label:"Sponsors",href:"/admin/sponsors",icon:Heart},
+  {label:"Media Library",href:"/admin/media",icon:Camera},
+  {label:"Sisterhood",href:"/admin/modules/sisterhood",icon:Heart},
+  {label:"Announcements",href:"/admin/modules/announcements",icon:Megaphone},
   {label:"Team Kit",href:"/kit",icon:Shirt},
   {label:"Kit Request",href:"/order",icon:Package}
  ]},
  {heading:"Administration",items:[
-  {label:"Management Tools",href:"/admin/manage",icon:SlidersHorizontal}
+  {label:"Management Tools",href:"/admin/manage",icon:SlidersHorizontal},
+  {label:"Team Settings",href:"/admin/modules/settings",icon:SlidersHorizontal},
+  {label:"Data Export",href:"/admin/manage#export",icon:ClipboardList}
  ]}
 ];
 
