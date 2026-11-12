@@ -266,10 +266,28 @@ Deno.serve(async (req: Request) => {
         consent = consentRes.data;
       }
 
+      // Record exists and related consent updates have completed.
+      // Notification failures are logged separately and never reverse the signature.
+      let notificationStatus = "queued";
+      try {
+        const service = JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS") || "{}").default
+          || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+        if(service) {
+          const notify = await fetch(url + "/functions/v1/notification-dispatch", {
+            method:"POST",
+            headers:{"Content-Type":"application/json","Authorization":"Bearer "+service,"apikey":service},
+            body:JSON.stringify({source_id:submission.data.id}),
+            signal:AbortSignal.timeout(8000)
+          });
+          const sent=await notify.json().catch(()=>({}));
+          notificationStatus=String(sent.status || "queued");
+        }
+      } catch { console.error("Signed form email dispatch unavailable; the submission remains saved."); }
       data = {
         submission: submission.data,
         form: templateRes.data,
-        consent
+        consent,
+        notification_status: notificationStatus
       };
     } else if (action === "lost_found.create") {
       const kind = cleanText(input.kind, 20);

@@ -4,6 +4,7 @@ export const endpoints = {
   publicSite: `${SUPABASE_URL}/functions/v1/public-site-data`,
   calendar: `${SUPABASE_URL}/functions/v1/team-calendar`,
   contact: `${SUPABASE_URL}/functions/v1/contact-submit`,
+  notificationDispatch: `${SUPABASE_URL}/functions/v1/notification-dispatch`,
   parentDashboard: `${SUPABASE_URL}/functions/v1/parent-dashboard`,
   adminDashboard: `${SUPABASE_URL}/functions/v1/admin-dashboard`,
   parentActions: `${SUPABASE_URL}/functions/v1/parent-actions`,

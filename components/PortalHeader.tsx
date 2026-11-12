@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X, LogOut, ShieldCheck, ExternalLink, Home, Users, CalendarDays, ClipboardList, BookOpenCheck, Shirt, Package, SlidersHorizontal, Camera, Heart, Wallet, Car, UserRound, Megaphone } from "lucide-react";
+import { Menu, X, LogOut, ShieldCheck, ExternalLink, Home, Users, CalendarDays, ClipboardList, BookOpenCheck, Shirt, Package, SlidersHorizontal, Camera, Heart, Wallet, Car, UserRound, Megaphone, MailCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { ApprovedPageBanner, type ApprovedBannerId } from "@/components/ApprovedPageBanner";
 
@@ -69,6 +69,7 @@ const managerGroups: Group[] = [
  ]},
  {heading:"Administration",items:[
   {label:"Management Tools",href:"/admin/manage",icon:SlidersHorizontal},
+  {label:"Email Notifications",href:"/admin/notifications",icon:MailCheck},
   {label:"Team Settings",href:"/admin/modules/settings",icon:SlidersHorizontal},
   {label:"Data Export",href:"/admin/manage#export",icon:ClipboardList}
  ]}
