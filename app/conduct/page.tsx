@@ -35,7 +35,7 @@ const documentLink="/docs/caledon-soccer-grassroots-code-of-conduct-2026.pdf";
 export default function ConductPage() {
  return <PublicShell>
   <DevelopmentBanner/>
-  <PublicPageHero eyebrow="Caledon Soccer · Grassroots" title="Player & Parent Code of Conduct"
+  <PublicPageHero banner="conduct" eyebrow="Caledon Soccer · Grassroots" title="Player & Parent Code of Conduct"
    copy="Respect • Teamwork • Development • Zero Bullying"/>
   <section className="section">
    <div className="container">

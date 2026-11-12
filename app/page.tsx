@@ -16,6 +16,7 @@ import { NextMatchCard } from "@/components/NextMatchCard";
 import { PublicShell } from "@/components/PublicShell";
 import { SectionHeader } from "@/components/SectionHeader";
 import { PwaRegister } from "@/components/PwaRegister";
+import { ApprovedPageBanner } from "@/components/ApprovedPageBanner";
 
 export const metadata: Metadata = {
   title: { absolute: "Caledon United FC 2018 Girls | 2026–27 Team Hub" },
@@ -29,27 +30,21 @@ export default function HomePage() {
       <DevelopmentBanner />
       <PwaRegister />
 
-      <section className="hero home-hero py-12 md:py-16">
-        <div className="container flex min-h-[430px] items-center md:min-h-[500px]">
-          <div className="home-hero-content">
-            <div className="kicker">Caledon United Football Club</div>
-            <h1 className="display !text-4xl !leading-none md:!text-6xl">
-              Caledon United FC 2018 Girls
-              <span>2026–27 Team Hub</span>
-            </h1>
-            <p className="home-hero-copy text-base text-white/80 md:text-lg">
-              Follow the <strong className="text-white">2026–27 Training Season</strong> with Caledon United FC 2018 Girls.
-              Everything parents need at the field — schedules, team kit, parent information and player-development resources —
-              in one mobile-friendly place for youth soccer in Caledon, Ontario.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/schedule#current-week" className="btn btn-primary">
-                View This Week&apos;s Schedule
-              </Link>
-              <Link href="/login" className="btn home-hero-secondary">
-                Join the Parent Portal
-              </Link>
-            </div>
+      <ApprovedPageBanner banner="home" heading="Caledon United FC 2018 Girls — 2026–27 Team Hub" asHeading />
+      <section className="border-t border-white/10 bg-neutral-950 text-white">
+        <div className="container flex flex-wrap items-center justify-between gap-6 py-7">
+          <p className="max-w-3xl text-sm leading-6 text-white/80 md:text-base">
+            Follow the <strong className="text-white">2026–27 Training Season</strong> with Caledon United FC 2018 Girls.
+            Everything parents need at the field — schedules, team kit, parent information and
+            player-development resources — in one mobile-friendly place for youth soccer in Caledon, Ontario.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/schedule#current-week" className="btn btn-primary">
+              View This Week&apos;s Schedule
+            </Link>
+            <Link href="/login" className="btn home-hero-secondary">
+              Join the Parent Portal
+            </Link>
           </div>
         </div>
       </section>

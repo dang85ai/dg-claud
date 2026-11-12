@@ -481,3 +481,16 @@ textarea.field {
 /* Restored private photo viewer for authenticated team members. */
 .private-photo-dialog{margin:auto;width:min(980px,calc(100% - 24px));max-height:95dvh;overflow:auto;padding:20px;border:0;border-radius:18px;background:#fff;color:#171717;box-shadow:0 18px 60px #0004;}
 .private-photo-dialog::backdrop{background:#0009;}
+
+
+/* Approved 2026–27 image banners: preserve parent/admin fixed-sidebar geometry. */
+@media (min-width:1024px) {
+ .approved-page-banner--portal {
+  margin-left:278px;
+  width:calc(100% - 298px);
+  max-width:1500px;
+ }
+}
+@media print {
+ .approved-page-banner {display:none!important;}
+}

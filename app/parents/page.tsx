@@ -62,7 +62,7 @@ export default function ParentsPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="parent-portal"
         eyebrow="Parent Resources"
         title="Everything Around the Game"
         copy="Practical information for game day, player development, team expectations and the season journey."

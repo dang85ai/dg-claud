@@ -28,7 +28,7 @@ export default function RosterPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="roster"
         eyebrow="Caledon United FC · 2018 Girls"
         title="Meet the Team"
         copy="Get to know our 2026–27 squad and the people supporting them. Explore our red home and white away kit while respecting every family's photo and privacy choices."

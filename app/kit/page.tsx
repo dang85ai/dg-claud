@@ -57,7 +57,7 @@ export default function KitPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="kit"
         eyebrow="Caledon United FC · 2018 Girls"
         title="Team Kit & Accessories"
         copy="Explore the 2026–27 teamwear collection. These illustrations show the planned look, club crest and personalization positions — not a price list or confirmed supplier order."

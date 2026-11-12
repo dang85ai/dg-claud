@@ -1,12 +1,25 @@
+import { ApprovedPageBanner, type ApprovedBannerId } from "@/components/ApprovedPageBanner";
+
 export function PublicPageHero({
-  eyebrow,
-  title,
-  copy
+  eyebrow, title, copy, banner
 }: {
   eyebrow: string;
   title: string;
   copy: string;
+  banner?: ApprovedBannerId;
 }) {
+  if (banner) {
+    return (
+      <>
+        <ApprovedPageBanner banner={banner} heading={title} description={copy} asHeading />
+        <div className="border-b border-neutral-200 bg-white">
+          <div className="container py-5">
+            <p className="max-w-4xl text-sm leading-6 text-neutral-700 md:text-base">{copy}</p>
+          </div>
+        </div>
+      </>
+    );
+  }
   return (
     <section className="hero py-14 md:py-20">
       <div className="container">

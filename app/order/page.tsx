@@ -118,7 +118,7 @@ export default function OrderPage() {
 
   return (
     <PublicShell>
-      <PublicPageHero
+      <PublicPageHero banner="kit"
         eyebrow="Caledon United FC · 2018 Girls"
         title="Team Kit Request"
         copy="Tell us which uniform pieces and accessories you would like and the sizes you need. This is a request for team review — not a purchase or payment."

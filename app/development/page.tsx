@@ -30,7 +30,7 @@ export default function DevelopmentPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="training"
         eyebrow="2026 Player Development"
         title="Fun First. Growth Always."
         copy="At U9, the emphasis is on fundamental skills, confidence, teamwork, sportsmanship, game understanding and building a lasting love of soccer."

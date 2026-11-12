@@ -15,7 +15,7 @@ export default function MediaPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="media"
         eyebrow="Team Media"
         title="Photos & Game Recaps"
         copy="A consent-controlled gallery for approved team memories, organized by event throughout the season."

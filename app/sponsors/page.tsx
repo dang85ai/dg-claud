@@ -6,6 +6,7 @@ import { ArrowRight, CheckCircle2, Heart, Mail, ShieldCheck, Shirt, Trophy, User
 import { PublicShell } from "@/components/PublicShell";
 import { SponsorshipInquiryForm } from "@/components/SponsorshipInquiryForm";
 import { SponsorPlacementHighlight } from "@/components/SponsorLogoBanner";
+import { ApprovedPageBanner } from "@/components/ApprovedPageBanner";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase-public";
 
 export const dynamic = "force-dynamic";
@@ -61,10 +62,11 @@ export default async function SponsorsPage() {
   const available = offers.filter((offer) => offer.availability === "available");
   return (
     <PublicShell>
+      <ApprovedPageBanner banner="sponsors" />
       <section className="relative isolate overflow-hidden bg-black text-white">
         <div className="pointer-events-none absolute -right-24 -top-40 size-[550px] rounded-full bg-red-700/30 blur-[125px]" />
         <div className="pointer-events-none absolute -bottom-60 left-1/4 size-[520px] rounded-full bg-red-800/20 blur-[110px]" />
-        <div className="container relative grid items-center gap-9 py-14 lg:grid-cols-[1fr_320px] lg:py-20">
+        <div className="container relative grid items-center gap-9 py-9 lg:grid-cols-[1fr_320px] lg:py-12">
           <div>
             <div className="text-sm font-black uppercase tracking-[.19em] text-red-400">Caledon United FC 2018 Girls</div>
             <div className="mt-4 inline-block bg-red-600 px-4 py-2 text-xs font-black uppercase tracking-[.18em] text-white">
