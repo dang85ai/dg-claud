@@ -6,6 +6,7 @@ import Link from "next/link";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
+import { ApprovedRosterPhoto, ParentRosterPhotoUploader, PendingRosterPhotoReview } from "@/components/RosterPhotoTools";
 
 type ParentLink = { guardian_id: string; name: string; relationship: string | null };
 type Player = {
@@ -19,7 +20,7 @@ type RosterRequest = {
   requested_by: string; player_id: string | null; requested_at: string;
   relationship: string | null; verification_info: string | null;
 };
-type PhotoRequest = { id: string; player_id: string; status: string };
+type PhotoRequest = { id: string; player_id: string; media_id: string; status: string };
 type RosterData = {
   manager: boolean;
   players: Player[];
@@ -215,6 +216,8 @@ export function RosterWorkspace({ mode }: { mode: Mode }) {
                         }}>Archive</button> : null}
                       </div>
                     </form> : <p className="text-sm text-neutral-600">Your account has read-only access to this player.</p>}
+                    {p.photo_id ? <ApprovedRosterPhoto id={p.photo_id} name={p.name} /> : null}
+                    {!managerPage && p.can_edit && p.active ? <ParentRosterPhotoUploader playerId={p.id} playerName={p.name} consent={p.photo_consent} onUploaded={() => void load()} /> : null}
                     {managerPage ? <div className="mt-4 border-t border-neutral-200 pt-4 text-xs text-neutral-600">
                       <div>Profile consent: {p.name_consent ? "Granted" : "Not granted"} · Photo consent: {p.photo_consent ? "Granted" : "Not granted"}</div>
                       <div className="mt-2">Family: {p.parents.length ? p.parents.map((parent) => parent.name).join(", ") : "Not linked"}</div>
@@ -248,18 +251,17 @@ export function RosterWorkspace({ mode }: { mode: Mode }) {
               </section>
               <section className="card mt-6 p-6">
                 <h2 className="text-2xl font-black uppercase">Profile Photos Awaiting Review</h2>
-                {roster.photo_requests.length ? roster.photo_requests.map((request) => {
+                {roster.photo_requests.length ? <div className="mt-4 grid gap-4">{roster.photo_requests.map((request) => {
                   const player = players.find((p) => p.id === request.player_id);
-                  return <div key={request.id} className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4">
-                    <span className="font-bold">{player?.name || "Player"} · Photo submission</span>
-                    <div className="flex gap-2">
-                      <button disabled={busy || !player?.photo_consent} className="btn btn-primary" onClick={() => {
-                        if (window.confirm("Have you reviewed both public profile and photo consent and the processed image?")) void action("photo.review", { request_id: request.id, status: "approved", consent_reviewed: true });
-                      }}>Approve</button>
-                      <button disabled={busy} className="btn btn-light" onClick={() => void action("photo.review", { request_id: request.id, status: "rejected" })}>Reject</button>
-                    </div>
-                  </div>;
-                }) : <p className="mt-4 text-sm text-neutral-600">No photos awaiting review.</p>}
+                  return <PendingRosterPhotoReview
+                    key={request.id} request={request} playerName={player?.name || "Player"}
+                    photoConsent={Boolean(player?.photo_consent)} disabled={busy}
+                    onReview={(decision, confirmed) => {
+                      if (decision === "rejected" && !window.confirm("Reject this roster portrait?")) return;
+                      if (decision === "approved" && !window.confirm("Approve the reviewed and consent-verified roster portrait?")) return;
+                      void action("photo.review", { request_id: request.id, status: decision, consent_reviewed: confirmed });
+                    }} />;
+                })}</div> : <p className="mt-4 text-sm text-neutral-600">No photos awaiting review.</p>}
               </section>
             </> : <section className="card mt-8 p-6">
               <h2 className="text-2xl font-black uppercase">Request a Family Link</h2>
