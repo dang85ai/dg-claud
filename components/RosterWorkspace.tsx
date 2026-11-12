@@ -30,6 +30,7 @@ type RosterData = {
 };
 type Mode = "management" | "parent" | "formation";
 const formationSlots: Record<string, string[]> = {
+  "1-1-2-1": ["GK", "CB", "LM", "RM", "ST"],
   "1-2-1-1": ["GK", "LB", "RB", "CM", "ST"],
   "1-2-2": ["GK", "LB", "RB", "LS", "RS"],
   "1-3-2-1": ["GK", "LB", "CB", "RB", "LM", "RM", "ST"],
@@ -45,7 +46,7 @@ export function RosterWorkspace({ mode }: { mode: Mode }) {
   const [roster, setRoster] = useState<RosterData | null>(null);
   const [status, setStatus] = useState("Loading roster…");
   const [busy, setBusy] = useState(false);
-  const [formName, setFormName] = useState("1-2-1-1");
+  const [formName, setFormName] = useState("1-1-2-1");
   const [showNames, setShowNames] = useState(true);
   const [assignments, setAssignments] = useState<Record<string, string>>({});
   const [reviewTargets, setReviewTargets] = useState<Record<string, string>>({});
@@ -54,7 +55,7 @@ export function RosterWorkspace({ mode }: { mode: Mode }) {
     const result = await authedFetch<RosterData>(endpoints.rosterApi + "?private=true");
     if (managerPage && !result.manager) throw new Error("Manager access with MFA is required.");
     setRoster(result);
-    setFormName(result.formation?.name || "1-2-1-1");
+    setFormName(result.formation?.name || "1-1-2-1");
     setShowNames(result.formation?.show_names ?? true);
     setAssignments(Object.fromEntries(result.players.filter((p) => p.slot).map((p) => [p.slot as string, p.id])));
   }, [managerPage]);
@@ -118,7 +119,7 @@ export function RosterWorkspace({ mode }: { mode: Mode }) {
 
   const players = roster?.players || [];
   const pending = roster?.requests.filter((r) => r.status === "pending") || [];
-  const slots = formationSlots[formName] || formationSlots["1-2-1-1"];
+  const slots = formationSlots[formName] || formationSlots["1-1-2-1"];
 
   return (
     <div className="min-h-screen bg-neutral-100">
@@ -142,7 +143,7 @@ export function RosterWorkspace({ mode }: { mode: Mode }) {
         {!roster ? null : mode === "formation" ? (
           <section className="card mt-8 p-6">
             <h2 className="text-2xl font-black uppercase">Squad Shape</h2>
-            <p className="mt-2 text-sm text-neutral-600">Players can appear in only one position. Saving replaces the current formation assignments.</p>
+            <p className="mt-2 text-sm text-neutral-600">5v5 triangle/diamond: one goalkeeper, one central defender, left and right midfielders, and one striker. Players can appear in only one position. Saving replaces the current formation assignments.</p>
             <form className="mt-6" onSubmit={(e) => {
               e.preventDefault();
               const selected = Object.fromEntries(Object.entries(assignments).filter(([key, value]) => slots.includes(key) && value));
@@ -154,14 +155,14 @@ export function RosterWorkspace({ mode }: { mode: Mode }) {
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="field-group"><span className="field-label">Formation</span>
                   <select className="field" value={formName} onChange={(e) => { setFormName(e.target.value); setAssignments({}); }}>
-                    {Object.keys(formationSlots).map((name) => <option key={name} value={name}>{name} ({formationSlots[name].length} players)</option>)}
+                    {Object.keys(formationSlots).map((name) => <option key={name} value={name}>{name === "1-1-2-1" ? "5v5 Diamond: GK · CB · LM · RM · ST" : `${name} (${formationSlots[name].length} players)`}</option>)}
                   </select>
                 </label>
                 <label className="flex items-center gap-3 text-sm font-bold"><input type="checkbox" checked={showNames} onChange={(e) => setShowNames(e.target.checked)} /> Show player names</label>
               </div>
               <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {slots.map((slot) => <label key={slot} className="rounded-2xl border border-neutral-200 p-4">
-                  <span className="field-label">{slot}</span>
+                  <span className="field-label">{({GK:"Goalkeeper",CB:"Central Defender",LM:"Left Midfielder",RM:"Right Midfielder",ST:"Striker"} as Record<string,string>)[slot] || slot} ({slot})</span>
                   <select className="field" value={assignments[slot] || ""} onChange={(e) => setAssignments((v) => ({ ...v, [slot]: e.target.value }))}>
                     <option value="">Unassigned</option>
                     {players.filter((p) => p.active).map((p) => <option key={p.id} value={p.id}>{p.name} {p.number !== null ? "#" + p.number : ""}</option>)}
