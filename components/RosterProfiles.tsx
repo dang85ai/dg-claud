@@ -33,6 +33,12 @@ type RosterSnapshot = {
 
 type Kit = "home" | "away";
 const formationSlots: Record<string, Array<{ slot: string; x: number; y: number }>> = {
+  // Five on the field: goalkeeper, central defender, two midfielders and striker.
+  "1-1-2-1": [
+    { slot: "GK", x: 50, y: 87 }, { slot: "CB", x: 50, y: 68 },
+    { slot: "LM", x: 27, y: 44 }, { slot: "RM", x: 73, y: 44 },
+    { slot: "ST", x: 50, y: 18 }
+  ],
   "1-2-1-1": [
     { slot: "GK", x: 50, y: 86 }, { slot: "LB", x: 27, y: 62 },
     { slot: "RB", x: 73, y: 62 }, { slot: "CM", x: 50, y: 40 },
@@ -167,8 +173,8 @@ function PlayerCard({ player, kit, privateAccess }: { player: Player; kit: Kit; 
 }
 
 function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot | null; privateAccess: boolean }) {
-  const name = snapshot?.formation?.name || "1-2-1-1";
-  const slots = formationSlots[name] || formationSlots["1-2-1-1"];
+  const name = snapshot?.formation?.name || "1-1-2-1";
+  const slots = formationSlots[name] || formationSlots["1-1-2-1"];
   const canShowNames = snapshot?.formation?.show_names ?? false;
   const [selected, setSelected] = useState<Player | null>(null);
 
@@ -182,7 +188,7 @@ function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot 
         </div>
         <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-center">
           <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Formation</p>
-          <p className="mt-1 text-lg font-black text-neutral-900">{name}</p>
+          <p className="mt-1 text-lg font-black text-neutral-900">{name === "1-1-2-1" ? "5v5 · 1–2–1 Diamond" : name}</p>
         </div>
       </div>
       <div className="grid gap-7 p-4 sm:p-7 lg:grid-cols-[minmax(0,1fr)_260px]">
