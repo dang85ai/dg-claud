@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, LockKeyhole, RotateCcw, ShieldCheck, Shirt, Users } from "lucide-react";
 import { authedFetch, endpoints, publicFetch } from "@/lib/api";
 import { SUPABASE_PUBLISHABLE_KEY, supabase } from "@/lib/supabase";
+import { PlayerCardDownload } from "@/components/PlayerCardDownload";
 
 type Player = {
   id: string;
@@ -160,6 +161,7 @@ function PlayerCard({ player, kit, privateAccess }: { player: Player; kit: Kit; 
           <Link href={privateAccess ? "/portal/players" : "/login"} className="inline-flex min-h-11 items-center gap-1.5 text-xs font-black uppercase text-red-700 hover:text-red-900">Manage <ArrowUpRight size={15} aria-hidden="true" /></Link>
         ) : <span className="text-xs font-black uppercase text-neutral-800">#{number}</span>}
       </div>
+      {privateAccess && player.can_edit ? <PlayerCardDownload player={player} kit={kit} /> : null}
     </article>
   );
 }
@@ -168,6 +170,7 @@ function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot 
   const name = snapshot?.formation?.name || "1-2-1-1";
   const slots = formationSlots[name] || formationSlots["1-2-1-1"];
   const canShowNames = snapshot?.formation?.show_names ?? false;
+  const [selected, setSelected] = useState<Player | null>(null);
 
   return (
     <section className="mt-12 overflow-hidden rounded-[30px] border border-neutral-200 bg-white shadow-sm">
@@ -193,12 +196,23 @@ function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot 
           <div className="absolute left-[29%] right-[29%] top-[5%] h-[14%] border-x-2 border-b-2 border-white/40" aria-hidden="true" />
           <div className="absolute bottom-[5%] left-[29%] right-[29%] h-[14%] border-x-2 border-t-2 border-white/40" aria-hidden="true" />
           {slots.map(({ slot, x, y }) => {
-            const player = snapshot?.players.find((p) => p.slot === slot && p.active);
-            const showName = player && (privateAccess || (player.public_visible && player.name_consent)) && canShowNames;
+            const player = snapshot?.players.find(p => p.slot === slot && p.active);
+            const showName = Boolean(player && canShowNames && (privateAccess || (player.public_visible && player.name_consent)));
+            const photoAllowed = Boolean(player?.photo_id && (privateAccess || player.photo_consent) && (privateAccess || canShowNames));
             return (
-              <div key={slot} className="absolute z-10 flex w-28 max-w-[29%] -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center" style={{ left: `${x}%`, top: `${y}%` }}>
-                <div className="grid h-11 w-11 place-items-center rounded-xl border-2 border-white/90 bg-[#D71930] text-xs font-black text-white shadow-[0_7px_18px_rgba(0,0,0,.35)] sm:h-14 sm:w-14 sm:text-sm">{slot}</div>
-                {showName ? <span className="mt-1.5 max-w-full truncate rounded-md bg-[#0B1010]/90 px-2 py-1 text-[10px] font-bold text-white sm:text-xs">{player.name}</span> : null}
+              <div key={slot} className="absolute z-10 flex w-28 max-w-[29%] -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center"
+                style={{left:x+"%",top:y+"%"}}>
+                <button type="button" className="flex min-h-14 w-full flex-col items-center rounded-xl text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-300"
+                  aria-label={showName&&player?player.name+" · "+slot:"Position "+slot}
+                  onClick={()=>setSelected(showName&&player?player:null)}>
+                  <span className="relative grid h-12 w-12 place-items-center overflow-hidden rounded-full border-2 border-white bg-[#D71930] text-sm font-black text-white shadow-lg sm:h-16 sm:w-16">
+                    {photoAllowed && player?.photo_id
+                      ? <ApprovedPortrait id={player.photo_id} name={player.name} privateAccess={privateAccess}/>
+                      : <span>{player?.number===null || !player ? slot : player.number}</span>}
+                  </span>
+                  {showName&&player?<span className="mt-1.5 max-w-full truncate rounded-md bg-[#0B1010]/90 px-2 py-1 text-[10px] font-bold text-white sm:text-xs">{player.name}</span>:null}
+                  <span className="mt-1 text-[10px] font-bold text-white">{slot}</span>
+                </button>
               </div>
             );
           })}
@@ -209,6 +223,14 @@ function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot 
             <p className="mt-3 text-xl font-black uppercase leading-snug text-neutral-900">Every player learns every part of the game.</p>
             <p className="mt-3 text-sm leading-6 text-neutral-600">This board is a formation reference—not a fixed starting lineup or a player ranking.</p>
           </div>
+          {selected ? (
+            <div className="rounded-xl border border-red-200 bg-white p-4 text-sm">
+              <p className="text-xs font-black uppercase text-red-700">Selected player</p>
+              <p className="mt-2 font-black">{selected.name}{selected.number===null?"":" · #"+selected.number}</p>
+              <p className="mt-1 text-neutral-600">{selected.position || "Rotating positions"}</p>
+              <button className="mt-3 text-xs font-bold underline" onClick={()=>setSelected(null)}>Close details</button>
+            </div>
+          ) : <p className="text-xs text-neutral-600">Tap an assigned, approved player marker to view details. Empty markers remain unassigned.</p>}
           <div className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-xs font-semibold text-neutral-700">
             <span className="h-4 w-4 rounded bg-[#D71930]" aria-hidden="true" />
             Positions are shown in red
