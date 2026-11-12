@@ -20,6 +20,7 @@ const parentGroups: Group[] = [
   {label:"Parent Tools",href:"/portal/tools",icon:ClipboardList},
   {label:"Forms & Consent",href:"/portal/tools#consent",icon:ClipboardList},
   {label:"Signed Forms",href:"/portal/activity/forms",icon:ClipboardList},
+  {label:"Code of Conduct Sign-Off",href:"/portal/conduct",icon:ClipboardList},
   {label:"My Account",href:"/portal/activity/account",icon:UserRound},
   {label:"Kit & Payments",href:"/portal/activity/payments",icon:Wallet},
   {label:"Team Budget & Accounts",href:"/portal/finances",icon:Wallet},
@@ -52,6 +53,7 @@ const managerGroups: Group[] = [
   {label:"Accounts & Invites",href:"/admin/accounts",icon:UserRound},
   {label:"Parent Tools",href:"/portal/tools",icon:ClipboardList},
   {label:"Forms",href:"/admin/modules/forms",icon:ClipboardList},
+  {label:"Conduct Sign-Offs",href:"/admin/conduct",icon:ClipboardList},
   {label:"Payments",href:"/admin/modules/payments",icon:Wallet},
   {label:"Team Budget & Accounts",href:"/admin/finances",icon:Wallet},
   {label:"Kit Orders",href:"/admin/modules/orders",icon:Package}

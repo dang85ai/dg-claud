@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Instagram } from "lucide-react";
 import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
 import { SponsorLogoBanner } from "@/components/SponsorLogoBanner";
 
@@ -23,6 +24,7 @@ export function Footer() {
         <div>
           <div className="font-black uppercase tracking-wide">Contact</div>
           <a href={TEAM_EMAIL_HREF} className="mt-3 block text-sm font-bold hover:text-red-400">{TEAM_EMAIL}</a>
+          <a href="https://www.instagram.com/caledonunitedfc2018girls/" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-white/80 hover:text-red-400"><Instagram size={20} aria-hidden="true"/> @caledonunitedfc2018girls</a>
         </div>
 
         <div>

@@ -208,6 +208,7 @@ export default function ParentToolsPage() {
           <p className="mt-3 max-w-2xl text-neutral-600">
             Forms and family actions are restricted to your linked player records.
           </p>
+          <a href="/portal/conduct" className="btn btn-light mt-5"><ClipboardSignature size={18}/> Sign the Player &amp; Parent Code of Conduct</a>
         </div>
 
         {status ? <div className="notice mt-6 text-sm">{status}</div> : null}
