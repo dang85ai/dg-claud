@@ -64,6 +64,22 @@ for(const [path, key] of [
  ["app/order/page.tsx","kit"]
 ]) check(path,['banner="'+key+'"']);
 
+// Email workflow regression coverage: ensure the backend and manager UI remain present.
+for (const name of [
+ "app/admin/notifications/page.tsx",
+ "migrations/20261112_email_notification_outbox.sql",
+ "supabase/functions/notification-dispatch/index.ts",
+ "supabase/functions/resend-delivery-webhook/index.ts",
+ "supabase/functions/contact-submit/index.ts",
+ "supabase/functions/parent-onboarding/index.ts",
+ "supabase/functions/parent-actions/index.ts"
+]) assert.ok(existsSync(name),"Email workflow file missing: "+name);
+check("components/PortalHeader.tsx",["/admin/notifications"]);
+check("lib/api.ts",["notificationDispatch"]);
+check("supabase/functions/notification-dispatch/index.ts",["Idempotency-Key","RESEND_API_KEY","needs_setup","provider_configured"]);
+check("supabase/functions/contact-submit/index.ts",["notification_status","girlsoccer2018@gmail.com"]);
+check("supabase/functions/parent-onboarding/index.ts",["email_accepted","manual_link"]);
+
 assert.ok(!existsSync("lib/team-squad.ts"),"Do not republish October's hard-coded minor roster");
 console.log("Restoration source checks passed ("+needed.length+" files and role/consent guards).");
 console.log("NOTE: browser interaction, parental consent and MFA-account E2E still require real test sessions.");

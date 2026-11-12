@@ -110,6 +110,7 @@ export default function AdminPage() {
     { label: "Family Links", href: "/admin/families" },
     { label: "Formation", href: "/admin/formation" },
     { label: "Accounts", href: "/admin/accounts" },
+    { label: "Email Notifications", href: "/admin/notifications" },
     { label: "Team Operations", href: "/admin/operations" },
     { label: "Schedule", href: "/admin/manage#schedule" },
     { label: "Spond Import", href: "/admin/spond" },
