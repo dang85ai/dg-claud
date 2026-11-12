@@ -1,119 +1,125 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  BookOpenCheck,
-  CalendarDays,
-  ClipboardList,
-  Home,
-  LogOut,
-  Package,
-  ShieldCheck,
-  Shirt,
-  SlidersHorizontal,
-  Users
-} from "lucide-react";
-import type { ComponentType } from "react";
+import { Menu, X, LogOut, ShieldCheck, ExternalLink, Home, Users, CalendarDays, ClipboardList, BookOpenCheck, Shirt, Package, SlidersHorizontal, Camera, Heart, Wallet, Car, UserRound, Megaphone } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
-type PortalNavItem = {
-  label: string;
-  href: string;
-  Icon: ComponentType<{ size?: number; "aria-hidden"?: boolean }>;
-};
-
-const parentNavigation: PortalNavItem[] = [
-  { label: "Dashboard", href: "/portal", Icon: Home },
-  { label: "My Players", href: "/portal/players", Icon: Users },
-  { label: "Team Schedule", href: "/portal/schedule", Icon: CalendarDays },
-  { label: "Parent Tools", href: "/portal/tools", Icon: ClipboardList },
-  { label: "Training", href: "/portal/training", Icon: BookOpenCheck },
-  { label: "Team Kit", href: "/kit", Icon: Shirt },
-  { label: "Kit Request", href: "/order", Icon: Package }
+type Item = { label: string; href: string; external?: boolean; icon: typeof Home };
+type Group = { heading: string; items: Item[] };
+const parentGroups: Group[] = [
+ { heading: "Team", items: [
+  {label:"Dashboard",href:"/portal",icon:Home},
+  {label:"My Players",href:"/portal/players",icon:Users},
+  {label:"Team Schedule",href:"/portal/schedule",icon:CalendarDays},
+  {label:"Training",href:"/portal/training",icon:BookOpenCheck}
+ ]},
+ { heading: "Family Tools", items: [
+  {label:"Parent Tools",href:"/portal/tools",icon:ClipboardList},
+  {label:"Forms & Consent",href:"/portal/tools#consent",icon:ClipboardList},
+  {label:"Team Kit",href:"/kit",icon:Shirt},
+  {label:"Kit Request",href:"/order",icon:Package}
+ ]},
+ { heading: "Team Community", items: [
+  {label:"Spond",href:"https://spond.com/client",external:true,icon:ExternalLink}
+ ]}
+];
+const managerGroups: Group[] = [
+ {heading:"Team Operations",items:[
+  {label:"Dashboard",href:"/admin",icon:Home},
+  {label:"Team Operations",href:"/admin/operations",icon:SlidersHorizontal},
+  {label:"Player Administration",href:"/admin/players",icon:Users},
+  {label:"Field & Formation",href:"/admin/formation",icon:ClipboardList},
+  {label:"Spond",href:"/admin/spond",icon:CalendarDays}
+ ]},
+ {heading:"Families & Accounts",items:[
+  {label:"Family Links",href:"/admin/families",icon:Users},
+  {label:"Accounts & Invites",href:"/admin/accounts",icon:UserRound},
+  {label:"Parent Tools",href:"/portal/tools",icon:ClipboardList}
+ ]},
+ {heading:"Community & Kit",items:[
+  {label:"Sponsors",href:"/admin/sponsors",icon:Heart},
+  {label:"Team Kit",href:"/kit",icon:Shirt},
+  {label:"Kit Request",href:"/order",icon:Package}
+ ]},
+ {heading:"Administration",items:[
+  {label:"Management Tools",href:"/admin/manage",icon:SlidersHorizontal}
+ ]}
 ];
 
-const managementNavigation: PortalNavItem[] = [
-  { label: "Dashboard", href: "/admin", Icon: Home },
-  { label: "Team Operations", href: "/admin/operations", Icon: SlidersHorizontal },
-  { label: "Player Administration", href: "/admin/players", Icon: Users },
-  { label: "Family Links", href: "/admin/families", Icon: Users },
-  { label: "Formation", href: "/admin/formation", Icon: ClipboardList },
-  { label: "Accounts", href: "/admin/accounts", Icon: ShieldCheck },
-  { label: "Spond", href: "/admin/spond", Icon: CalendarDays },
-  { label: "Sponsors", href: "/admin/sponsors", Icon: Users },
-  { label: "Management Tools", href: "/admin/manage", Icon: SlidersHorizontal },
-  { label: "Team Kit", href: "/kit", Icon: Shirt },
-  { label: "Kit Request", href: "/order", Icon: Package }
-];
-
-export function PortalHeader({
-  title,
-  isAdmin = false
-}: {
-  title: string;
-  isAdmin?: boolean;
-}) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const navigation = isAdmin ? managementNavigation : parentNavigation;
-
-  async function signOut() {
-    await supabase.auth.signOut();
-    router.replace("/login");
+export function PortalHeader({ title, isAdmin = false }: { title: string; isAdmin?: boolean }) {
+ const router = useRouter(), pathname = usePathname(), drawer = useRef<HTMLDialogElement>(null);
+ const [roles,setRoles]=useState<string[]>([]),[accessChecked,setAccessChecked]=useState(false);
+ const [error,setError]=useState("");
+ useEffect(()=>{
+  let live=true;
+  async function readAccess(){
+   const user=await supabase.auth.getUser();
+   if(!live)return;
+   if(user.error||!user.data.user){setRoles([]);setAccessChecked(true);return;}
+   const data=await supabase.from("user_roles").select("role").eq("user_id",user.data.user.id);
+   if(live){setRoles(data.error?[]:(data.data||[]).map(x=>x.role));setAccessChecked(true);}
   }
-
-  return (
-    <header className="border-b border-neutral-200 bg-white">
-      <div className="container flex min-h-18 items-center justify-between gap-4 py-3">
-        <div className="min-w-0">
-          <div className="text-xs font-black uppercase tracking-[.16em] text-red-600">
-            {isAdmin ? "Command Centre" : "Private Team Portal"}
-          </div>
-          <div className="mt-1 text-base font-black uppercase sm:text-lg">{title}</div>
-        </div>
-        <div className="flex shrink-0 items-center gap-2">
-          {isAdmin ? (
-            <div className="hidden items-center gap-2 rounded-full bg-black px-3 py-2 text-xs font-black uppercase text-white lg:flex">
-              <ShieldCheck size={15} aria-hidden /> MFA Protected
-            </div>
-          ) : null}
-          <Link href="/" className="btn btn-light !min-h-11 !px-3 text-sm sm:!px-4">Team Site</Link>
-          <button type="button" onClick={signOut} aria-label="Sign out" className="btn btn-dark !min-h-11 !px-3 text-sm sm:!px-4">
-            <LogOut size={16} aria-hidden /> <span className="hidden sm:inline">Sign Out</span>
-          </button>
-        </div>
-      </div>
-
-      <nav
-        aria-label={isAdmin ? "Management portal navigation" : "Parent portal navigation"}
-        className="border-t border-neutral-200 bg-neutral-50"
-      >
-        <div className="container">
-          <div className="flex max-w-full gap-1 overflow-x-auto py-2" role="list">
-            {navigation.map(({ label, href, Icon }) => {
-              const active = pathname === href || (href.startsWith(isAdmin ? "/admin/" : "/portal/") && pathname.startsWith(href + "/"));
-              return (
-                <div role="listitem" key={href} className="shrink-0">
-                  <Link
-                    href={href}
-                    aria-current={active ? "page" : undefined}
-                    className={
-                      "inline-flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl px-3 py-2 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 " +
-                      (active
-                        ? "bg-black text-white"
-                        : "text-neutral-700 hover:bg-white hover:text-red-600")
-                    }
-                  >
-                    <Icon size={17} aria-hidden />
-                    {label}
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </nav>
-    </header>
-  );
+  void readAccess();
+  const {data:subscription}=supabase.auth.onAuthStateChange(()=>{void readAccess();});
+  return ()=>{live=false;subscription.subscription.unsubscribe();};
+ },[]);
+ useEffect(()=>{if(drawer.current?.open)drawer.current.close();},[pathname]);
+ const manager=roles.some(r=>r==="admin"||r==="manager");
+ const showManagement=isAdmin&&manager;
+ const groups=showManagement?managerGroups:parentGroups;
+ async function signOut(){
+  setError("");
+  const result=await supabase.auth.signOut();
+  if(result.error){setError("Unable to sign out. Try again.");return;}
+  setRoles([]);drawer.current?.close();router.replace("/login");
+ }
+ function active(href:string){
+  const path=href.split("#")[0];
+  return path===pathname||(path!=="/portal"&&path!=="/admin"&&pathname.startsWith(path+"/"));
+ }
+ function renderGroups(){
+  return <>
+   {groups.map(group=><section key={group.heading} className="mb-6">
+    <h2 className="px-3 pb-2 text-[11px] font-black uppercase tracking-[.16em] text-neutral-500">{group.heading}</h2>
+    <div className="grid gap-1">{group.items.map(({label,href,external,icon:Icon})=>{
+     const cls="portal-nav-item "+(active(href)?"portal-nav-item-current":"");
+     return external
+      ?<a key={href} href={href} target="_blank" rel="noopener noreferrer" className={cls} onClick={()=>drawer.current?.close()}><Icon size={17} aria-hidden="true"/>{label}<ExternalLink size={13} aria-hidden="true" className="ml-auto"/></a>
+      :<Link key={href} href={href} aria-current={active(href)?"page":undefined} className={cls} onClick={()=>drawer.current?.close()}><Icon size={17} aria-hidden="true"/>{label}</Link>;
+    })}</div>
+   </section>)}
+   {manager&&<div className="border-t pt-4">
+    <Link href={isAdmin?"/portal":"/admin"} onClick={()=>drawer.current?.close()} className="portal-nav-item">
+      <ShieldCheck size={17}/>{isAdmin?"Switch to Parent Portal":"Switch to Management"}
+    </Link>
+   </div>}
+  </>;
+ }
+ return <header className="portal-header sticky top-0 z-40 border-b border-neutral-200 bg-white shadow-sm">
+  <a className="sr-only focus:not-sr-only focus:block focus:p-3" href="#portal-main">Skip to portal content</a>
+  <div className="container flex min-h-20 items-center justify-between gap-3 py-3">
+   <div className="flex min-w-0 items-center gap-3">
+    <button type="button" className="portal-menu-button btn btn-light !p-3" aria-label="Open portal navigation" aria-expanded={Boolean(drawer.current?.open)}
+      onClick={()=>drawer.current?.showModal()}><Menu size={20}/></button>
+    <div className="min-w-0"><p className="text-xs font-black uppercase tracking-wide text-red-600">{isAdmin?"Team Management":"Family Portal"}</p>
+     <div className="mt-1 truncate text-lg font-black">{title}</div></div>
+   </div>
+   <div className="flex shrink-0 items-center gap-2">
+    {isAdmin?<span className="hidden items-center gap-1 text-xs font-bold text-neutral-600 md:flex"><ShieldCheck size={15}/> MFA protected</span>:null}
+    <Link href="/" className="btn btn-light !px-3 text-xs sm:text-sm">Team Site</Link>
+    <button type="button" onClick={()=>void signOut()} className="btn btn-dark !px-3 text-xs sm:text-sm"><LogOut size={17}/><span className="hidden sm:inline">Sign Out</span></button>
+   </div>
+  </div>
+  <aside aria-label={isAdmin?"Management sidebar":"Parent sidebar"} className="portal-sidebar">
+   {accessChecked&&(!isAdmin||manager)?renderGroups():<p className="p-3 text-sm text-neutral-500">Management access requires a verified team account.</p>}
+  </aside>
+  <dialog ref={drawer} className="portal-drawer" aria-label="Team portal navigation" onClick={event=>{if(event.target===drawer.current)drawer.current?.close();}}>
+   <div className="mb-5 flex items-center justify-between"><h2 className="font-black uppercase">{isAdmin?"Management":"Family"} Menu</h2>
+    <button className="btn btn-light !p-2" aria-label="Close navigation" onClick={()=>drawer.current?.close()}><X size={20}/></button></div>
+   {accessChecked&&(!isAdmin||manager)?renderGroups():<p className="text-sm text-neutral-600">Sign in with your team account to access navigation.</p>}
+  </dialog>
+  {error?<p role="alert" className="container pb-3 text-sm text-red-700">{error}</p>:null}
+ </header>;
 }
