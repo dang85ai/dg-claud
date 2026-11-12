@@ -9,6 +9,7 @@ export const endpoints = {
   parentActions: `${SUPABASE_URL}/functions/v1/parent-actions`,
   adminActions: `${SUPABASE_URL}/functions/v1/admin-actions`,
   mediaUpload: `${SUPABASE_URL}/functions/v1/media-upload`,
+  mediaLibrary: `${SUPABASE_URL}/functions/v1/media-library`,
   formPdf: `${SUPABASE_URL}/functions/v1/form-pdf`,
   handoverExport: `${SUPABASE_URL}/functions/v1/handover-export`,
   rosterApi: `${SUPABASE_URL}/functions/v1/roster-api`,
