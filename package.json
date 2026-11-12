@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prebuild": "node scripts/materialize-sponsor-assets.mjs && node scripts/generate-crest-icons.mjs",
+    "prebuild": "npm run seo:check && node scripts/materialize-sponsor-assets.mjs && node scripts/generate-crest-icons.mjs",
     "build:cloudflare": "opennextjs-cloudflare build",
     "preview:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "seo:check": "node scripts/seo-check.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.95.0",

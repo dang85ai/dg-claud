@@ -37,6 +37,7 @@ export default function PrivacyPage() {
                 <h2 className="text-xl font-black uppercase text-neutral-900">Connected services</h2>
                 <p className="mt-3">The website is hosted on Netlify, uses Supabase for certain team-data and account features, and uses Netlify Forms for kit requests. The team also links to Spond for invitations, RSVPs and event updates. Each service may process information according to its own privacy and retention practices.</p>
                 <p className="mt-2">A submission or message may generate team email notifications. The team&apos;s website forms are not intended for payments or sensitive medical records.</p>
+                <p className="mt-2">Optional Google Analytics measurement is not active unless configured by the team. If enabled, only public page paths and generic successful-request events are intended for analytics; player names, form contents, private portals and account identifiers must not be sent. The team should review applicable consent and privacy requirements before enabling measurement.</p>
               </section>
               <section>
                 <h2 className="text-xl font-black uppercase text-neutral-900">Access, corrections and retention</h2>

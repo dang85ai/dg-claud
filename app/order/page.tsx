@@ -6,6 +6,7 @@ import { ArrowLeft, CheckCircle2, Mail, Send, ShieldCheck } from "lucide-react";
 import { PublicShell } from "@/components/PublicShell";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { TEAM_EMAIL } from "@/lib/team-config";
+import { trackPublicConversion } from "@/lib/analytics-events";
 
 type ItemKey = "home" | "away" | "track" | "jacket" | "backpack";
 type Selection = Record<ItemKey, boolean>;
@@ -104,6 +105,7 @@ export default function OrderPage() {
         "Please confirm availability, sizing and next steps."
       ].join("\n");
       setEmailCopyHref("mailto:" + TEAM_EMAIL + "?subject=" + encodeURIComponent("Kit Request — Caledon United 2018 Girls") + "&body=" + encodeURIComponent(emailBody));
+      trackPublicConversion("team_kit_request_submitted");
       setReceived(true);
       setSelected({ ...initial });
       form.reset();

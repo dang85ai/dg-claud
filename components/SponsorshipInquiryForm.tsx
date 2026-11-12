@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { CheckCircle2, Send } from "lucide-react";
 import { endpoints, publicFetch } from "@/lib/api";
+import { trackPublicConversion } from "@/lib/analytics-events";
 
 export type SponsorOfferOption = {
   offer_key: string; name: string; pricing_mode: string;
@@ -65,6 +66,7 @@ export function SponsorshipInquiryForm({ offers, seasonLabel }: { offers: Sponso
           }
         })
       });
+      trackPublicConversion("team_sponsorship_inquiry_submitted");
       setStatus("Thank you — your sponsorship interest has been received. The team will follow up with you.");
       target.reset();
       setSelected("");
