@@ -159,6 +159,11 @@ export default async function SponsorsPage() {
                     {sold && offer.offer_key === "home_sleeve_logo" ? (
                       <SponsorPlacementHighlight placement="Home Jersey Sleeve Sponsor" />
                     ) : null}
+                    {sold && (offer.offer_key === "home_main_logo" || offer.offer_key === "home_sleeve_logo") ? (
+                      <a href="#home-kit-preview" className="mt-4 inline-flex items-center gap-2 text-sm font-black text-red-700 underline underline-offset-4 hover:text-red-900">
+                        <Shirt size={18} aria-hidden="true" /> View our sponsored Home Match Kit <ArrowRight size={16} aria-hidden="true" />
+                      </a>
+                    ) : null}
                     {Array.isArray(offer.benefits) && offer.benefits.length ? (
                       <ul className="mt-4 space-y-2">
                         {offer.benefits.map((benefit, idx) => <li key={idx} className="flex gap-2 text-sm"><CheckCircle2 size={17} className="mt-0.5 shrink-0 text-red-600" /><span>{benefit}</span></li>)}
@@ -174,6 +179,55 @@ export default async function SponsorsPage() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      <section id="home-kit-preview" aria-labelledby="home-kit-preview-title" className="scroll-mt-24 border-y border-neutral-800 bg-neutral-950 text-white">
+        <div className="container grid items-center gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_minmax(340px,470px)] lg:gap-14 lg:py-16">
+          <div>
+            <div className="text-xs font-black uppercase tracking-[.2em] text-red-400">2026–2027 Winter League · Our Home Kit</div>
+            <h2 id="home-kit-preview-title" className="mt-4 text-3xl font-black uppercase leading-tight tracking-tight sm:text-5xl">
+              Home Match Kit <span className="block text-red-500">with Sponsors</span>
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
+              A preview of our red home jersey showing the two businesses supporting our girls on the pitch this season.
+              The design features our jersey chest sponsor and sleeve sponsor together.
+            </p>
+            <div className="mt-7 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-white/20 bg-white/5 p-5">
+                <div className="text-xs font-black uppercase tracking-widest text-red-400">Front chest sponsor</div>
+                <div className="mt-2 text-lg font-black">JB Aluminum Products Limited</div>
+                <div className="mt-2 text-sm text-white/60">Home jersey main logo · Secured</div>
+              </div>
+              <div className="rounded-2xl border border-white/20 bg-white/5 p-5">
+                <div className="text-xs font-black uppercase tracking-widest text-red-400">Sleeve sponsor</div>
+                <div className="mt-2 text-lg font-black">Knockout Sports Bar &amp; Grill</div>
+                <div className="mt-2 text-sm text-white/60">Home jersey sleeve logo · Secured</div>
+              </div>
+            </div>
+            <p className="mt-6 max-w-xl text-sm text-white/60">
+              Illustration for sponsorship presentation. The final production kit, logo scale and placement may differ.
+              The sample player name and number are illustrative.
+            </p>
+            <a href="#packages" className="mt-6 inline-flex items-center gap-2 text-sm font-black uppercase text-red-300 underline underline-offset-4 hover:text-white">
+              View sponsorship opportunities <ArrowRight size={17} aria-hidden="true" />
+            </a>
+          </div>
+          <figure className="mx-auto w-full max-w-[470px] overflow-hidden rounded-3xl border border-neutral-200 bg-white p-3 text-neutral-900 shadow-2xl sm:p-4">
+            <a href="/assets/sponsors/2026-27-home-match-kit-sponsored.webp" target="_blank" rel="noopener noreferrer" aria-label="View full-size sponsored Home Match Kit sample">
+              <Image
+                src="/assets/sponsors/2026-27-home-match-kit-sponsored.webp"
+                width={1122}
+                height={1402}
+                alt="2026–2027 Caledon United U9 Girls red home match kit mockup. Front jersey displays JB Aluminum Products Limited on the chest and Knockout Sports on the sleeves; back jersey shows an illustrative player name and number. Matching black shorts and red socks."
+                unoptimized
+                className="h-auto w-full rounded-2xl object-contain"
+              />
+            </a>
+            <figcaption className="px-2 py-3 text-center text-xs font-medium text-neutral-600">
+              2026–27 Winter League · Home Match Kit sample · Tap to enlarge
+            </figcaption>
+          </figure>
         </div>
       </section>
 
