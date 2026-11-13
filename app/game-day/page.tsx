@@ -25,7 +25,7 @@ export default function GameDayPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="schedule" usePageTitle
         eyebrow="Game Day"
         title="Ready Before Kickoff"
         copy="A simple checklist and parent guide for getting to the field prepared, on time and ready to support the team."

@@ -1,13 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --red: #E30613;
+  --red: #D71930;
   --black: #000000;
   --ink: #111111;
   --white: #ffffff;
   --paper: #f5f5f4;
   --muted: #6b6b6b;
   --line: #dedede;
+  --card-radius:20px;
+  --section-gap:clamp(42px,5vw,64px);
 }
 
 * { box-sizing: border-box; }
@@ -179,7 +181,7 @@ button, .tap-target {
 }
 
 .section {
-  padding: 64px 0;
+  padding: var(--section-gap) 0;
 }
 
 .section-title {
@@ -194,7 +196,7 @@ button, .tap-target {
 .card {
   background: white;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: var(--card-radius);
   box-shadow: 0 8px 30px rgba(0,0,0,.05);
 }
 
@@ -604,3 +606,23 @@ textarea.field {
 @media print {
   .cufc-hd-banner {display:none!important;}
 }
+
+/* Uniform public page introductions. Imagery remains full-width while titles
+   align to the same 1180px content grid as the page's sections. */
+@media (min-width: 1200px) {
+  .cufc-hd-content { max-width:1180px; margin-inline:auto; padding-inline:16px; }
+}
+.cufc-policy-hero {
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid #dedede;
+  border-top:4px solid var(--red);
+  background:linear-gradient(110deg,#fff 0%,#faf9f9 66%,#f3e8e9 100%);
+}
+.cufc-policy-hero::after {
+  content:"";pointer-events:none;position:absolute;right:-40px;top:0;
+  height:100%;width:160px;transform:skewX(-22deg);
+  background:linear-gradient(90deg,transparent,rgba(215,25,48,.08));
+}
+.cufc-policy-hero-content {position:relative;z-index:1;padding-block:30px 36px;}
+@media (min-width:768px){.cufc-policy-hero-content{padding-block:38px 44px;}}

@@ -54,7 +54,7 @@ export default function FaqPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="parent-portal" usePageTitle
         eyebrow="Family Resources · 2026–27"
         title="Parent Questions, Answered"
         copy="Practical information for the Caledon United FC 2018 Girls season. Spond and official club communications remain the sources for confirmed operational details."
