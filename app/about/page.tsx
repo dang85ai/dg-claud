@@ -77,6 +77,34 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      <section aria-labelledby="practical-guide-title" className="section border-t border-neutral-200">
+        <div className="container max-w-4xl">
+          <h2 id="practical-guide-title" className="text-3xl font-black uppercase tracking-tight">How the team works</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">The team and the club</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Caledon United FC 2018 Girls is the team featured on this site. Use the team hub for season information, teamwear, parent resources and ways to support the squad. Use the official Caledon Soccer Club resources for club matters such as registration, refunds and applicable policies.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">What families can expect here</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Use the public schedule for planning, the Parent Resources page for getting started, and Spond for confirmed event details and attendance. The private portal holds forms and information for authorized families. For questions about a specific player or family record, use a private contact channel.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">How the adults support the team</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Coaches help players learn the game and build confidence. Managers help families find information, follow up on team logistics and navigate the season. Families can support the team by keeping event responses current and encouraging players from the sideline. See the team roster page for staff roles.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Ways to get involved</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Explore the Sponsorship page if a local business wants to support the squad. Families interested in helping at events can ask the manager where help is needed. If you are new to the team, Parent Resources has the first steps for getting connected.</p>
+            </article>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="/parents" className="btn btn-light">Parent resources</a>
+            <a href="/sponsors" className="btn btn-light">Sponsorship opportunities</a>
+          </div>
+        </div>
+      </section>
     </PublicShell>
   );
 }
+

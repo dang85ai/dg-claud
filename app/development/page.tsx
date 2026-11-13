@@ -110,6 +110,32 @@ export default function DevelopmentPage() {
           </div>
         </div>
       </section>
+      <section aria-labelledby="practical-guide-title" className="section border-t border-neutral-200">
+        <div className="container max-w-4xl">
+          <h2 id="practical-guide-title" className="text-3xl font-black uppercase tracking-tight">Help your player build confidence</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">What progress can look like</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">A player might start the season looking down for every touch and later glance up before a pass. Another might become comfortable asking for the ball or trying a turn under pressure. Watch for changes in what your player is willing to try and what she can do with more confidence.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Learning different positions</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Moving between positions helps players see new choices. A player who tries a wider role can learn when to offer a passing option. A player who spends time closer to goal can practise helping a teammate when the team loses the ball. Ask your player what she noticed in a different role.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">How families can reinforce practice</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Pick one small thing to practise at home, such as stopping the ball on cue or sending a gentle pass through a gate. Let your player choose the drill and finish while it still feels fun. When you watch a session, praise a decision she made or a teammate she helped. Use Train at Home for a short plan with variations.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Questions to ask after a session</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Try “What was fun today?”, “What did you try for the first time?” or “Who helped you on the field?” Listen to her answer before offering advice. If she wants to practise something again, help her find a way to do it with the space and equipment you have.</p>
+            </article>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="/train-at-home" className="btn btn-light">Train at Home</a>
+          </div>
+        </div>
+      </section>
     </PublicShell>
   );
 }
