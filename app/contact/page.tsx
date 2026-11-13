@@ -18,10 +18,11 @@ export default function ContactPage() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (loading) return;
+    const form = event.currentTarget;
     setLoading(true);
     setStatus("");
-    const form = new FormData(event.currentTarget);
-    const body = Object.fromEntries(form.entries());
+    const body = Object.fromEntries(new FormData(form));
 
     try {
       const result = await publicFetch<{ message: string; reference?: string }>(endpoints.contact, {
@@ -30,7 +31,7 @@ export default function ContactPage() {
         body: JSON.stringify(body)
       });
       setStatus(result.reference ? `${result.message} Reference ${result.reference}.` : result.message);
-      event.currentTarget.reset();
+      form.reset();
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to submit the form.");
     } finally {
