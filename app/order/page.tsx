@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Mail, Send, ShieldCheck } from "lucide-react";
 import { PublicShell } from "@/components/PublicShell";
 import { PublicPageHero } from "@/components/PublicPageHero";
+import { endpoints, publicFetch } from "@/lib/api";
 import { TEAM_EMAIL } from "@/lib/team-config";
 import { trackPublicConversion } from "@/lib/analytics-events";
 
@@ -32,6 +33,7 @@ export default function OrderPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [received, setReceived] = useState(false);
+  const [reference, setReference] = useState("");
   const [emailCopyHref, setEmailCopyHref] = useState("");
 
   const items: { key: ItemKey; label: string; description: string }[] = [
@@ -79,20 +81,22 @@ export default function OrderPage() {
       "Notes: " + (get("notes") || "None")
     ].join("\n");
 
-    data.set("items_requested", chosen.map((item) => item.label).join("; "));
-    data.set("order_details", details);
-    data.set("subject", "Caledon United 2018 Girls — Team Kit Order Request");
-
     setBusy(true);
     try {
-      const encoded = new URLSearchParams();
-      data.forEach((value, key) => encoded.append(key, String(value)));
-      const response = await fetch("/__forms.html", {
+      const result = await publicFetch<{ reference?: string }>(endpoints.contact, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encoded.toString()
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          kind: "kit_request",
+          name: get("name"),
+          email: get("email"),
+          phone: get("phone"),
+          message: details,
+          website: get("bot-field"),
+          acknowledged: data.has("request_ack")
+        })
       });
-      if (!response.ok) throw new Error("The request could not be saved. Please try again or contact the team by email.");
+      setReference(result.reference || "");
 
       const emailBody = [
         "Caledon United FC 2018 Girls — Kit Request",
@@ -121,6 +125,7 @@ export default function OrderPage() {
       <PublicPageHero banner="kit"
         eyebrow="Caledon United FC · 2018 Girls"
         title="Team Kit Request"
+        usePageTitle
         copy="Tell us which uniform pieces and accessories you would like and the sizes you need. This is a request for team review — not a purchase or payment."
       />
       <section className="section">
@@ -131,6 +136,7 @@ export default function OrderPage() {
               {received && (
                 <div role="status" aria-live="polite" className="mb-6 rounded-2xl border border-green-300 bg-green-50 p-6 text-green-900">
                   <div className="flex items-center gap-3 font-black"><CheckCircle2 size={23} /> Your request has been recorded</div>
+                  {reference && <p className="mt-3 break-all text-sm font-bold">Reference {reference}</p>}
                   <p className="mt-3 text-sm leading-6">Your selections were submitted to the team website. No payment has been taken and no purchase is confirmed.</p>
                   {emailCopyHref && (
                     <div className="mt-4">
@@ -140,11 +146,7 @@ export default function OrderPage() {
                   )}
                 </div>
               )}
-              <form name="team-kit-order" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={submit} className="grid gap-7">
-                <input type="hidden" name="form-name" value="team-kit-order" />
-                <input type="hidden" name="subject" value="Caledon United 2018 Girls — Team Kit Order Request" />
-                <input type="hidden" name="items_requested" value="" />
-                <input type="hidden" name="order_details" value="" />
+              <form name="team-kit-order" method="POST" onSubmit={submit} className="grid gap-7">
                 <div className="hidden" aria-hidden="true">
                   <label htmlFor="kit-bot">Do not complete this field</label>
                   <input id="kit-bot" name="bot-field" tabIndex={-1} autoComplete="off" />

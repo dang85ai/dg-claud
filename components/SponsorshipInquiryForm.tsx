@@ -19,10 +19,10 @@ const legacyTierForOffer: Record<string, string> = {
   away_sleeve_logo: "team_sponsor"
 };
 
-export function SponsorshipInquiryForm({ offers, seasonLabel }: { offers: SponsorOfferOption[]; seasonLabel: string }) {
+export function SponsorshipInquiryForm({ offers, seasonLabel, initialOffer = "" }: { offers: SponsorOfferOption[]; seasonLabel: string; initialOffer?: string }) {
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(initialOffer);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,7 +42,7 @@ export function SponsorshipInquiryForm({ offers, seasonLabel }: { offers: Sponso
     const anonymous = form.get("anonymous") === "on";
     const label = choice?.name || "General sponsorship";
     try {
-      await publicFetch<{ ok: boolean }>(endpoints.contact, {
+      const result = await publicFetch<{ ok: boolean; reference?: string }>(endpoints.contact, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -67,7 +67,7 @@ export function SponsorshipInquiryForm({ offers, seasonLabel }: { offers: Sponso
         })
       });
       trackPublicConversion("team_sponsorship_inquiry_submitted");
-      setStatus("Thank you — your sponsorship interest has been received. The team will follow up with you.");
+      setStatus("Your sponsorship interest has been received. The team will follow up." + (result.reference ? ` Reference ${result.reference}.` : ""));
       target.reset();
       setSelected("");
     } catch (error) {

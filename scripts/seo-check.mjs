@@ -20,7 +20,8 @@ test("Shared SEO helper uses the preferred domain", seo.includes('const siteUrl 
 test("robots.txt declares the canonical sitemap", robots.includes(canonical) && robots.includes("/sitemap.xml"));
 test("Sitemap uses canonical domain", sitemap.includes(canonical));
 test("Sitemap includes priority public pages", ["/schedule", "/about", "/kit", "/sponsors", "/contact"].every((path) => sitemap.includes(sourceURL(path))));
-test("Sitemap excludes private and placeholder pages", !["/portal", "/admin", "/order", "/roster", "/media", "/end-of-season", "/login"].some((path) => sitemap.includes(sourceURL(path))));
+test("Sitemap excludes private and placeholder pages", !["/portal", "/admin", "/order", "/roster", "/media", "/end-of-season", "/login", "/request-invite"].some((path) => sitemap.includes(sourceURL(path))));
+test("Invite request has noindex", read("app/request-invite/layout.tsx").includes("index: false"));
 test("Unfinished season recap has noindex", season.includes("index: false"));
 test("Legacy Netlify hostname redirects permanently", netlify.includes("https://caledon-u9-girls-2026.netlify.app/*") && netlify.includes("status = 301"));
 test("Protected routes are noindex and no-store", ["/portal", "/portal/*", "/admin", "/admin/*", "/order"].every((path) => {

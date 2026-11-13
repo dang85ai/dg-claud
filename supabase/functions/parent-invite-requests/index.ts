@@ -34,9 +34,12 @@ Deno.serve(async (req: Request) => {
           email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return reply({ error: "Enter your name, a valid email and the player’s name." }, 400);
       }
-      const result = await admin.from("parent_invite_requests").insert({ parent_name, player_name, email });
-      if (result.error && result.error.code !== "23505") throw result.error;
-      return reply({ ok: true });
+      const result = await admin.from("parent_invite_requests").insert({ parent_name, player_name, email }).select("id").single();
+      if (result.error?.code === "23505") {
+        return reply({ error: "A request for this email is already under review. Contact the team for help." }, 409);
+      }
+      if (result.error) throw result.error;
+      return reply({ ok: true, reference: result.data.id });
     }
 
     if (!["approve", "decline"].includes(input.action)) return reply({ error: "Unknown action." }, 400);
@@ -67,22 +70,56 @@ Deno.serve(async (req: Request) => {
     const { id, email, parent_name } = claim.data;
     let status = "failed";
     let message = "The invitation email could not be confirmed. Check the mail settings before retrying.";
+    let notificationId: string | undefined;
     try {
       const prepared = await manager.rpc("prepare_parent_activation", { invite_email: email, invite_full_name: parent_name });
       if (prepared.error) throw prepared.error;
-      const sent = await admin.auth.admin.inviteUserByEmail(email, {
-        data: { full_name: parent_name },
-        redirectTo: site + "/auth/finish"
+      const generated = await admin.auth.admin.generateLink({
+        type: "invite", email, options: { data: { full_name: parent_name }, redirectTo: site + "/auth/finish" }
       });
-      if (!sent.error) {
-        status = "accepted";
-        message = "Invitation accepted for sending. Inbox delivery is unconfirmed.";
-      } else if (sent.error.code === "email_exists") {
+      if (generated.error?.code === "email_exists" || generated.data?.user?.email_confirmed_at) {
         status = "existing";
         message = "An account already exists. Ask the parent to sign in or recover their password.";
+      } else {
+        if (generated.error || !generated.data.properties.hashed_token) throw new Error("Unable to prepare invite.");
+        const apiKey = Deno.env.get("RESEND_API_KEY") || "";
+        const from = Deno.env.get("NOTIFICATION_FROM") || "";
+        const configured = apiKey.startsWith("re_") && from.includes("@") && !from.includes("@resend.dev");
+        const attemptId = crypto.randomUUID();
+        const subject = "Activate your Caledon United FC team account";
+        const queued = await admin.from("notification_outbox").insert({
+          id: attemptId, event_key: "account-mail:" + attemptId, kind: "account_invite",
+          source_id: id, recipient_email: email, subject, body_text: "Private account email",
+          status: configured ? "sending" : "needs_setup", attempts: configured ? 1 : 0
+        });
+        if (queued.error) throw queued.error;
+        if (configured) {
+          notificationId = attemptId;
+          const link = site + "/auth/finish#type=invite&token_hash=" + encodeURIComponent(generated.data.properties.hashed_token);
+          const response = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + apiKey, "Content-Type": "application/json", "Idempotency-Key": "cufc-" + attemptId },
+            body: JSON.stringify({ from, to: [email], subject, text: subject + " using this single-use link:\n\n" + link + "\n\nIf you did not expect this email, you can ignore it." }),
+            signal: AbortSignal.timeout(12000)
+          });
+          const result = await response.json().catch(() => null);
+          if (response.ok && typeof result?.id === "string") {
+            status = "accepted";
+            message = "Resend accepted the invitation. Check Email Notifications for delivery.";
+            const updated = await admin.from("notification_outbox").update({
+              status, provider_message_id: result.id, accepted_at: new Date().toISOString()
+            }).eq("id", attemptId).eq("status", "sending");
+            if (updated.error) message = "Resend accepted the invitation. Check Resend for delivery.";
+          }
+        }
       }
     } catch {
-      // Persist the failed attempt without recording tokens or provider details.
+      // Keep activation links and provider responses out of logs.
+    }
+    if (notificationId && status === "failed") {
+      await admin.from("notification_outbox").update({
+        status: "failed", last_error: "Invitation email acceptance could not be confirmed."
+      }).eq("id", notificationId).eq("status", "sending");
     }
     const saved = await admin.from("parent_invite_requests").update({ status }).eq("id", id).eq("status", "sending");
     if (saved.error) throw saved.error;

@@ -4,6 +4,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "POST, OPTIONS"
 };
+const KIT_SUBJECT = "Caledon United 2018 Girls — Team Kit Order Request";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TIER_KEYS = new Set([
   "community_supporter",
@@ -35,7 +36,8 @@ Deno.serve(async (req: Request) => {
     const name = String(body?.name ?? "").trim();
     const email = String(body?.email ?? "").trim().toLowerCase();
     const phone = String(body?.phone ?? "").trim();
-    const subject = String(body?.subject ?? "").trim();
+    const kitRequest = body?.kind === "kit_request";
+    const subject = kitRequest ? KIT_SUBJECT : String(body?.subject ?? "").trim();
     const message = String(body?.message ?? "").trim();
     const website = String(body?.website ?? "").trim();
     const sponsorship = body?.sponsorship && typeof body.sponsorship === "object"
@@ -53,6 +55,12 @@ Deno.serve(async (req: Request) => {
     if (!EMAIL_RE.test(email) || email.length > 320) throw new Error("Please enter a valid email.");
     if (phone.length > 40 || subject.length > 180) throw new Error("Invalid form content.");
     if (message.length < 1 || message.length > 5000) throw new Error("Please enter a message.");
+
+    if (kitRequest && (sponsorship || body.acknowledged !== true)) {
+      throw new Error("Confirm that this is a team kit request before submitting.");
+    }
+
+    if (!kitRequest && subject === KIT_SUBJECT) throw new Error("Please use the team kit request form.");
 
     let sponsorData:any = null;
     if (sponsorship) {
@@ -109,13 +117,14 @@ Deno.serve(async (req: Request) => {
     const contactId = contactRows?.[0]?.id;
     if (!contactId) throw new Error("Unable to submit the form.");
 
+    let reference = contactId;
     if (sponsorData) {
       const sponsorResponse = await fetch(`${supabaseUrl}/rest/v1/sponsorship_inquiries`, {
         method: "POST",
         headers: {
           apikey: secretKey,
           "Content-Type": "application/json",
-          Prefer: "return=minimal"
+          Prefer: "return=representation"
         },
         body: JSON.stringify({
           contact_submission_id: contactId,
@@ -136,6 +145,7 @@ Deno.serve(async (req: Request) => {
         await cleanupContact(supabaseUrl, secretKey, contactId);
         throw new Error("Unable to submit sponsorship interest.");
       }
+      reference = (await sponsorResponse.json())[0].id;
     }
 
     // Save is complete. Dispatch independently; email failures must not erase
@@ -156,6 +166,7 @@ Deno.serve(async (req: Request) => {
 
     return new Response(JSON.stringify({
       ok: true,
+      reference,
       notification_status: notificationStatus,
       message: sponsorData
         ? "Your sponsorship interest has been saved for the team to review. No payment has been taken."

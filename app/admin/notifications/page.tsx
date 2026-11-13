@@ -55,7 +55,7 @@ export default function NotificationMonitor(){
    </p>
    {error?<p role="alert" className="notice mt-5 text-sm">{error}</p>:null}
    {submissionError && <p role="alert" className="notice mt-5 text-sm">Unable to load the submission summary.</p>}
-   {submissions && <SubmissionSummary items={submissions}/>}
+   {submissions && <SubmissionSummary items={submissions} refresh={load}/>}
    {!data?<p className="card mt-6 p-5">Loading secure notification records…</p>:<>
     {!data.provider_configured?<div role="alert" className="mt-6 flex items-start gap-3 rounded-xl border border-amber-300 bg-amber-50 p-5 text-sm text-amber-950">
      <AlertTriangle className="shrink-0" size={20}/>
@@ -111,9 +111,9 @@ export default function NotificationMonitor(){
      <h2 className="flex items-center gap-2 text-xl font-black uppercase"><MailCheck size={19}/> Other Delivery Services</h2>
      <p className="mt-3 text-sm leading-6 text-neutral-600">
       Use Accounts & Invites to resend account emails with a fresh private link.
-      The team kit order uses Netlify Forms, which requires its own confirmed email notification recipient.
+      New public kit requests use the website inquiry notification service. Older kit requests remain in Netlify Forms.
      </p>
-     <p className="mt-3 text-sm text-neutral-600">Configure and confirm the kit notification recipient in Netlify → Forms → Submission notifications.
+     <p className="mt-3 text-sm text-neutral-600">Open Recent Submissions above for the request reference and delivery status.
       Parent invite failures or manual links remain in <Link className="font-bold underline" href="/admin/accounts">Accounts & Invites</Link>.</p>
     </section>
    </>}

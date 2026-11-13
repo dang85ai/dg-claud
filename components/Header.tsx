@@ -12,7 +12,7 @@ const nav = [
   ["Order", "/order"],
   ["Media", "/media"],
   ["Sponsors", "/sponsors"],
-  ["Parents", "/parents"],
+  ["Parent Resources", "/parents"],
   ["About", "/about"],
   ["Contact", "/contact"]
 ];
@@ -49,7 +49,7 @@ export function Header() {
           ))}
           <Link href="/login" className="btn btn-primary !min-h-11 !px-4 text-sm">
             <Shield size={17} aria-hidden="true" />
-            Parent Login
+            Sign In
           </Link>
         </nav>
 
@@ -82,7 +82,7 @@ export function Header() {
               onClick={() => setOpen(false)}
               className="btn btn-primary mt-4"
             >
-              Parent / Manager Login
+              Sign In
             </Link>
           </div>
         </nav>

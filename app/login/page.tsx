@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Car,
@@ -81,6 +82,7 @@ export default function LoginPage() {
           <div className="flex items-center gap-2 font-black uppercase">
             <ShieldCheck className="text-red-600" size={18} /> Invite-only access
           </div>
+          <Link href="/request-invite" className="mt-3 inline-flex min-h-11 items-center font-bold text-red-700 underline">Request a Parent Invite</Link>
           <ol className="mt-4 grid gap-2 text-sm text-neutral-600">
             <li><strong>1.</strong> Receive a team invitation from the manager.</li>
             <li><strong>2.</strong> Create or activate your account with the invited email address.</li>
