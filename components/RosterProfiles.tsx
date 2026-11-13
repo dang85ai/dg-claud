@@ -176,14 +176,21 @@ function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot 
   const name = snapshot?.formation?.name || "1-1-2-1";
   const slots = formationSlots[name] || formationSlots["1-1-2-1"];
   const canShowNames = snapshot?.formation?.show_names ?? false;
-  const [selected, setSelected] = useState<Player | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selected = canShowNames
+    ? snapshot?.players.find(player =>
+        player.id === selectedId && player.active &&
+        slots.some(({ slot }) => slot === player.slot) &&
+        (privateAccess || (player.public_visible && player.name_consent))
+      )
+    : undefined;
 
   return (
-    <section className="mt-12 overflow-hidden rounded-[30px] border border-neutral-200 bg-white shadow-sm">
+    <section id="team-formation" aria-labelledby="team-formation-heading" className="mt-12 scroll-mt-28 overflow-hidden rounded-[30px] border border-neutral-200 bg-white shadow-sm">
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-neutral-100 px-5 py-7 sm:px-8">
         <div>
           <p className="text-xs font-black uppercase tracking-[.18em] text-red-700">On the pitch</p>
-          <h3 className="mt-2 text-2xl font-black uppercase tracking-tight sm:text-3xl">How We Line Up</h3>
+          <h3 id="team-formation-heading" className="mt-2 text-2xl font-black uppercase tracking-tight sm:text-3xl">How We Line Up</h3>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600">A development-first look at our positions. Players rotate, learn different roles and build their game understanding.</p>
         </div>
         <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-center">
@@ -204,17 +211,17 @@ function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot 
           {slots.map(({ slot, x, y }) => {
             const player = snapshot?.players.find(p => p.slot === slot && p.active);
             const showName = Boolean(player && canShowNames && (privateAccess || (player.public_visible && player.name_consent)));
-            const photoAllowed = Boolean(player?.photo_id && (privateAccess || player.photo_consent) && (privateAccess || canShowNames));
+            const photoAllowed = Boolean(showName && player?.photo_id && (privateAccess || player.photo_consent));
             return (
               <div key={slot} className="absolute z-10 flex w-28 max-w-[29%] -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center"
                 style={{left:x+"%",top:y+"%"}}>
                 <button type="button" className="flex min-h-14 w-full flex-col items-center rounded-xl text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-300"
                   aria-label={showName&&player?player.name+" · "+slot:"Position "+slot}
-                  onClick={()=>setSelected(showName&&player?player:null)}>
+                  disabled={!showName} onClick={() => setSelectedId(player?.id ?? null)}>
                   <span className="relative grid h-12 w-12 place-items-center overflow-hidden rounded-full border-2 border-white bg-[#D71930] text-sm font-black text-white shadow-lg sm:h-16 sm:w-16">
                     {photoAllowed && player?.photo_id
                       ? <ApprovedPortrait id={player.photo_id} name={player.name} privateAccess={privateAccess}/>
-                      : <span>{player?.number===null || !player ? slot : player.number}</span>}
+                      : <span>{showName ? player?.number ?? slot : slot}</span>}
                   </span>
                   {showName&&player?<span className="mt-1.5 max-w-full truncate rounded-md bg-[#0B1010]/90 px-2 py-1 text-[10px] font-bold text-white sm:text-xs">{player.name}</span>:null}
                   <span className="mt-1 text-[10px] font-bold text-white">{slot}</span>
@@ -234,7 +241,7 @@ function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot 
               <p className="text-xs font-black uppercase text-red-700">Selected player</p>
               <p className="mt-2 font-black">{selected.name}{selected.number===null?"":" · #"+selected.number}</p>
               <p className="mt-1 text-neutral-600">{selected.position || "Rotating positions"}</p>
-              <button className="mt-3 text-xs font-bold underline" onClick={()=>setSelected(null)}>Close details</button>
+              <button className="mt-3 text-xs font-bold underline" onClick={() => setSelectedId(null)}>Close details</button>
             </div>
           ) : <p className="text-xs text-neutral-600">Tap an assigned, approved player marker to view details. Empty markers remain unassigned.</p>}
           <div className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-xs font-semibold text-neutral-700">
