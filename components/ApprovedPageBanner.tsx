@@ -26,21 +26,25 @@ const artwork: Record<ApprovedBannerId, { title: string; sub: string; compact?: 
  * crisp and accessible at desktop, tablet and phone widths.
  */
 export function ApprovedPageBanner({
-  banner, heading, description, portal = false, asHeading = false
+  banner, heading, description, portal = false, asHeading = false, titleOverride, subtitleOverride
 }: {
   banner: ApprovedBannerId;
   heading?: string;
   description?: string;
   portal?: boolean;
   asHeading?: boolean;
+  titleOverride?: string;
+  subtitleOverride?: string;
 }) {
   const item = artwork[banner];
+  const shownTitle = titleOverride || item.title;
+  const shownSubtitle = subtitleOverride || item.sub;
   const backgroundImage = "url('/assets/banners/2026-27-hd/" + banner + ".webp')";
   const TitleTag = asHeading ? "h1" : "div";
 
   return (
     <section
-      aria-label={item.title + " · 2026–27 season banner"}
+      aria-label={shownTitle + " · 2026–27 season banner"}
       className={"approved-page-banner cufc-hd-banner" + (portal ? " approved-page-banner--portal" : "")}
     >
       <div className="cufc-hd-wrap">
@@ -62,9 +66,9 @@ export function ApprovedPageBanner({
             <span className="cufc-hd-divider" aria-hidden="true" />
             <div className="cufc-hd-text">
               <TitleTag className={"cufc-hd-title" + (item.compact ? " cufc-hd-title--long" : "")}>
-                {item.title}
+                {shownTitle}
               </TitleTag>
-              <p className="cufc-hd-subtitle">{item.sub}</p>
+              <p className="cufc-hd-subtitle">{shownSubtitle}</p>
             </div>
           </div>
         </div>

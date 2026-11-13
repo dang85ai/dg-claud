@@ -6,7 +6,7 @@ export default function AccessibilityPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero variant="document"
         eyebrow="Team Policy"
         title="Accessibility"
         copy="The site is being built toward WCAG 2.1 AA with mobile and sideline use as first-class requirements."

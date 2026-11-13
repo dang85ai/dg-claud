@@ -8,7 +8,7 @@ export default function PrivacyPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero variant="document"
         eyebrow="Team Policy"
         title="Privacy & Youth Safety"
         copy="How the Caledon United FC 2018 Girls website handles team information and protects young players."

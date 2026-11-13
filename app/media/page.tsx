@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
@@ -31,20 +32,26 @@ export default function MediaPage() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {albums.map((album) => (
-              <div key={album} className="card overflow-hidden">
-                <div className="grid aspect-[4/3] place-items-center bg-neutral-200">
-                  <Camera className="text-neutral-400" size={42} />
+            {albums.map((album, index) => (
+              <article key={album} className="card media-album-card overflow-hidden">
+                <div className="media-album-placeholder" aria-hidden="true" data-tone={index % 3}>
+                  <div className="media-album-placeholder__lines"/>
+                  <div className="media-album-placeholder__icon"><Camera size={34} strokeWidth={1.6}/></div>
                 </div>
                 <div className="p-5">
-                  <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Album</div>
+                  <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Team Album · 2026–27</div>
                   <h2 className="mt-1 text-xl font-black uppercase">{album}</h2>
-                  <p className="mt-2 text-sm text-neutral-500">Photos will appear here after upload, consent review and manager approval.</p>
+                  <p className="mt-2 text-sm leading-6 text-neutral-600">Awaiting approved photos. New additions appear only after guardian consent and manager review.</p>
+                  <span className="mt-4 inline-flex items-center rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-bold text-neutral-600">No public photos yet</span>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
 
+          <div className="mt-7 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-white p-5">
+            <div><h2 className="text-lg font-black uppercase">Private Family Media</h2><p className="mt-1 text-sm text-neutral-600">Approved families can submit photographs for review through their protected portal.</p></div>
+            <Link href="/portal/media" className="btn btn-primary">Open Family Gallery</Link>
+          </div>
           <div className="mt-8 grid gap-6 lg:grid-cols-3">
             <div className="card p-6">
               <Images className="text-red-600" />

@@ -60,11 +60,22 @@ for(const [path, key] of [
  ["app/development/page.tsx","training"],
  ["app/kit/page.tsx","kit"],
  ["app/media/page.tsx","media"],
- ["app/conduct/page.tsx","conduct"],
  ["app/contact/page.tsx","contact"],
  ["app/parents/page.tsx","parent-portal"],
  ["app/order/page.tsx","kit"]
 ]) check(path,['banner="'+key+'"']);
+
+// Public site visual consistency guard (policy layouts and responsive page coverage).
+for(const route of ["app/faq/page.tsx","app/game-day/page.tsx","app/end-of-season/page.tsx"]) {
+  check(route,["bannerTitle=","bannerSubtitle="]);
+}
+for(const route of ["app/privacy/page.tsx","app/accessibility/page.tsx","app/photo-safety/page.tsx","app/conduct/page.tsx"]) {
+  check(route,['variant="document"']);
+}
+check("components/PublicPageHero.tsx",["cufc-document-hero","bannerTitle","titleOverride"]);
+check("app/media/page.tsx",["media-album-placeholder","No public photos yet","/portal/media"]);
+check("app/sponsors/page.tsx",["asHeading","<h2","campaign?.heading"]);
+check("app/globals.css",[".site-shell .cufc-hd-wrap",".cufc-document-hero",".media-album-card"]);
 
 // Email workflow regression coverage: ensure the backend and manager UI remain present.
 for (const name of [

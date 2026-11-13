@@ -6,7 +6,7 @@ export default function PhotoSafetyPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero variant="document"
         eyebrow="Team Policy"
         title="Photo & Media Safety"
         copy="Every public image must pass processing, consent review and manager moderation."

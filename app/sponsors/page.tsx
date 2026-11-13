@@ -62,33 +62,31 @@ export default async function SponsorsPage() {
   const available = offers.filter((offer) => offer.availability === "available");
   return (
     <PublicShell>
-      <ApprovedPageBanner banner="sponsors" />
+      <ApprovedPageBanner banner="sponsors" asHeading />
       <section className="relative isolate overflow-hidden bg-black text-white">
         <div className="pointer-events-none absolute -right-24 -top-40 size-[550px] rounded-full bg-red-700/30 blur-[125px]" />
         <div className="pointer-events-none absolute -bottom-60 left-1/4 size-[520px] rounded-full bg-red-800/20 blur-[110px]" />
-        <div className="container relative grid items-center gap-9 py-7 lg:grid-cols-[1fr_260px] lg:py-9">
+        <div className="container relative py-6 md:py-8">
           <div>
             <div className="text-sm font-black uppercase tracking-[.19em] text-red-400">Caledon United FC 2018 Girls</div>
             <div className="mt-4 inline-block bg-red-600 px-4 py-2 text-xs font-black uppercase tracking-[.18em] text-white">
               {campaign?.season_label || "Team sponsorship"}
             </div>
-            <h1 className="mt-4 max-w-3xl text-4xl font-black uppercase leading-[.98] tracking-tight sm:text-5xl">
+            <h2 className="mt-3 max-w-3xl text-2xl font-black uppercase leading-tight tracking-tight sm:text-3xl">
               {campaign?.heading || "Sponsorship Opportunities"}
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
+            </h2>
+            <p className="mt-3 max-w-2xl text-lg leading-relaxed text-white/75">
               {campaign?.description || "Find current sponsorship packages and support local girls' soccer."}
             </p>
-            <div className="mt-6 text-xl font-black uppercase tracking-wide text-red-400">
+            <div className="mt-4 text-base font-black uppercase tracking-wide text-red-400">
               {campaign?.tagline || "Local girls. Stronger together."}
             </div>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-3">
               <a href="#packages" className="btn btn-primary">View packages <ArrowRight size={18} /></a>
               <a href="#sponsor-form" className="btn border border-white/25 bg-white/10 text-white">Become a sponsor</a>
             </div>
           </div>
-          <div className="mx-auto w-full max-w-[280px] rounded-full bg-white/5 p-4 ring-1 ring-white/15 lg:max-w-none">
-            <Image src="/assets/brand/caledon-united-crest.webp" alt="Caledon United Football Club 1973 crest" width={330} height={330} priority unoptimized className="h-auto w-full object-contain" />
-          </div>
+          
         </div>
       </section>
 

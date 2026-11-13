@@ -12,7 +12,7 @@ export default function EndOfSeasonPage() {
   return (
     <PublicShell>
       <DevelopmentBanner />
-      <PublicPageHero
+      <PublicPageHero banner="about" bannerTitle="Season Recap" bannerSubtitle="Memories · Milestones · Celebration"
         eyebrow="2026–27 Season"
         title="End-of-Season Hub"
         copy="The place for the season recap, team celebration, thank-yous and banquet information once the 2026–27 season is complete."

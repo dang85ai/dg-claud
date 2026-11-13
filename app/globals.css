@@ -604,3 +604,33 @@ textarea.field {
 @media print {
   .cufc-hd-banner {display:none!important;}
 }
+
+
+/* Visual Consistency — public release 2026-11-12. No application data changes. */
+.site-shell .cufc-hd-wrap {max-width:1180px;}
+.site-shell .cufc-hd-banner {padding:14px 16px;}
+.site-shell .cufc-hd-frame {min-height:clamp(168px,17vw,216px);}
+.site-shell .section {padding-block:clamp(40px,5vw,64px);}
+.site-shell .card {border-radius:20px;border-color:#e5e5e5;}
+.site-shell .section-title {font-size:clamp(2rem,4.6vw,3.75rem);}
+.cufc-document-hero {border-bottom:1px solid #e4e4e7;background:linear-gradient(110deg,#fff 12%,#f9f9f8 68%,#f5e9eb 100%);}
+.cufc-document-hero__inner {display:flex;align-items:flex-start;gap:22px;padding-block:clamp(28px,4vw,46px);}
+.cufc-document-hero__icon {display:grid;place-items:center;width:62px;height:62px;flex:0 0 auto;border:1px solid #e4cfd2;border-radius:18px;background:#fff;color:#b91c32;}
+.cufc-document-hero__eyebrow {font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:900;color:#b91c32;}
+.cufc-document-hero__title {margin:7px 0 0;max-width:900px;font-size:clamp(1.8rem,4.2vw,3.3rem);line-height:1.08;font-weight:900;text-transform:uppercase;letter-spacing:-.035em;color:#111;}
+.cufc-document-hero__copy {margin-top:12px;max-width:760px;font-size:clamp(.88rem,1.7vw,1rem);line-height:1.7;color:#52525b;}
+.media-album-card {transition:box-shadow .16s ease,border-color .16s ease;}
+.media-album-card:hover {border-color:#e1b5bd;box-shadow:0 12px 36px #00000010;}
+.media-album-placeholder {position:relative;display:grid;place-items:center;overflow:hidden;aspect-ratio:16/9;background:linear-gradient(125deg,#10151e,#303640 65%,#20232e);}
+.media-album-placeholder[data-tone="1"] {background:linear-gradient(120deg,#1b1d24,#552733 76%,#2d141e);}
+.media-album-placeholder[data-tone="2"] {background:linear-gradient(120deg,#10151a,#31443b 75%,#161f1e);}
+.media-album-placeholder__lines {position:absolute;inset:-30%;opacity:.18;transform:rotate(-20deg);background:repeating-linear-gradient(90deg,transparent 0,transparent 68px,#ffffff40 69px,#ffffff40 70px);}
+.media-album-placeholder__icon {position:relative;display:grid;place-items:center;width:74px;height:74px;border:1px solid #ffffff45;border-radius:22px;background:#ffffff13;color:#fff;}
+@media(max-width:640px) {
+ .cufc-document-hero__inner {gap:15px;padding-block:27px;}
+ .cufc-document-hero__icon {width:46px;height:46px;border-radius:14px;}
+ .site-shell .cufc-hd-frame {min-height:155px;}
+}
+@media (prefers-reduced-motion:reduce) {
+ .media-album-card {transition:none;}
+}
