@@ -1,17 +1,18 @@
 import { ApprovedPageBanner, type ApprovedBannerId } from "@/components/ApprovedPageBanner";
 
 export function PublicPageHero({
-  eyebrow, title, copy, banner
+  eyebrow, title, copy, banner, usePageTitle = false
 }: {
   eyebrow: string;
   title: string;
   copy: string;
   banner?: ApprovedBannerId;
+  usePageTitle?: boolean;
 }) {
   if (banner) {
     return (
       <>
-        <ApprovedPageBanner banner={banner} heading={title} description={copy} asHeading />
+        <ApprovedPageBanner banner={banner} heading={title} description={copy} titleOverride={usePageTitle ? title : undefined} subtitleOverride={usePageTitle ? eyebrow : undefined} asHeading />
         <div className="border-b border-neutral-200 bg-white">
           <div className="container py-4 md:py-5">
             <p className="max-w-4xl text-sm leading-6 text-neutral-700 md:text-base">{copy}</p>
@@ -21,13 +22,11 @@ export function PublicPageHero({
     );
   }
   return (
-    <section className="hero py-14 md:py-20">
-      <div className="container">
-        <div className="kicker">{eyebrow}</div>
-        <h1 className="mt-5 max-w-5xl text-5xl font-black uppercase leading-[.9] tracking-[-.05em] md:text-7xl">
-          {title}
-        </h1>
-        <p className="mt-6 max-w-2xl text-base text-white/70 md:text-lg">{copy}</p>
+    <section className="cufc-policy-hero" aria-labelledby="page-policy-heading">
+      <div className="container cufc-policy-hero-content">
+        <div className="kicker text-red-700">{eyebrow}</div>
+        <h1 id="page-policy-heading" className="mt-3 max-w-4xl text-3xl font-black uppercase tracking-tight text-neutral-950 sm:text-4xl md:text-5xl">{title}</h1>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-700 md:text-base">{copy}</p>
       </div>
     </section>
   );

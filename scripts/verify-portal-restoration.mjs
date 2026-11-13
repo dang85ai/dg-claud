@@ -66,6 +66,21 @@ for(const [path, key] of [
  ["app/order/page.tsx","kit"]
 ]) check(path,['banner="'+key+'"']);
 
+// Visual consistency release checks: public page coverage and documentation.
+check("components/PublicPageHero.tsx",["cufc-policy-hero","usePageTitle","titleOverride"]);
+check("components/ApprovedPageBanner.tsx",["titleOverride","subtitleOverride"]);
+check("app/globals.css",["--card-radius","--section-gap",".cufc-policy-hero"]);
+check("app/sponsors/page.tsx",['banner="sponsors"',"#packages","#sponsor-form"]);
+check("app/media/page.tsx",["Awaiting Approved Photos","consent-reviewed"]);
+for (const [path,key] of [
+ ["app/faq/page.tsx","parent-portal"],
+ ["app/game-day/page.tsx","schedule"],
+ ["app/end-of-season/page.tsx","about"]
+]) check(path,['banner="'+key+'"',"usePageTitle"]);
+for (const path of ["app/privacy/page.tsx","app/accessibility/page.tsx","app/photo-safety/page.tsx"]) {
+ assert.ok(existsSync(path),"Missing required safety page "+path);
+ check(path,["<PublicPageHero"]);
+}
 // Email workflow regression coverage: ensure the backend and manager UI remain present.
 for (const name of [
  "app/admin/notifications/page.tsx",

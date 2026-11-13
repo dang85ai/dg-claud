@@ -31,10 +31,14 @@ export default function MediaPage() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {albums.map((album) => (
+            {albums.map((album, index) => (
               <div key={album} className="card overflow-hidden">
-                <div className="grid aspect-[4/3] place-items-center bg-neutral-200">
-                  <Camera className="text-neutral-400" size={42} />
+                <div className={"relative grid aspect-[4/3] place-items-center overflow-hidden bg-gradient-to-br " + (index % 3 === 0 ? "from-neutral-900 via-neutral-800 to-red-950" : index % 3 === 1 ? "from-red-950 via-neutral-900 to-neutral-800" : "from-neutral-800 via-neutral-900 to-red-900")}>
+                  <div className="absolute inset-x-6 inset-y-5 rounded-lg border border-white/15" aria-hidden="true" />
+                  <div className="relative grid justify-items-center gap-3 text-white/80">
+                    <Camera size={39} strokeWidth={1.5} aria-hidden="true" />
+                    <span className="text-[10px] font-black uppercase tracking-[.15em]">Awaiting Approved Photos</span>
+                  </div>
                 </div>
                 <div className="p-5">
                   <div className="text-xs font-black uppercase tracking-[.14em] text-red-600">Album</div>
