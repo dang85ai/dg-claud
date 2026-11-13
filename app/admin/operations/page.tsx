@@ -12,6 +12,14 @@ type AdminDashboard = { roles: string[]; metrics: {
   open_game_duties: number; active_sponsors: number;
 } };
 const groups = [
+  { id: "follow-up", title: "Requests and Follow-up", items: [
+    { name: "Submissions and email delivery", href: "/admin/notifications", note: "Review contact inquiries, signed forms and notification failures" },
+    { name: "Sponsorship inquiries", href: "/admin/sponsors", note: "Review inquiries and track follow-up or commitments" },
+    { name: "Portal kit orders", href: "/admin/modules/orders", note: "Review items, sizes and payment status" },
+    { name: "Public kit requests", href: "https://app.netlify.com/projects/caledon-u9-girls-2026/forms", note: "Review public requests in Netlify using your team account" },
+    { name: "Schedule changes", href: "/admin/modules/schedule", note: "Review event status and manage website schedule records" },
+    { name: "Attendance", href: "/admin/modules/attendance", note: "Review responses and record attendance" }
+  ] },
   { id: "roster", title: "Team & Roster", items: [
     { name: "Players and private profiles", href: "/admin/players", note: "Add, edit, archive and review public consent" },
     { name: "Family links and activation", href: "/admin/families", note: "Approve family access and create parent activation" },
@@ -62,15 +70,16 @@ export default function OperationsPage() {
   })(); }, [router]);
   return <div className="min-h-screen bg-neutral-100">
     <PortalHeader title="Team Operations" isAdmin />
-    <main className="container py-8">
+    <main id="portal-main" className="container py-8">
       <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Manager Command Centre</div>
       <h1 className="mt-2 text-3xl font-black uppercase md:text-5xl">Team Operations</h1>
-      <p className="mt-3 max-w-3xl text-sm text-neutral-600">All management tools grouped by function. Some advanced modules are still being restored; links distinguish live controls from dashboard-only summaries.</p>
+      <p className="mt-3 max-w-3xl text-sm text-neutral-600">Review incoming requests and open the tools you need to manage the team.</p>
       {status ? <div role="status" className="notice mt-5">{status}</div> : null}
       {data ? <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
         {[
           ["Active Players", data.metrics.active_players], ["Guardians", data.metrics.guardians],
-          ["Pending Media", data.metrics.pending_media], ["Open Duties", data.metrics.open_game_duties]
+          ["Pending Media", data.metrics.pending_media], ["Open Duties", data.metrics.open_game_duties],
+          ["Unpaid Kit Orders", data.metrics.unpaid_kit_orders], ["Active Sponsors", data.metrics.active_sponsors]
         ].map(([name, value]) => <div key={name} className="card p-4"><div className="text-3xl font-black">{value}</div><div className="mt-2 text-xs font-black uppercase">{name}</div></div>)}
       </div> : null}
       {data ? groups.map((group) => <section key={group.id} id={group.id} className="mt-9 scroll-mt-8">
@@ -85,3 +94,4 @@ export default function OperationsPage() {
     </main>
   </div>;
 }
+
