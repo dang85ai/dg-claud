@@ -114,20 +114,20 @@ export default function AdminPage() {
     { label: "Team Operations", href: "/admin/operations" },
     { label: "Schedule", href: "/admin/manage#schedule" },
     { label: "Spond Import", href: "/admin/spond" },
-    { label: "Attendance", href: "/admin/operations#attendance" },
-    { label: "Game Duties", href: "/admin/operations#duties" },
-    { label: "Forms", href: "/admin/operations#forms" },
-    { label: "Payments", href: "/admin/operations#finance" },
-    { label: "Kit Orders", href: "/admin/operations#kit" },
-    { label: "Media", href: "/admin/operations#media" },
+    { label: "Attendance", href: "/admin/modules/attendance" },
+    { label: "Game Duties", href: "/admin/modules/duties" },
+    { label: "Forms", href: "/admin/modules/forms" },
+    { label: "Payments", href: "/admin/modules/payments" },
+    { label: "Kit Orders", href: "/admin/modules/orders" },
+    { label: "Media", href: "/admin/modules/media" },
     { label: "Sponsors", href: "/admin/sponsors" },
-    { label: "Sisterhood", href: "/admin/operations#recognition" },
-    { label: "Equipment", href: "/admin/operations#equipment" },
-    { label: "Referees", href: "/admin/operations#referees" },
+    { label: "Sisterhood", href: "/admin/modules/sisterhood" },
+    { label: "Equipment", href: "/admin/modules/equipment" },
+    { label: "Referees", href: "/admin/modules/referees" },
     { label: "Announcements", href: "/admin/manage#announcements" },
     { label: "Invites", href: "/admin/manage#invites" },
     { label: "Data Export", href: "/admin/manage#export" },
-    { label: "Settings", href: "/admin/operations#settings" }
+    { label: "Settings", href: "/admin/modules/settings" }
   ];
 
   return (
@@ -240,3 +240,4 @@ export default function AdminPage() {
     </div>
   );
 }
+
