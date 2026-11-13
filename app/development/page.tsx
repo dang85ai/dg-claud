@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Footprints,
   Heart,
@@ -79,6 +80,7 @@ export default function DevelopmentPage() {
                 <Footprints className="text-red-600" />
                 <h2 className="text-2xl font-black uppercase">Home Practice Ideas</h2>
               </div>
+              <Link href="/train-at-home" className="btn btn-primary mt-4">Explore Train at Home</Link>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {practiceIdeas.map(([title, text]) => (
                   <div key={title} className="rounded-2xl bg-neutral-50 p-4">
@@ -111,3 +113,4 @@ export default function DevelopmentPage() {
     </PublicShell>
   );
 }
+

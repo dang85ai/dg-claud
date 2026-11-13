@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/schedule`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/kit`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/development`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/train-at-home`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/game-day`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${baseUrl}/sponsors`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/parents`, changeFrequency: "monthly", priority: 0.7 },
@@ -20,3 +21,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/photo-safety`, changeFrequency: "yearly", priority: 0.3 }
   ];
 }
+
