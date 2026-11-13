@@ -66,15 +66,14 @@ export default async function SponsorsPage() {
       <section className="relative isolate overflow-hidden bg-black text-white">
         <div className="pointer-events-none absolute -right-24 -top-40 size-[550px] rounded-full bg-red-700/30 blur-[125px]" />
         <div className="pointer-events-none absolute -bottom-60 left-1/4 size-[520px] rounded-full bg-red-800/20 blur-[110px]" />
-        <div className="container relative grid items-center gap-9 py-9 lg:grid-cols-[1fr_320px] lg:py-12">
+        <div className="container relative grid items-center gap-9 py-7 lg:grid-cols-[1fr_260px] lg:py-9">
           <div>
             <div className="text-sm font-black uppercase tracking-[.19em] text-red-400">Caledon United FC 2018 Girls</div>
             <div className="mt-4 inline-block bg-red-600 px-4 py-2 text-xs font-black uppercase tracking-[.18em] text-white">
               {campaign?.season_label || "Team sponsorship"}
             </div>
-            <h1 className="mt-5 max-w-3xl text-4xl font-black uppercase leading-[.98] tracking-tight sm:text-6xl">
+            <h1 className="mt-4 max-w-3xl text-4xl font-black uppercase leading-[.98] tracking-tight sm:text-5xl">
               {campaign?.heading || "Sponsorship Opportunities"}
-              <span className="mt-2 block text-red-500">Sponsorship Opportunities</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
               {campaign?.description || "Find current sponsorship packages and support local girls' soccer."}

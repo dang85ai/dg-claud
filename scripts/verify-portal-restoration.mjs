@@ -46,7 +46,9 @@ const approvedBanners = [
 ];
 for(const name of approvedBanners)
  assert.ok(existsSync("public/assets/banners/2026-27/"+name+".webp"),"Missing approved banner: "+name);
-check("components/ApprovedPageBanner.tsx",["ApprovedBannerId","aria-label","asHeading","sm:hidden","sm:block"]);
+check("components/ApprovedPageBanner.tsx",["ApprovedBannerId","2026-27-hd","cufc-hd-image","aria-label","asHeading"]);
+check("app/globals.css",[".cufc-hd-frame",".cufc-hd-title","@media (max-width:440px)"]);
+for (const name of approvedBanners) assert.ok(existsSync("public/assets/banners/2026-27-hd/"+name+".webp"),"Missing HD banner: "+name);
 check("components/PublicPageHero.tsx",["ApprovedPageBanner","asHeading"]);
 check("components/PortalHeader.tsx",["pageBanners","/portal","/portal/finances","/admin/finances","ApprovedPageBanner"]);
 check("app/page.tsx",['banner="home"',"View This Week"]);

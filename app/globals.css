@@ -494,3 +494,113 @@ textarea.field {
 @media print {
  .approved-page-banner {display:none!important;}
 }
+
+
+/* 2026–27 HD banner system. Text and the official crest stay sharp at all DPIs. */
+.cufc-hd-banner {
+  background:#080a0e;
+  padding:clamp(10px,1.35vw,18px) clamp(10px,2vw,24px);
+  border-bottom:1px solid rgba(255,255,255,.13);
+}
+.cufc-hd-wrap { max-width:1480px; margin:0 auto; }
+.cufc-hd-frame {
+  position:relative; isolation:isolate; overflow:hidden;
+  display:flex; align-items:center;
+  min-height:clamp(165px,16vw,226px);
+  border-radius:17px;
+  border:1px solid rgba(255,255,255,.78);
+  background:#090b10; color:#fff;
+  box-shadow:0 15px 30px rgba(0,0,0,.17);
+}
+.cufc-hd-image {
+  position:absolute; inset:0 0 0 auto; width:68%;
+  z-index:-3; background-size:cover; background-position:right center;
+  background-repeat:no-repeat;
+}
+.cufc-hd-shade {
+  position:absolute; inset:0; z-index:-2;
+  background:linear-gradient(90deg,
+    #090b10 0%,
+    rgba(9,11,16,.98) 26%,
+    rgba(9,11,16,.88) 43%,
+    rgba(9,11,16,.56) 58%,
+    rgba(9,11,16,.10) 82%,
+    rgba(9,11,16,.06) 100%);
+}
+.cufc-hd-left-stripes {
+  position:absolute; left:-28px; top:-12%; height:125%; width:55px;
+  background:linear-gradient(90deg,#8b0719 0%,#eb1735 68%,#9d091e 100%);
+  transform:skewX(-25deg);
+  border-right:6px solid rgba(9,11,16,.8);
+  box-shadow:12px 0 0 rgba(159,11,34,.45);
+}
+.cufc-hd-right-stripe {
+  position:absolute; right:-32px; bottom:-18%; height:112%; width:41px;
+  background:linear-gradient(90deg,#b70c27,#e71937);
+  transform:skewX(-24deg);
+  opacity:.94;
+}
+.cufc-hd-content {
+  position:relative; z-index:2; width:100%;
+  display:flex; align-items:center; gap:clamp(15px,2.1vw,30px);
+  padding:21px clamp(27px,4.6vw,67px);
+}
+.cufc-hd-crest {
+  flex-shrink:0;
+  display:block; width:clamp(70px,8.1vw,116px); height:auto;
+  aspect-ratio:1/1; object-fit:contain; border-radius:50%;
+  filter:drop-shadow(0 3px 9px rgba(0,0,0,.36));
+}
+.cufc-hd-divider {
+  flex-shrink:0; height:clamp(65px,8vw,116px); width:2px;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),#fff,rgba(255,255,255,.55));
+}
+.cufc-hd-text { min-width:0; max-width:min(68%,760px); }
+.cufc-hd-title {
+  margin:0; padding:0; color:white;
+  font-family:Impact,"Arial Narrow","Franklin Gothic Heavy","Arial Black",sans-serif;
+  font-size:clamp(2.05rem,3.55vw,3.65rem);
+  font-weight:900; font-stretch:condensed; text-transform:uppercase;
+  letter-spacing:.025em; line-height:1.08;
+  text-shadow:0 2px 7px rgba(0,0,0,.35);
+  text-wrap:balance;
+}
+.cufc-hd-title--long { font-size:clamp(1.65rem,2.8vw,3.03rem); }
+.cufc-hd-subtitle {
+  margin:8px 0 0; padding:0; color:rgba(255,255,255,.92);
+  font-size:clamp(.72rem,1.15vw,1rem); line-height:1.35;
+  font-weight:700; text-transform:uppercase; letter-spacing:.17em;
+  text-shadow:0 1px 5px rgba(0,0,0,.35);
+}
+.approved-page-banner--portal .cufc-hd-frame { min-height:clamp(150px,14vw,194px); }
+.approved-page-banner--portal .cufc-hd-title { font-size:clamp(1.55rem,2.6vw,2.9rem); }
+.approved-page-banner--portal .cufc-hd-title--long {font-size:clamp(1.35rem,2.2vw,2.4rem);}
+
+@media (max-width:760px) {
+  .cufc-hd-frame { min-height:166px; border-radius:13px; }
+  .cufc-hd-image {width:74%;background-position:right center;}
+  .cufc-hd-shade {background:linear-gradient(90deg,#090b10 0%,rgba(9,11,16,.96) 37%,rgba(9,11,16,.55) 77%,rgba(9,11,16,.24) 100%);}
+  .cufc-hd-left-stripes {left:-30px;width:51px;}
+  .cufc-hd-right-stripe {width:31px;right:-25px;}
+  .cufc-hd-content {gap:13px;padding:18px 25px;}
+  .cufc-hd-crest {width:clamp(56px,10.5vw,81px);}
+  .cufc-hd-divider {height:68px;}
+  .cufc-hd-text {max-width:calc(100% - 96px);}
+  .cufc-hd-title,.approved-page-banner--portal .cufc-hd-title {font-size:clamp(1.45rem,4.1vw,2.2rem);}
+  .cufc-hd-title--long,.approved-page-banner--portal .cufc-hd-title--long {font-size:clamp(1.25rem,3.4vw,1.9rem);}
+  .cufc-hd-subtitle {font-size:clamp(.61rem,1.5vw,.8rem);letter-spacing:.12em;}
+}
+@media (max-width:440px) {
+  .cufc-hd-banner {padding:9px;}
+  .cufc-hd-frame,.approved-page-banner--portal .cufc-hd-frame {min-height:155px;}
+  .cufc-hd-content {gap:10px;padding:15px 18px 15px 25px;}
+  .cufc-hd-crest {width:53px;}
+  .cufc-hd-divider {height:67px;width:1px;}
+  .cufc-hd-text {max-width:calc(100% - 81px);}
+  .cufc-hd-title,.approved-page-banner--portal .cufc-hd-title {font-size:clamp(1.25rem,5.1vw,1.65rem);}
+  .cufc-hd-title--long,.approved-page-banner--portal .cufc-hd-title--long {font-size:clamp(1.07rem,4.4vw,1.37rem);}
+  .cufc-hd-subtitle {font-size:.58rem;letter-spacing:.08em;line-height:1.4;}
+}
+@media print {
+  .cufc-hd-banner {display:none!important;}
+}
