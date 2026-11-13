@@ -30,6 +30,7 @@ export function Footer() {
         <div>
           <div className="font-black uppercase tracking-wide">Parent Resources</div>
           <div className="mt-3 grid gap-2 text-sm text-white/70">
+            <Link href="/request-invite" className="btn btn-primary justify-self-start">Request Parent Invite</Link>
             <Link href="/order">Team Kit Request</Link>
             <Link href="/game-day">Game Day</Link>
             <Link href="/development">Player Development</Link>

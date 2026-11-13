@@ -7,6 +7,8 @@ import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
 
+import { SUPABASE_URL } from "@/lib/supabase";
+type InviteRequest = { id: string; parent_name: string; email: string; player_name: string; status: string };
 type Guardian = { id: string; user_id: string | null; full_name: string };
 type Player = { id: string; name: string; number: number | null; active: boolean; parents: { guardian_id: string; name: string; relationship: string | null }[] };
 type Roster = { manager: boolean; players: Player[] };
@@ -15,6 +17,7 @@ type OnboardResponse = { existing?: boolean; message?: string; activation_url?: 
 export default function FamiliesPage() {
   const router = useRouter();
   const [roster, setRoster] = useState<Roster | null>(null);
+  const [requests, setRequests] = useState<InviteRequest[]>([]);
   const [guardians, setGuardians] = useState<Guardian[]>([]);
   const [status, setStatus] = useState("Checking manager access…");
   const [busy, setBusy] = useState(false);
@@ -25,6 +28,11 @@ export default function FamiliesPage() {
     if (!snapshot.manager) throw new Error("Manager MFA access required.");
     const result = await supabase.from("guardians").select("id,user_id,full_name").order("full_name");
     if (result.error) throw result.error;
+    const queue = await supabase.from("parent_invite_requests")
+      .select("id,parent_name,email,player_name,status").in("status", ["pending", "failed", "sending"])
+      .order("created_at").limit(100);
+    if (queue.error) throw queue.error;
+    setRequests(queue.data ?? []);
     setRoster(snapshot);
     setGuardians(result.data || []);
   }, []);
@@ -72,6 +80,28 @@ export default function FamiliesPage() {
     finally { setBusy(false); }
   }
 
+  async function reviewRequest(request: InviteRequest, action: "approve" | "decline") {
+    const prompt = action === "approve"
+      ? "Have you verified this parent or guardian? Approving requests an invitation to " + request.email + "."
+      : "Decline this request?";
+    if (!window.confirm(prompt)) return;
+    setBusy(true);
+    setStatus("");
+    try {
+      const result = await authedFetch<{ message: string }>(SUPABASE_URL + "/functions/v1/parent-invite-requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: request.id, action })
+      });
+      setStatus(result.message);
+      await refresh();
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Unable to review request.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function activate(e: FormEvent<HTMLFormElement>) {
     e.preventDefault(); const form = new FormData(e.currentTarget);
     setBusy(true); setStatus(""); setActivation("");
@@ -96,6 +126,23 @@ export default function FamiliesPage() {
         <p className="mt-3 max-w-3xl text-sm text-neutral-600">Connect existing guardian accounts to squad players. Verify relationships before linking any private player record. Requests submitted by parents can also be reviewed in <Link href="/admin/players" className="underline">Player Administration</Link>.</p>
         {status ? <div role="status" className="notice mt-5">{status}</div> : null}
         {roster ? <>
+          <section className="card mt-8 p-6">
+            <h2 className="text-xl font-black uppercase">Parent Invite Requests</h2>
+            <p className="mt-2 text-sm text-neutral-700">Verify the parent and player before approving. Approving requests an email to the address shown. Link the verified guardian to the player separately.</p>
+            <div className="mt-4 grid gap-3">
+              {requests.length === 0 && <p className="text-sm text-neutral-600">No requests awaiting review.</p>}
+              {requests.map(request => <article key={request.id} className="rounded-xl border border-neutral-200 p-4">
+                <h3 className="font-bold">{request.parent_name}</h3>
+                <p className="break-all text-sm">{request.email}</p>
+                <p className="mt-1 text-sm">Player: {request.player_name}</p>
+                <p className="mt-1 text-sm">Status: {request.status}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button type="button" disabled={busy || request.status === "sending"} className="btn btn-primary" onClick={() => void reviewRequest(request, "approve")}>{request.status === "failed" ? "Retry Invitation" : "Approve & Email Invite"}</button>
+                  <button type="button" disabled={busy || request.status === "sending"} className="btn btn-light" onClick={() => void reviewRequest(request, "decline")}>Decline</button>
+                </div>
+              </article>)}
+            </div>
+          </section>
           <section className="card mt-8 p-6">
             <h2 className="text-xl font-black uppercase">Connect Existing Family</h2>
             <form onSubmit={link} className="mt-5 grid gap-4 md:grid-cols-3">
