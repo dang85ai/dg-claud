@@ -100,7 +100,7 @@ export function SponsorLogoBanner() {
           </Link>
         </div>
 
-        <div className="mt-7 flex flex-wrap justify-center gap-4 lg:justify-start">
+        <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:max-w-3xl">
           {sponsors.map((sponsor) => {
             const url = safeWebsite(sponsor.website_url);
             const content = (
@@ -113,7 +113,7 @@ export function SponsorLogoBanner() {
                 {url ? <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-red-600">Visit sponsor <ExternalLink size={12} /></span> : null}
               </>
             );
-            const cls = "group flex w-full max-w-64 flex-col items-center rounded-2xl border border-neutral-200 bg-neutral-50 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-red-300 hover:shadow-md";
+            const cls = "group flex w-full flex-col items-center rounded-2xl border border-neutral-200 bg-neutral-50 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-red-300 hover:shadow-md";
             return url ? (
               <a key={sponsor.id} href={url} target="_blank" rel="noopener noreferrer sponsored" className={cls}>
                 {content}

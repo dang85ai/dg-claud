@@ -38,7 +38,7 @@ export function NewFamilyGuide() {
   return <section id="start-here" className="card scroll-mt-28 p-6">
     <h2 className="text-2xl font-black uppercase">New to the team? Start here</h2>
     <ol className="mt-5 list-decimal space-y-4 pl-6 text-neutral-700">
-      <li>Ask the <Link href="/contact" className="font-bold text-red-600 underline">team manager</Link> for the team&apos;s Spond invitation and parent access.</li>
+      <li><Link href="/request-invite" className="font-bold text-red-600 underline">Request a Parent Invite</Link> for portal access. Ask the <Link href="/contact" className="font-bold text-red-600 underline">team manager</Link> for the team&apos;s Spond invitation.</li>
       <li><Link href="/login" className="font-bold text-red-600 underline">Sign in to the Parent Portal</Link> and review private information and any requested forms.</li>
       <li><a href="https://sgoxywyhaketjmdmkzhm.supabase.co/functions/v1/team-calendar" className="font-bold text-red-600 underline">Add the team calendar</a>. Check Spond for changes; an imported calendar may need to be imported again to reflect updates.</li>
       <li>Review the <Link href="/kit" className="font-bold text-red-600 underline">team kit</Link> and <Link href="/game-day" className="font-bold text-red-600 underline">equipment checklist</Link>.</li>

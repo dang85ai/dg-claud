@@ -1,21 +1,25 @@
+import type { ReactNode } from "react";
 import { ApprovedPageBanner, type ApprovedBannerId } from "@/components/ApprovedPageBanner";
 
 export function PublicPageHero({
-  eyebrow, title, copy, banner, usePageTitle = false
+  eyebrow, title, copy, banner, usePageTitle = false, action, secondaryAction
 }: {
   eyebrow: string;
   title: string;
   copy: string;
   banner?: ApprovedBannerId;
   usePageTitle?: boolean;
+  action?: ReactNode;
+  secondaryAction?: ReactNode;
 }) {
   if (banner) {
     return (
       <>
-        <ApprovedPageBanner banner={banner} heading={title} description={copy} titleOverride={usePageTitle ? title : undefined} subtitleOverride={usePageTitle ? eyebrow : undefined} asHeading />
+        <ApprovedPageBanner banner={banner} heading={title} titleOverride={usePageTitle ? title : undefined} subtitleOverride={usePageTitle ? eyebrow : undefined} asHeading />
         <div className="border-b border-neutral-200 bg-white">
           <div className="container py-4 md:py-5">
             <p className="max-w-4xl text-sm leading-6 text-neutral-700 md:text-base">{copy}</p>
+            {action ? <div className="mt-4 flex flex-wrap gap-3">{action}{secondaryAction}</div> : null}
           </div>
         </div>
       </>

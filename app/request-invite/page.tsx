@@ -15,13 +15,13 @@ export default function RequestInvitePage() {
     setBusy(true);
     setMessage("");
     try {
-      await publicFetch(SUPABASE_URL + "/functions/v1/parent-invite-requests", {
+      const result = await publicFetch<{ reference?: string }>(SUPABASE_URL + "/functions/v1/parent-invite-requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...Object.fromEntries(new FormData(event.currentTarget)), action: "submit" })
       });
       setSubmitted(true);
-      setMessage("Request received. A team manager will review it before an invitation can be emailed.");
+      setMessage("Request received. A team manager will review it before an invitation can be emailed." + (result.reference ? ` Reference ${result.reference}.` : ""));
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to submit your request.");
     } finally {

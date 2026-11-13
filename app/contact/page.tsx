@@ -24,12 +24,12 @@ export default function ContactPage() {
     const body = Object.fromEntries(form.entries());
 
     try {
-      const result = await publicFetch<{ message: string }>(endpoints.contact, {
+      const result = await publicFetch<{ message: string; reference?: string }>(endpoints.contact, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       });
-      setStatus(result.message);
+      setStatus(result.reference ? `${result.message} Reference ${result.reference}.` : result.message);
       event.currentTarget.reset();
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to submit the form.");

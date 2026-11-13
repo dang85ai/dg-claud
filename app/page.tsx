@@ -41,10 +41,10 @@ export default function HomePage() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Link href="/schedule#current-week" className="btn btn-primary">
-              View This Week&apos;s Schedule
+              View Next 7 Days
             </Link>
-            <Link href="/login" className="btn home-hero-secondary">
-              Join the Parent Portal
+            <Link href="/request-invite" className="btn home-hero-secondary">
+              Request a Parent Invite
             </Link>
           </div>
         </div>
@@ -74,7 +74,7 @@ export default function HomePage() {
               </Link>
               <Link href="/login" className="card flex min-h-20 items-center gap-3 p-4 hover:border-red-500">
                 <ShieldCheck className="shrink-0 text-red-600" size={20} />
-                <span className="font-black">Parent Portal</span>
+                <span className="font-black">Sign In</span>
               </Link>
             </div>
           </div>

@@ -57,9 +57,16 @@ async function sponsorshipData(): Promise<{ campaign: Campaign | null; offers: O
   return { campaign: current.data as Campaign, offers: (packages.data || []) as Offer[], error: false };
 }
 
-export default async function SponsorsPage() {
+export default async function SponsorsPage({
+  searchParams
+}: {
+  searchParams: Promise<{ package?: string | string[] }>;
+}) {
   const { campaign, offers, error } = await sponsorshipData();
   const available = offers.filter((offer) => offer.availability === "available");
+  const selected = (await searchParams).package;
+  const initialOffer = available.find((offer) => offer.offer_key === selected)?.offer_key;
+  const orderedOffers = [...available, ...offers.filter((offer) => offer.availability !== "available")];
   return (
     <PublicShell>
       <ApprovedPageBanner banner="sponsors" asHeading heading="Sponsorship Opportunities" />
@@ -113,7 +120,7 @@ export default async function SponsorsPage() {
             <div className="mt-7 rounded-xl border border-neutral-200 p-6">There are no published sponsorship packages for this season.</div>
           ) : null}
           <div className="mt-8 grid gap-5 md:grid-cols-2">
-            {offers.map((offer) => {
+            {orderedOffers.map((offer) => {
               const sold = offer.availability === "sold";
               const reserved = offer.availability === "reserved";
               return (
@@ -159,7 +166,7 @@ export default async function SponsorsPage() {
                     <div className="mt-6">
                       {sold ? <div className="rounded-xl bg-neutral-100 px-4 py-3 text-center text-sm font-black uppercase text-neutral-500">This placement has been secured</div> :
                         reserved ? <a href={"mailto:" + (campaign?.contact_email || "girlsoccer2018@gmail.com")} className="btn btn-light w-full">Ask about availability</a> :
-                        <a href="#sponsor-form" className="btn btn-primary w-full">Enquire about this package <ArrowRight size={17} /></a>}
+                        <a href={`?package=${encodeURIComponent(offer.offer_key)}#sponsor-form`} className="btn btn-primary w-full">Enquire about this package <ArrowRight size={17} /></a>}
                     </div>
                   </div>
                 </article>
@@ -224,7 +231,7 @@ export default async function SponsorsPage() {
             <div className="text-xs font-black uppercase tracking-[.16em] text-red-600">Sponsorship commitment</div>
             <h2 className="mt-2 text-3xl font-black uppercase">Ready to support our girls?</h2>
             <p className="mt-3 text-neutral-600">Complete our sponsorship interest form and the team will follow up to confirm your package and payment details.</p>
-            <div className="mt-7"><SponsorshipInquiryForm offers={available} seasonLabel={campaign?.season_label || "Current season"} /></div>
+            <div className="mt-7"><SponsorshipInquiryForm key={initialOffer ?? "all"} initialOffer={initialOffer} offers={available} seasonLabel={campaign?.season_label || "Current season"} /></div>
           </div>
           <aside className="rounded-3xl bg-black p-6 text-white md:p-8">
             <div className="text-xs font-black uppercase tracking-[.16em] text-red-400">Support & payment information</div>

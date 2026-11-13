@@ -63,8 +63,11 @@ export default function ParentsPage() {
     <PublicShell>
       <DevelopmentBanner />
       <PublicPageHero banner="parent-portal"
-        eyebrow="Parent Resources"
-        title="Everything Around the Game"
+        eyebrow="2026–27 Season"
+        title="Parent Resources"
+        usePageTitle
+        action={<Link href="/request-invite" className="btn btn-primary">Request a Parent Invite</Link>}
+        secondaryAction={<Link href="/login" className="btn btn-light">Sign In</Link>}
         copy="Practical information for game day, player development, team expectations and the season journey."
       />
 

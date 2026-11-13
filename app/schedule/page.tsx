@@ -8,10 +8,7 @@ import {
   CalendarDays,
   CloudSun,
   Clock3,
-  Download,
-  MapPin,
-  Trophy,
-  Users
+  Download
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -34,22 +31,7 @@ export default function SchedulePage() {
 
       <section className="section">
         <div className="container">
-          <div className="grid gap-4 md:grid-cols-4">
-            {[
-              { Icon: CalendarDays, title: "Practices", text: "October–May planning dates are listed below. Check Spond for exact time, venue and arrival details." },
-              { Icon: Trophy, title: "Games", text: "Game dates can appear here. Exact opponent, kickoff, venue and arrival instructions are confirmed in Spond." },
-              { Icon: Users, title: "Team Events", text: "Photo day, fundraisers, socials and other team events will be included." },
-              { Icon: MapPin, title: "Tournaments", text: "Tournament planning dates can appear here. Exact venue and team logistics are confirmed in Spond." }
-            ].map(({ Icon, title, text }) => (
-              <div className="card p-5" key={title}>
-                <Icon className="text-red-600" />
-                <h2 className="mt-3 text-lg font-black uppercase">{title}</h2>
-                <p className="mt-2 text-sm text-neutral-600">{text}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_340px]">
+          <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
             <div className="card min-w-0 p-4 sm:p-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex min-w-0 items-center gap-3">
@@ -60,9 +42,6 @@ export default function SchedulePage() {
                   <Download size={17} /> Add Planning Dates
                 </a>
               </div>
-              <p className="mt-4 text-neutral-600">
-                Planning dates are supplied from the team schedule for October 2026 through May 2027. Exact start times and locations are intentionally kept in Spond.
-              </p>
               <div className="mt-6">
                 <ScheduleEvents />
               </div>
