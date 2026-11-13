@@ -33,6 +33,7 @@ export function Footer() {
             <Link href="/order">Team Kit Request</Link>
             <Link href="/game-day">Game Day</Link>
             <Link href="/development">Player Development</Link>
+            <Link href="/train-at-home">Train at Home</Link>
             <Link href="/faq">FAQ</Link>
             <Link href="/conduct">Code of Conduct</Link>
             <Link href="/end-of-season">End of Season</Link>
@@ -52,3 +53,4 @@ export function Footer() {
     </footer>
   );
 }
+
