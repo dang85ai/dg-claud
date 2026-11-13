@@ -26,7 +26,7 @@ const artwork: Record<ApprovedBannerId, { title: string; sub: string; compact?: 
  * crisp and accessible at desktop, tablet and phone widths.
  */
 export function ApprovedPageBanner({
-  banner, heading, description, portal = false, asHeading = false, titleOverride, subtitleOverride
+  banner, heading, description, portal = false, asHeading = false, titleOverride, subtitleOverride, neutralBackground = false
 }: {
   banner: ApprovedBannerId;
   heading?: string;
@@ -35,6 +35,7 @@ export function ApprovedPageBanner({
   asHeading?: boolean;
   titleOverride?: string;
   subtitleOverride?: string;
+  neutralBackground?: boolean;
 }) {
   const item = artwork[banner];
   const backgroundImage = "url('/assets/banners/2026-27-hd/" + banner + ".webp')";
@@ -46,8 +47,8 @@ export function ApprovedPageBanner({
       className={"approved-page-banner cufc-hd-banner" + (portal ? " approved-page-banner--portal" : "")}
     >
       <div className="cufc-hd-wrap">
-        <div className="cufc-hd-frame">
-          <div className="cufc-hd-image" style={{ backgroundImage }} aria-hidden="true" />
+        <div className={"cufc-hd-frame" + (neutralBackground ? " cufc-hd-frame--neutral" : "")}>
+          {!neutralBackground ? <div className="cufc-hd-image" style={{ backgroundImage }} aria-hidden="true" /> : null}
           <div className="cufc-hd-shade" aria-hidden="true" />
           <div className="cufc-hd-left-stripes" aria-hidden="true" />
           <div className="cufc-hd-right-stripe" aria-hidden="true" />

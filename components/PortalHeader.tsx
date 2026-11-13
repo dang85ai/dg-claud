@@ -171,6 +171,12 @@ export function PortalHeader({ title, isAdmin = false }: { title: string; isAdmi
   </dialog>
   {error?<p role="alert" className="container pb-3 text-sm text-red-700">{error}</p>:null}
  </header>
- {selectedBanner ? <ApprovedPageBanner banner={selectedBanner} portal /> : null}
+ <ApprovedPageBanner
+   banner={selectedBanner || "parent-portal"}
+   portal
+   titleOverride={title}
+   subtitleOverride={isAdmin ? "Team Management · Secure Workspace" : "Family Portal · Team Resources"}
+   neutralBackground={isAdmin && !selectedBanner}
+ />
  </>;
 }
