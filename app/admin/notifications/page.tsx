@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { AlertTriangle, MailCheck, RefreshCw } from "lucide-react";
+import { SubmissionSummary, type Submission } from "@/components/SubmissionSummary";
+import { supabase } from "@/lib/supabase";
 import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 
@@ -15,10 +17,17 @@ type Monitor={provider_configured:boolean;items:Item[];warning:string|null};
 export default function NotificationMonitor(){
  const [data,setData]=useState<Monitor|null>(null);
  const [error,setError]=useState("");
+ const [submissions,setSubmissions]=useState<Submission[]|null>(null);
+ const [submissionError,setSubmissionError]=useState(false);
  const [busy,setBusy]=useState("");
  const load=useCallback(async()=>{
+  const summary = supabase.rpc("manager_submission_summary").then(({ data, error }) => {
+    setSubmissions(error ? null : data as Submission[]);
+    setSubmissionError(Boolean(error));
+  });
   try{setData(await authedFetch<Monitor>(endpoints.notificationDispatch));setError("");}
-  catch(e){setError(e instanceof Error?e.message:"Unable to load notification records.");}
+  catch(e){setData(null);setError(e instanceof Error?e.message:"Unable to load notification records.");}
+  await summary;
  },[]);
  useEffect(()=>{void load();},[load]);
  async function retry(id:string){
@@ -45,6 +54,8 @@ export default function NotificationMonitor(){
     <strong> Provider accepted does not mean the recipient opened or received the message.</strong>
    </p>
    {error?<p role="alert" className="notice mt-5 text-sm">{error}</p>:null}
+   {submissionError && <p role="alert" className="notice mt-5 text-sm">Unable to load the submission summary.</p>}
+   {submissions && <SubmissionSummary items={submissions}/>}
    {!data?<p className="card mt-6 p-5">Loading secure notification records…</p>:<>
     {!data.provider_configured?<div role="alert" className="mt-6 flex items-start gap-3 rounded-xl border border-amber-300 bg-amber-50 p-5 text-sm text-amber-950">
      <AlertTriangle className="shrink-0" size={20}/>
@@ -52,6 +63,11 @@ export default function NotificationMonitor(){
       <p className="mt-1">Connect Resend, verify caledonunited2018girls.ca and set server-only RESEND_API_KEY and NOTIFICATION_FROM secrets.
       Saved submissions remain in the queue and are not lost. A manager can retry after the provider is ready.</p></div>
     </div>:null}
+    {blocked + count("bounced") > 0 && (
+     <p role="status" className="notice mt-5 text-sm">
+      {blocked + count("bounced")} of the latest notification records need attention.
+     </p>
+    )}
     <div className="mt-6 grid gap-4 sm:grid-cols-4">
      {[
       ["Saved / blocked",blocked],
@@ -104,3 +120,4 @@ export default function NotificationMonitor(){
   </main>
  </div>;
 }
+
