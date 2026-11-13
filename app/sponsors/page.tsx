@@ -248,6 +248,33 @@ export default async function SponsorsPage() {
       <div className="bg-black px-4 py-6 text-center text-sm font-black uppercase tracking-widest text-red-400">
         Caledon United FC 2018 Girls · {campaign?.season_label || "Team season"} · {campaign?.tagline || "Local girls. Stronger together."}
       </div>
+      <section aria-labelledby="practical-guide-title" className="section border-t border-neutral-200">
+        <div className="container max-w-4xl">
+          <h2 id="practical-guide-title" className="text-3xl font-black uppercase tracking-tight">How sponsorship works</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Before you send an inquiry</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Decide whether your business is interested in a particular placement or would like the team to explain the options. Have your business name, a contact person, and a preferred way to reach you ready. If you have a budget or a date you are working toward, include it so the team can discuss options that fit.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">From inquiry to confirmation</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">The team reviews the inquiry, checks current availability and follows up about the proposed support. A placement is confirmed when the team agrees on the details with you. Ask how the placement will appear and when the team needs your approval, especially if you are planning a related announcement or print deadline.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Preparing a logo</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">If you are considering a logo placement, identify the person who can approve use of your branding. Have the approved spelling of your business name and a clean logo file available. Share it once the team confirms the required format, colour treatment and deadline for the placement.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Before arranging payment</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Wait for the team to confirm the amount, payment instructions and next steps. If you need a receipt or have a question about how your sponsorship will be acknowledged, bring it up during the follow-up. If your plans change, contact the team through the sponsorship or contact page so the request can be updated.</p>
+            </article>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="/contact" className="btn btn-light">Contact the team</a>
+          </div>
+        </div>
+      </section>
     </PublicShell>
   );
 }
+

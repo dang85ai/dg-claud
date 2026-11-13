@@ -88,6 +88,39 @@ export default function FaqPage() {
           </div>
         </div>
       </section>
+      <section aria-labelledby="practical-guide-title" className="section border-t border-neutral-200">
+        <div className="container max-w-4xl">
+          <h2 id="practical-guide-title" className="text-3xl font-black uppercase tracking-tight">More common situations</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">I can sign in to the Parent Portal but can’t see the Spond event. What should I do?</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">The website account and Spond are separate. Open Spond with the account you normally use for the team and check for the latest invitation. If it is still missing, contact the manager privately with the event you expected to see and the account you used. Keep passwords and sign-in codes to yourself.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">I already replied in Spond. How do I change it?</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Open the current invitation and update your response there. If kickoff or practice is close, send the manager a brief private message too, since the coaches may already have planned for the original number of players. Include the event and whether you expect to be late or absent.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">I submitted a kit request and haven’t heard back. Should I send another?</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Contact the team and mention the date you submitted the form, the item and the size you requested. A second form may create a duplicate. Wait for the team to confirm availability and next steps before arranging payment.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">How do I ask the team to change photo consent or remove an image?</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Use the team’s private contact channel and describe where the image appears, such as the page or album. Explain what you want changed. A page link and a brief description can help the team find the image without forwarding it or posting a screenshot in a group chat.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Where should I start if I’m new?</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Start with Parent Resources for account access, team communications and the first-week checklist. Use the Game Day Guide when you are packing or planning arrival. The Train at Home page has a short session you can use whenever your player asks to practise.</p>
+            </article>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="/parents" className="btn btn-light">Parent resources</a>
+            <a href="/game-day" className="btn btn-light">Game Day Guide</a>
+            <a href="/train-at-home" className="btn btn-light">Train at Home</a>
+          </div>
+        </div>
+      </section>
     </PublicShell>
   );
 }
+

@@ -113,6 +113,29 @@ export default function TrainAtHomePage() {
           </div>
         </aside>
       </div>
+      <section aria-labelledby="practical-guide-title" className="section border-t border-neutral-200">
+        <div className="container max-w-4xl">
+          <h2 id="practical-guide-title" className="text-3xl font-black uppercase tracking-tight">Adapt the drills to your space</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">A small-space version</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">On an indoor day, choose a clear area with good footing and use a soft ball if one is available. Swap the cone weave for two soft markers and make a figure eight around them. If there’s no safe wall, place two shoes a short distance apart and pass gently through the gap. Walk over, collect the ball and try from a different angle.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Make a drill easier</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">If the ball keeps getting away, shorten the lane and slow down. In Traffic Lights, practise green and red first, then add yellow when stopping feels comfortable. For the ladder, walk through two or three squares before trying the whole pattern. For wall passes, stand closer and use a gentler pass so the rebound is easier to collect.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Add a challenge when she asks</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Give her one new choice at a time. Try leaving the cone weave with the other foot, making the passing gate a little narrower, or letting her call the traffic colours. For toe taps, count a short stretch of steady alternating touches. Let her choose whether to beat her own count or switch games.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">What progress looks like</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Look for a ball that stays within reach, a stop she can make on cue, or a pass she can receive and send back. These are easy wins to notice even on a short practice day. Ask which game she wants to repeat next time. If she has only a few minutes, playing one favourite drill together is enough.</p>
+            </article>
+          </div>
+        </div>
+      </section>
     </PublicShell>
   );
 }

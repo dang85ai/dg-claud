@@ -88,7 +88,35 @@ export default function ParentsPage() {
           </div>
         </div>
       </section>
+      <section aria-labelledby="practical-guide-title" className="section border-t border-neutral-200">
+        <div className="container max-w-4xl">
+          <h2 id="practical-guide-title" className="text-3xl font-black uppercase tracking-tight">First-week checklist</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Your first week with the team</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Start by finding your current Spond invitation and confirming that you can sign in to the Parent Portal. The two accounts serve different purposes. In Spond, check the next event and respond if asked. In the portal, check which player information and forms are available to your account. If your family link is missing, contact the manager privately for help.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Before your first session</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Use the event invitation to confirm arrival time, entrance, playing surface and footwear. Put a labelled bottle, shin guards and the requested teamwear together the night before. If you need a jersey or other item, check the Team Kit guide and send a request. Ask the manager what your player should wear in the meantime.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Forms, consent and pickup</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Review any requested forms in the private portal. Contact the team privately if you need to correct a family record, change photo consent or share a pickup arrangement. Keep health information, activation links and exact event details within the appropriate private channel.</p>
+            </article>
+            <article className="card p-5 sm:p-6">
+              <h3 className="text-lg font-black">Where to go when something changes</h3>
+              <p className="mt-2 text-sm leading-7 text-neutral-700">Use Spond first for event changes, RSVP and last-minute updates. Use the Parent Portal for team forms and authorized player information. Contact the manager privately for access problems, a late absence or a kit question. For registration and refunds, start with the official club resources on this page.</p>
+            </article>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="/faq" className="btn btn-light">Parent FAQ</a>
+            <a href="/game-day" className="btn btn-light">Game Day Guide</a>
+          </div>
+        </div>
+      </section>
     </PublicShell>
   );
 }
+
 
