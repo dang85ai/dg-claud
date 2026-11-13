@@ -22,6 +22,7 @@ Deno.serve(async(req:Request)=>{
   const secret=JSON.parse(Deno.env.get('SUPABASE_SECRET_KEYS')||'{}').default||Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
   const admin=createClient(url,secret,{auth:{persistSession:false,autoRefreshToken:false}});
   let email=String(input.email||'').trim().toLowerCase(),name=String(input.full_name||'').trim().slice(0,140);
+  let type:'invite'|'recovery'='invite';
   if(action==='resend_invite'){
    const result=await client.rpc('manage_team_accounts',{action:'list',input:{}});
    if(result.error)throw new Error(result.error.message);
@@ -35,24 +36,55 @@ Deno.serve(async(req:Request)=>{
     return reply({error:'This account is already activated.'},409);
    }
   }else if(action==='resend'){
-   const u=await admin.auth.admin.getUserById(String(input.user_id||''));if(u.error)throw u.error;
-   if(u.data.user.email_confirmed_at){
-    const email=u.data.user.email;if(!email)throw new Error('Account has no email address');
-    const sent=await admin.auth.resetPasswordForEmail(email,{redirectTo:origin+'/auth/finish'});
-    const log=await client.rpc('manage_team_accounts',{action:'delivery',input:{email,outcome:sent.error?'access_email_failed':'access_email_accepted'}});if(log.error)throw new Error(log.error.message);
-    if(sent.error)throw new Error('Access email was not sent: '+sent.error.message);
-    return reply({message:'This account is already activated. A password setup email was accepted for sending to '+email+'. Their password changes only if they use the link.',email_sent:true});
-   }
-   email=u.data.user.email||'';name=String(u.data.user.user_metadata?.full_name||'');
-  }else{const r=await client.rpc('manage_team_accounts',{action:'invite',input:{email,full_name:name,role:input.role}});if(r.error)throw r.error;}
-  // Authentication links are never returned for activated accounts.
-  const sent=await admin.auth.admin.inviteUserByEmail(email,{data:{full_name:name},redirectTo:origin+'/auth/finish'});
-  if(!sent.error){await client.rpc('manage_team_accounts',{action:'delivery',input:{email,outcome:'email_accepted'}});return reply({message:'Invitation email accepted for sending. Check the inbox and spam folder.',email_sent:true});}
-  const generated=await admin.auth.admin.generateLink({type:'invite',email,options:{data:{full_name:name},redirectTo:origin+'/auth/finish'}});
-  if(generated.error)throw new Error('Invitation email failed: '+sent.error.message+'. '+generated.error.message);
-  if(generated.data.user.email_confirmed_at)throw new Error('Account is already activated. Use password recovery.');
-  const hash=generated.data.properties.hashed_token;if(!hash)throw new Error('Unable to generate an activation link');
-  const log=await client.rpc('manage_team_accounts',{action:'delivery',input:{email,outcome:'email_failed_manual_link'}});if(log.error)throw log.error;
-  return reply({email_sent:false,account_id:generated.data.user.id,message:'Email was not sent: '+sent.error.message+'. Share the private activation link directly with this recipient.',activation_url:origin+'/auth/finish#type=invite&token_hash='+encodeURIComponent(hash)});
+   const account=await admin.auth.admin.getUserById(String(input.user_id||''));
+   if(account.error)throw account.error;
+   email=account.data.user.email||'';
+   name=String(account.data.user.user_metadata?.full_name||'');
+   if(account.data.user.email_confirmed_at)type='recovery';
+  }else{
+   const result=await client.rpc('manage_team_accounts',{action:'invite',input:{email,full_name:name,role:input.role}});
+   if(result.error)throw result.error;
+  }
+  if(!email)return reply({error:'Account has no email address.'},400);
+  const id=crypto.randomUUID();
+  const subject=type==='invite'?'Activate your Caledon United FC team account':'Set up your Caledon United FC account password';
+  const apiKey=Deno.env.get('RESEND_API_KEY')||'';
+  const from=Deno.env.get('NOTIFICATION_FROM')||'';
+  const configured=apiKey.startsWith('re_')&&from.includes('@')&&!from.includes('@resend.dev');
+  const queued=await admin.from('notification_outbox').insert({
+   id,event_key:'account-mail:'+id,kind:type==='invite'?'account_invite':'account_recovery',
+   source_id:id,recipient_email:email,subject,body_text:'Private account email',
+   status:configured?'sending':'needs_setup',attempts:configured?1:0
+  });
+  if(queued.error)throw new Error('Unable to record the account notification.');
+  if(!configured)return reply({email_sent:false,message:'Resend is not configured. The notification tracker records this attempt. Use Accounts & Invites to resend after setup.'});
+
+  let providerId:string|undefined;
+  try{
+   const generated=await admin.auth.admin.generateLink({
+    type,email,options:{data:{full_name:name},redirectTo:origin+'/auth/finish'}
+   });
+   if(generated.error||!generated.data.properties.hashed_token||
+      (type==='invite'&&generated.data.user.email_confirmed_at))throw new Error('Unable to prepare account link.');
+   const link=origin+'/auth/finish#type='+type+'&token_hash='+encodeURIComponent(generated.data.properties.hashed_token);
+   const sent=await fetch('https://api.resend.com/emails',{
+    method:'POST',headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json','Idempotency-Key':'cufc-'+id},
+    body:JSON.stringify({from,to:[email],subject,text:subject+' using this single-use link:\n\n'+link+'\n\nIf you did not expect this email, you can ignore it.'}),
+    signal:AbortSignal.timeout(12000)
+   });
+   const result=await sent.json().catch(()=>null);
+   if(sent.ok&&typeof result?.id==='string')providerId=result.id;
+  }catch{
+   // The private link and provider response stay out of the tracker and logs.
+  }
+  const status=providerId?'accepted':'failed';
+  const updated=await admin.from('notification_outbox').update({
+   status,provider_message_id:providerId??null,accepted_at:providerId?new Date().toISOString():null,
+   updated_at:new Date().toISOString(),last_error:providerId?null:'Account email acceptance could not be confirmed.'
+  }).eq('id',id).eq('status','sending');
+  if(updated.error)throw new Error('Unable to record the final email status. Check Resend before retrying.');
+  return reply({email_sent:Boolean(providerId),message:providerId
+   ?'Resend accepted the email. Check Email Notifications for delivery updates.'
+   :'Email acceptance could not be confirmed. Check Email Notifications before resending.'});
  }catch(e){return reply({error:e instanceof Error?e.message:'Unable to manage users'},400);}
 });

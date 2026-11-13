@@ -9,7 +9,7 @@ import { PortalHeader } from "@/components/PortalHeader";
 import { authedFetch, endpoints } from "@/lib/api";
 
 type Item = {
- id:string; kind:"contact"|"sponsorship"|"signed_form";
+ id:string; kind:"contact"|"sponsorship"|"signed_form"|"account_invite"|"account_recovery";
  subject:string;recipient_email:string;status:string;attempts:number;
  last_error:string|null;created_at:string;accepted_at:string|null;delivered_at:string|null;
 };
@@ -50,7 +50,7 @@ export default function NotificationMonitor(){
    <p className="text-xs font-black uppercase tracking-[.15em] text-red-600">Private · Management MFA</p>
    <h1 className="mt-2 text-3xl font-black uppercase md:text-5xl">Notification Delivery</h1>
    <p className="mt-4 max-w-3xl text-sm leading-6 text-neutral-600">
-    Tracks contact, sponsorship and parent form emails from submission through provider acceptance and delivery.
+    Tracks account invitations, password setup, contact, sponsorship and parent form emails from submission through provider acceptance and delivery.
     <strong> Provider accepted does not mean the recipient opened or received the message.</strong>
    </p>
    {error?<p role="alert" className="notice mt-5 text-sm">{error}</p>:null}
@@ -99,7 +99,7 @@ export default function NotificationMonitor(){
         <td className="p-3"><span className="font-bold">{item.status.replace("_"," ")}</span>
          {item.last_error?<div className="mt-1 max-w-[300px] text-xs text-red-700">{item.last_error}</div>:null}</td>
         <td className="p-3">{item.attempts}</td>
-        <td className="p-3">{["queued","needs_setup","failed"].includes(item.status)?
+        <td className="p-3">{["account_invite","account_recovery"].includes(item.kind) && ["queued","needs_setup","failed","bounced"].includes(item.status) ? <Link href="/admin/accounts" className="font-bold underline">Accounts &amp; Invites</Link> : ["queued","needs_setup","failed"].includes(item.status)?
          <button className="btn btn-light !px-3 !py-2" type="button"
           disabled={!!busy||!data.provider_configured||item.attempts>=5}
           onClick={()=>void retry(item.id)}>{busy===item.id?"Retrying…":"Retry"}</button>:"—"}</td>
@@ -110,7 +110,7 @@ export default function NotificationMonitor(){
     <section className="card mt-6 p-5">
      <h2 className="flex items-center gap-2 text-xl font-black uppercase"><MailCheck size={19}/> Other Delivery Services</h2>
      <p className="mt-3 text-sm leading-6 text-neutral-600">
-      Parent invitations from Accounts & Invites use the Supabase Auth mail service. Its accepted response is not proof of inbox delivery.
+      Use Accounts & Invites to resend account emails with a fresh private link.
       The team kit order uses Netlify Forms, which requires its own confirmed email notification recipient.
      </p>
      <p className="mt-3 text-sm text-neutral-600">Configure and confirm the kit notification recipient in Netlify → Forms → Submission notifications.
