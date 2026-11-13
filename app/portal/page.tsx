@@ -93,7 +93,7 @@ export default function PortalPage() {
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Team Portal" />
-      <main className="container py-8">
+      <main id="portal-main" tabIndex={-1} className="container py-8">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Welcome</div>
@@ -242,3 +242,4 @@ export default function PortalPage() {
     </div>
   );
 }
+

@@ -71,7 +71,7 @@ export default function TeamAccounts() {
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Accounts & Invites" isAdmin />
-      <main className="container py-8">
+      <main id="portal-main" tabIndex={-1} className="container py-8">
         <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Administrator Only · MFA Required</div>
         <h1 className="mt-2 text-3xl font-black uppercase md:text-5xl">Team Account Management</h1>
         <p className="mt-3 max-w-3xl text-sm text-neutral-600">Invite team members, review account activation and adjust access roles. Sending is requested through Supabase Auth; provider acceptance is not proof of inbox delivery. Role changes are checked and audited by the server.</p>
@@ -128,3 +128,4 @@ export default function TeamAccounts() {
     </div>
   );
 }
+
