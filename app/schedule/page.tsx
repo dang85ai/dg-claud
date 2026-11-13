@@ -9,9 +9,6 @@ import {
   CloudSun,
   Clock3,
   Download
-  MapPin,
-  Trophy,
-  Users
 } from "lucide-react";
 
 export const metadata: Metadata = {
