@@ -120,7 +120,9 @@ export default function TeamAccounts() {
             <h2 className="text-2xl font-black uppercase">Invitations ({data.invites.length})</h2>
             <div className="mt-4 grid gap-3">{data.invites.map((invite) => <div key={invite.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-neutral-200 p-4">
               <div><div className="font-bold">{invite.name || invite.email}</div><div className="text-xs text-neutral-500">{invite.email} · {invite.role} · {invite.status}</div></div>
-              {invite.status === "pending" ? <button disabled={busy} className="btn btn-light" onClick={() => { if (window.confirm("Cancel this invitation?")) void perform("cancel", { id: invite.id }); }}>Cancel Invite</button> : null}
+              {invite.status === "pending" ? <div className="flex flex-wrap gap-2">
+                <button type="button" disabled={busy} className="btn btn-primary" onClick={() => void perform("resend_invite", { id: invite.id })}>Resend Invite</button>
+                <button disabled={busy} className="btn btn-light" onClick={() => { if (window.confirm("Cancel this invitation?")) void perform("cancel", { id: invite.id }); }}>Cancel Invite</button></div> : null}
             </div>)}</div>
           </section>
         </>}
