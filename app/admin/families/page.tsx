@@ -90,7 +90,7 @@ export default function FamiliesPage() {
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Family Connections" isAdmin />
-      <main className="container py-8">
+      <main id="portal-main" tabIndex={-1} className="container py-8">
         <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Private · Manager MFA</div>
         <h1 className="mt-2 text-3xl font-black uppercase md:text-5xl">Family & Player Access</h1>
         <p className="mt-3 max-w-3xl text-sm text-neutral-600">Connect existing guardian accounts to squad players. Verify relationships before linking any private player record. Requests submitted by parents can also be reviewed in <Link href="/admin/players" className="underline">Player Administration</Link>.</p>
@@ -134,3 +134,4 @@ export default function FamiliesPage() {
     </div>
   );
 }
+

@@ -373,7 +373,7 @@ export default function TrainingDevelopmentPage() {
         <PortalHeader title="Training & Development" />
       </div>
 
-      <main className="container py-8">
+      <main id="portal-main" tabIndex={-1} className="container py-8">
         <div className="no-print">
           <Link href="/portal" className="inline-flex items-center gap-2 text-sm font-black uppercase text-neutral-600 hover:text-red-600">
             <ArrowLeft size={16} /> Back to Team Portal
@@ -576,3 +576,4 @@ export default function TrainingDevelopmentPage() {
     </div>
   );
 }
+

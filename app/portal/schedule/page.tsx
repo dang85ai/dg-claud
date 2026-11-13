@@ -25,7 +25,7 @@ export default function ParentSchedule() {
   const spondLink = data?.team_links.find((l) => l.link_key === "spond_group");
   return <div className="min-h-screen bg-neutral-100">
     <PortalHeader title="Family Schedule" />
-    <main className="container py-8">
+    <main id="portal-main" tabIndex={-1} className="container py-8">
       <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Private Family Portal</div>
       <h1 className="mt-2 text-3xl font-black uppercase md:text-5xl">Team Calendar</h1>
       <p className="mt-3 max-w-3xl text-sm text-neutral-600">Upcoming team events from your family dashboard. Confirm game responses and RSVP changes inside Spond.</p>
@@ -45,3 +45,4 @@ export default function ParentSchedule() {
     </main>
   </div>;
 }
+

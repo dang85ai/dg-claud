@@ -201,7 +201,7 @@ export default function ParentToolsPage() {
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title="Parent Tools" />
-      <main className="container py-8">
+      <main id="portal-main" tabIndex={-1} className="container py-8">
         <div>
           <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Family Self-Service</div>
           <h1 className="mt-2 text-4xl font-black uppercase tracking-tight md:text-5xl">My Team Tools</h1>
@@ -422,3 +422,4 @@ export default function ParentToolsPage() {
     </div>
   );
 }
+

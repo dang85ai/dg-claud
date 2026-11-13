@@ -124,7 +124,7 @@ export function RosterWorkspace({ mode }: { mode: Mode }) {
   return (
     <div className="min-h-screen bg-neutral-100">
       <PortalHeader title={mode === "parent" ? "My Players" : mode === "formation" ? "Team Formation" : "Player Administration"} isAdmin={managerPage} />
-      <main className="container py-8">
+      <main id="portal-main" tabIndex={-1} className="container py-8">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Private Team Workspace</div>
@@ -285,3 +285,4 @@ export function RosterWorkspace({ mode }: { mode: Mode }) {
     </div>
   );
 }
+
