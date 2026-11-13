@@ -13,7 +13,7 @@ export function PublicPageHero({
       <>
         <ApprovedPageBanner banner={banner} heading={title} description={copy} asHeading />
         <div className="border-b border-neutral-200 bg-white">
-          <div className="container py-5">
+          <div className="container py-4 md:py-5">
             <p className="max-w-4xl text-sm leading-6 text-neutral-700 md:text-base">{copy}</p>
           </div>
         </div>
