@@ -1,0 +1,93 @@
+/* Visual Consistency Release 2: a compact, coordinated header for every
+   parent and manager screen. This stylesheet loads after globals.css. */
+.approved-page-banner--portal.cufc-hd-banner {
+  padding:8px 12px;
+  background:#10151e;
+}
+.approved-page-banner--portal .cufc-hd-wrap {max-width:1320px;}
+.approved-page-banner--portal .cufc-hd-frame {
+  min-height:100px;
+  border-radius:13px;
+  border-color:rgba(255,255,255,.27);
+  box-shadow:0 5px 16px rgba(0,0,0,.12);
+}
+.approved-page-banner--portal .cufc-hd-frame--neutral {
+  background:linear-gradient(110deg,#111821 0%,#202734 70%,#342130 100%);
+}
+.approved-page-banner--portal .cufc-hd-content {
+  max-width:1180px;
+  margin-inline:auto;
+  gap:16px;
+  padding:14px 23px;
+}
+.approved-page-banner--portal .cufc-hd-image {
+  opacity:.35;
+  width:64%;
+}
+.approved-page-banner--portal .cufc-hd-shade {
+  background:linear-gradient(90deg,#11151c 0%,rgba(17,21,28,.95) 43%,rgba(17,21,28,.47) 83%);
+}
+.approved-page-banner--portal .cufc-hd-crest {width:54px;}
+.approved-page-banner--portal .cufc-hd-divider {height:55px;}
+.approved-page-banner--portal .cufc-hd-text {max-width:calc(100% - 85px);}
+.approved-page-banner--portal .cufc-hd-title,
+.approved-page-banner--portal .cufc-hd-title--long {
+  font-size:clamp(1.35rem,2.15vw,2.15rem);
+  line-height:1.1;
+}
+.approved-page-banner--portal .cufc-hd-subtitle {
+  margin-top:5px;
+  font-size:.68rem;
+  letter-spacing:.14em;
+}
+.portal-empty-state {
+  position:relative;
+  overflow:hidden;
+  border-style:dashed;
+  border-color:#e1d6d8;
+  background:linear-gradient(135deg,#fff 0%,#fafafa 72%,#fff1f3 100%);
+}
+.portal-empty-state h3 {font-weight:900;text-transform:uppercase;letter-spacing:-.02em;}
+.portal-empty-state p {max-width:520px;margin-inline:auto;font-size:.92rem;line-height:1.65;}
+/* Only page-level operational headings; preserve forms, tables and card headers. */
+main.container h1 {
+  font-size:clamp(1.75rem,2.6vw,2.6rem);
+  font-weight:900;
+  line-height:1.1;
+  letter-spacing:-.035em;
+  text-wrap:balance;
+}
+main.container .card {min-width:0;}
+main.container :is(section,article) {scroll-margin-top:105px;}
+@media (min-width:1024px){
+  .portal-header ~ main.container,
+  .portal-header ~ div.container {
+    width:calc(100% - 298px);
+    max-width:1320px;
+  }
+  .approved-page-banner--portal {
+    width:calc(100% - 298px);
+    max-width:1320px;
+  }
+}
+@media (max-width:760px){
+  .approved-page-banner--portal.cufc-hd-banner {padding:6px 9px;}
+  .approved-page-banner--portal .cufc-hd-frame {min-height:88px;}
+  .approved-page-banner--portal .cufc-hd-content {padding:11px 18px;gap:11px;}
+  .approved-page-banner--portal .cufc-hd-crest {width:44px;}
+  .approved-page-banner--portal .cufc-hd-divider {height:43px;}
+  .approved-page-banner--portal .cufc-hd-title,
+  .approved-page-banner--portal .cufc-hd-title--long {font-size:clamp(1.2rem,4vw,1.7rem);}
+  .approved-page-banner--portal .cufc-hd-subtitle {font-size:.57rem;letter-spacing:.08em;}
+}
+@media (max-width:440px){
+  .approved-page-banner--portal .cufc-hd-frame {min-height:82px;}
+  .approved-page-banner--portal .cufc-hd-content {padding:10px 14px;}
+  .approved-page-banner--portal .cufc-hd-crest {width:40px;}
+  .approved-page-banner--portal .cufc-hd-divider {height:40px;}
+  .approved-page-banner--portal .cufc-hd-text {max-width:calc(100% - 72px);}
+}
+@media print {
+  .approved-page-banner--portal,
+  .portal-empty-state::before {display:none!important;}
+}

@@ -81,6 +81,12 @@ for (const path of ["app/privacy/page.tsx","app/accessibility/page.tsx","app/pho
  assert.ok(existsSync(path),"Missing required safety page "+path);
  check(path,["<PublicPageHero"]);
 }
+// Portal visual consistency and all-route compact header coverage.
+check("components/ApprovedPageBanner.tsx",["neutralBackground","cufc-hd-frame--neutral","titleOverride"]);
+check("components/PortalHeader.tsx",['neutralBackground={isAdmin && !selectedBanner}',"titleOverride={title}","Family Portal · Team Resources"]);
+check("components/MediaLibrary.tsx",["portal-empty-state"]);
+check("app/layout.tsx",["portal-consistency.css"]);
+check("app/portal-consistency.css",[".approved-page-banner--portal",".portal-empty-state","main.container h1"]);
 // Email workflow regression coverage: ensure the backend and manager UI remain present.
 for (const name of [
  "app/admin/notifications/page.tsx",
