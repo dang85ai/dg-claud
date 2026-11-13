@@ -83,7 +83,7 @@ export default function RosterPage() {
                 </article>
               ))}
             </div>
-            <p className="mt-5 text-xs leading-5 text-neutral-500">Staff names and roles are based on the Caledon Soccer Club indoor roster dated September 30, 2026.</p>
+            <p className="mt-5 text-xs leading-5 text-neutral-600">Staff names and roles are based on the Caledon Soccer Club indoor roster dated September 30, 2026.</p>
           </section>
 
           <section className="mt-12 rounded-[28px] border border-neutral-200 bg-white p-6 sm:p-8">

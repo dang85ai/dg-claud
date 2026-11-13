@@ -115,7 +115,7 @@ export function SponsorLogoBanner() {
             );
             const cls = "group flex w-full max-w-64 flex-col items-center rounded-2xl border border-neutral-200 bg-neutral-50 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-red-300 hover:shadow-md";
             return url ? (
-              <a key={sponsor.id} href={url} target="_blank" rel="noopener noreferrer sponsored" className={cls} aria-label={`Visit ${sponsor.name} website`}>
+              <a key={sponsor.id} href={url} target="_blank" rel="noopener noreferrer sponsored" className={cls}>
                 {content}
               </a>
             ) : (
@@ -152,7 +152,7 @@ export function SponsorPlacementHighlight({ placement }: { placement: string }) 
             </>
           );
           return url ? (
-            <a key={sponsor.id} href={url} target="_blank" rel="noopener noreferrer sponsored" className="flex flex-wrap items-center gap-3 hover:underline" aria-label={`Visit ${sponsor.name} website`}>{content}</a>
+            <a key={sponsor.id} href={url} target="_blank" rel="noopener noreferrer sponsored" className="flex flex-wrap items-center gap-3 hover:underline">{content}</a>
           ) : <div key={sponsor.id} className="flex flex-wrap items-center gap-3">{content}</div>;
         })}
       </div>

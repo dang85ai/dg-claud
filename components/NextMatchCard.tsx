@@ -81,7 +81,7 @@ export async function NextMatchCard() {
         </div>
         <div className="p-6">
           <div className="text-sm font-black uppercase text-red-600">2026–27 Training Season</div>
-          <h3 className="mt-2 text-3xl font-black uppercase tracking-tight">Check Spond for the next session</h3>
+          <h2 className="mt-2 text-3xl font-black uppercase tracking-tight">Check Spond for the next session</h2>
           <p className="mt-2 text-sm text-neutral-600">
             Exact session times, venues, entrances and last-minute changes are kept in the team&apos;s private communication channel.
           </p>
@@ -102,7 +102,7 @@ export async function NextMatchCard() {
       </div>
       <div className="p-6">
         <div className="text-sm font-black uppercase text-red-600">2026–27 Training Season</div>
-        <h3 className="mt-2 text-3xl font-black uppercase tracking-tight">{safeTitle(nextEvent)}</h3>
+        <h2 className="mt-2 text-3xl font-black uppercase tracking-tight">{safeTitle(nextEvent)}</h2>
         <div className="mt-5 grid gap-3 text-sm text-neutral-700">
           <div className="flex items-center gap-2">
             <CalendarDays size={18} className="text-red-600" />
@@ -125,3 +125,4 @@ export async function NextMatchCard() {
     </div>
   );
 }
+
