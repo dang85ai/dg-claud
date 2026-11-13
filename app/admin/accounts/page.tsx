@@ -74,7 +74,7 @@ export default function TeamAccounts() {
       <main id="portal-main" tabIndex={-1} className="container py-8">
         <div className="text-sm font-black uppercase tracking-[.16em] text-red-600">Administrator Only · MFA Required</div>
         <h1 className="mt-2 text-3xl font-black uppercase md:text-5xl">Team Account Management</h1>
-        <p className="mt-3 max-w-3xl text-sm text-neutral-600">Invite team members, review account activation and adjust access roles. Sending is requested through Supabase Auth; provider acceptance is not proof of inbox delivery. Role changes are checked and audited by the server.</p>
+        <p className="mt-3 max-w-3xl text-sm text-neutral-600">Invite team members, review account activation and adjust access roles. Account emails use Resend. Check Email Notifications for delivery updates. Role changes are checked and audited by the server.</p>
         {status ? <div role="status" className="notice mt-5">{status}</div> : null}
         {activation ? <div className="card mt-5 border-red-200 p-5">
           <h2 className="font-black uppercase">Private activation link</h2>

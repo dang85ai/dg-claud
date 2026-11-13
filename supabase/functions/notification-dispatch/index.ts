@@ -65,6 +65,8 @@ Deno.serve(async (req:Request)=>{
   if(found.error)throw found.error;
   if(!found.data)return reply({status:"not_found"},404);
   const item=found.data as MailItem;
+  if(["account_invite","account_recovery"].includes(item.kind))
+   return reply({error:"Resend this message from Accounts & Invites to generate a fresh private link."},409);
   if(["accepted","delivered","bounced"].includes(item.status))
    return reply({status:item.status,already_processed:true});
   if(!["queued","needs_setup","failed"].includes(item.status))
