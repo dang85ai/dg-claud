@@ -41,6 +41,11 @@ export default function RosterPage() {
             <p>We celebrate our players while respecting their privacy. Player names and portraits appear only for the viewers authorized under the team's guardian-consent and account permissions.</p>
           </div>
 
+          <nav aria-label="On this page" className="mb-8 flex flex-wrap gap-3">
+            <a href="#player-roster" className="btn btn-light">Players</a>
+            <a href="#team-formation" className="btn btn-light">Formation</a>
+            <a href="#team-staff" className="btn btn-light">Coaching and staff</a>
+          </nav>
           <RosterProfiles />
 
           <section id="team-staff" className="mt-14 scroll-mt-28">
@@ -100,3 +105,4 @@ export default function RosterPage() {
     </PublicShell>
   );
 }
+
