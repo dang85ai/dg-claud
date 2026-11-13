@@ -81,11 +81,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-red-600 text-white">
+      <section className="bg-red-800 text-white">
         <div className="container flex flex-wrap items-center gap-4 py-4">
           <Bell size={20} className="shrink-0" />
           <div>
-            <div className="text-xs font-black uppercase tracking-[.14em] text-white/70">Season Status</div>
+            <div className="text-xs font-black uppercase tracking-[.14em] text-white">Season Status</div>
             <div className="font-black">2026–27 training runs October 6, 2026 through May 18, 2027. Check the latest Spond invite before leaving.</div>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function HomePage() {
       <section className="section bg-black text-white">
         <div className="container">
           <SectionHeader
-            eyebrow="2026 Focus"
+            eyebrow="2026 Focus" tone="dark"
             title="2026 Focus: Better players. Better teammates."
             copy="Development is measured against each player's own progress, not public rankings."
           />

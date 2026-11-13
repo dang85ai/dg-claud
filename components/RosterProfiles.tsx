@@ -216,7 +216,7 @@ function FormationPitch({ snapshot, privateAccess }: { snapshot: RosterSnapshot 
               <div key={slot} className="absolute z-10 flex w-28 max-w-[29%] -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center"
                 style={{left:x+"%",top:y+"%"}}>
                 <button type="button" className="flex min-h-14 w-full flex-col items-center rounded-xl text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-300"
-                  aria-label={showName&&player?player.name+" · "+slot:"Position "+slot}
+
                   disabled={!showName} onClick={() => setSelectedId(player?.id ?? null)}>
                   <span className="relative grid h-12 w-12 place-items-center overflow-hidden rounded-full border-2 border-white bg-[#D71930] text-sm font-black text-white shadow-lg sm:h-16 sm:w-16">
                     {photoAllowed && player?.photo_id
