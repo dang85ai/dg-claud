@@ -35,7 +35,9 @@ test("Protected routes are noindex and no-store", ["/portal", "/portal/*", "/adm
 test("Service worker skips document requests", sw.includes('request.mode === "navigate"') && sw.includes('request.destination === "document"'));
 test("Service worker limits cache to public assets", sw.includes("PUBLIC_ASSET_PATHS.some") && sw.includes('url.origin !== self.location.origin'));
 test("Official contact email present", read("lib/team-config.ts").includes("girlsoccer2018@gmail.com"));
-test("Homepage has self-canonical", read("app/page.tsx").includes('alternates: { canonical: "/" }'));
+const home = read("app/page.tsx");
+test("Homepage has self-canonical", /buildPageMetadata\(\{[^}]*\bpath:\s*"\/"/.test(home)
+  && seo.includes("alternates: index ? { canonical: canonicalPath } : undefined"));
 test("Search Console verification retained", layout.includes('name="google-site-verification"'));
 
 for (const c of checks) console.log((c.ok ? "PASS" : "FAIL") + "  " + c.name);
