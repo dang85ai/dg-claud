@@ -30,6 +30,7 @@ export default function HomePage() {
   return (
     <PublicShell>
       <PwaRegister />
+      <link rel="preload" as="image" href="/assets/banners/2026-27-hd/home.webp" fetchPriority="high" />
 
       <ApprovedPageBanner banner="home" heading="Caledon United FC 2018 Girls — 2026–27 Team Hub" asHeading />
       <section className="border-t border-white/10 bg-neutral-950 text-white">
@@ -198,5 +199,3 @@ export default function HomePage() {
     </PublicShell>
   );
 }
-
-
