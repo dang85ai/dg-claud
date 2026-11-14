@@ -121,16 +121,18 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
   return (
     <>
       <div className={styles.landing} data-reveal={revealing || undefined}>
-        {children}
-        <button
-          ref={replay}
-          type="button"
-          className={styles.replay}
-          hidden={!motionAllowed}
-          onClick={() => start(true)}
+        <div className={styles.content}>
+          {children}
+          <button
+            ref={replay}
+            type="button"
+            className={styles.replay}
+            hidden={!motionAllowed}
+            onClick={() => start(true)}
         >
           Replay Intro
-        </button>
+          </button>
+        </div>
       </div>
       <dialog
         ref={dialog}

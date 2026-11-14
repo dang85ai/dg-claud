@@ -17,7 +17,7 @@ export default function SplashPage() {
     <main className={styles.splash}>
       <CinematicIntro>
         <div className={styles.stripes} aria-hidden="true" />
-        <div className={styles.content}>
+        <div>
           <Image
             className={styles.crest}
             src="/assets/brand/caledon-united-crest.webp"

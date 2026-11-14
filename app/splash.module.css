@@ -104,11 +104,14 @@
   background: #a90d27;
 }
 
-.replay,
 .skip {
   position: absolute;
   right: max(1rem, env(safe-area-inset-right));
   bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.replay {
+  margin-top: 1rem;
 }
 
 .replay[hidden] {
