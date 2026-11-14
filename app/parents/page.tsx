@@ -69,12 +69,21 @@ export default function ParentsPage() {
         copy="Practical information for game day, player development, team expectations and the season journey."
       />
 
+      <nav className="container flex flex-wrap gap-2 pt-5" aria-label="Jump to parent resources">
+        <a href="#start-here" className="btn btn-light">Start here</a>
+        <a href="#communications" className="btn btn-light">Spond &amp; communication</a>
+        <a href="#game-day" className="btn btn-light">Game day</a>
+        <a href="#teamwear" className="btn btn-light">Kit &amp; requests</a>
+        <a href="#weather" className="btn btn-light">Weather</a>
+        <a href="#club-resources" className="btn btn-light">Club policies &amp; resources</a>
+      </nav>
+
       <section className="section">
         <div className="container">
           <div className="mb-8 grid gap-6 lg:grid-cols-2"><NewFamilyGuide /><CommunicationGuide /></div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {resources.map(({ href, Icon, title, text }) => (
-              <Link href={href} key={href} className="card p-6 transition hover:-translate-y-1 hover:border-red-500">
+              <Link href={href} key={href} id={href === "/game-day" ? "game-day" : href === "/kit" ? "teamwear" : undefined} className="card scroll-mt-28 p-6 transition hover:-translate-y-1 hover:border-red-500">
                 <Icon className="text-red-600" size={28} />
                 <h2 className="mt-4 text-2xl font-black uppercase">{title}</h2>
                 <p className="mt-3 text-sm leading-6 text-neutral-600">{text}</p>

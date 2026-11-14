@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CalendarDays, RefreshCw, ShieldCheck, XCircle } from "lucide-react";
+import { CalendarDays, RefreshCw, XCircle } from "lucide-react";
 import { eventDate, eventTypeLabel, loadPublicEvents, safeTitle, torontoDayKey, upcomingEvents, type TeamEvent } from "@/lib/public-schedule";
 import { SPOND_URL } from "@/lib/team-config";
 
@@ -57,42 +57,24 @@ export function ScheduleEvents() {
   const pastMonths = groupByMonth(events.filter((event) => eventDate(event) < today));
   const cancelled = events.filter((event) => event.status === "cancelled").length;
 
-  function EventCard({ event }: { event: TeamEvent }) {
-    const isCancelled = event.status === "cancelled";
+  function EventRow({ event }: { event: TeamEvent }) {
+    const date = eventDate(event);
     return (
-      <article className={`rounded-2xl border p-5 ${isCancelled ? "border-red-300 bg-red-50" : "border-neutral-200 bg-white"}`}>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <h4 className={`min-w-0 break-words text-base font-black uppercase leading-tight sm:text-lg ${isCancelled ? "text-neutral-500" : ""}`}>
-                {safeTitle(event)}
-              </h4>
-              <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-bold text-neutral-800">{eventTypeLabel(event)}</span>
-              {isCancelled ? (
-                <span className="inline-flex max-w-full items-center gap-1 rounded-full bg-red-600 px-3 py-1 text-center text-xs font-black uppercase leading-tight text-white whitespace-normal">
-                  <XCircle size={14} /> Cancelled — no session
-                </span>
-              ) : null}
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-neutral-600">
-              <span className="inline-flex items-center gap-2">
-                <CalendarDays size={16} className="text-red-600" />
-                {formatDate(eventDate(event))}
-              </span>
-            </div>
-
-            {!isCancelled ? (
-              <div className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-neutral-700">
-                <ShieldCheck size={16} className="text-red-600" />
-                Exact time, venue and arrival details are in Spond.
-              </div>
-            ) : (
-              null
-            )}
-          </div>
+      <li className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-3 py-2.5">
+        <div className="min-w-0">
+          <span className="break-words font-bold">{safeTitle(event)}</span>
+          <span className="ml-2 text-xs text-neutral-600">{eventTypeLabel(event)}</span>
+          {event.status === "cancelled" && (
+            <span className="mt-1 flex items-center gap-1 text-xs font-bold text-red-800">
+              <XCircle size={14} aria-hidden="true" /> Cancelled — no session
+            </span>
+          )}
         </div>
-      </article>
+        <time dateTime={date} className="inline-flex items-center gap-2 text-sm text-neutral-700">
+          <CalendarDays size={15} className="text-red-600" aria-hidden="true" />
+          {formatDate(date)}
+        </time>
+      </li>
     );
   }
 
@@ -117,41 +99,46 @@ export function ScheduleEvents() {
           Public planning dates only. Check Spond for exact start time, venue, entrance and arrival instructions.
         </p>
 
-        <div className="mt-5 grid gap-3">
-          {nextSevenDays.length ? nextSevenDays.map((event) => <EventCard key={event.id} event={event} />) : (
-            <div className="rounded-2xl bg-white p-5 text-sm font-bold text-neutral-600">No team dates are scheduled in the next seven days. See the upcoming calendar below.</div>
+        <ul className="mt-4 divide-y divide-neutral-200 rounded-xl border border-neutral-200 bg-white">
+          {nextSevenDays.length ? nextSevenDays.map((event) => <EventRow key={event.id} event={event} />) : (
+            <li className="p-3 text-sm text-neutral-700">No team dates are scheduled in the next seven days.</li>
           )}
-        </div>
+        </ul>
         <a href={SPOND_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-5">Open Spond / RSVP</a>
       </section>
 
-      <div className="my-6 grid gap-3 sm:grid-cols-3">
-        <div className="rounded-2xl bg-neutral-100 p-4"><div className="text-3xl font-black">{events.length}</div><div className="mt-1 text-xs font-black uppercase tracking-wide text-neutral-500">Team Dates</div></div>
-        <div className="rounded-2xl bg-neutral-100 p-4"><div className="text-3xl font-black">{events.length - cancelled}</div><div className="mt-1 text-xs font-black uppercase tracking-wide text-neutral-500">Active</div></div>
-        <div className="rounded-2xl bg-neutral-100 p-4"><div className="text-3xl font-black text-red-600">{cancelled}</div><div className="mt-1 text-xs font-black uppercase tracking-wide text-neutral-500">Cancelled</div></div>
-      </div>
-
-      <div className="grid gap-8">
-        {futureMonths.map(([month, monthEvents]) => (
-          <section key={month}>
-            <h3 className="mb-3 text-xl font-black uppercase tracking-tight">{month}</h3>
-            <div className="grid gap-3">{monthEvents.map((event) => <EventCard key={event.id} event={event} />)}</div>
-          </section>
-        ))}
-      </div>
-      {pastMonths.length ? (
-        <details className="mt-8 rounded-2xl border border-neutral-200 p-4">
-          <summary className="cursor-pointer font-black">Past team dates</summary>
-          <div className="mt-4 grid gap-5">
-        {pastMonths.map(([month, monthEvents]) => (
-          <section key={month}>
-            <h3 className="mb-3 text-xl font-black uppercase tracking-tight">{month}</h3>
-            <div className="grid gap-3">{monthEvents.map((event) => <EventCard key={event.id} event={event} />)}</div>
-          </section>
-        ))}
+      <section className="mt-6" aria-labelledby="upcoming-months">
+        <h3 id="upcoming-months" className="text-lg font-black uppercase">Upcoming months</h3>
+        <p className="mt-1 text-sm text-neutral-600">{events.length} team dates · {cancelled} cancelled this season</p>
+        <div className="mt-3 grid gap-2">
+          {futureMonths.map(([month, monthEvents]) => (
+            <details key={month} className="rounded-xl border border-neutral-200">
+              <summary className="min-h-11 cursor-pointer px-4 py-3 font-bold">
+                {month} <span className="ml-2 text-sm font-normal text-neutral-600">({monthEvents.length} dates)</span>
+              </summary>
+              <ul className="divide-y divide-neutral-200 border-t border-neutral-200">
+                {monthEvents.map((event) => <EventRow key={event.id} event={event} />)}
+              </ul>
+            </details>
+          ))}
+          {!futureMonths.length && <p className="text-sm text-neutral-600">No upcoming team dates are published.</p>}
+        </div>
+      </section>
+      {pastMonths.length > 0 && (
+        <details className="mt-4 rounded-xl border border-neutral-200 px-4">
+          <summary className="min-h-11 cursor-pointer py-3 font-bold">Past team dates</summary>
+          <div className="grid gap-4 pb-4">
+            {pastMonths.map(([month, monthEvents]) => (
+              <section key={month}>
+                <h3 className="mb-2 font-bold">{month}</h3>
+                <ul className="divide-y divide-neutral-200 rounded-xl border border-neutral-200">
+                  {monthEvents.map((event) => <EventRow key={event.id} event={event} />)}
+                </ul>
+              </section>
+            ))}
           </div>
         </details>
-      ) : null}
+      )}
       {status ? <div className="notice mt-5 text-sm">{status}</div> : null}
     </div>
   );

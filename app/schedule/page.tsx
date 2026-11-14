@@ -25,10 +25,10 @@ export default function SchedulePage() {
       <PublicPageHero banner="schedule"
         eyebrow="Games · Practices · Events"
         title="Schedule & Events"
-        copy="Public planning dates for the 2026–27 season. Exact start times, venues, entrances and arrival instructions stay in Spond and parent-only communication."
+        copy="Public planning dates for the 2026–27 season."
       />
 
-      <section className="section">
+      <section className="py-4 sm:py-8">
         <div className="container">
           <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
             <div className="card min-w-0 p-4 sm:p-6">
