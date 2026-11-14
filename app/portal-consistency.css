@@ -59,7 +59,12 @@ main.container h1 {
 }
 main.container .card {min-width:0;}
 main.container :is(section,article) {scroll-margin-top:105px;}
-@media (min-width:1024px){
+@media screen and (min-width:1024px){
+  .portal-header > .container {
+    margin-left:278px;
+    width:calc(100% - 298px);
+    max-width:1320px;
+  }
   .portal-header ~ main.container,
   .portal-header ~ div.container {
     width:calc(100% - 298px);
