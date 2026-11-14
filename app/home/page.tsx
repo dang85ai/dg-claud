@@ -32,24 +32,6 @@ export default function HomePage() {
       <PwaRegister />
 
       <ApprovedPageBanner banner="home" heading="Caledon United FC 2018 Girls — 2026–27 Team Hub" asHeading />
-      <section className="border-t border-white/10 bg-neutral-950 text-white">
-        <div className="container flex flex-wrap items-center justify-between gap-6 py-7">
-          <p className="max-w-3xl text-sm leading-6 text-white/80 md:text-base">
-            Follow the <strong className="text-white">2026–27 Training Season</strong> with Caledon United FC 2018 Girls.
-            Everything parents need at the field — schedules, team kit, parent information and
-            player-development resources — in one mobile-friendly place for youth soccer in Caledon, Ontario.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/schedule#current-week" className="btn btn-primary">
-              View Next 7 Days
-            </Link>
-            <Link href="/request-invite" className="btn home-hero-secondary">
-              Request a Parent Invite
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section className="home-dashboard border-b border-neutral-200 bg-white">
         <div className="container py-6">
           <div className="grid gap-5 lg:grid-cols-[.9fr_1.25fr]">
@@ -77,6 +59,27 @@ export default function HomePage() {
                 <span className="font-black">Sign In</span>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-white/10 bg-neutral-950 text-white">
+        <div className="container flex flex-wrap items-center justify-between gap-6 py-7">
+          <p className="max-w-3xl text-sm leading-6 text-white/80 md:text-base">
+            Follow the <strong className="text-white">2026–27 Training Season</strong> with Caledon United FC 2018 Girls.
+            Everything parents need at the field — schedules, team kit, parent information and
+            player-development resources — in one mobile-friendly place for youth soccer in Caledon, Ontario.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/schedule#current-week" className="btn btn-primary">
+              View Next 7 Days
+            </Link>
+            <Link href="/request-invite" className="btn home-hero-secondary">
+              Request a Parent Invite
+            </Link>
+            <Link href="/?intro=replay" className="btn home-hero-secondary">
+              Replay Intro
+            </Link>
           </div>
         </div>
       </section>

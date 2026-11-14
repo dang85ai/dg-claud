@@ -26,9 +26,9 @@ export async function PublicMediaGallery() {
         <Camera className="text-red-600" aria-hidden="true" />
         <div className="grow">
           <h2 className="text-xl font-black uppercase">Team Albums</h2>
-          <p className="mt-1 text-sm text-neutral-600">Approved public albums will appear here.</p>
+          <p className="mt-1 text-sm text-neutral-600">No public albums have been published yet.</p>
         </div>
-        <Link className="btn btn-light" href="/login">Sign In</Link>
+        <Link className="btn btn-light" href="/portal/media">Parent Portal</Link>
       </div>
     );
   }

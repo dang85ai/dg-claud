@@ -360,6 +360,10 @@ textarea.field {
     font-weight: 800;
   }
 
+  body:has(.mobile-bottom-nav) #nl-badge-frame {
+    bottom: calc(62px + env(safe-area-inset-bottom)) !important;
+  }
+
   body { padding-bottom: 62px; }
 }
 

@@ -1,62 +1,26 @@
+import Link from "next/link";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
-import {
-  Film,
-  Images,
-  ShieldCheck,
-  Upload
-} from "lucide-react";
-
 import { PublicMediaGallery } from "@/components/PublicMediaGallery";
 
 export default function MediaPage() {
   return (
     <PublicShell>
       <PublicPageHero banner="media"
-        eyebrow="Team Media"
-        title="Photos & Game Recaps"
-        copy="A consent-controlled gallery for approved team memories, organized by event throughout the season."
+        eyebrow="Team Albums"
+        title="Team Media"
+        usePageTitle
+        copy="Public team albums contain consent-reviewed photos."
       />
-
       <section className="section">
         <div className="container">
-          <div className="notice mb-8 flex gap-3">
-            <ShieldCheck className="shrink-0 text-red-600" />
-            <p className="text-sm">
-              Only manager-approved, consent-reviewed media can appear publicly. Uploaded images are re-encoded and location metadata is removed before moderation.
-            </p>
-          </div>
-
           <PublicMediaGallery />
-
-          <div className="mt-8 grid gap-6 lg:grid-cols-3">
-            <div className="card p-6">
-              <Images className="text-red-600" />
-              <h2 className="mt-4 text-xl font-black uppercase">Photo Consent</h2>
-              <p className="mt-2 text-sm text-neutral-600">
-                Photos are published only when the required guardian consent is active. A guardian can request removal or change consent through the team process.
-              </p>
-            </div>
-
-            <div className="card p-6">
-              <Upload className="text-red-600" />
-              <h2 className="mt-4 text-xl font-black uppercase">Submit Photos</h2>
-              <p className="mt-2 text-sm text-neutral-600">
-                Authorized families can upload photos through the private Parent Portal. The photo coordinator or manager reviews them before any public use.
-              </p>
-            </div>
-
-            <div className="card p-6">
-              <Film className="text-red-600" />
-              <h2 className="mt-4 text-xl font-black uppercase">Highlights & Slideshow</h2>
-              <p className="mt-2 text-sm text-neutral-600">
-                Consent-safe video clips and a season-end slideshow can be added later using the same review process.
-              </p>
-            </div>
-          </div>
+          <p className="mt-5 text-sm text-neutral-700">
+            Families can submit photos through the <Link href="/portal/media" className="font-bold underline">Parent Portal</Link>.
+            {" "}<Link href="/photo-safety" className="font-bold underline">Photo safety and consent</Link>
+          </p>
         </div>
       </section>
     </PublicShell>
   );
 }
-

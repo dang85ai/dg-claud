@@ -114,13 +114,21 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
     updatePreference();
     preference.addEventListener("change", updatePreference);
     const autostart = window.requestAnimationFrame(() => {
-      if (preference.matches || window.location.hash || document.activeElement !== document.body) return;
+      const replayRequested = new URLSearchParams(window.location.search).get("intro") === "replay";
+      if (replayRequested) {
+        if (!preference.matches) start(false);
+        return;
+      }
       try {
-        if (localStorage.getItem(seenKey)) return;
+        if (localStorage.getItem(seenKey)) {
+          router.replace("/home");
+          return;
+        }
         localStorage.setItem(seenKey, "1");
       } catch {
         return;
       }
+      if (preference.matches || window.location.hash || document.activeElement !== document.body) return;
       start(false);
     });
 
@@ -129,7 +137,7 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
       preference.removeEventListener("change", updatePreference);
       cleanup.current?.();
     };
-  }, []);
+  }, [router]);
 
   return (
     <>
