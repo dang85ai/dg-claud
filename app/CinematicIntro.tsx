@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./splash.module.css";
 
 const seenKey = "caledon-cinematic-intro-v1";
 const reducedMotion = "(prefers-reduced-motion: reduce)";
+const splashTimeout = 30_000;
 // Source frame 190 at 24 fps is where the ball covers the lens.
 const impactTime = 190 / 24;
 
 export function CinematicIntro({ children }: { children: ReactNode }) {
+  const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const replay = useRef<HTMLButtonElement>(null);
@@ -16,6 +19,14 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
   const cleanup = useRef<(() => void) | null>(null);
   const [motionAllowed, setMotionAllowed] = useState(false);
   const [revealing, setRevealing] = useState(false);
+  const [introOpen, setIntroOpen] = useState(false);
+  const [linkSelected, setLinkSelected] = useState(false);
+
+  useEffect(() => {
+    if (introOpen || linkSelected) return;
+    const timer = window.setTimeout(() => router.replace("/home"), splashTimeout);
+    return () => window.clearTimeout(timer);
+  }, [introOpen, linkSelected, router]);
 
   function start(manual: boolean) {
     const modal = dialog.current;
@@ -43,6 +54,7 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
       player!.removeAttribute("src");
       player!.load();
       modal!.close();
+      setIntroOpen(false);
       delete modal!.dataset.playing;
       delete modal!.dataset.impact;
       document.body.style.overflow = previousOverflow;
@@ -71,6 +83,7 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
     cleanup.current = () => finish();
     setRevealing(false);
     modal.showModal();
+    setIntroOpen(true);
     document.body.style.overflow = "hidden";
     player.onplaying = () => {
       window.clearTimeout(startTimer);
@@ -120,7 +133,15 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div className={styles.landing} data-reveal={revealing || undefined}>
+      <div
+        className={styles.landing}
+        data-reveal={revealing || undefined}
+        onClickCapture={(event) => {
+          if (event.target instanceof Element && event.target.closest("a[href]")) {
+            setLinkSelected(true);
+          }
+        }}
+      >
         <div className={styles.content}>
           <button
             ref={replay}
