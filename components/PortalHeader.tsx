@@ -146,7 +146,7 @@ export function PortalHeader({ title, isAdmin = false }: { title: string; isAdmi
  }
  const selectedBanner = pageBanners[pathname];
  return <>
- <header className="portal-header sticky top-0 z-40 border-b border-neutral-200 bg-white shadow-sm">
+ <header className="portal-header no-print sticky top-0 z-40 border-b border-neutral-200 bg-white shadow-sm">
   <a className="sr-only focus:not-sr-only focus:block focus:p-3" href="#portal-main">Skip to portal content</a>
   <div className="container flex min-h-20 items-center justify-between gap-3 py-3">
    <div className="flex min-w-0 items-center gap-3">
