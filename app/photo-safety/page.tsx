@@ -1,11 +1,9 @@
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 
 export default function PhotoSafetyPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero
         eyebrow="Team Policy"
         title="Photo & Media Safety"
@@ -26,3 +24,4 @@ export default function PhotoSafetyPage() {
     </PublicShell>
   );
 }
+

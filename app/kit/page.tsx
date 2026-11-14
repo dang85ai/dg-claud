@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Backpack, CloudRain, Footprints, Shirt } from "lucide-react";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 
@@ -56,7 +55,6 @@ const kitItems = [
 export default function KitPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="kit"
         eyebrow="Caledon United FC · 2018 Girls"
         title="Team Kit & Accessories"
@@ -165,4 +163,5 @@ export default function KitPage() {
     </PublicShell>
   );
 }
+
 

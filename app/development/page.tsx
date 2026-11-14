@@ -7,7 +7,6 @@ import {
   Sparkles,
   Users
 } from "lucide-react";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 
@@ -30,7 +29,6 @@ const practiceIdeas = [
 export default function DevelopmentPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="training"
         eyebrow="2026 Player Development"
         title="Fun First. Growth Always."
@@ -139,4 +137,5 @@ export default function DevelopmentPage() {
     </PublicShell>
   );
 }
+
 

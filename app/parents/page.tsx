@@ -9,7 +9,6 @@ import {
   Mail,
   Trophy
 } from "lucide-react";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 
@@ -61,7 +60,6 @@ const resources = [
 export default function ParentsPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="parent-portal"
         eyebrow="2026–27 Season"
         title="Parent Resources"
@@ -121,5 +119,6 @@ export default function ParentsPage() {
     </PublicShell>
   );
 }
+
 
 

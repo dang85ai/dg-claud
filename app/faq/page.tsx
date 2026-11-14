@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
@@ -53,7 +52,6 @@ const faqs = [
 export default function FaqPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="parent-portal" usePageTitle
         eyebrow="Family Resources · 2026–27"
         title="Parent Questions, Answered"
@@ -123,4 +121,5 @@ export default function FaqPage() {
     </PublicShell>
   );
 }
+
 

@@ -11,7 +11,6 @@ import {
   Shirt,
   Users
 } from "lucide-react";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { NextMatchCard } from "@/components/NextMatchCard";
 import { PublicShell } from "@/components/PublicShell";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -28,7 +27,6 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PwaRegister />
 
       <ApprovedPageBanner banner="home" heading="Caledon United FC 2018 Girls — 2026–27 Team Hub" asHeading />
@@ -198,4 +196,5 @@ export default function HomePage() {
     </PublicShell>
   );
 }
+
 

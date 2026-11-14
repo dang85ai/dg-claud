@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRight, HeartHandshake, ShieldCheck, Shirt, Sparkles, Users } from "lucide-react";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 
@@ -14,7 +13,6 @@ const pillars = [
 export default function AboutPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="about"
         eyebrow="Caledon United FC · 2018 Girls"
         title="Our Team"
@@ -107,4 +105,5 @@ export default function AboutPage() {
     </PublicShell>
   );
 }
+
 

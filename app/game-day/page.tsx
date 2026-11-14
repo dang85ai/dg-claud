@@ -6,7 +6,6 @@ import {
   Shirt,
   Users
 } from "lucide-react";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { SPOND_URL } from "@/lib/team-config";
@@ -25,7 +24,6 @@ const checklist = [
 export default function GameDayPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="schedule" usePageTitle
         eyebrow="Game Day"
         title="Ready Before Kickoff"
@@ -138,4 +136,5 @@ export default function GameDayPage() {
     </PublicShell>
   );
 }
+
 
