@@ -361,7 +361,7 @@ textarea.field {
   }
 
   body:has(.mobile-bottom-nav) #nl-badge-frame {
-    bottom: calc(62px + env(safe-area-inset-bottom)) !important;
+    display: none !important;
   }
 
   body { padding-bottom: 62px; }

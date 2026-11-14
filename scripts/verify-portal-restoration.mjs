@@ -51,7 +51,8 @@ check("app/globals.css",[".cufc-hd-frame",".cufc-hd-title","@media (max-width:44
 for (const name of approvedBanners) assert.ok(existsSync("public/assets/banners/2026-27-hd/"+name+".webp"),"Missing HD banner: "+name);
 check("components/PublicPageHero.tsx",["ApprovedPageBanner","asHeading"]);
 check("components/PortalHeader.tsx",["pageBanners","/portal","/portal/finances","/admin/finances","ApprovedPageBanner"]);
-check("app/home/page.tsx",['banner="home"',"View Next 7 Days","/schedule#current-week"]);
+check("app/home/page.tsx",['banner="home"',"NextMatchCard"]);
+check("components/NextMatchCard.tsx",["View Next 7 Days","/schedule#current-week"]);
 check("app/sponsors/page.tsx",['banner="sponsors"',"home-kit-preview"]);
 for(const [path, key] of [
  ["app/about/page.tsx","about"],
@@ -72,7 +73,8 @@ check("components/ApprovedPageBanner.tsx",["titleOverride","subtitleOverride"]);
 check("app/globals.css",["--card-radius","--section-gap",".cufc-policy-hero"]);
 check("app/sponsors/page.tsx",['banner="sponsors"',"#packages","#sponsor-form"]);
 check("app/media/page.tsx",["PublicMediaGallery","consent-reviewed"]);
-check("components/PublicMediaGallery.tsx",["/media-library","album.photo_count > 0","/image"]);
+check("components/PublicMediaGallery.tsx",["loadPublicAlbums","/image"]);
+check("lib/public-media.ts",["/media-library","album.photo_count > 0"]);
 for (const [path,key] of [
  ["app/faq/page.tsx","parent-portal"],
  ["app/game-day/page.tsx","schedule"],

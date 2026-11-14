@@ -3,14 +3,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, Shield, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { loadPublicAlbums } from "@/lib/public-media";
 
 const nav = [
   ["Team", "/roster"],
   ["Schedule", "/schedule"],
   ["Kit", "/kit"],
   ["Order", "/order"],
-  ["Media", "/media"],
   ["Sponsors", "/sponsors"],
   ["Parent Resources", "/parents"],
   ["About", "/about"],
@@ -19,6 +19,16 @@ const nav = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [hasPublicAlbums, setHasPublicAlbums] = useState(false);
+  const links = hasPublicAlbums ? [...nav, ["Media", "/media"]] : nav;
+
+  useEffect(() => {
+    let active = true;
+    loadPublicAlbums().then((albums) => {
+      if (active) setHasPublicAlbums(albums.length > 0);
+    }).catch(() => {});
+    return () => { active = false; };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black text-white">
@@ -42,7 +52,7 @@ export function Header() {
         </Link>
 
         <nav aria-label="Primary navigation" className="hidden shrink-0 items-center gap-5 whitespace-nowrap xl:flex">
-          {nav.map(([label, href]) => (
+          {links.map(([label, href]) => (
             <Link key={href} href={href} className="py-4 text-sm font-bold hover:text-red-400 xl:text-base">
               {label}
             </Link>
@@ -67,7 +77,7 @@ export function Header() {
       {open && (
         <nav aria-label="Mobile navigation" className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto border-t border-white/10 bg-black px-4 pb-5 xl:hidden">
           <div className="container grid">
-            {nav.map(([label, href]) => (
+            {links.map(([label, href]) => (
               <Link
                 key={href}
                 href={href}

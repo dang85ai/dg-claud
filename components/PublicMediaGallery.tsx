@@ -1,25 +1,10 @@
 import Link from "next/link";
 import { Camera } from "lucide-react";
-import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase-public";
-
-type Album = { id: string; title: string; description?: string; photo_count: number };
+import { getPublicMedia, loadPublicAlbums, mediaUrl, type PublicAlbum as Album } from "@/lib/public-media";
 type Photo = { id: string; caption?: string };
 
-const mediaUrl = SUPABASE_URL + "/functions/v1/media-library";
-
-async function getMedia<T>(path: string): Promise<T> {
-  const response = await fetch(mediaUrl + path, {
-    headers: { apikey: SUPABASE_PUBLISHABLE_KEY },
-    cache: "no-store",
-    signal: AbortSignal.timeout(5000)
-  });
-  if (!response.ok) throw new Error("Media unavailable.");
-  return response.json() as Promise<T>;
-}
-
 export async function PublicMediaGallery() {
-  const library = await getMedia<{ albums: Album[] }>("/albums").catch(() => null);
-  const approved = library?.albums.filter((album) => album.photo_count > 0) ?? [];
+  const approved = await loadPublicAlbums().catch(() => []);
   if (!approved.length) {
     return (
       <div className="card flex flex-wrap items-center gap-4 p-6">
@@ -41,7 +26,7 @@ export async function PublicMediaGallery() {
 }
 
 async function PublicAlbum({ album }: { album: Album }) {
-  const detail = await getMedia<{ photos: Photo[] }>("/albums/" + encodeURIComponent(album.id)).catch(() => null);
+  const detail = await getPublicMedia<{ photos: Photo[] }>("/albums/" + encodeURIComponent(album.id)).catch(() => null);
   if (!detail?.photos.length) return null;
 
   return (

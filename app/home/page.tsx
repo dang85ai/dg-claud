@@ -1,14 +1,12 @@
 import { buildPageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import {
-  Bell,
   CalendarDays,
   ChevronRight,
   ClipboardCheck,
   HeartHandshake,
   Mail,
   ShieldCheck,
-  Shirt,
   Users
 } from "lucide-react";
 import { NextMatchCard } from "@/components/NextMatchCard";
@@ -65,15 +63,7 @@ export default function HomePage() {
 
       <section className="border-t border-white/10 bg-neutral-950 text-white">
         <div className="container flex flex-wrap items-center justify-between gap-6 py-7">
-          <p className="max-w-3xl text-sm leading-6 text-white/80 md:text-base">
-            Follow the <strong className="text-white">2026–27 Training Season</strong> with Caledon United FC 2018 Girls.
-            Everything parents need at the field — schedules, team kit, parent information and
-            player-development resources — in one mobile-friendly place for youth soccer in Caledon, Ontario.
-          </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/schedule#current-week" className="btn btn-primary">
-              View Next 7 Days
-            </Link>
             <Link href="/request-invite" className="btn home-hero-secondary">
               Request a Parent Invite
             </Link>
@@ -84,40 +74,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-red-800 text-white">
-        <div className="container flex flex-wrap items-center gap-4 py-4">
-          <Bell size={20} className="shrink-0" />
-          <div>
-            <div className="text-xs font-black uppercase tracking-[.14em] text-white">Season Status</div>
-            <div className="font-black">2026–27 training runs October 6, 2026 through May 18, 2027. Check the latest Spond invite before leaving.</div>
-          </div>
-        </div>
-      </section>
-
       <section className="section">
-        <div className="container grid gap-8 lg:grid-cols-[1.1fr_.9fr]">
-          <div>
-            <SectionHeader
-              eyebrow="Caledon United FC 2018 Girls"
-              title="Everything parents need at the field"
-              copy="Bookmark the Caledon United FC 2018 Girls 2026–27 team hub and check back often. The goal is fewer scattered messages, less uncertainty, and a clear mobile home for the team."
-            />
-            <div className="grid gap-4 sm:grid-cols-2">
-              {[
-                { icon: CalendarDays, title: "Schedule", text: "Public planning dates with exact times and venues kept in Spond." },
-                { icon: Shirt, title: "Team Kit", text: "Home, away, tracksuit, jacket, backpack, sizing and game-day kit guidance." },
-                { icon: Users, title: "Roster", text: "Consent-controlled player profiles with first names only in public." },
-                { icon: ShieldCheck, title: "Private Portal", text: "Forms, payments, carpool, attendance and parent-only information." }
-              ].map(({ icon: Icon, title, text }) => (
-                <div className="card p-5" key={title}>
-                  <Icon className="text-red-600" size={25} aria-hidden="true" />
-                  <h3 className="mt-4 text-xl font-black uppercase">{title}</h3>
-                  <p className="mt-2 text-sm text-neutral-600">{text}</p>
-                </div>
-              ))}
-            </div>
+        <div className="container">
+          <h2 className="text-2xl font-black uppercase">New to the team?</h2>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link href="/parents#start-here" className="btn btn-primary">New-family checklist</Link>
+            <Link href="/schedule#venues" className="btn btn-light">Venue instructions</Link>
+            <Link href="/parents#communications" className="btn btn-light">Communication guide</Link>
+            <Link href="/parents#club-resources" className="btn btn-light">Club resources</Link>
           </div>
-<section className="card p-6"><h2 className="text-2xl font-black uppercase">New to the team?</h2><p className="mt-3 text-neutral-600">Get connected, check equipment and find the right place to reply.</p><div className="mt-5 grid gap-3"><Link href="/parents#start-here" className="btn btn-primary">New-family checklist</Link><Link href="/schedule#venues" className="btn btn-light">Venue instructions</Link><Link href="/parents#communications" className="btn btn-light">Communication guide</Link><Link href="/parents#club-resources" className="btn btn-light">Club resources</Link></div></section>
         </div>
       </section>
 
