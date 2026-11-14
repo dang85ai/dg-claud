@@ -1,16 +1,11 @@
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 import type { ReactNode } from "react";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Privacy & Youth Safety",
   description: "Privacy and youth-safety information for the Caledon United FC 2018 Girls 2026–27 team website.",
-  alternates: { canonical: "/privacy" },
-  openGraph: {
-    title: "Privacy & Youth Safety | Caledon United FC 2018 Girls 2026–27",
-    description: "Privacy and youth-safety information for the Caledon United FC 2018 Girls 2026–27 team website.",
-    url: "/privacy"
-  }
-};
+  path: "/privacy"
+});
 
 export default function RouteLayout({ children }: { children: ReactNode }) {
   return children;
