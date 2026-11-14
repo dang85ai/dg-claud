@@ -7,7 +7,7 @@ export function MobileNav() {
     { href: "/schedule", label: "Schedule", Icon: CalendarDays },
     { href: "/roster", label: "Team", Icon: Users },
     { href: "/login", label: "Portal", Icon: Shield },
-    { href: "/order", label: "Order", Icon: ShoppingBag }
+    { href: "/order", label: "Kit Request", Icon: ShoppingBag }
   ];
 
   return (

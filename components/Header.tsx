@@ -10,7 +10,7 @@ const nav = [
   ["Team", "/roster"],
   ["Schedule", "/schedule"],
   ["Kit", "/kit"],
-  ["Order", "/order"],
+  ["Kit Request", "/order"],
   ["Sponsors", "/sponsors"],
   ["Parent Resources", "/parents"],
   ["About", "/about"],
