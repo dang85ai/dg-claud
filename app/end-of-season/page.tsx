@@ -4,14 +4,12 @@ import {
   Sparkles,
   Trophy
 } from "lucide-react";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 
 export default function EndOfSeasonPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="about" usePageTitle
         eyebrow="2026–27 Season"
         title="End-of-Season Hub"
@@ -56,3 +54,4 @@ export default function EndOfSeasonPage() {
     </PublicShell>
   );
 }
+

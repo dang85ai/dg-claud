@@ -1,11 +1,9 @@
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 
 export default function AccessibilityPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero
         eyebrow="Team Policy"
         title="Accessibility"
@@ -28,3 +26,4 @@ export default function AccessibilityPage() {
     </PublicShell>
   );
 }
+

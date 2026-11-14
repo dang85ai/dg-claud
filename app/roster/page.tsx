@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { RosterProfiles } from "@/components/RosterProfiles";
 import { ShieldCheck, Users, HeartHandshake } from "lucide-react";
 
@@ -27,7 +26,6 @@ const volunteers = [
 export default function RosterPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="roster"
         eyebrow="Caledon United FC · 2018 Girls"
         title="Meet the Team"
@@ -105,4 +103,5 @@ export default function RosterPage() {
     </PublicShell>
   );
 }
+
 

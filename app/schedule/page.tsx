@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { CommunicationGuide, VenueGuide, WeatherGuide } from "@/components/ParentInformation";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { ScheduleEvents } from "@/components/ScheduleEvents";
 import {
   CalendarDays,
@@ -22,7 +21,6 @@ const calendarUrl = "https://sgoxywyhaketjmdmkzhm.supabase.co/functions/v1/team-
 export default function SchedulePage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="schedule"
         eyebrow="Games · Practices · Events"
         title="Schedule & Events"
@@ -95,4 +93,5 @@ export default function SchedulePage() {
     </PublicShell>
   );
 }
+
 

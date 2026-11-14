@@ -1,4 +1,3 @@
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import {
@@ -13,7 +12,6 @@ import { PublicMediaGallery } from "@/components/PublicMediaGallery";
 export default function MediaPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="media"
         eyebrow="Team Media"
         title="Photos & Game Recaps"
@@ -61,3 +59,4 @@ export default function MediaPage() {
     </PublicShell>
   );
 }
+

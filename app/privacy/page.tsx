@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
@@ -7,7 +6,6 @@ import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
 export default function PrivacyPage() {
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero
         eyebrow="Team Policy"
         title="Privacy & Youth Safety"
@@ -55,3 +53,4 @@ export default function PrivacyPage() {
     </PublicShell>
   );
 }
+

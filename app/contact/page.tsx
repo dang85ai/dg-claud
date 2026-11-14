@@ -6,7 +6,6 @@ import {
   Building2,
   Mail
 } from "lucide-react";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { endpoints, publicFetch } from "@/lib/api";
@@ -41,7 +40,6 @@ export default function ContactPage() {
 
   return (
     <PublicShell>
-      <DevelopmentBanner />
       <PublicPageHero banner="contact"
         eyebrow="Get in Touch"
         title="Contact the Team"
@@ -135,4 +133,5 @@ export default function ContactPage() {
     </PublicShell>
   );
 }
+
 

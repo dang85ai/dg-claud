@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ShieldCheck, Users, HeartHandshake, AlertTriangle, ClipboardCheck, Download } from "lucide-react";
 import { PublicShell } from "@/components/PublicShell";
 import { PublicPageHero } from "@/components/PublicPageHero";
-import { DevelopmentBanner } from "@/components/DevelopmentBanner";
 
 const playerRules = [
  "Respect teammates, coaches, referees and opponents.",
@@ -34,7 +33,6 @@ const documentLink="/docs/caledon-soccer-grassroots-code-of-conduct-2026.pdf";
 
 export default function ConductPage() {
  return <PublicShell>
-  <DevelopmentBanner/>
   <PublicPageHero banner="conduct" eyebrow="Caledon Soccer · Grassroots" title="Player & Parent Code of Conduct"
    copy="Respect • Teamwork • Development • Zero Bullying"/>
   <section className="section">
@@ -90,3 +88,4 @@ export default function ConductPage() {
   </section>
  </PublicShell>;
 }
+
