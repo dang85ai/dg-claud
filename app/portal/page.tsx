@@ -108,7 +108,7 @@ export default function PortalPage() {
           <div className="card p-5">
             <CalendarDays className="text-red-600" />
             <div className="mt-4 text-xs font-black uppercase text-neutral-500">Next Event</div>
-            <div className="mt-1 text-xl font-black uppercase">{nextEvent?.title ?? "Coming soon"}</div>
+            <div className="mt-1 text-xl font-black uppercase [overflow-wrap:anywhere]">{nextEvent?.title ?? "Coming soon"}</div>
             {nextEvent ? <div className="mt-2 text-sm text-neutral-600">{new Date(nextEvent.starts_at).toLocaleString()}</div> : null}
           </div>
 
