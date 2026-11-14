@@ -1,0 +1,19 @@
+name: Caledon SEO Preview
+on:
+  push:
+    branches: [codex/full-seo-robots-2026-11-13]
+jobs:
+  preview:
+    if: github.repository == 'dang85ai/dg-claud'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13
+      - run: npm install
+      - name: Deploy protected preview
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: npx --yes netlify-cli@latest deploy --build --context deploy-preview --site 2b01d84c-f2eb-4e6d-a486-0546ffcac16e --alias seo-pr-48 --message "SEO preview ${GITHUB_SHA}"
