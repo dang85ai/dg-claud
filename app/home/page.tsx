@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   CalendarDays,
   ChevronRight,
-  ClipboardCheck,
   HeartHandshake,
   Mail,
   ShieldCheck,
@@ -14,7 +13,6 @@ import { PublicShell } from "@/components/PublicShell";
 import { SectionHeader } from "@/components/SectionHeader";
 import { PwaRegister } from "@/components/PwaRegister";
 import { ApprovedPageBanner } from "@/components/ApprovedPageBanner";
-import { SPOND_URL } from "@/lib/team-config";
 
 export const metadata = buildPageMetadata({
   title: "Caledon United FC 2018 Girls | Team Hub",
@@ -41,13 +39,6 @@ export default function HomePage() {
                 <CalendarDays className="shrink-0 text-red-600" size={20} />
                 <span className="font-black">View Schedule</span>
               </Link>
-              <a href={SPOND_URL} className="card flex min-h-20 items-center gap-3 p-4 hover:border-red-500">
-                <ClipboardCheck aria-hidden="true" className="shrink-0 text-red-600" size={20} />
-                <span>
-                  <span className="block font-black">RSVP or report an absence</span>
-                  <span className="block text-sm text-neutral-600">Open your event in Spond</span>
-                </span>
-              </a>
               <Link href="/contact" className="card flex min-h-20 items-center gap-3 p-4 hover:border-red-500">
                 <Mail className="shrink-0 text-red-600" size={20} />
                 <span className="font-black">Contact Team Manager</span>

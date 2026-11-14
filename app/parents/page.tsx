@@ -41,7 +41,7 @@ const resources = [
     href: "/kit",
     Icon: Shirt,
     title: "Uniforms & Accessories",
-    text: "See the red home and white away kits, tracksuit, jacket and backpack before requesting items."
+    text: "Browse the home, away and goalkeeper kits, plus training apparel and accessories."
   },
   {
     href: "/order",

@@ -9,10 +9,10 @@ import { endpoints, publicFetch } from "@/lib/api";
 import { TEAM_EMAIL } from "@/lib/team-config";
 import { trackPublicConversion } from "@/lib/analytics-events";
 
-type ItemKey = "home" | "away" | "track" | "jacket" | "backpack";
+type ItemKey = "home" | "away" | "goalkeeper" | "track" | "jacket" | "backpack";
 type Selection = Record<ItemKey, boolean>;
 
-const initial: Selection = { home: false, away: false, track: false, jacket: false, backpack: false };
+const initial: Selection = { home: false, away: false, goalkeeper: false, track: false, jacket: false, backpack: false };
 const sizes = ["YXS", "YS", "YM", "YL", "YXL", "Not sure"];
 const sockSizes = ["YS", "YM", "YL", "Not sure"];
 
@@ -39,6 +39,7 @@ export default function OrderPage() {
   const items: { key: ItemKey; label: string; description: string }[] = [
     { key: "home", label: "Home Match Kit", description: "Red jersey, black shorts and red socks" },
     { key: "away", label: "Away Match Kit", description: "White jersey, black shorts and white socks" },
+    { key: "goalkeeper", label: "Goalkeeper Kit", description: "Neon long-sleeved jersey, black shorts and neon socks" },
     { key: "track", label: "Track Suit", description: "Black training jacket and pants" },
     { key: "jacket", label: "Outdoor Jacket", description: "Black cold-weather jacket" },
     { key: "backpack", label: "Team Backpack", description: "Black backpack with crest and optional initials" }
@@ -72,8 +73,9 @@ export default function OrderPage() {
       "Preferred number (not guaranteed): " + (get("jersey_number") || "To confirm"),
       "Requested items:",
       ...chosen.map((item) => {
-        if (item.key === "home") return "- Home match kit: jersey " + get("home_jersey_size") + ", shorts " + get("home_shorts_size") + ", socks " + get("home_socks_size");
-        if (item.key === "away") return "- Away match kit: jersey " + get("away_jersey_size") + ", shorts " + get("away_shorts_size") + ", socks " + get("away_socks_size");
+        if (item.key === "home" || item.key === "away" || item.key === "goalkeeper") {
+          return `- ${item.label}: jersey ${get(item.key + "_jersey_size")}, shorts ${get(item.key + "_shorts_size")}, socks ${get(item.key + "_socks_size")}`;
+        }
         if (item.key === "track") return "- Track suit: jacket " + get("track_jacket_size") + ", pants " + get("track_pants_size");
         if (item.key === "jacket") return "- Outdoor jacket: " + get("outdoor_jacket_size");
         return "- Team backpack: initials " + (get("backpack_initials") || "To confirm");
@@ -192,6 +194,11 @@ export default function OrderPage() {
                               <SizeField name="away_jersey_size" title="White away jersey size" />
                               <SizeField name="away_shorts_size" title="Black shorts size" />
                               <SizeField name="away_socks_size" title="White socks size" options={sockSizes} />
+                            </>)}
+                            {item.key === "goalkeeper" && (<>
+                              <SizeField name="goalkeeper_jersey_size" title="Neon goalkeeper jersey size" />
+                              <SizeField name="goalkeeper_shorts_size" title="Goalkeeper shorts size" />
+                              <SizeField name="goalkeeper_socks_size" title="Neon goalkeeper socks size" options={sockSizes} />
                             </>)}
                             {item.key === "track" && (<>
                               <SizeField name="track_jacket_size" title="Track jacket size" />

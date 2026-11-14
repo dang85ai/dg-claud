@@ -30,7 +30,7 @@ export async function NextMatchCard() {
             Exact session times, venues, entrances and last-minute changes are kept in the team&apos;s private communication channel.
           </p>
           <a href={SPOND_URL} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex text-sm font-black text-red-600">
-            Open Spond →
+            Open Spond to RSVP or report an absence →
           </a>
         </div>
       </div>
@@ -65,6 +65,7 @@ export async function NextMatchCard() {
           <a href={SPOND_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Open Spond / RSVP</a>
           <Link href="/schedule#current-week" className="btn btn-light">View Next 7 Days</Link>
         </div>
+        <p className="mt-2 text-sm text-neutral-600">Use your Spond invite to RSVP or report an absence.</p>
       </div>
     </div>
   );
