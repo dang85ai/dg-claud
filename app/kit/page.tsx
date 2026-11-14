@@ -22,6 +22,14 @@ const kitItems = [
     alt: "Caledon United FC 2018 Girls away kit: white jersey, black shorts and white socks, with front and back views."
   },
   {
+    id: "goalkeeper",
+    title: "Goalkeeper Kit",
+    detail: "Neon jersey · Black shorts · Neon socks",
+    description: "Long-sleeved neon goalkeeper jersey with black sleeve stripes and the Caledon United crest.",
+    image: "/kit/goalkeeper-kit-caledon-united-2026.webp",
+    alt: "Front and back views of the neon Caledon United goalkeeper jersey with black shorts and neon socks."
+  },
+  {
     id: "tracksuit",
     title: "Track Suit",
     detail: "Black · White stripes",
