@@ -1,16 +1,12 @@
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 import type { ReactNode } from "react";
 
-export const metadata: Metadata = {
-  title: "Team Kit & Accessories",
+export const metadata = buildPageMetadata({
+  title: "Team Kit & Sizing",
   description: "Explore Caledon United FC 2018 Girls home and away kits, training wear and accessories. Get sizing tips and request team kit.",
-  alternates: { canonical: "/kit" },
-  openGraph: {
-    title: "Team Kit & Accessories | Caledon United FC 2018 Girls",
-    description: "Explore the five-piece Caledon United FC 2018 Girls teamwear collection, including match kits and accessories.",
-    url: "/kit"
-  }
-};
+  path: "/kit",
+  previewImage: { url: "/assets/social/kit.jpg", width: 1200, height: 630, alt: "Red home and white away Caledon United kits" }
+});
 
 export default function RouteLayout({ children }: { children: ReactNode }) {
   return children;

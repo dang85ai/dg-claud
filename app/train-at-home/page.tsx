@@ -5,9 +5,11 @@ import { PublicShell } from "@/components/PublicShell";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Train at Home",
-  description: "Five playful soccer drills for girls ages 6–8 and an easy 15-minute home practice plan for families.",
-  path: "/train-at-home"
+  title: "Soccer Drills for Girls Ages 6–8 | Caledon United FC",
+  description: "Try five illustrated soccer drills and a 15-minute home practice for girls ages 6–8, with small-space options and easy variations.",
+  path: "/train-at-home",
+  absoluteTitle: true,
+  previewImage: { url: "/assets/social/train-at-home.jpg", width: 1200, height: 630, alt: "Illustration of a young player dribbling through cones" }
 });
 
 const drills = [

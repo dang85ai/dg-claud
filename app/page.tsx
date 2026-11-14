@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import {
   Bell,
@@ -18,11 +18,13 @@ import { PwaRegister } from "@/components/PwaRegister";
 import { ApprovedPageBanner } from "@/components/ApprovedPageBanner";
 import { SPOND_URL } from "@/lib/team-config";
 
-export const metadata: Metadata = {
-  title: { absolute: "Caledon United FC 2018 Girls | 2026–27 Team Hub" },
-  description: "Official Caledon United FC 2018 Girls team hub for 2026–27. Find training schedules, teamwear, sponsors, player development and parent resources in Caledon, Ontario.",
-  alternates: { canonical: "/" }
-};
+export const metadata = buildPageMetadata({
+  title: "Caledon United FC 2018 Girls | Team Hub",
+  description: "Find the Caledon United FC 2018 Girls schedule, team kit, home soccer drills and parent resources for the 2026–27 season.",
+  path: "/",
+  absoluteTitle: true,
+  previewImage: { url: "/assets/social/home.jpg", width: 1200, height: 630, alt: "Caledon United team artwork" }
+});
 
 export default function HomePage() {
   return (

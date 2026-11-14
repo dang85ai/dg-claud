@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 import { CommunicationGuide, VenueGuide, WeatherGuide } from "@/components/ParentInformation";
 import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
@@ -10,11 +10,12 @@ import {
   Download
 } from "lucide-react";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Schedule & Events",
-  description: "Caledon United FC 2018 Girls 2026–27 team schedule with training dates, games, cancellations, venue guidance and links to Spond for current event details.",
-  alternates: { canonical: "/schedule" }
-};
+  description: "See 2026–27 training and game dates for Caledon United FC 2018 Girls. Check Spond for confirmed times, venues and updates.",
+  path: "/schedule",
+  previewImage: { url: "/assets/social/schedule.jpg", width: 1200, height: 630, alt: "Calendar and red pushpin" }
+});
 
 const calendarUrl = "https://sgoxywyhaketjmdmkzhm.supabase.co/functions/v1/team-calendar";
 
