@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { CalendarDays, RefreshCw, XCircle } from "lucide-react";
 import { eventDate, eventTypeLabel, loadPublicEvents, safeTitle, torontoDayKey, upcomingEvents, type TeamEvent } from "@/lib/public-schedule";
 import { SPOND_URL } from "@/lib/team-config";
@@ -23,21 +20,9 @@ function formatDate(value: string) {
   }).format(new Date(`${value}T12:00:00Z`));
 }
 
-export function ScheduleEvents() {
-  const [events, setEvents] = useState<TeamEvent[]>([]);
-  const [status, setStatus] = useState("Loading planning dates…");
-
-  useEffect(() => {
-    const controller = new AbortController();
-    loadPublicEvents(controller.signal).then((events) => {
-      if (controller.signal.aborted) return;
-      setEvents(events);
-      setStatus("");
-    }).catch(() => {
-      if (!controller.signal.aborted) setStatus("Unable to load planning dates.");
-    });
-    return () => controller.abort();
-  }, []);
+export async function ScheduleEvents() {
+  const result = await loadPublicEvents(AbortSignal.timeout(5000)).catch(() => null);
+  const events = result ?? [];
 
   const today = torontoDayKey(new Date());
   const nextSevenDays = upcomingEvents(events, today, 7);
@@ -78,11 +63,11 @@ export function ScheduleEvents() {
     );
   }
 
-  if (status && !events.length) {
+  if (result === null) {
     return (
       <div id="current-week" className="scroll-mt-28 rounded-2xl border border-neutral-200 bg-neutral-50 p-6 text-sm text-neutral-600">
         <div className="flex items-center gap-2 font-black uppercase text-neutral-800">
-          <RefreshCw size={17} /> {status}
+          <RefreshCw size={17} aria-hidden="true" /> Unable to load planning dates.
         </div>
         <a href={SPOND_URL} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex font-black text-red-600">
           Open Spond →
@@ -139,7 +124,6 @@ export function ScheduleEvents() {
           </div>
         </details>
       )}
-      {status ? <div className="notice mt-5 text-sm">{status}</div> : null}
     </div>
   );
 }

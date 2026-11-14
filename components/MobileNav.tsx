@@ -3,7 +3,7 @@ import { CalendarDays, Home, ShoppingBag, Shield, Users } from "lucide-react";
 
 export function MobileNav() {
   const links = [
-    { href: "/home", label: "Home", Icon: Home },
+    { href: "/", label: "Home", Icon: Home },
     { href: "/schedule", label: "Schedule", Icon: CalendarDays },
     { href: "/roster", label: "Team", Icon: Users },
     { href: "/login", label: "Portal", Icon: Shield },

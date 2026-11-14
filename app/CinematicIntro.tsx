@@ -10,7 +10,7 @@ const splashTimeout = 30_000;
 // Source frame 190 at 24 fps is where the ball covers the lens.
 const impactTime = 190 / 24;
 
-export function CinematicIntro({ children }: { children: ReactNode }) {
+export function CinematicIntro({ children, replayPage = false }: { children?: ReactNode; replayPage?: boolean }) {
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
   const video = useRef<HTMLVideoElement>(null);
@@ -23,10 +23,10 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
   const [linkSelected, setLinkSelected] = useState(false);
 
   useEffect(() => {
-    if (introOpen || linkSelected) return;
-    const timer = window.setTimeout(() => router.replace("/home"), splashTimeout);
+    if (!replayPage || introOpen || linkSelected) return;
+    const timer = window.setTimeout(() => router.replace("/"), splashTimeout);
     return () => window.clearTimeout(timer);
-  }, [introOpen, linkSelected, router]);
+  }, [introOpen, linkSelected, replayPage, router]);
 
   function start(manual: boolean) {
     const modal = dialog.current;
@@ -61,7 +61,7 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
       if (restoreFocus) {
         if (manual) replay.current?.focus({ preventScroll: true });
         else if (previousFocus instanceof HTMLElement && previousFocus !== document.body) previousFocus.focus({ preventScroll: true });
-        else document.getElementById("splash-heading")?.focus({ preventScroll: true });
+        else document.getElementById(replayPage ? "splash-heading" : "main-content")?.focus({ preventScroll: true });
       }
     }
 
@@ -114,16 +114,12 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
     updatePreference();
     preference.addEventListener("change", updatePreference);
     const autostart = window.requestAnimationFrame(() => {
-      const replayRequested = new URLSearchParams(window.location.search).get("intro") === "replay";
-      if (replayRequested) {
+      if (replayPage) {
         if (!preference.matches) start(false);
         return;
       }
       try {
-        if (localStorage.getItem(seenKey)) {
-          router.replace("/home");
-          return;
-        }
+        if (localStorage.getItem(seenKey)) return;
         localStorage.setItem(seenKey, "1");
       } catch {
         return;
@@ -137,11 +133,11 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
       preference.removeEventListener("change", updatePreference);
       cleanup.current?.();
     };
-  }, [router]);
+  }, [replayPage]);
 
   return (
     <>
-      <div
+      {replayPage && <div
         className={styles.landing}
         data-reveal={revealing || undefined}
         onClickCapture={(event) => {
@@ -162,7 +158,7 @@ export function CinematicIntro({ children }: { children: ReactNode }) {
           </button>
           {children}
         </div>
-      </div>
+      </div>}
       <dialog
         ref={dialog}
         className={styles.intro}
