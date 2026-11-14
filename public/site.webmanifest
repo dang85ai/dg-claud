@@ -2,7 +2,7 @@
   "name": "Caledon United FC 2018 Girls Team Hub",
   "short_name": "Caledon United 2018",
   "description": "Caledon United FC 2018 Girls 2026–27 team hub — schedules, team kit, parent information, and development resources.",
-  "start_url": "/",
+  "start_url": "/home",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#E30613",

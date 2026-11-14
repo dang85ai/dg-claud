@@ -23,7 +23,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black text-white">
       <div className="container flex min-h-22 items-center justify-between gap-4 py-3 xl:min-h-26">
-        <Link href="/" className="flex min-w-0 flex-1 items-center gap-2 font-black uppercase tracking-tight sm:gap-3">
+        <Link href="/home" className="flex min-w-0 flex-1 items-center gap-2 font-black uppercase tracking-tight sm:gap-3">
           <Image
             src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2"
             alt="Caledon United Football Club crest"

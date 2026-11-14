@@ -157,7 +157,7 @@ export function PortalHeader({ title, isAdmin = false }: { title: string; isAdmi
    </div>
    <div className="flex shrink-0 items-center gap-2">
     {isAdmin?<span className="hidden items-center gap-1 text-xs font-bold text-neutral-600 md:flex"><ShieldCheck size={15}/> MFA protected</span>:null}
-    <Link href="/" className="btn btn-light !px-3 text-xs sm:text-sm">Team Site</Link>
+    <Link href="/home" className="btn btn-light !px-3 text-xs sm:text-sm">Team Site</Link>
     <button type="button" onClick={()=>void signOut()} className="btn btn-dark !px-3 text-xs sm:text-sm"><LogOut size={17}/><span className="hidden sm:inline">Sign Out</span></button>
    </div>
   </div>

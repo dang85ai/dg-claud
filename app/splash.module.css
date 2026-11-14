@@ -1,0 +1,188 @@
+.splash {
+  min-height: 100svh;
+  color: #f7f7f5;
+  background: #111318;
+}
+
+.landing {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  overflow: hidden;
+  padding: 2.5rem 1.25rem 5rem;
+  background:
+    linear-gradient(180deg, #11131856, #11131870 45%, #111318 100%),
+    url("/assets/banners/2026-27-hd/stadium-splash.webp") center / cover no-repeat;
+}
+
+.stripes {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(123deg, transparent 0 79%, #111318ab 79% 86%, #c8102ebd 86% 88%, #111318e8 88%);
+  pointer-events: none;
+}
+
+.content {
+  width: min(100%, 58rem);
+  text-align: center;
+}
+
+.crest {
+  width: clamp(106px, 18vmin, 160px);
+  height: auto;
+  margin: 0 auto 1.35rem;
+  filter: drop-shadow(0 8px 15px #0009);
+}
+
+.title {
+  margin: 0;
+  color: inherit;
+  font-size: clamp(2rem, 7.3vw, 5.4rem);
+  font-weight: 900;
+  letter-spacing: -.04em;
+  line-height: .98;
+  text-transform: uppercase;
+  text-wrap: balance;
+  text-shadow: 0 4px 24px #000;
+}
+
+.team {
+  display: table;
+  margin: .75rem auto 0;
+  padding: .42em .85em;
+  background: #c8102e;
+  clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+  font-size: .51em;
+  letter-spacing: .1em;
+}
+
+.tagline {
+  margin: 1.25rem 0 1.65rem;
+  font-size: clamp(.73rem, 2.6vw, 1rem);
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .65rem;
+}
+
+.links a,
+.skip,
+.replay {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  padding: .65rem 1rem;
+  border: 1px solid #f7f7f588;
+  color: #f7f7f5;
+  background: #111318e6;
+  font-size: .85rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.links a:hover, .skip:hover, .replay:hover {
+  border-color: white;
+  background: #30333b;
+}
+
+.links .enter {
+  border-color: #e1465e;
+  background: #c8102e;
+}
+
+.links .enter:hover {
+  background: #a90d27;
+}
+
+.replay,
+.skip {
+  position: absolute;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.replay[hidden] {
+  display: none;
+}
+
+.intro {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.intro::backdrop {
+  background: transparent;
+}
+
+.intro video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 49% center;
+  visibility: hidden;
+}
+
+.intro[data-playing] video {
+  visibility: visible;
+}
+
+.intro[data-impact] {
+  animation: impact .5s ease-out both;
+}
+
+.intro[data-impact] video {
+  animation: darken .5s ease-out both;
+}
+
+@keyframes impact {
+  0%, 17% { opacity: 1; background: #090a0d; }
+  100% { opacity: 0; background: #090a0d; }
+}
+
+@keyframes darken {
+  0% { opacity: 1; }
+  17%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] .crest { animation: reveal .45s .15s both; }
+  [data-reveal] .title { animation: reveal .45s .19s both; }
+  [data-reveal] .team { animation: reveal .42s .24s both; }
+  [data-reveal] .tagline { animation: reveal .4s .29s both; }
+  [data-reveal] .links { animation: reveal .4s .34s both; }
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro[data-impact], .intro[data-impact] video { animation: none; }
+}
