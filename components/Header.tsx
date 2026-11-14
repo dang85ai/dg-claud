@@ -22,16 +22,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black text-white">
-      <div className="container flex min-h-18 items-center justify-between gap-4">
+      <div className="container flex min-h-22 items-center justify-between gap-4 py-3 xl:min-h-26">
         <Link href="/" className="flex min-w-0 flex-1 items-center gap-2 font-black uppercase tracking-tight sm:gap-3">
           <Image
             src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2"
             alt="Caledon United Football Club crest"
-            width={48}
-            height={48}
+            width={72}
+            height={72}
             priority
             unoptimized
-            className="h-10 w-10 shrink-0 object-contain sm:h-11 sm:w-11"
+            className="h-14 w-14 shrink-0 object-contain sm:h-16 sm:w-16 xl:h-18 xl:w-18"
           />
           <div className="min-w-0 leading-none">
             <div className="truncate text-xs sm:text-sm">Caledon United FC</div>
@@ -41,13 +41,13 @@ export function Header() {
           </div>
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden items-center gap-5 lg:flex">
+        <nav aria-label="Primary navigation" className="hidden shrink-0 items-center gap-5 whitespace-nowrap xl:flex">
           {nav.map(([label, href]) => (
-            <Link key={href} href={href} className="py-4 text-sm font-bold hover:text-red-400">
+            <Link key={href} href={href} className="py-4 text-sm font-bold hover:text-red-400 xl:text-base">
               {label}
             </Link>
           ))}
-          <Link href="/login" className="btn btn-primary !min-h-11 !px-4 text-sm">
+          <Link href="/login" className="btn btn-primary !min-h-12 !px-4 text-sm xl:text-base">
             <Shield size={17} aria-hidden="true" />
             Sign In
           </Link>
@@ -57,7 +57,7 @@ export function Header() {
           type="button"
           aria-label={open ? "Close navigation" : "Open navigation"}
           aria-expanded={open}
-          className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-white/20 lg:hidden"
+          className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-white/20 xl:hidden"
           onClick={() => setOpen((value) => !value)}
         >
           {open ? <X /> : <Menu />}
@@ -65,7 +65,7 @@ export function Header() {
       </div>
 
       {open && (
-        <nav aria-label="Mobile navigation" className="border-t border-white/10 bg-black px-4 pb-5 lg:hidden">
+        <nav aria-label="Mobile navigation" className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto border-t border-white/10 bg-black px-4 pb-5 xl:hidden">
           <div className="container grid">
             {nav.map(([label, href]) => (
               <Link
@@ -90,4 +90,5 @@ export function Header() {
     </header>
   );
 }
+
 
