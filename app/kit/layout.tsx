@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Team Kit & Accessories",
-  description: "Browse the Caledon United FC 2018 Girls 2026–27 home and away match kits, track suit, outdoor jacket and team backpack. See the designs and send a separate order request.",
+  description: "Explore Caledon United FC 2018 Girls home and away kits, training wear and accessories. Get sizing tips and request team kit.",
   alternates: { canonical: "/kit" },
   openGraph: {
     title: "Team Kit & Accessories | Caledon United FC 2018 Girls",
