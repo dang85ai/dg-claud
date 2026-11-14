@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
@@ -11,11 +11,12 @@ import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase-public";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Sponsorship Opportunities",
-  description: "Support Caledon United FC 2018 Girls. See up-to-date jersey sponsorship availability, business sponsorship packages and community supporter opportunities.",
-  alternates: { canonical: "/sponsors" }
-};
+export const metadata = buildPageMetadata({
+  title: "Sponsor the Team",
+  description: "Explore jersey and community sponsorship opportunities for Caledon United FC 2018 Girls. See available placements and send an inquiry.",
+  path: "/sponsors",
+  previewImage: { url: "/assets/social/sponsors.jpg", width: 1200, height: 630, alt: "Sponsor armband in club colours" }
+});
 
 type Campaign = {
   slug: string; season_label: string; heading: string; tagline: string;

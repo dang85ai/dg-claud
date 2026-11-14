@@ -1,16 +1,12 @@
-import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 import type { ReactNode } from "react";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Parent Resources",
-  description: "Parent resources for Caledon United FC 2018 Girls 2026–27 including game day, development, FAQ and team standards.",
-  alternates: { canonical: "/parents" },
-  openGraph: {
-    title: "Parent Resources | Caledon United FC 2018 Girls 2026–27",
-    description: "Parent resources for Caledon United FC 2018 Girls 2026–27 including game day, development, FAQ and team standards.",
-    url: "/parents"
-  }
-};
+  description: "Get started with Spond, the Parent Portal, team forms, kit requests and game-day preparation for Caledon United FC 2018 Girls.",
+  path: "/parents",
+  previewImage: { url: "/assets/social/parents.jpg", width: 1200, height: 630, alt: "Caledon United parent resources artwork" }
+});
 
 export default function RouteLayout({ children }: { children: ReactNode }) {
   return children;
