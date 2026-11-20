@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase-public";
@@ -69,13 +70,15 @@ function SponsorLogo({ sponsor, className = "" }: { sponsor: SponsorDirectoryEnt
   const src = safeLogo(sponsor.logo_path);
   if (!src) return null;
   return (
-    <img
+    <Image
       src={src}
       alt={`${sponsor.name} sponsor logo`}
       loading="lazy"
       decoding="async"
       width={240}
       height={150}
+      sizes="240px"
+      unoptimized={!src.startsWith("/assets/sponsors/")}
       className={"h-32 w-full max-w-60 object-contain " + className}
     />
   );

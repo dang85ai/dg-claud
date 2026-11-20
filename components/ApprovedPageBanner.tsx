@@ -55,6 +55,7 @@ export function ApprovedPageBanner({
                 fill
                 sizes="(max-width: 760px) 74vw, (max-width: 1480px) 68vw, 1000px"
                 priority={banner === "home"}
+                fetchPriority="high"
                 loading={banner === "home" ? undefined : "eager"}
                 className="object-cover object-right"
               />
