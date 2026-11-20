@@ -40,7 +40,7 @@ export function Header() {
             width={72}
             height={72}
             priority
-            unoptimized
+            sizes="(max-width: 640px) 56px, (max-width: 1280px) 64px, 72px"
             className="h-14 w-14 shrink-0 object-contain sm:h-16 sm:w-16 xl:h-18 xl:w-18"
           />
           <div className="min-w-0 leading-none">

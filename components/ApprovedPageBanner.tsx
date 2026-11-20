@@ -38,7 +38,6 @@ export function ApprovedPageBanner({
   neutralBackground?: boolean;
 }) {
   const item = artwork[banner];
-  const backgroundImage = "url('/assets/banners/2026-27-hd/" + banner + ".webp')";
   const TitleTag = asHeading ? "h1" : "div";
 
   return (
@@ -48,7 +47,19 @@ export function ApprovedPageBanner({
     >
       <div className="cufc-hd-wrap">
         <div className={"cufc-hd-frame" + (neutralBackground ? " cufc-hd-frame--neutral" : "")}>
-          {!neutralBackground ? <div className="cufc-hd-image" style={{ backgroundImage }} aria-hidden="true" /> : null}
+          {!neutralBackground ? (
+            <div className="cufc-hd-image" aria-hidden="true">
+              <Image
+                src={"/assets/banners/2026-27-hd/" + banner + ".webp"}
+                alt=""
+                fill
+                sizes="(max-width: 760px) 74vw, (max-width: 1480px) 68vw, 1000px"
+                priority={banner === "home"}
+                loading={banner === "home" ? undefined : "eager"}
+                className="object-cover object-right"
+              />
+            </div>
+          ) : null}
           <div className="cufc-hd-shade" aria-hidden="true" />
           <div className="cufc-hd-left-stripes" aria-hidden="true" />
           <div className="cufc-hd-right-stripe" aria-hidden="true" />
@@ -58,7 +69,7 @@ export function ApprovedPageBanner({
               alt=""
               width={116}
               height={116}
-              unoptimized
+              sizes="(max-width: 760px) 81px, 116px"
               priority={banner === "home"}
               className="cufc-hd-crest"
             />

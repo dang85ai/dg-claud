@@ -1,6 +1,6 @@
 // Privacy-safe conversion events. Never send player names, emails, jersey numbers,
 // form fields, or other personally identifying details to analytics.
-export type PublicConversionEvent = "team_kit_request_submitted" | "team_sponsorship_inquiry_submitted";
+export type PublicConversionEvent = "team_kit_request_submitted" | "team_sponsorship_inquiry_submitted" | "team_contact_inquiry_submitted";
 type AnalyticsWindow = Window & { gtag?: (...args: unknown[]) => void };
 
 export function trackPublicConversion(eventName: PublicConversionEvent): void {

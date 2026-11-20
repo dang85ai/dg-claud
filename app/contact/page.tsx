@@ -10,6 +10,7 @@ import { PublicPageHero } from "@/components/PublicPageHero";
 import { PublicShell } from "@/components/PublicShell";
 import { endpoints, publicFetch } from "@/lib/api";
 import { TEAM_EMAIL, TEAM_EMAIL_HREF } from "@/lib/team-config";
+import { trackPublicConversion } from "@/lib/analytics-events";
 
 export default function ContactPage() {
   const [status, setStatus] = useState("");
@@ -30,6 +31,7 @@ export default function ContactPage() {
         body: JSON.stringify(body)
       });
       setStatus(result.reference ? `${result.message} Reference ${result.reference}.` : result.message);
+      trackPublicConversion("team_contact_inquiry_submitted");
       form.reset();
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to submit the form.");

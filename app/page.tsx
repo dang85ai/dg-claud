@@ -3,7 +3,6 @@ import Link from "next/link";
 import { CinematicIntro } from "./CinematicIntro";
 import {
   CalendarDays,
-  ChevronRight,
   HeartHandshake,
   Mail,
   ShieldCheck,
@@ -16,7 +15,7 @@ import { PwaRegister } from "@/components/PwaRegister";
 import { ApprovedPageBanner } from "@/components/ApprovedPageBanner";
 
 export const metadata = buildPageMetadata({
-  title: "Caledon United FC 2018 Girls | Team Hub",
+  title: "Caledon United FC 2018 Girls | Soccer Team & Schedule",
   description: "Find the Caledon United FC 2018 Girls schedule, team kit, home soccer drills and parent resources for the 2026–27 season.",
   path: "/",
   absoluteTitle: true,
@@ -56,6 +55,14 @@ export default function HomePage() {
 
       <section className="border-t border-white/10 bg-neutral-950 text-white">
         <div className="container flex flex-wrap items-center justify-between gap-6 py-7">
+          <p className="max-w-3xl text-sm leading-6 text-white/85">
+            Caledon United FC 2018 Girls is a girls youth soccer team in Caledon, Ontario,
+            within Caledon Soccer Club. This team hub supports families through the 2026–27 training season.
+            {" "}<Link href="/schedule" className="font-bold underline">Find public planning dates</Link>,
+            {" "}<Link href="/train-at-home" className="font-bold underline">explore home soccer drills</Link>,
+            or <Link href="/sponsors" className="font-bold underline">support the team as a community sponsor</Link>.
+            For team questions, <Link href="/contact" className="font-bold underline">contact our representatives</Link>.
+          </p>
           <div className="flex flex-wrap gap-3">
             <Link href="/request-invite" className="btn home-hero-secondary">
               Request a Parent Invite

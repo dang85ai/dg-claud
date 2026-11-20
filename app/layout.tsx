@@ -16,6 +16,7 @@ const socialImage = `${siteUrl}/assets/brand/caledon-united-social.png?v=crest-2
 const sportsTeamSchema = {
   "@context": "https://schema.org",
   "@type": "SportsTeam",
+  "@id": `${siteUrl}/#team`,
   name: "Caledon United FC 2018 Girls 2026–27",
   alternateName: "Caledon U9 Girls 2026–27",
   sport: "Soccer",
@@ -40,17 +41,6 @@ const sportsTeamSchema = {
     telephone: "+1-905-584-4033",
     email: "info@caledonsoccer.com"
   },
-  location: {
-    "@type": "Place",
-    name: "Caledon East Soccer Complex",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "6311 Old Church Road",
-      addressLocality: "Caledon East",
-      addressRegion: "ON",
-      addressCountry: "CA"
-    }
-  },
   audience: {
     "@type": "PeopleAudience",
     suggestedMinAge: 8,
@@ -64,12 +54,7 @@ const websiteSchema = {
   name: "Caledon United FC 2018 Girls Team Hub",
   url: siteUrl,
   inLanguage: "en-CA",
-  publisher: {
-    "@type": "Organization",
-    name: "Caledon Soccer Club",
-    url: "https://caledonsoccer.com",
-    logo: crestLogo
-  }
+  publisher: { "@id": `${siteUrl}/#team` }
 };
 
 export const metadata: Metadata = {
@@ -88,9 +73,9 @@ export const metadata: Metadata = {
     "Caledon soccer team hub",
     "youth soccer Caledon Ontario"
   ],
-  authors: [{ name: "Caledon Soccer Club", url: "https://caledonsoccer.com" }],
-  creator: "Caledon Soccer Club",
-  publisher: "Caledon Soccer Club",
+  authors: [{ name: "Caledon United FC 2018 Girls", url: siteUrl }],
+  creator: "Caledon United FC 2018 Girls",
+  publisher: "Caledon United FC 2018 Girls",
   applicationName: "Caledon United FC 2018 Girls",
   manifest: "/site.webmanifest",
   robots: {

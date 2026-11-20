@@ -12,7 +12,7 @@ export function Footer() {
       <div className="container grid gap-10 md:grid-cols-2 xl:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-3">
-            <Image src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2" alt="Caledon United Football Club crest" width={80} height={80} unoptimized className="h-16 w-16 shrink-0 sm:h-20 sm:w-20 object-contain" />
+            <Image src="/assets/brand/caledon-united-crest.webp?v=crest-20261111-v2" alt="Caledon United Football Club crest" width={80} height={80} sizes="(max-width: 640px) 64px, 80px" className="h-16 w-16 shrink-0 sm:h-20 sm:w-20 object-contain" />
             <div className="text-xl font-black uppercase sm:text-2xl">Caledon United FC 2018 Girls</div>
           </div>
           <p className="mt-3 max-w-md text-sm text-white/65">
